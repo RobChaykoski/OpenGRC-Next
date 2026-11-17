@@ -1,0 +1,67 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", ":dependencyDashboard", ":semanticCommits"],
+  "timezone": "UTC",
+  "schedule": ["before 6am on the first day of the month"],
+  "labels": ["dependencies"],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 2,
+  "rangeStrategy": "pin",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"]
+  },
+  "packageRules": [
+    {
+      "description": "Never auto-merge anything; upgrades need a green CI and a human.",
+      "matchPackageNames": ["*"],
+      "automerge": false
+    },
+    {
+      "description": "Group PHP patches and minors so the lockfile churn is one PR.",
+      "matchManagers": ["composer"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "php patch and minor updates"
+    },
+    {
+      "description": "Group npm patches and minors separately from PHP.",
+      "matchManagers": ["npm"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "groupName": "npm patch and minor updates"
+    },
+    {
+      "description": "Framework and panel majors change APIs. One PR each, reviewed against docs/UPGRADING.md.",
+      "matchPackageNames": [
+        "laravel/framework",
+        "filament/*",
+        "livewire/livewire",
+        "laravel/passport",
+        "laravel/sanctum",
+        "nwidart/laravel-modules",
+        "laravel/mcp"
+      ],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+      "labels": ["dependencies", "major", "needs-review"],
+      "groupName": null
+    },
+    {
+      "description": "Build-tier majors are their own project.",
+      "matchPackageNames": ["vite", "tailwindcss", "@tailwindcss/*", "laravel-vite-plugin", "node"],
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true,
+      "labels": ["dependencies", "major", "build"],
+      "groupName": null
+    },
+    {
+      "description": "Pin GitHub Actions to a digest for supply-chain stability.",
+      "matchManagers": ["github-actions"],
+      "pinDigests": true
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "labels": ["security"],
+    "schedule": ["at any time"]
+  }
+}

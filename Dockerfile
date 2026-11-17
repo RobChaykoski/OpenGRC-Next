@@ -4,9 +4,10 @@ FROM ubuntu:24.04
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=UTC
 
-# Set versions
+# Set versions. Keep these aligned with versions.yaml and
+# docs/SUPPORTED-VERSIONS.md; Node 20 is end-of-life and Vite 8 requires 20.19+.
 ENV PHP_VERSION=8.4
-ENV NODE_VERSION=20.x
+ENV NODE_VERSION=24.x
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
@@ -56,8 +57,8 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Install Composer (pinned minor; do not use :latest in a reproducible build)
+COPY --from=composer:2.11 /usr/bin/composer /usr/bin/composer
 
 # Configure PHP-FPM pool for performance
 RUN sed -i 's/pm = dynamic/pm = ondemand/' /etc/php/${PHP_VERSION}/fpm/pool.d/www.conf \

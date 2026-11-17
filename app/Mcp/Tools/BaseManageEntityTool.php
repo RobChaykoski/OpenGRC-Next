@@ -780,20 +780,20 @@ abstract class BaseManageEntityTool extends Tool
         return [
             'action' => $schema->string()
                 ->enum(['list', 'get', 'create', 'update', 'delete'])
-                ->description('The action to perform: list (paginated), get (by id), create, update, or delete.')
+                ->description('Action: list (paginated), get by id, create, update, delete.')
                 ->required(),
 
             'id' => $schema->integer()
-                ->description('The database ID of the entity (required for get, update, and delete actions).'),
+                ->description('Entity ID (required for get, update, delete).'),
 
             'page' => $schema->integer()
-                ->description('Page number for list action (default: 1). Each page contains 50 items.'),
+                ->description('Page number (default 1, 50 per page).'),
 
             'data' => $schema->object()
                 ->description($dataDescription),
 
             'confirm' => $schema->boolean()
-                ->description('Must be set to true to confirm delete action.'),
+                ->description('Set true to confirm delete.'),
         ];
     }
 }

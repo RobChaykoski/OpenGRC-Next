@@ -8,9 +8,9 @@ Before you begin, ensure you have the following installed:
 
 | Requirement | Minimum Version | Check Command |
 |-------------|-----------------|---------------|
-| PHP         | 8.2+            | `php -v`      |
-| Composer    | 2.x             | `composer -V` |
-| Node.js     | 16+             | `node -v`     |
+| PHP         | 8.4+            | `php -v`      |
+| Composer    | 2.5+            | `composer -V` |
+| Node.js     | 20.19+ or 22.12+ | `node -v`     |
 | NPM         | 9+              | `npm -v`      |
 
 ### PHP Extensions Required
@@ -31,16 +31,47 @@ The following PHP extensions must be enabled:
 
 #### macOS (using Homebrew)
 ```bash
-brew install php@8.2 composer node
+brew install php@8.4 composer node
 ```
 
 #### Ubuntu/Debian
 ```bash
 sudo apt update
-sudo apt install php8.2 php8.2-cli php8.2-common php8.2-sqlite3 php8.2-mysql \
-    php8.2-zip php8.2-gd php8.2-mbstring php8.2-curl php8.2-xml php8.2-bcmath \
-    php8.2-intl composer nodejs npm
+sudo apt install php8.4 php8.4-cli php8.4-common php8.4-sqlite3 php8.4-mysql \
+    php8.4-zip php8.4-gd php8.4-mbstring php8.4-curl php8.4-xml php8.4-bcmath \
+    php8.4-intl composer nodejs npm
 ```
+
+#### Windows
+
+OpenGRC runs natively on Windows; WSL is not required.
+
+```powershell
+winget install --id PHP.PHP.8.4 --exact
+winget install --id OpenJS.NodeJS.LTS --exact
+
+# Composer
+Invoke-WebRequest https://getcomposer.org/installer -OutFile composer-setup.php
+php composer-setup.php --install-dir="$env:LOCALAPPDATA\Composer" --filename=composer.phar
+```
+
+Then, in the PHP directory (`%LOCALAPPDATA%\Microsoft\WinGet\Packages\PHP.PHP.8.4_*\`):
+
+1. Copy `php.ini-development` to `php.ini`.
+2. Set `extension_dir = "ext"` and enable `curl`, `fileinfo`, `gd`, `intl`,
+   `mbstring`, `openssl`, `pdo_sqlite`, `sqlite3`, `zip`.
+
+Windows-specific notes:
+
+- Use **forward slashes** in `DB_DATABASE`. Dotenv treats backslashes inside
+  quotes as escape sequences.
+- `php artisan serve` binds to port 8000 by default; Windows sometimes has that
+  port in an excluded range (Hyper-V/WinNAT). Use `--port=8080` if you get
+  "access permissions" on listen.
+- `storage:link` creates a directory junction. `is_dir()` may report false for it;
+  `opengrc:doctor` checks with `file_exists()` and `realpath()` instead.
+- Run `php artisan queue:work` in a second terminal; there is no Supervisor on
+  Windows.
 
 ## Quick Start
 
@@ -55,13 +86,16 @@ cd OpenGRC
 
 # 2. Install dependencies
 composer install
-npm install
+npm ci
 
 # 3. Run the automated installer
 php artisan opengrc:install --unattended
 
 # 4. Start the development server
 php artisan serve
+
+# 5. Verify the environment
+php artisan opengrc:doctor
 ```
 
 Then open http://localhost:8000 in your browser.
@@ -74,6 +108,20 @@ For interactive installation with custom settings, omit `--unattended`:
 ```bash
 php artisan opengrc:install
 ```
+
+> **Windows note:** use forward slashes in `DB_DATABASE`. Dotenv treats backslashes
+> in quoted values as escape sequences, so `C:\...\opengrc.sqlite` fails to parse.
+> The installer normalises this, and `opengrc:doctor` warns if it slips through.
+
+## Supported versions and upgrades
+
+- `docs/SUPPORTED-VERSIONS.md` — the tested baseline, upgrade tiers, and known
+  compatibility traps.
+- `docs/UPGRADING.md` — the step-by-step upgrade and rollback runbook.
+- `versions.yaml` — the same baseline in machine-readable form.
+
+Deploy with `composer install` and `npm ci`. Do not `composer update` on a server;
+that turns every deploy into an untested build.
 
 ## Detailed Setup
 
@@ -392,7 +440,7 @@ Recommended extensions for OpenGRC development:
 ### PHPStorm
 
 Enable the Laravel plugin and configure:
-- Set PHP interpreter to PHP 8.2+
+- Set PHP interpreter to PHP 8.4+
 - Configure Composer path
 - Enable Laravel Pint as the code formatter
 

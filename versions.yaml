@@ -1,0 +1,88 @@
+# OpenGRC supported-version policy and tested baseline.
+#
+# This file is the machine-readable source of truth for "what we test against".
+# docs/SUPPORTED-VERSIONS.md explains the policy. docs/UPGRADING.md explains how
+# to move between tiers safely.
+#
+# Rules of thumb:
+#   - Pin the runtime floor, not the newest possible release.
+#   - Lockfiles (composer.lock, package-lock.json) are the real dependency pins.
+#   - Majors move alone, behind a compatibility gate, never bundled with features.
+#   - Every entry has a reason to be there, including deliberate lag.
+
+platform:
+  name: OpenGRC
+  # Release identity comes from the git tag; there is no version constant in code.
+  version_source: "git describe --tags --always --dirty"
+  release_status: "pre-1.0"
+
+runtime_floor:
+  php: "8.4"
+  composer: "2.5"
+  node: "20.19"
+  node_recommended: "24"
+  npm: "9"
+  database:
+    sqlite: "3.35"
+    mysql: "8.0"
+    mariadb: "10.6"
+    postgresql: "14"
+
+# Runtime and framework tier: changing these is a platform upgrade.
+backend:
+  php: "8.4"
+  laravel: "13.x"
+  filament: "4.x"
+  livewire: "3.x"
+  laravel_modules: "11.x"
+  laravel_mcp: "0.5.x"
+  spatie_permission: "6.x"
+  sqlite_bundled: true
+  php_extensions_required:
+    - ctype
+    - curl
+    - dom
+    - fileinfo
+    - filter
+    - hash
+    - json
+    - libxml
+    - mbstring
+    - openssl
+    - pcre
+    - pdo
+    - pdo_sqlite
+    - phar
+    - session
+    - simplexml
+    - tokenizer
+    - xml
+    - xmlreader
+    - xmlwriter
+    - zip
+  php_extensions_recommended:
+    - bcmath
+    - gd
+    - intl
+    - pdo_mysql
+    - pdo_pgsql
+    - sodium
+
+# Build tier: changing these is a build upgrade, validated separately from PHP.
+frontend:
+  node: "24"
+  npm: "11"
+  vite: "8.x"
+  tailwindcss: "4.x"
+  laravel_vite_plugin: "3.x"
+
+# Tooling tier. Not shipped to production; may run ahead of the runtime floor.
+tooling:
+  composer: "2.11"
+  phpunit: "12.x"
+  larastan: "3.x"
+  pint: "1.x"
+  dusk: "8.x"
+
+# Tiers that carry known, intentional risk. Record the exception and the review date.
+exceptions: []

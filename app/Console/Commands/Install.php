@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Support\DatabasePath;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -41,7 +42,7 @@ class Install extends Command
 
             // Use SQLite as the database.
             $db_driver = 'sqlite';
-            $db_database = database_path('opengrc.sqlite');
+            $db_database = DatabasePath::normalize(database_path('opengrc.sqlite'));
             $db_host = '';
             $db_port = '';
             $db_username = '';
@@ -76,7 +77,7 @@ class Install extends Command
                 $db_username = $this->ask('Enter the database username', 'postgres');
                 $db_password = $this->secret('Enter the database password');
             } elseif ($db_driver === 'sqlite') {
-                $db_database = database_path('opengrc.sqlite');
+                $db_database = DatabasePath::normalize(database_path('opengrc.sqlite'));
                 $db_host = '';
                 $db_port = '';
                 $db_username = '';
@@ -231,7 +232,8 @@ class Install extends Command
         $envContent = file_get_contents($envPath);
 
         foreach ($data as $key => $value) {
-            $envContent = preg_replace("/^{$key}=.*/m", "{$key}=\"{$value}\"", $envContent);
+            $replacement = '"'.addcslashes((string) $value, '\$').'"';
+            $envContent = preg_replace("/^{$key}=.*/m", $key.'='.$replacement, $envContent);
         }
 
         file_put_contents($envPath, $envContent);

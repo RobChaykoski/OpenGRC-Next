@@ -72,6 +72,15 @@ cd OpenGRC
 Full installation, upgrade and configuration guides live at
 **[docs.opengrc.com](https://docs.opengrc.com)**.
 
+For contributors, the repository also includes:
+
+- `AGENTS.md` — conventions, commands, and the definition of done
+- `docs/SUPPORTED-VERSIONS.md` — supported baseline and upgrade tiers
+- `docs/UPGRADING.md` — upgrade and rollback runbook
+- `docs/decisions/` — accepted architecture decisions
+- `.opencode/skills/` — reusable workflows for GRC, framework mapping, training
+  scenario authoring, OpenCyberRange integration, and upgrades
+
 ## Community and Enterprise
 
 The **Community Edition** in this repository is the complete self-hosted platform. No seat

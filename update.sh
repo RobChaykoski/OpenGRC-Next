@@ -48,8 +48,10 @@ echo "Pulling the latest changes..."
 git pull
 
 ## Run Composer
+# Install exactly what the lockfile pins. Use `composer update` deliberately in
+# development, never during an update run that has no review.
 echo "Installing Composer Dependencies..."
-composer update
+composer install --prefer-dist --no-interaction
 
 ## Migrate the database
 echo "Migrating the database..."
@@ -70,7 +72,15 @@ fi
 
 # Build the Frontend
 echo "Installing npm dependencies..."
-npm install
+npm ci
 
 echo "Building the frontend..."
 npm run build
+
+## Restart long-running processes so they load the new code
+echo "Restarting queue workers..."
+php artisan queue:restart
+
+## Verify the installation against the supported baseline
+echo "Running the doctor..."
+php artisan opengrc:doctor

@@ -75,6 +75,6 @@ fi
 
 ## Run Composer
 echo "Installing Composer Dependencies..."
-  composer update
+  composer install --prefer-dist --no-interaction
 
 php artisan opengrc:install
