@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Pages\Settings;
 
+use App\Enums\UserRole;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -10,7 +11,6 @@ use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Crypt;
-use Spatie\Permission\Models\Role;
 
 class AuthenticationSettings extends BaseSettings
 {
@@ -93,7 +93,7 @@ class AuthenticationSettings extends BaseSettings
                                     ->helperText('If enabled, users will be automatically provisioned in the system when they login via Azure.'),
                                 Select::make('auth.azure.role')
                                     ->label('Role')
-                                    ->options(Role::all()->pluck('name', 'id'))
+                                    ->options(UserRole::options())
                                     ->visible(fn ($get) => $get('auth.azure.enabled') && $get('auth.azure.auto_provision'))
                                     ->required(fn ($get) => $get('auth.azure.enabled') && $get('auth.azure.auto_provision'))
                                     ->helperText('The role to assign to users when they are auto-provisioned.'),
@@ -149,7 +149,7 @@ class AuthenticationSettings extends BaseSettings
                                     ->helperText('If enabled, users will be automatically provisioned in the system when they login via Okta.'),
                                 Select::make('auth.okta.role')
                                     ->label('Role')
-                                    ->options(Role::all()->pluck('name', 'id'))
+                                    ->options(UserRole::options())
                                     ->visible(fn ($get) => $get('auth.okta.enabled') && $get('auth.okta.auto_provision'))
                                     ->required(fn ($get) => $get('auth.okta.enabled') && $get('auth.okta.auto_provision'))
                                     ->helperText('The role to assign to users when they are auto-provisioned.'),
@@ -201,7 +201,7 @@ class AuthenticationSettings extends BaseSettings
                                     ->helperText('If enabled, users will be automatically provisioned in the system when they login via Google.'),
                                 Select::make('auth.google.role')
                                     ->label('Role')
-                                    ->options(Role::all()->pluck('name', 'id'))
+                                    ->options(UserRole::options())
                                     ->visible(fn ($get) => $get('auth.google.enabled') && $get('auth.google.auto_provision'))
                                     ->required(fn ($get) => $get('auth.google.enabled') && $get('auth.google.auto_provision'))
                                     ->helperText('The role to assign to users when they are auto-provisioned.'),
@@ -257,7 +257,7 @@ class AuthenticationSettings extends BaseSettings
                                     ->helperText('If enabled, users will be automatically provisioned in the system when they login via Auth0.'),
                                 Select::make('auth.auth0.role')
                                     ->label('Role')
-                                    ->options(Role::all()->pluck('name', 'id'))
+                                    ->options(UserRole::options())
                                     ->visible(fn ($get) => $get('auth.auth0.enabled') && $get('auth.auth0.auto_provision'))
                                     ->required(fn ($get) => $get('auth.auth0.enabled') && $get('auth.auth0.auto_provision'))
                                     ->helperText('The role to assign to users when they are auto-provisioned.'),

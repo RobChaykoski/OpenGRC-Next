@@ -4,7 +4,6 @@ namespace App\Policies;
 
 use App\Models\DataRequestResponse;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Kirschbaum\Commentions\CommentSubscription;
 
 class DataRequestResponsePolicy
@@ -13,16 +12,16 @@ class DataRequestResponsePolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('List '.Str::plural(class_basename($this->model)));
+        return true;
     }
 
     public function view(User $user, DataRequestResponse $dataRequestResponse): bool
     {
-        if ($user->hasRole('Super Admin')) {
+        if ($user->isAdmin()) {
             return true;
         }
 
-        if (! $user->can('Read '.Str::plural(class_basename($this->model)))) {
+        if (! true) {
             return false;
         }
 
@@ -62,7 +61,7 @@ class DataRequestResponsePolicy
 
     public function create(User $user): bool
     {
-        return $user->can('Create '.Str::plural(class_basename($this->model)));
+        return $user->canWrite();
     }
 
     public function update(User $user, DataRequestResponse $dataRequestResponse): bool
@@ -72,6 +71,6 @@ class DataRequestResponsePolicy
 
     public function delete(User $user): bool
     {
-        return $user->can('Delete '.Str::plural(class_basename($this->model)));
+        return $user->isAdmin();
     }
 }

@@ -128,7 +128,7 @@ expensive to miss.
 - **Cached config after env changes.** `config:cache` bakes `.env` values in. Any
   env change in production requires `php artisan optimize:clear` or a re-cache.
 - **Passport keys are runtime state, not code.** Without `storage/oauth-*.key` the
-  API and MCP guards throw "Invalid key supplied" at request time. The installer
+  API guard throws "Invalid key supplied" at request time. The installer
   and the container entrypoint generate them; the test suite uses committed
   fixture keys because Linux permission checks reject bind-mounted key files.
 - **`storage/app` holds the application key and evidence.** Persist it. Losing it

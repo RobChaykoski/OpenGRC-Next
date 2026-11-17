@@ -8,7 +8,6 @@ use App\Enums\ControlCategory;
 use App\Enums\ControlEnforcementCategory;
 use App\Enums\ControlType;
 use App\Enums\Effectiveness;
-use App\Mcp\Traits\HasMcpSupport;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -59,7 +58,7 @@ use Spatie\Activitylog\Support\LogOptions;
  */
 class Control extends Model
 {
-    use HasFactory, HasMcpSupport, HasTaxonomy, LogsActivity, SoftDeletes;
+    use HasFactory, HasTaxonomy, LogsActivity, SoftDeletes;
 
     /**
      * Indicates if the model should be indexed as you type.

@@ -96,7 +96,7 @@ What happens on first start:
   `ADMIN_EMAIL` / `ADMIN_PASSWORD`
 - an application key is generated and persisted in `storage/app/.app-key`; pass
   `APP_KEY` explicitly if you manage secrets elsewhere
-- Passport keys are generated, so the API and MCP guards work
+- Passport keys are generated, so the API guard works
 - configuration, routes, and views are cached
 - `opengrc:doctor` prints its findings to the container log
 

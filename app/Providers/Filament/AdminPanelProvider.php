@@ -2,7 +2,6 @@
 
 namespace App\Providers\Filament;
 
-use App\Filament\Admin\Pages\RolePermissionMatrix;
 use App\Filament\Admin\Pages\Settings\AiSettings;
 use App\Filament\Admin\Pages\Settings\AuthenticationSettings;
 use App\Filament\Admin\Pages\Settings\MailSettings;
@@ -74,9 +73,7 @@ class AdminPanelProvider extends PanelProvider
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
-            ->pages([
-                RolePermissionMatrix::class,
-            ])
+            ->pages([])
             ->widgets([
                 AccountWidget::class,
                 FilamentInfoWidget::class,

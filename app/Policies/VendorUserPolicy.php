@@ -16,51 +16,51 @@ class VendorUserPolicy
 {
     public function viewAny(User $user): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function view(User $user, VendorUser $vendorUser): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function create(User $user): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function update(User $user, VendorUser $vendorUser): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function delete(User $user, VendorUser $vendorUser): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function deleteAny(User $user): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function restore(User $user, VendorUser $vendorUser): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function restoreAny(User $user): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function forceDelete(User $user, VendorUser $vendorUser): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 
     public function forceDeleteAny(User $user): bool
     {
-        return $user->can('Manage Vendor Management');
+        return $user->isAdmin();
     }
 }

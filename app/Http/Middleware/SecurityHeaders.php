@@ -194,7 +194,7 @@ class SecurityHeaders
      * Get form-action directive value based on the request path.
      *
      * OAuth authorization routes need relaxed form-action to allow
-     * redirecting to external MCP client redirect URIs.
+     * redirecting to external OAuth client redirect URIs.
      */
     protected function getFormAction(Request $request): string
     {

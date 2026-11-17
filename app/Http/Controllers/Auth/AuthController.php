@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\UserRole;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Auth;
 use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
-use Spatie\Permission\Models\Role;
 use Str;
 
 class AuthController extends Controller
@@ -41,16 +41,8 @@ class AuthController extends Controller
                 'password' => bcrypt(Str::random(16)),
                 'email_verified_at' => now(),
                 'password_reset_required' => false,
+                'role' => UserRole::fromLegacy(setting("auth.{$provider}.role")),
             ]);
-
-            // Assign the configured role if specified
-            $roleId = setting("auth.{$provider}.role");
-            if ($roleId) {
-                $role = Role::find($roleId);
-                if ($role) {
-                    $user->assignRole($role);
-                }
-            }
         }
 
         // Log the user in

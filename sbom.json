@@ -2,10 +2,10 @@
     "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
     "bomFormat": "CycloneDX",
     "specVersion": "1.5",
-    "serialNumber": "urn:uuid:630c1bde-bb84-4138-9e80-a17af663d6af",
+    "serialNumber": "urn:uuid:a00f17d9-c043-4efb-a071-30512441e08d",
     "version": 1,
     "metadata": {
-        "timestamp": "2026-11-17T18:11:09Z",
+        "timestamp": "2026-11-17T20:42:48Z",
         "tools": [
             {
                 "name": "composer",
@@ -85,25 +85,25 @@
             "bom-ref": "laravel/laravel-dev-main",
             "type": "application",
             "name": "laravel",
-            "version": "dev-main 69c4f88",
+            "version": "dev-main f19ecf7",
             "group": "laravel",
             "description": "The skeleton application for the Laravel framework.",
             "licenses": [
                 {
                     "license": {
-                        "id": "MIT"
+                        "id": "AGPL-3.0-only"
                     }
                 }
             ],
-            "purl": "pkg:composer/laravel/laravel@dev-main%2069c4f88",
+            "purl": "pkg:composer/laravel/laravel@dev-main%20f19ecf7",
             "properties": [
                 {
                     "name": "cdx:composer:package:distReference",
-                    "value": "69c4f88a39ef8f3c45e6dabb11425a27449a4a30"
+                    "value": "f19ecf780b16bc048694926421401cc95a73408d"
                 },
                 {
                     "name": "cdx:composer:package:sourceReference",
-                    "value": "69c4f88a39ef8f3c45e6dabb11425a27449a4a30"
+                    "value": "f19ecf780b16bc048694926421401cc95a73408d"
                 },
                 {
                     "name": "cdx:composer:package:type",
@@ -3655,67 +3655,6 @@
             ]
         },
         {
-            "bom-ref": "laravel/boost-2.4.8.0",
-            "type": "library",
-            "name": "boost",
-            "version": "v2.4.8",
-            "group": "laravel",
-            "description": "Laravel Boost accelerates AI-assisted development by providing the essential context and structure that AI needs to generate high-quality, Laravel-specific code.",
-            "licenses": [
-                {
-                    "license": {
-                        "id": "MIT"
-                    }
-                }
-            ],
-            "purl": "pkg:composer/laravel/boost@v2.4.8",
-            "externalReferences": [
-                {
-                    "type": "distribution",
-                    "url": "https://api.github.com/repos/laravel/boost/zipball/d11d720cf9537f8d236a11d973e99563a598ec9c",
-                    "comment": "dist reference: d11d720cf9537f8d236a11d973e99563a598ec9c"
-                },
-                {
-                    "type": "vcs",
-                    "url": "https://github.com/laravel/boost.git",
-                    "comment": "source reference: d11d720cf9537f8d236a11d973e99563a598ec9c"
-                },
-                {
-                    "type": "website",
-                    "url": "https://github.com/laravel/boost",
-                    "comment": "as detected from Composer manifest 'homepage'"
-                },
-                {
-                    "type": "issue-tracker",
-                    "url": "https://github.com/laravel/boost/issues",
-                    "comment": "as detected from Composer manifest 'support.issues'"
-                },
-                {
-                    "type": "vcs",
-                    "url": "https://github.com/laravel/boost",
-                    "comment": "as detected from Composer manifest 'support.source'"
-                }
-            ],
-            "properties": [
-                {
-                    "name": "cdx:composer:package:distReference",
-                    "value": "d11d720cf9537f8d236a11d973e99563a598ec9c"
-                },
-                {
-                    "name": "cdx:composer:package:sourceReference",
-                    "value": "d11d720cf9537f8d236a11d973e99563a598ec9c"
-                },
-                {
-                    "name": "cdx:composer:package:type",
-                    "value": "library"
-                },
-                {
-                    "name": "cdx:composer:package:isDevRequirement",
-                    "value": "true"
-                }
-            ]
-        },
-        {
             "bom-ref": "laravel/dusk-8.7.1.0",
             "type": "library",
             "name": "dusk",
@@ -3818,64 +3757,6 @@
                 {
                     "name": "cdx:composer:package:sourceReference",
                     "value": "72aa7e151062e218704d8660f407e6070040d8bc"
-                },
-                {
-                    "name": "cdx:composer:package:type",
-                    "value": "library"
-                }
-            ]
-        },
-        {
-            "bom-ref": "laravel/mcp-0.5.9.0",
-            "type": "library",
-            "name": "mcp",
-            "version": "v0.5.9",
-            "group": "laravel",
-            "description": "Rapidly build MCP servers for your Laravel applications.",
-            "author": "Taylor Otwell",
-            "licenses": [
-                {
-                    "license": {
-                        "id": "MIT"
-                    }
-                }
-            ],
-            "purl": "pkg:composer/laravel/mcp@v0.5.9",
-            "externalReferences": [
-                {
-                    "type": "distribution",
-                    "url": "https://api.github.com/repos/laravel/mcp/zipball/39e8da60eb7bce4737c5d868d35a3fe78938c129",
-                    "comment": "dist reference: 39e8da60eb7bce4737c5d868d35a3fe78938c129"
-                },
-                {
-                    "type": "vcs",
-                    "url": "https://github.com/laravel/mcp.git",
-                    "comment": "source reference: 39e8da60eb7bce4737c5d868d35a3fe78938c129"
-                },
-                {
-                    "type": "website",
-                    "url": "https://github.com/laravel/mcp",
-                    "comment": "as detected from Composer manifest 'homepage'"
-                },
-                {
-                    "type": "issue-tracker",
-                    "url": "https://github.com/laravel/mcp/issues",
-                    "comment": "as detected from Composer manifest 'support.issues'"
-                },
-                {
-                    "type": "vcs",
-                    "url": "https://github.com/laravel/mcp",
-                    "comment": "as detected from Composer manifest 'support.source'"
-                }
-            ],
-            "properties": [
-                {
-                    "name": "cdx:composer:package:distReference",
-                    "value": "39e8da60eb7bce4737c5d868d35a3fe78938c129"
-                },
-                {
-                    "name": "cdx:composer:package:sourceReference",
-                    "value": "39e8da60eb7bce4737c5d868d35a3fe78938c129"
                 },
                 {
                     "name": "cdx:composer:package:type",
@@ -4042,67 +3923,6 @@
                 {
                     "name": "cdx:composer:package:type",
                     "value": "library"
-                }
-            ]
-        },
-        {
-            "bom-ref": "laravel/roster-0.5.1.0",
-            "type": "library",
-            "name": "roster",
-            "version": "v0.5.1",
-            "group": "laravel",
-            "description": "Detect packages & approaches in use within a Laravel project",
-            "licenses": [
-                {
-                    "license": {
-                        "id": "MIT"
-                    }
-                }
-            ],
-            "purl": "pkg:composer/laravel/roster@v0.5.1",
-            "externalReferences": [
-                {
-                    "type": "distribution",
-                    "url": "https://api.github.com/repos/laravel/roster/zipball/5089de7615f72f78e831590ff9d0435fed0102bb",
-                    "comment": "dist reference: 5089de7615f72f78e831590ff9d0435fed0102bb"
-                },
-                {
-                    "type": "vcs",
-                    "url": "https://github.com/laravel/roster.git",
-                    "comment": "source reference: 5089de7615f72f78e831590ff9d0435fed0102bb"
-                },
-                {
-                    "type": "website",
-                    "url": "https://github.com/laravel/roster",
-                    "comment": "as detected from Composer manifest 'homepage'"
-                },
-                {
-                    "type": "issue-tracker",
-                    "url": "https://github.com/laravel/roster/issues",
-                    "comment": "as detected from Composer manifest 'support.issues'"
-                },
-                {
-                    "type": "vcs",
-                    "url": "https://github.com/laravel/roster",
-                    "comment": "as detected from Composer manifest 'support.source'"
-                }
-            ],
-            "properties": [
-                {
-                    "name": "cdx:composer:package:distReference",
-                    "value": "5089de7615f72f78e831590ff9d0435fed0102bb"
-                },
-                {
-                    "name": "cdx:composer:package:sourceReference",
-                    "value": "5089de7615f72f78e831590ff9d0435fed0102bb"
-                },
-                {
-                    "name": "cdx:composer:package:type",
-                    "value": "library"
-                },
-                {
-                    "name": "cdx:composer:package:isDevRequirement",
-                    "value": "true"
                 }
             ]
         },
@@ -14708,15 +14528,6 @@
             ]
         },
         {
-            "ref": "laravel/boost-2.4.8.0",
-            "dependsOn": [
-                "guzzlehttp/guzzle-7.15.5.0",
-                "laravel/mcp-0.5.9.0",
-                "laravel/prompts-0.3.25.0",
-                "laravel/roster-0.5.1.0"
-            ]
-        },
-        {
             "ref": "laravel/dusk-8.7.1.0",
             "dependsOn": [
                 "guzzlehttp/guzzle-7.15.5.0",
@@ -14773,9 +14584,6 @@
             ]
         },
         {
-            "ref": "laravel/mcp-0.5.9.0"
-        },
-        {
             "ref": "laravel/passport-13.9.0.0",
             "dependsOn": [
                 "firebase/php-jwt-7.2.1.0",
@@ -14793,12 +14601,6 @@
             "ref": "laravel/prompts-0.3.25.0",
             "dependsOn": [
                 "symfony/console-8.1.11.0"
-            ]
-        },
-        {
-            "ref": "laravel/roster-0.5.1.0",
-            "dependsOn": [
-                "symfony/yaml-8.1.11.0"
             ]
         },
         {
@@ -15831,7 +15633,6 @@
                 "jeffgreco13/filament-breezy-3.2.8.0",
                 "kirschbaum-development/commentions-0.7.10.0",
                 "laravel/framework-13.43.0.0",
-                "laravel/mcp-0.5.9.0",
                 "laravel/passport-13.9.0.0",
                 "laravel/prompts-0.3.25.0",
                 "laravel/sanctum-4.3.3.0",
@@ -15852,7 +15653,6 @@
                 "filament/upgrade-4.15.1.0",
                 "fruitcake/laravel-debugbar-4.4.4.0",
                 "larastan/larastan-3.13.0.0",
-                "laravel/boost-2.4.8.0",
                 "laravel/dusk-8.7.1.0",
                 "laravel/pint-1.32.1.0",
                 "laravel/sail-1.68.0.0",

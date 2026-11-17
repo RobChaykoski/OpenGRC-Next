@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UserRole;
+use App\Filament\Admin\Resources\UserResource;
+use App\Filament\Admin\Resources\VendorUserResource;
+use App\Http\Middleware\RequireTwoFactorAuthentication;
 use App\Models\User;
-use Database\Seeders\RolePermissionSeeder;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
@@ -11,12 +14,11 @@ use Tests\TestCase;
 use Throwable;
 
 /**
- * Role-by-panel authorization matrix.
+ * Role-by-panel authorization matrix for the three-role model.
  *
- * The dangerous failure for a GRC platform is a panel or resource that looks
- * protected but is not. This walks every registered admin resource and checks
- * both ends of the matrix: a super admin can open it, and a user with no
- * permissions cannot.
+ * Admin administers, Editor writes, Viewer reads. The dangerous regression is a
+ * page that looks restricted but is not, so every registered resource is walked
+ * at the index level and write pages are checked per role.
  */
 class AuthorizationMatrixTest extends TestCase
 {
@@ -26,62 +28,86 @@ class AuthorizationMatrixTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolePermissionSeeder::class);
         Filament::setCurrentPanel(Filament::getPanel('admin'));
+        $this->withoutMiddleware(RequireTwoFactorAuthentication::class);
     }
 
     #[Test]
-    public function a_super_admin_can_open_every_admin_resource(): void
+    public function every_role_can_open_every_admin_resource_index(): void
     {
-        $admin = User::factory()->create();
-        $admin->assignRole('Super Admin');
-
         $failures = [];
 
-        foreach ($this->resourceUrls() as $name => $url) {
-            $response = $this->actingAs($admin)->get($url);
+        foreach ([UserRole::Admin, UserRole::Editor, UserRole::Viewer] as $role) {
+            $user = User::factory()->create(['role' => $role]);
 
-            if (! in_array($response->status(), [200, 302], true)) {
-                $failures[$name] = $response->status();
+            foreach ($this->resourceUrls() as $name => $url) {
+                if (! $role->canManage() && in_array($name, ['UserResource', 'VendorUserResource'], true)) {
+                    continue;
+                }
+
+                $status = $this->actingAs($user)->get($url)->status();
+
+                if (! in_array($status, [200, 302], true)) {
+                    $failures["{$role->value}:{$name}"] = $status;
+                }
             }
         }
 
-        $this->assertSame([], $failures, 'Admin resources not reachable by Super Admin: '.json_encode($failures));
+        $this->assertSame([], $failures, 'Resources not reachable by role: '.json_encode($failures));
     }
 
     #[Test]
-    public function a_user_with_no_permissions_cannot_open_any_admin_resource(): void
+    public function viewers_cannot_open_any_create_page(): void
     {
-        $nobody = User::factory()->create();
-
-        $failures = [];
-
-        foreach ($this->resourceUrls() as $name => $url) {
-            $response = $this->actingAs($nobody)->get($url);
-
-            if (! in_array($response->status(), [403, 302], true)) {
-                $failures[$name] = $response->status();
-            }
-        }
-
-        $this->assertSame([], $failures, 'Admin resources reachable without permissions: '.json_encode($failures));
-    }
-
-    #[Test]
-    public function a_user_with_list_only_permissions_cannot_create_records(): void
-    {
-        $viewer = User::factory()->create();
-        $viewer->assignRole('Regular User');
+        $viewer = User::factory()->create(['role' => UserRole::Viewer]);
 
         foreach ($this->resourceUrls('create') as $name => $url) {
-            $response = $this->actingAs($viewer)->get($url);
+            $status = $this->actingAs($viewer)->get($url)->status();
 
             $this->assertContains(
-                $response->status(),
+                $status,
                 [403, 302],
-                "Regular User could open the create page for {$name}."
+                "Viewer could open the create page for {$name}."
             );
         }
+    }
+
+    #[Test]
+    public function only_admins_can_manage_users_and_vendor_accounts(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+        $viewer = User::factory()->create(['role' => UserRole::Viewer]);
+
+        foreach ([
+            UserResource::class,
+            VendorUserResource::class,
+        ] as $resource) {
+            $adminStatus = $this->actingAs($admin)->get($resource::getUrl('index'))->status();
+            $viewerStatus = $this->actingAs($viewer)->get($resource::getUrl('index'))->status();
+
+            $this->assertContains($adminStatus, [200, 302]);
+            $this->assertContains($viewerStatus, [403, 302], class_basename($resource).' was visible to a viewer.');
+        }
+    }
+
+    #[Test]
+    public function settings_abilities_are_admin_only(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+        $editor = User::factory()->create(['role' => UserRole::Editor]);
+        $viewer = User::factory()->create(['role' => UserRole::Viewer]);
+
+        $this->assertTrue($admin->can('Manage Preferences'));
+        $this->assertFalse($editor->can('Manage Preferences'));
+        $this->assertFalse($viewer->can('Manage Preferences'));
+
+        $this->assertTrue($admin->can('Manage Trust Center'));
+        $this->assertFalse($viewer->can('Manage Trust Center'));
+
+        $this->assertTrue($viewer->can('Read Standards'));
+        $this->assertFalse($viewer->can('Create Standards'));
+        $this->assertTrue($editor->can('Create Standards'));
+        $this->assertFalse($editor->can('Delete Standards'));
     }
 
     /**
@@ -97,7 +123,6 @@ class AuthorizationMatrixTest extends TestCase
             try {
                 $url = $resource::getUrl($page);
             } catch (Throwable) {
-                // Resource has no such page (custom pages, read-only resources).
                 continue;
             }
 
@@ -107,5 +132,10 @@ class AuthorizationMatrixTest extends TestCase
         $this->assertNotEmpty($urls, 'No admin resources were discovered; the matrix would be a no-op.');
 
         return $urls;
+    }
+
+    protected function urlFor(string $resource, string $page): string
+    {
+        return $resource::getUrl($page);
     }
 }

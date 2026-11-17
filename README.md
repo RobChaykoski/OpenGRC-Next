@@ -88,10 +88,9 @@ limits, no data caps, no crippled trial. It covers the core program: risk, contr
 implementations, vendor management, project management and incident response.
 
 **[Enterprise](https://opengrc.com/enterprise)** is the hosted, supported edition. It adds
-the AI and premium modules — AI risk assessments, AI gap assessments, automated vendor
-survey responses — along with an **MCP server** that connects OpenGRC directly to Claude
-and ChatGPT, so you can ask your assistant which controls lack evidence and have it
-actually read your program. It comes with an uptime commitment, SOC 2 Type II attestation
+the AI and premium modules - AI risk assessments, AI gap assessments, automated vendor
+survey responses - along with the hosted integrations. It comes with an uptime
+commitment, SOC 2 Type II attestation
 and support. See [pricing](https://opengrc.com/pricing) and
 [security](https://opengrc.com/security).
 

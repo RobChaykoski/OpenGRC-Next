@@ -6,7 +6,6 @@ use Aliziodev\LaravelTaxonomy\Traits\HasTaxonomy;
 use App\Casts\SanitizedHtml;
 use App\Enums\Effectiveness;
 use App\Enums\ImplementationStatus;
-use App\Mcp\Traits\HasMcpSupport;
 use Eloquent;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -57,7 +56,7 @@ use Spatie\Activitylog\Support\LogOptions;
  */
 class Implementation extends Model
 {
-    use HasFactory, HasMcpSupport, HasTaxonomy, LogsActivity, SoftDeletes;
+    use HasFactory, HasTaxonomy, LogsActivity, SoftDeletes;
 
     /**
      * Indicates if the model should be indexed as you type.

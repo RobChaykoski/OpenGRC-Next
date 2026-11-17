@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Enums\ApplicationStatus;
 use App\Enums\ApplicationType;
-use App\Mcp\Traits\HasMcpSupport;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +14,7 @@ use Spatie\Activitylog\Support\LogOptions;
 
 class Application extends Model
 {
-    use HasFactory, HasMcpSupport, LogsActivity, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'name',

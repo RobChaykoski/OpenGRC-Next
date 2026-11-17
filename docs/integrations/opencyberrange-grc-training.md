@@ -146,5 +146,6 @@ fix.
 3. How long is learner evidence retained, and who can delete it?
 4. Does the range emit artifacts, or must OpenGRC pull them before they expire?
    Push with checksums is simpler and survives pruning.
-5. Is the simulated auditor a human role or an AI assistant with scoped tools? The
-   MCP layer makes the second option cheap, but grading must stay explainable.
+5. Is the simulated auditor a human role or an AI assistant with scoped tools? An
+   API-backed assistant makes the second option cheap, but grading must stay
+   explainable.

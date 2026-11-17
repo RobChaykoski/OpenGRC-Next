@@ -55,7 +55,6 @@ docker compose -f docker/docker-compose.test.yml run --rm test   # suite in a co
 | `app/Filament/` | Panels and UI: `Admin`, `Vendor`, resources, forms, tables, widgets |
 | `app/Models/` | Eloquent models for standards, controls, implementations, risks, audits, vendors, assets |
 | `app/Console/Commands/` | Artisan commands, including `Install` and `Doctor` |
-| `app/Mcp/` | MCP server tools exposed to AI clients |
 | `app/Services/` | Domain services (scoring, assessment, AI, mail rendering) |
 | `Modules/DataManager/` | Module for import/export; enabled in `modules_statuses.json` |
 | `database/migrations/` | Schema history. Never edit an applied migration |
@@ -72,9 +71,11 @@ docker compose -f docker/docker-compose.test.yml run --rm test   # suite in a co
   you must rewrite data, make the migration idempotent and explain the rollback.
 - **Money, scores and dates** are handled with existing casts and helpers. Do not
   invent parallel formatting.
-- **Permissions** go through `spatie/laravel-permission` and the seeders that
-  register them. A new resource needs its permissions seeded, or it will be
-  invisible to non-super-admins.
+- **Authorization** uses three roles: `admin`, `editor`, `viewer` (`UserRole`).
+  Ordinary models are covered by `AppPolicy`; only models with ownership or
+  isolation rules get their own policy. New resources need no permission
+  registration. Settings and manager pages check permission-style abilities
+  (`Manage …`) which `Gate::before` maps to the role.
 - **Any user-visible string** belongs in `lang/en/`. Other locales exist; keep the
   keys aligned.
 - **Filament is not fully covered by tests.** After changing a resource, open it.
@@ -108,7 +109,7 @@ docker compose -f docker/docker-compose.test.yml run --rm test   # suite in a co
 - [ ] `npm ci && npm run build` succeeds if front-end assets changed.
 - [ ] `php artisan opengrc:doctor` reports no failures on a fresh install.
 - [ ] Framework data changes pass `php artisan opengrc:framework-audit --strict`.
-- [ ] New schema has a migration; new permissions have a seeder.
+- [ ] New schema has a migration; do not add permission seeders (three-role model).
 - [ ] Docs updated when behaviour, configuration, or supported versions change.
 - [ ] If the change is a decision with trade-offs, add an ADR in `docs/decisions/`.
 

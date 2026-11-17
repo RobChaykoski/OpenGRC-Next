@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'opengrc:create-user')]
@@ -19,7 +19,7 @@ class CreateUser extends Command
     protected $signature = 'opengrc:create-user
                             {email? : The email of the user}
                             {password? : The password of the user}
-                            {--role=auto : Role to assign. "auto" grants Super Admin only to the first user; use an empty value to skip}';
+                            {--role=auto : admin, editor, or viewer. "auto" grants admin only to the first user}';
 
     /**
      * The console command description.
@@ -36,34 +36,31 @@ class CreateUser extends Command
         $email = $this->argument('email');
         $password = $this->argument('password');
 
-        $user = User::create([
+        $roleOption = strtolower(trim((string) $this->option('role')));
+
+        if ($roleOption === 'auto') {
+            // Bootstrap only: the first account is the installer admin. Later
+            // accounts default to viewer, so a hurried CLI call cannot create
+            // another privileged account.
+            $role = User::query()->count() === 0 ? UserRole::Admin : UserRole::Viewer;
+        } else {
+            $role = UserRole::tryFrom($roleOption);
+
+            if (! $role) {
+                $this->error('Role must be one of: admin, editor, viewer, auto.');
+
+                return;
+            }
+        }
+
+        User::create([
             'email' => $email,
             'name' => $email,
             'password' => Hash::make($password),
             'password_reset_required' => false,
+            'role' => $role,
         ]);
 
-        $roleOption = trim((string) $this->option('role'));
-
-        if ($roleOption === 'auto') {
-            // Bootstrap only: the first account is the installer admin. Later
-            // accounts must be granted a role explicitly, so a hurried CLI call
-            // cannot silently create another Super Admin.
-            $roleName = User::query()->count() <= 1 ? 'Super Admin' : '';
-        } else {
-            $roleName = $roleOption;
-        }
-
-        if ($roleName !== '') {
-            // The role may not exist yet on a first install (the permission
-            // seeder runs after this command), so create the shell role and let
-            // the seeder attach permissions to it.
-            $role = Role::findOrCreate($roleName, 'web');
-            $user->assignRole($role);
-
-            $this->components->info("User created and assigned the [{$roleName}] role.");
-        } else {
-            $this->components->info('User Created.');
-        }
+        $this->components->info("User created with the [{$role->value}] role.");
     }
 }

@@ -51,7 +51,6 @@ architecture, integrations, and the decisions behind them.
 | Document | Purpose |
 |---|---|
 | [API_DOCUMENTATION.md](API_DOCUMENTATION.md) | REST API |
-| [mcp-server.md](mcp-server.md) | MCP server and AI tooling |
 | [NOTIFICATIONS_GUIDE.md](NOTIFICATIONS_GUIDE.md) | Notification behaviour |
 | [MediaProxy.md](MediaProxy.md) | Media handling |
 

@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ResponseStatus;
-use App\Traits\Concerns\HasSuperAdmin;
+use App\Enums\UserRole;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,14 +19,13 @@ use Kirschbaum\Commentions\Contracts\Commenter;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property Carbon|null $last_activity
  */
 class User extends Authenticatable implements Commenter, FilamentUser
 {
-    use HasApiTokens, HasFactory, HasRoles, HasSuperAdmin, LogsActivity, Notifiable, softDeletes, TwoFactorAuthenticatable;
+    use HasApiTokens, HasFactory, LogsActivity, Notifiable, softDeletes, TwoFactorAuthenticatable;
 
     protected static $logOnlyDirty = true;
 
@@ -42,6 +41,7 @@ class User extends Authenticatable implements Commenter, FilamentUser
         'text',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -72,6 +72,7 @@ class User extends Authenticatable implements Commenter, FilamentUser
         'email_verified_at' => 'datetime',
         'last_activity' => 'datetime',
         'password' => 'hashed',
+        'role' => UserRole::class,
     ];
 
     /**
@@ -88,6 +89,31 @@ class User extends Authenticatable implements Commenter, FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return true;
+    }
+
+    /**
+     * The role, defaulted for legacy rows that predate the role column.
+     */
+    public function role(): UserRole
+    {
+        return $this->getAttribute('role') instanceof UserRole
+            ? $this->getAttribute('role')
+            : UserRole::Viewer;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role()->canManage();
+    }
+
+    public function canWrite(): bool
+    {
+        return $this->role()->canWrite();
+    }
+
+    public function canDeleteRecords(): bool
+    {
+        return $this->role()->canDelete();
     }
 
     public function audits(): BelongsToMany

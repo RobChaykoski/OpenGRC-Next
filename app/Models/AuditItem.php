@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\Applicability;
 use App\Enums\Effectiveness;
 use App\Enums\WorkflowStatus;
-use App\Mcp\Traits\HasMcpSupport;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,7 +15,7 @@ use Spatie\Activitylog\Support\LogOptions;
 
 class AuditItem extends Model
 {
-    use HasFactory, HasMcpSupport, LogsActivity;
+    use HasFactory, LogsActivity;
 
     protected $fillable = ['audit_id', 'user_id', 'auditable_id', 'auditable_type', 'auditor_notes', 'status', 'effectiveness', 'applicability'];
 

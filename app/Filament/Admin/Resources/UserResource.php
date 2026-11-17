@@ -2,11 +2,11 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Enums\UserRole;
 use App\Filament\Admin\Resources\UserResource\Pages\CreateUser;
 use App\Filament\Admin\Resources\UserResource\Pages\EditUser;
 use App\Filament\Admin\Resources\UserResource\Pages\ListUsers;
 use App\Filament\Admin\Resources\UserResource\Pages\ViewUser;
-use App\Filament\Admin\Resources\UserResource\RelationManagers\RolesRelationManager;
 use App\Mail\UserCreatedMail;
 use App\Mail\UserForceResetMail;
 use App\Models\User;
@@ -68,12 +68,10 @@ class UserResource extends Resource
                     ->email()
                     ->required()
                     ->maxLength(255),
-                Select::make('roles')
-                    ->relationship('roles', 'name')
-                    ->multiple()
-                    ->preload()
-                    ->searchable()
-                    ->label('Roles'),
+                Select::make('role')
+                    ->options(UserRole::options())
+                    ->required()
+                    ->label('Role'),
                 Placeholder::make('last_activity')
                     ->content(
                         function (User $record) {
@@ -100,12 +98,14 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable(),
                 // Roles
-                TextColumn::make('roles')
+                TextColumn::make('role')
                     ->searchable()
-                    ->label('Roles')
+                    ->label('Role')
                     ->badge()
                     ->sortable()
-                    ->state(fn ($record) => $record->roles->pluck('name')->join(', ')),
+                    ->formatStateUsing(fn ($state) => $state instanceof UserRole
+                        ? $state->getLabel()
+                        : UserRole::fromLegacy($state)->getLabel()),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -150,9 +150,7 @@ class UserResource extends Resource
 
     public static function getRelations(): array
     {
-        return [
-            'roles' => RolesRelationManager::class,
-        ];
+        return [];
     }
 
     public static function getPages(): array

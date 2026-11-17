@@ -157,7 +157,7 @@ class Install extends Command
         $this->info('Creating database tables');
         $this->call('migrate', ['--force']);
 
-        // OAuth keys: the API and MCP guards fail at request time without them.
+        // OAuth keys: the API guard fails at request time without them.
         if (! file_exists(storage_path('oauth-private.key'))) {
             $this->info('Generating OAuth keys');
             $this->call('passport:keys', ['--force' => true]);
@@ -172,7 +172,6 @@ class Install extends Command
         // Seed the database with default settings and role/permissions.
         $this->info('Seeding the database with defaults');
         $this->call('db:seed', ['--class' => 'SettingsSeeder']);
-        $this->call('db:seed', ['--class' => 'RolePermissionSeeder']);
 
         // Built-in vendor survey templates need an existing user as their creator,
         // so they are seeded here rather than by their migrations.

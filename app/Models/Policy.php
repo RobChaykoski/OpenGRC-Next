@@ -6,7 +6,6 @@ use Aliziodev\LaravelTaxonomy\Models\Taxonomy;
 use Aliziodev\LaravelTaxonomy\Traits\HasTaxonomy;
 use App\Casts\SanitizedHtml;
 use App\Enums\DocumentType;
-use App\Mcp\Traits\HasMcpSupport;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,25 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Policy extends Model
 {
-    use HasFactory, HasMcpSupport, HasTaxonomy, SoftDeletes;
-
-    /**
-     * MCP configuration overrides.
-     * Only specify what differs from auto-derived defaults.
-     *
-     * @return array<string, mixed>
-     */
-    public static function mcpConfig(): array
-    {
-        return [
-            // Override list_relations to include taxonomy relations
-            'list_relations' => ['status', 'scope', 'department', 'owner'],
-            // Override list_counts
-            'list_counts' => ['controls'],
-            // Policies use auto-generated codes
-            'auto_code_prefix' => 'POL',
-        ];
-    }
+    use HasFactory, HasTaxonomy, SoftDeletes;
 
     protected $fillable = [
         'code',

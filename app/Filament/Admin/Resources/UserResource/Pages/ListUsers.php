@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Resources\UserResource\Pages;
 
+use App\Enums\UserRole;
 use App\Filament\Admin\Resources\UserResource;
 use App\Mail\UserCreatedMail;
 use App\Models\User;
@@ -12,7 +13,6 @@ use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Permission\Models\Role;
 
 class ListUsers extends ListRecords
 {
@@ -34,9 +34,7 @@ class ListUsers extends ListRecords
                         ->required(),
                     Select::make('role')
                         ->label('Role')
-                        ->options(
-                            Role::all()->pluck('name', 'name')
-                        )
+                        ->options(UserRole::options())
                         ->required(),
                 ])
                 ->action(function (array $data): void {
@@ -46,10 +44,8 @@ class ListUsers extends ListRecords
                         'name' => $data['name'],
                         'email' => $data['email'],
                         'password' => bcrypt($password),
+                        'role' => $data['role'],
                     ]);
-
-                    $roleId = $data['role'];
-                    $user->syncRoles([$roleId]);
 
                     // Send the email with the password to the user
                     try {

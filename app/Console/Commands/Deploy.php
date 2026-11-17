@@ -556,7 +556,6 @@ class Deploy extends Command
                 // Seed database
                 $this->info('[INFO] Seeding database with defaults...');
                 $this->call('db:seed', ['--class' => 'SettingsSeeder', '--force' => true]);
-                $this->call('db:seed', ['--class' => 'RolePermissionSeeder', '--force' => true]);
                 $this->info('[SUCCESS] Database seeded');
             } else {
                 $this->info('[INFO] Skipping user creation for update deployment');

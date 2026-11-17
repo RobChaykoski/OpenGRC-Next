@@ -21,7 +21,6 @@ dependency or a runtime requirement.
 | Reusable UI | `app/Filament/Forms`, `Tables`, `Columns`, `Filters`, `Concerns` | Shared schema pieces |
 | Models | `app/Models` | `Standard`, `Control`, `Implementation`, `Risk`, `Audit`, `Asset`, `Vendor`, `Policy`, `Surveys`, trust center models |
 | Domain services | `app/Services` | Scoring, vendor assessment, AI, mail rendering, sanitizers |
-| MCP tools | `app/Mcp` | AI-facing tools over the same domain, with permission checks |
 | Commands | `app/Console/Commands` | `Install`, `Doctor`, `QueueShow`, user management |
 | Modules | `Modules/*` | `nwidart/laravel-modules`; enabled in `modules_statuses.json` |
 | Migrations | `database/migrations` | Append-only, ordered, self-documenting |
@@ -31,8 +30,10 @@ dependency or a runtime requirement.
 
 1. **Model and schema.** Add a migration, then the Eloquent model with casts and
    relations. Look at a sibling model first; naming is predictable.
-2. **Permissions.** Add permission names and seed them (`RolePermissionSeeder` or a
-   dedicated seeder). Without this the UI silently disappears for non-super-admins.
+2. **Authorization.** Three roles: `admin`, `editor`, `viewer`. `AppPolicy`
+   covers ordinary models automatically; add a dedicated policy only when a
+   model needs per-record ownership or isolation rules, and map it in
+   `AppServiceProvider`. Do not add permission strings or seeders.
 3. **Resource.** Create the Filament resource with form schema, table, and
    policies. Reuse shared field builders instead of hand-rolling.
 4. **Navigation and language.** Register navigation groups and add `lang/en` keys.

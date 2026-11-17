@@ -2,7 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -15,13 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class RequireTwoFactorAuthentication
 {
-    /**
-     * Roles that must have confirmed 2FA.
-     *
-     * @var array<int, string>
-     */
-    protected array $privilegedRoles = ['Super Admin', 'Security Admin'];
-
     /**
      * Handle an incoming request.
      */
@@ -41,18 +36,17 @@ class RequireTwoFactorAuthentication
             return $next($request);
         }
 
-        return redirect()
-            ->route('filament.admin.pages.me')
-            ->with('require_two_factor', true);
+        return new RedirectResponse(
+            route('filament.admin.pages.me', ['require_two_factor' => 1])
+        );
     }
 
     /**
-     * Determine whether the user holds a role that requires 2FA.
+     * Determine whether the user holds the role that requires 2FA.
      */
     protected function isPrivileged(object $user): bool
     {
-        return method_exists($user, 'hasAnyRole')
-            && $user->hasAnyRole($this->privilegedRoles);
+        return $user instanceof User && $user->isAdmin();
     }
 
     /**

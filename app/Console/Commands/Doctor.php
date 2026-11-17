@@ -329,7 +329,7 @@ class Doctor extends Command
     }
 
     /**
-     * Passport keys, required by the API and MCP guards.
+     * Passport keys, required by the API guard.
      */
     protected function checkOauthKeys(): void
     {
@@ -346,7 +346,7 @@ class Doctor extends Command
         $this->record(
             'OAuth keys',
             $present ? 'pass' : 'warn',
-            $present ? 'present' : 'missing; run php artisan passport:keys (API and MCP auth will fail)'
+            $present ? 'present' : 'missing; run php artisan passport:keys (API auth will fail)'
         );
     }
 
@@ -360,9 +360,7 @@ class Doctor extends Command
                 return;
             }
 
-            $privileged = User::query()
-                ->whereHas('roles', fn ($query) => $query->whereIn('name', ['Super Admin', 'Security Admin']))
-                ->get();
+            $privileged = User::query()->where('role', 'admin')->get();
         } catch (Throwable) {
             return;
         }

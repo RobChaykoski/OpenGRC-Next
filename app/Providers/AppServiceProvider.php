@@ -3,7 +3,19 @@
 namespace App\Providers;
 
 use App\Livewire\CustomSessionGuard;
+use App\Models\AuditItem;
+use App\Models\DataRequest;
+use App\Models\DataRequestResponse;
+use App\Models\FileAttachment;
 use App\Models\User;
+use App\Models\VendorUser;
+use App\Policies\AppPolicy;
+use App\Policies\AuditItemPolicy;
+use App\Policies\DataRequestPolicy;
+use App\Policies\DataRequestResponsePolicy;
+use App\Policies\FileAttachmentPolicy;
+use App\Policies\UserPolicy;
+use App\Policies\VendorUserPolicy;
 use App\Services\HtmlSanitizerService;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use BladeUI\Icons\Factory as IconFactory;
@@ -205,12 +217,46 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Gate::before(function ($user, string $ability) {
-            // Only apply super admin bypass for regular User model, not VendorUser
-            if ($user instanceof User && $user->isSuperAdmin()) {
+            if (! $user instanceof User) {
+                return null;
+            }
+
+            if ($user->isAdmin()) {
                 return true;
             }
 
-            return null;
+            // Permission-style abilities ("List Standards", "Manage Users")
+            // remain in use by settings pages and widgets. Model abilities
+            // ("viewAny", "update") have no space and fall through to a policy.
+            if (! str_contains($ability, ' ')) {
+                return null;
+            }
+
+            $verb = strtok($ability, ' ');
+
+            if (in_array($verb, ['List', 'Read', 'View'], true)) {
+                return true;
+            }
+
+            if (in_array($verb, ['Create', 'Update'], true)) {
+                return $user->canWrite();
+            }
+
+            return false;
+        });
+
+        // One policy for ordinary models. Models with ownership or isolation
+        // rules keep their own policy and are mapped here explicitly.
+        Gate::guessPolicyNamesUsing(function (string $model): string {
+            return match ($model) {
+                AuditItem::class => AuditItemPolicy::class,
+                DataRequest::class => DataRequestPolicy::class,
+                DataRequestResponse::class => DataRequestResponsePolicy::class,
+                FileAttachment::class => FileAttachmentPolicy::class,
+                User::class => UserPolicy::class,
+                VendorUser::class => VendorUserPolicy::class,
+                default => AppPolicy::class,
+            };
         });
 
         LanguageSwitch::configureUsing(function (LanguageSwitch $switch) {

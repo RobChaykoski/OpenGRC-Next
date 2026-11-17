@@ -37,12 +37,6 @@ parameters:
 			path: app/Console/Commands/Install.php
 
 		-
-			message: '#^Access to an undefined property App\\Filament\\Admin\\Pages\\RolePermissionMatrix\:\:\$form\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Filament/Admin/Pages/RolePermissionMatrix.php
-
-		-
 			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
 			identifier: larastan.noEnvCallsOutsideOfConfig
 			count: 1
@@ -397,6 +391,12 @@ parameters:
 			path: app/Filament/Resources/ChecklistResource.php
 
 		-
+			message: '#^Class App\\Policies\\ChecklistPolicy not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ChecklistResource.php
+
+		-
 			message: '#^Access to an undefined property App\\Filament\\Resources\\ChecklistResource\\Pages\\RespondToChecklist\:\:\$form\.$#'
 			identifier: property.notFound
 			count: 3
@@ -461,6 +461,12 @@ parameters:
 			identifier: larastan.relationExistence
 			count: 1
 			path: app/Filament/Resources/ChecklistResource/Pages/ViewChecklist.php
+
+		-
+			message: '#^Class App\\Policies\\ChecklistTemplatePolicy not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ChecklistTemplateResource.php
 
 		-
 			message: '#^Cannot call method isLocked\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
@@ -1285,10 +1291,10 @@ parameters:
 			path: app/Http/Controllers/TrustCenterController.php
 
 		-
-			message: '#^Array has 2 duplicate keys with value ''mcp\.enabled'' \(''mcp\.enabled'', ''mcp\.enabled''\)\.$#'
-			identifier: array.duplicateKey
+			message: '#^Call to an undefined static method App\\Models\\User\:\:permission\(\)\.$#'
+			identifier: staticMethod.notFound
 			count: 1
-			path: app/Http/Kernel.php
+			path: app/Http/Controllers/TrustCenterController.php
 
 		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$attachments\.$#'
@@ -1381,186 +1387,6 @@ parameters:
 			path: app/Mail/VendorSurveyAssignedMail.php
 
 		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Mcp/Tools/BaseManageEntityTool.php
-
-		-
-			message: '#^Call to an undefined method DateTimeInterface\:\:toIso8601String\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: app/Mcp/Tools/BaseManageEntityTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_required\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$question\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$response_type\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$sort_order\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approval_notes\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approval_signature\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approvedBy\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approved_at\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$answer_value\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
-			identifier: property.notFound
-			count: 3
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 2
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$questions\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Relation ''approvedBy'' is not found in App\\Models\\Survey model\.$#'
-			identifier: larastan.relationExistence
-			count: 2
-			path: app/Mcp/Tools/ManageChecklistTool.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Application.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Application.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Asset.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Asset.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Audit.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Audit.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/AuditItem.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/AuditItem.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Control.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Control.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$effectiveness\.$#'
 			identifier: property.notFound
 			count: 2
@@ -1573,70 +1399,10 @@ parameters:
 			path: app/Models/Implementation.php
 
 		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Implementation.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Implementation.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
 			identifier: property.notFound
 			count: 2
 			path: app/Models/Policy.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Policy.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Policy.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Program.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Program.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Risk.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Risk.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Standard.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Standard.php
 
 		-
 			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approver\.$#'
@@ -1679,18 +1445,6 @@ parameters:
 			identifier: method.notFound
 			count: 3
 			path: app/Models/Survey.php
-
-		-
-			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: app/Models/Vendor.php
-
-		-
-			message: '#^Unsafe usage of new static\(\)\.$#'
-			identifier: new.static
-			count: 2
-			path: app/Models/Vendor.php
 
 		-
 			message: """

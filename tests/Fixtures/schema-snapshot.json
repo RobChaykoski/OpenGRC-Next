@@ -2183,40 +2183,6 @@
             "nullable": true
         }
     ],
-    "model_has_permissions": [
-        {
-            "name": "model_id",
-            "type": "integer",
-            "nullable": false
-        },
-        {
-            "name": "model_type",
-            "type": "varchar",
-            "nullable": false
-        },
-        {
-            "name": "permission_id",
-            "type": "integer",
-            "nullable": false
-        }
-    ],
-    "model_has_roles": [
-        {
-            "name": "model_id",
-            "type": "integer",
-            "nullable": false
-        },
-        {
-            "name": "model_type",
-            "type": "varchar",
-            "nullable": false
-        },
-        {
-            "name": "role_id",
-            "type": "integer",
-            "nullable": false
-        }
-    ],
     "notifications": [
         {
             "name": "created_at",
@@ -2454,38 +2420,6 @@
             "name": "token",
             "type": "varchar",
             "nullable": false
-        }
-    ],
-    "permissions": [
-        {
-            "name": "category",
-            "type": "varchar",
-            "nullable": true
-        },
-        {
-            "name": "created_at",
-            "type": "datetime",
-            "nullable": true
-        },
-        {
-            "name": "guard_name",
-            "type": "varchar",
-            "nullable": false
-        },
-        {
-            "name": "id",
-            "type": "integer",
-            "nullable": false
-        },
-        {
-            "name": "name",
-            "type": "varchar",
-            "nullable": false
-        },
-        {
-            "name": "updated_at",
-            "type": "datetime",
-            "nullable": true
         }
     ],
     "personal_access_tokens": [
@@ -2920,50 +2854,6 @@
         },
         {
             "name": "status",
-            "type": "varchar",
-            "nullable": false
-        },
-        {
-            "name": "updated_at",
-            "type": "datetime",
-            "nullable": true
-        }
-    ],
-    "role_has_permissions": [
-        {
-            "name": "permission_id",
-            "type": "integer",
-            "nullable": false
-        },
-        {
-            "name": "role_id",
-            "type": "integer",
-            "nullable": false
-        }
-    ],
-    "roles": [
-        {
-            "name": "created_at",
-            "type": "datetime",
-            "nullable": true
-        },
-        {
-            "name": "description",
-            "type": "varchar",
-            "nullable": true
-        },
-        {
-            "name": "guard_name",
-            "type": "varchar",
-            "nullable": false
-        },
-        {
-            "name": "id",
-            "type": "integer",
-            "nullable": false
-        },
-        {
-            "name": "name",
             "type": "varchar",
             "nullable": false
         },
@@ -3851,6 +3741,11 @@
             "name": "remember_token",
             "type": "varchar",
             "nullable": true
+        },
+        {
+            "name": "role",
+            "type": "varchar",
+            "nullable": false
         },
         {
             "name": "updated_at",

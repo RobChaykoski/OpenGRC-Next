@@ -35,7 +35,9 @@ backend:
   filament: "4.x"
   livewire: "3.x"
   laravel_modules: "11.x"
-  laravel_mcp: "0.5.x"
+  # Legacy migration dependency only. Application code uses the three-role model
+  # (docs/decisions/0007); remove this package when the migration history is
+  # squashed.
   spatie_permission: "6.x"
   sqlite_bundled: true
   php_extensions_required:

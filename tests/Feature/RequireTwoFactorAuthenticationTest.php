@@ -2,13 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UserRole;
 use App\Http\Middleware\RequireTwoFactorAuthentication;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\Attributes\Test;
-use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class RequireTwoFactorAuthenticationTest extends TestCase
@@ -16,9 +16,9 @@ class RequireTwoFactorAuthenticationTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function a_privileged_user_without_two_factor_is_redirected_to_the_profile(): void
+    public function an_admin_without_two_factor_is_redirected_to_the_profile(): void
     {
-        $user = $this->userWithRole('Super Admin');
+        $user = User::factory()->create(['role' => UserRole::Admin]);
 
         $response = $this->handleFor($user);
 
@@ -27,9 +27,9 @@ class RequireTwoFactorAuthenticationTest extends TestCase
     }
 
     #[Test]
-    public function a_privileged_user_with_confirmed_two_factor_passes(): void
+    public function an_admin_with_confirmed_two_factor_passes(): void
     {
-        $user = $this->userWithRole('Super Admin');
+        $user = User::factory()->create(['role' => UserRole::Admin]);
         $this->confirmTwoFactor($user);
 
         $response = $this->handleFor($user);
@@ -38,9 +38,19 @@ class RequireTwoFactorAuthenticationTest extends TestCase
     }
 
     #[Test]
-    public function a_regular_user_is_not_forced_to_enrol(): void
+    public function an_editor_is_not_forced_to_enrol(): void
     {
-        $user = $this->userWithRole('Regular User');
+        $user = User::factory()->create(['role' => UserRole::Editor]);
+
+        $response = $this->handleFor($user);
+
+        $this->assertSame('passed-through', $response->getContent());
+    }
+
+    #[Test]
+    public function a_viewer_is_not_forced_to_enrol(): void
+    {
+        $user = User::factory()->create(['role' => UserRole::Viewer]);
 
         $response = $this->handleFor($user);
 
@@ -50,9 +60,9 @@ class RequireTwoFactorAuthenticationTest extends TestCase
     #[Test]
     public function the_profile_route_is_exempt_so_enrolment_is_possible(): void
     {
-        $user = $this->userWithRole('Super Admin');
+        $user = User::factory()->create(['role' => UserRole::Admin]);
 
-        $request = Request::create('/app/me', 'GET');
+        $request = Request::create('/admin/me', 'GET');
         $request->setUserResolver(fn () => $user);
         $request->setRouteResolver(fn () => new class
         {
@@ -77,23 +87,13 @@ class RequireTwoFactorAuthenticationTest extends TestCase
 
     protected function handleFor(User $user)
     {
-        $request = Request::create('/app', 'GET');
+        $request = Request::create('/admin', 'GET');
         $request->setUserResolver(fn () => $user);
 
         return (new RequireTwoFactorAuthentication)->handle(
             $request,
             fn () => response('passed-through')
         );
-    }
-
-    protected function userWithRole(string $role): User
-    {
-        Role::findOrCreate($role, 'web');
-
-        $user = User::factory()->create();
-        $user->assignRole($role);
-
-        return $user;
     }
 
     protected function confirmTwoFactor(User $user): void

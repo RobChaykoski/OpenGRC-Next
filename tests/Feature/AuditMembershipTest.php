@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
+use App\Enums\UserRole;
 use App\Enums\WorkflowStatus;
 use App\Filament\Resources\AuditResource\Pages\EditAudit;
 use App\Filament\Resources\AuditResource\Pages\ViewAudit;
+use App\Http\Middleware\RequireTwoFactorAuthentication;
 use App\Models\Audit;
 use App\Models\User;
-use Database\Seeders\RolePermissionSeeder;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
@@ -24,11 +25,10 @@ class AuditMembershipTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(RolePermissionSeeder::class);
         Filament::setCurrentPanel(Filament::getPanel('app'));
+        $this->withoutMiddleware(RequireTwoFactorAuthentication::class);
 
-        $this->superAdmin = User::factory()->create();
-        $this->superAdmin->assignRole('Super Admin');
+        $this->superAdmin = User::factory()->create(['role' => UserRole::Admin]);
     }
 
     #[Test]
@@ -100,8 +100,7 @@ class AuditMembershipTest extends TestCase
     #[Test]
     public function take_ownership_is_hidden_from_non_super_admins(): void
     {
-        $user = User::factory()->create();
-        $user->assignRole('Regular User');
+        $user = User::factory()->create(['role' => UserRole::Viewer]);
         $audit = Audit::factory()->withManager(User::factory()->create())->create();
 
         $this->actingAs($user);

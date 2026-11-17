@@ -81,7 +81,7 @@ class ViewAudit extends ViewRecord
                             return true; // Disable if already in progress
                         }
 
-                        if (auth()->user()->hasRole('Super Admin')) {
+                        if (auth()->user()->isAdmin()) {
                             return false; // Enable for Super Admin
                         }
 
@@ -89,7 +89,7 @@ class ViewAudit extends ViewRecord
                             return false; // Enable for Audit Manager
                         }
 
-                        if ($record->status == WorkflowStatus::COMPLETED && auth()->user()->hasRole('Super Admin')) {
+                        if ($record->status == WorkflowStatus::COMPLETED && auth()->user()->isAdmin()) {
                             return false; // Enable for super admin when status is COMPLETED
                         }
 
@@ -113,7 +113,7 @@ class ViewAudit extends ViewRecord
                             return true; // Disable if not the audit manager
                         }
 
-                        if (auth()->user()->hasRole('Super Admin')) {
+                        if (auth()->user()->isAdmin()) {
                             return false; // Enable for Super Admin
                         }
 
@@ -138,7 +138,7 @@ class ViewAudit extends ViewRecord
                     ->modalHeading('Take Ownership')
                     ->modalDescription('You will become the audit manager. The current manager will remain on the audit as an additional member.')
                     ->modalSubmitActionLabel('Yes, take ownership')
-                    ->visible(fn (Audit $record) => auth()->user()->hasRole('Super Admin') && $record->manager_id != auth()->id())
+                    ->visible(fn (Audit $record) => auth()->user()->isAdmin() && $record->manager_id != auth()->id())
                     ->action(function (Audit $record, $livewire) {
                         $previousManagerId = $record->manager_id;
 

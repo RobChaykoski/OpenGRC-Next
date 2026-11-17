@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Enums\UserRole;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
@@ -15,13 +16,13 @@ class UserController extends BaseApiController
 
     protected string $resourceName = 'Users';
 
-    protected array $indexRelations = ['roles'];
+    protected array $indexRelations = [];
 
-    protected array $showRelations = ['roles', 'permissions', 'managedPrograms'];
+    protected array $showRelations = ['managedPrograms'];
 
     protected array $searchableFields = ['name', 'email'];
 
-    protected array $sortableFields = ['id', 'name', 'email', 'created_at', 'updated_at', 'last_activity'];
+    protected array $sortableFields = ['id', 'name', 'email', 'role', 'created_at', 'updated_at', 'last_activity'];
 
     protected function validateStore(Request $request): array
     {
@@ -29,8 +30,7 @@ class UserController extends BaseApiController
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => ['required', 'confirmed', Password::default()->mixedCase()->uncompromised(3)->min(12)],
-            'roles' => 'nullable|array',
-            'roles.*' => 'exists:roles,name',
+            'role' => ['nullable', Rule::enum(UserRole::class)],
         ]);
     }
 
@@ -40,32 +40,22 @@ class UserController extends BaseApiController
             'name' => 'sometimes|string|max:255',
             'email' => ['sometimes', 'email', 'max:255', Rule::unique('users', 'email')->ignore($resource->id)],
             'password' => ['nullable', 'confirmed', Password::default()->mixedCase()->uncompromised(3)->min(12)],
-            'roles' => 'nullable|array',
-            'roles.*' => 'exists:roles,name',
+            'role' => ['nullable', Rule::enum(UserRole::class)],
         ]);
     }
 
     /**
-     * Override the store method to handle password hashing and role assignment
+     * Create a user with a hashed password and an explicit role.
      */
     public function store(Request $request): JsonResponse
     {
         $this->authorize('Create '.$this->resourceName);
 
         $validatedData = $this->validateStore($request);
-
-        // Extract roles before creating user
-        $roles = $validatedData['roles'] ?? [];
-        unset($validatedData['roles']);
+        $validatedData['role'] ??= UserRole::Viewer->value;
 
         $resource = $this->modelClass::create($validatedData);
 
-        // Assign roles if provided
-        if (! empty($roles)) {
-            $resource->assignRole($roles);
-        }
-
-        // Load relationships
         if (! empty($this->showRelations)) {
             $resource->load($this->showRelations);
         }
@@ -77,7 +67,7 @@ class UserController extends BaseApiController
     }
 
     /**
-     * Override the update method to handle password hashing and role assignment
+     * Update a user, keeping the password only when one was supplied.
      */
     public function update(Request $request, int $id): JsonResponse
     {
@@ -87,24 +77,13 @@ class UserController extends BaseApiController
 
         $validatedData = $this->validateUpdate($request, $resource);
 
-        // Extract roles before updating user
-        $roles = $validatedData['roles'] ?? null;
-        unset($validatedData['roles']);
-
-        // Remove password if not provided
         if (empty($validatedData['password'])) {
             unset($validatedData['password']);
         }
 
         $resource->update($validatedData);
-
-        // Sync roles if provided
-        if ($roles !== null) {
-            $resource->syncRoles($roles);
-        }
-
-        // Refresh and load relationships
         $resource->refresh();
+
         if (! empty($this->showRelations)) {
             $resource->load($this->showRelations);
         }

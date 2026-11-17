@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Models\Audit;
 use App\Models\AuditItem;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Livewire;
 
 class AuditItemPolicy
@@ -14,27 +13,27 @@ class AuditItemPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('List '.Str::plural(class_basename($this->model)));
+        return true;
     }
 
     public function view(User $user): bool
     {
-        return $user->can('Read '.Str::plural(class_basename($this->model)));
+        return true;
     }
 
     public function create(User $user): bool
     {
-        return $user->can('Create '.Str::plural(class_basename($this->model)));
+        return $user->canWrite();
     }
 
     public function update(User $user): bool
     {
-        return $user->can('Update '.Str::plural(class_basename($this->model))) && ($this->isOwner() || $this->isMember());
+        return $user->canWrite() && ($this->isOwner() || $this->isMember());
     }
 
     public function delete(User $user): bool
     {
-        return $user->can('Delete '.Str::plural(class_basename($this->model))) && ($this->isOwner() || $this->isMember());
+        return $user->isAdmin() && ($this->isOwner() || $this->isMember());
     }
 
     private function isOwner(): bool

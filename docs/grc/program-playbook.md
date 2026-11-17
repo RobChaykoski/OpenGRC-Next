@@ -6,19 +6,21 @@ hands-on training track — each role and cadence is a teachable competency.
 
 ## Roles
 
-| Role | Owns | Typical work |
+| Programme role | System role | Owns |
 |---|---|---|
-| Programme lead | The programme, residual risk acceptance | Sets scope, reviews risk, runs quarterly review, signs reports |
-| Control owner | Implementations for their domain | Maintains implementation detail, supplies evidence, remediates |
-| Risk owner | Specific risks | Scores, treats, monitors, reports change |
-| Auditor | Tests and findings | Scopes audits, tests items, writes findings |
-| Policy owner | Policies and exceptions | Drafts, reviews, retires, handles exceptions |
-| Vendor manager | Vendor inventory and assessments | Onboards, assesses, monitors, offboards |
-| Asset owner | Asset records and classification | Keeps inventory accurate, assigns criticality |
-| Admin | Users, roles, configuration | Access control, settings, integrations |
+| Programme lead | Admin | The programme, residual risk acceptance |
+| Security admin / platform owner | Admin | Users, settings, trust center, vendor accounts |
+| Control owner | Editor | Implementations, evidence, remediation |
+| Risk owner | Editor | Specific risks and treatments |
+| Auditor | Editor | Audit items, findings |
+| Policy owner | Editor | Policies, exceptions |
+| Vendor manager | Editor | Vendor inventory and assessments |
+| Reviewer / observer / board | Viewer | Read-only access |
 
-One person can hold several roles in a small team. The rule that must not bend:
-**the person who owns a control does not attest to its effectiveness.**
+One person can hold several programme roles. The system role is the maximum of
+the actions they need; the rule that must not bend: **the person who owns a
+control does not attest to its effectiveness.** The system cannot enforce that
+with three roles, so it stays a process control.
 
 ## Cadence
 

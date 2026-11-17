@@ -1,25 +1,22 @@
 <?php
 
-use Database\Seeders\McpSettingsSeeder;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * MCP was removed from the community edition; this migration is retained so
+     * existing migration histories still run. See
+     * docs/decisions/0006-remove-mcp.md and the later cleanup migration that
+     * deletes any remaining mcp.* settings.
      */
     public function up(): void
     {
-        // Seed MCP settings for in-place upgrades (uses updateOrInsert, safe to run always)
-        $seeder = new McpSettingsSeeder;
-        $seeder->run();
+        //
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        // Don't delete settings on rollback - they may have been customized
+        //
     }
 };

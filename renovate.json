@@ -37,8 +37,7 @@
         "livewire/livewire",
         "laravel/passport",
         "laravel/sanctum",
-        "nwidart/laravel-modules",
-        "laravel/mcp"
+        "nwidart/laravel-modules"
       ],
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true,

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Sanitizes rich text HTML on write, covering every save path (Filament forms,
- * REST API, MCP tools, imports). Reads return the stored value unchanged;
+ * REST API, imports). Reads return the stored value unchanged;
  * views must still render through @safeHtml since legacy rows may predate this cast.
  *
  * Only apply to fields that always hold HTML: plain text would get entity-encoded.

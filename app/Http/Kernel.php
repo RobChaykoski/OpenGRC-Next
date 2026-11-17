@@ -5,7 +5,6 @@ namespace App\Http;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckPasswordReset;
 use App\Http\Middleware\EncryptCookies;
-use App\Http\Middleware\McpEnabled;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\SecurityHeaders;
@@ -91,12 +90,10 @@ class Kernel extends HttpKernel
         'cache.headers' => SetCacheHeaders::class,
         'can' => Authorize::class,
         'guest' => RedirectIfAuthenticated::class,
-        'mcp.enabled' => McpEnabled::class,
         'password.confirm' => RequirePassword::class,
         'precognitive' => HandlePrecognitiveRequests::class,
         'signed' => ValidateSignature::class,
         'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
-        'mcp.enabled' => McpEnabled::class,
     ];
 }

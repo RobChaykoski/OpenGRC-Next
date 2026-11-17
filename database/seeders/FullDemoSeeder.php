@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Enums\Applicability;
 use App\Enums\Effectiveness;
 use App\Enums\ResponseStatus;
+use App\Enums\UserRole;
 use App\Enums\WorkflowStatus;
 use App\Models\Audit;
 use App\Models\AuditItem;
@@ -19,7 +20,6 @@ use App\Models\User;
 use Faker\Factory as FakerFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
-use Spatie\Permission\Models\Role;
 
 class FullDemoSeeder extends Seeder
 {
@@ -31,16 +31,13 @@ class FullDemoSeeder extends Seeder
         $this->call([
             SettingsSeeder::class,
             UserSeeder::class,
-            RolePermissionSeeder::class,
         ]);
 
-        // 2. Create 10 users and assign roles
+        // 2. Create 10 users with a spread of roles
         $roles = [
-            'Super Admin',
-            'Security Admin',
-            'Internal Auditor',
-            'Regular User',
-            'None',
+            UserRole::Admin,
+            UserRole::Editor,
+            UserRole::Viewer,
         ];
         $users = User::factory()
             ->count(10)
@@ -48,17 +45,9 @@ class FullDemoSeeder extends Seeder
                 'email' => 'user'.($sequence->index + 1).'@example.com',
                 'password' => bcrypt('password'),
                 'password_reset_required' => false,
+                'role' => $roles[$sequence->index % count($roles)],
             ])
             ->create();
-
-        // Assign roles to users
-        foreach ($users as $i => $user) {
-            $roleName = $roles[$i % count($roles)];
-            $role = Role::where('name', $roleName)->first();
-            if ($role) {
-                $user->assignRole($role);
-            }
-        }
 
         // 3. Create 3 programs
         $programs = [];

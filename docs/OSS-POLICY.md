@@ -86,9 +86,9 @@ support contracts) live outside this repository so that the community edition ca
 remain AGPL without a CLA. If a feature is added here, it is AGPL, and it stays
 here.
 
-The current README describes the MCP server as an enterprise feature while the
-server ships in this repository. Until that is resolved, treat the code in this
-repository as AGPL regardless of how it is marketed.
+The MCP server was removed from this repository so that the boundary is
+unambiguous: AI tooling that exposes the data model to external assistants is an
+enterprise/hosted capability, not part of the community edition.
 
 ## No telemetry
 

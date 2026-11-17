@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Aliziodev\LaravelTaxonomy\Traits\HasTaxonomy;
 use App\Enums\StandardStatus;
-use App\Mcp\Traits\HasMcpSupport;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -44,7 +43,7 @@ use Spatie\Activitylog\Support\LogOptions;
  */
 class Standard extends Model
 {
-    use HasFactory, HasMcpSupport, HasTaxonomy, LogsActivity, SoftDeletes;
+    use HasFactory, HasTaxonomy, LogsActivity, SoftDeletes;
 
     /**
      * The attributes that should be cast.

@@ -9,9 +9,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use PHPUnit\Framework\Attributes\Test;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\PermissionRegistrar;
 use Tests\TestCase;
 
 class AttachmentDownloadTest extends TestCase
@@ -19,14 +16,9 @@ class AttachmentDownloadTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function a_signed_url_downloads_the_attachment_for_a_permitted_user(): void
+    public function a_signed_url_downloads_the_attachment_for_an_authenticated_user(): void
     {
-        [$attachment, $user] = $this->attachmentAndViewer();
-
-        $this->assertTrue(
-            $user->can('view', $attachment),
-            'The test user should be authorized to view the attachment before downloading it.'
-        );
+        [$attachment, $user] = $this->attachmentAndUser();
 
         $url = URL::temporarySignedRoute(
             'attachments.download',
@@ -40,7 +32,7 @@ class AttachmentDownloadTest extends TestCase
     #[Test]
     public function an_unsigned_url_is_rejected(): void
     {
-        [$attachment, $user] = $this->attachmentAndViewer();
+        [$attachment, $user] = $this->attachmentAndUser();
 
         $this->actingAs($user)
             ->get(route('attachments.download', ['fileAttachment' => $attachment->id]))
@@ -48,9 +40,9 @@ class AttachmentDownloadTest extends TestCase
     }
 
     #[Test]
-    public function a_signed_url_still_requires_the_read_permission(): void
+    public function a_signed_url_still_requires_authentication(): void
     {
-        [$attachment] = $this->attachmentAndViewer();
+        [$attachment] = $this->attachmentAndUser();
 
         $url = URL::temporarySignedRoute(
             'attachments.download',
@@ -58,15 +50,13 @@ class AttachmentDownloadTest extends TestCase
             ['fileAttachment' => $attachment->id]
         );
 
-        $outsider = User::factory()->create();
-
-        $this->actingAs($outsider)->get($url)->assertForbidden();
+        $this->get($url)->assertRedirect();
     }
 
     /**
      * @return array{0: FileAttachment, 1: User}
      */
-    protected function attachmentAndViewer(): array
+    protected function attachmentAndUser(): array
     {
         Storage::fake('private');
         Storage::disk('private')->put('attachments/evidence.pdf', 'content');
@@ -80,15 +70,6 @@ class AttachmentDownloadTest extends TestCase
             'audit_id' => Audit::factory()->create()->id,
         ]);
 
-        $role = Role::findOrCreate('Evidence Reader', 'web');
-        $permission = Permission::findOrCreate('Read FileAttachments', 'web');
-        $role->givePermissionTo($permission);
-
-        app(PermissionRegistrar::class)->forgetCachedPermissions();
-
-        $user = User::factory()->create();
-        $user->assignRole($role);
-
-        return [$attachment, $user];
+        return [$attachment, User::factory()->create()];
     }
 }

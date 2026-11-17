@@ -27,3 +27,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0003](0003-framework-provenance.md) | Framework data ships as public-domain sets with a provenance register | accepted |
 | [0004](0004-agpl-relicensing.md) | Relicense the community edition to AGPL-3.0-only | accepted |
 | [0005](0005-security-defaults.md) | Security defaults for self-hosted deployments | accepted |
+| [0007](0007-three-role-authorization.md) | Replace granular RBAC with three roles | accepted |

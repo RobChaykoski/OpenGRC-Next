@@ -66,7 +66,7 @@ class PrivateFileAccess
             abort(403);
         }
 
-        if (method_exists($user, 'hasRole') && $user->hasRole('Super Admin')) {
+        if ($user->isAdmin()) {
             return;
         }
 
