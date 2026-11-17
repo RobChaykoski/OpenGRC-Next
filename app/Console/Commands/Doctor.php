@@ -3,7 +3,10 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use App\Services\Evidence\EvidenceLedger;
 use App\Support\DatabasePath;
+use App\Support\InstanceMode;
+use App\Support\MigrationManifest;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -46,6 +49,8 @@ class Doctor extends Command
         $this->checkFilesystem();
         $this->checkBuild();
         $this->checkDatabase();
+        $this->checkMigrationIntegrity();
+        $this->checkEvidenceIntegrity();
         $this->checkOauthKeys();
         $this->checkPrivilegedMfa();
         $this->checkVersion();
@@ -331,6 +336,98 @@ class Doctor extends Command
     /**
      * Passport keys, required by the API guard.
      */
+    /**
+     * Migration files and applied checksums must agree with the committed
+     * manifest. This is the change-control check, not a migration runner.
+     */
+    protected function checkMigrationIntegrity(): void
+    {
+        $errors = MigrationManifest::verifyFiles();
+
+        if ($errors !== []) {
+            $this->record('Migration integrity', 'fail', $errors[0]);
+
+            return;
+        }
+
+        try {
+            if (! Schema::hasTable('migrations') || ! Schema::hasColumn('migrations', 'checksum')) {
+                $this->record('Migration integrity', 'warn', 'applied checksums are not recorded yet');
+
+                return;
+            }
+
+            $checksums = MigrationManifest::checksums();
+            $mismatch = DB::table('migrations')
+                ->whereNotNull('checksum')
+                ->get()
+                ->filter(fn ($row) => isset($checksums[$row->migration])
+                    && ! hash_equals((string) $checksums[$row->migration], (string) $row->checksum))
+                ->count();
+
+            $this->record(
+                'Migration integrity',
+                $mismatch === 0 ? 'pass' : 'fail',
+                $mismatch === 0
+                    ? count($checksums).' migrations match the manifest'
+                    : "{$mismatch} applied migration checksum(s) differ from the manifest"
+            );
+        } catch (Throwable $e) {
+            $this->record('Migration integrity', 'warn', 'could not inspect: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * In production every file-bearing evidence record must have a ledger entry
+     * and no withdrawal may be missing its reason.
+     */
+    protected function checkEvidenceIntegrity(): void
+    {
+        try {
+            if (! Schema::hasTable('evidence_ledger_entries') || ! Schema::hasTable('evidence_states')) {
+                $this->record('Evidence ledger', 'warn', 'ledger tables are missing; run migrations');
+
+                return;
+            }
+
+            if (! InstanceMode::isProduction()) {
+                $this->record('Evidence ledger', 'pass', 'testing mode; immutability not enforced');
+
+                return;
+            }
+
+            $missing = 0;
+
+            foreach (EvidenceLedger::SUBJECTS as $class) {
+                $model = new $class;
+                $column = $model->evidencePathColumn();
+
+                $missing += $class::query()
+                    ->whereNotNull($column)
+                    ->where($column, '!=', '')
+                    ->whereDoesntHave('ledgerEntries')
+                    ->count();
+            }
+
+            $unexplained = DB::table('evidence_states')
+                ->where('status', 'withdrawn')
+                ->where(fn ($query) => $query->whereNull('reason')->orWhere('reason', ''))
+                ->count();
+
+            $failures = $missing + $unexplained;
+
+            $this->record(
+                'Evidence ledger',
+                $failures === 0 ? 'pass' : 'fail',
+                $failures === 0
+                    ? 'production mode; every evidence record is ledgered'
+                    : "{$missing} unledgered, {$unexplained} unexplained withdrawal(s)"
+            );
+        } catch (Throwable $e) {
+            $this->record('Evidence ledger', 'warn', 'could not inspect: '.$e->getMessage());
+        }
+    }
+
     protected function checkOauthKeys(): void
     {
         if (! class_exists(Passport::class)) {

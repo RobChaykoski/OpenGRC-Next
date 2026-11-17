@@ -104,6 +104,20 @@ documentation so an auditor is not surprised.
   controlled location as the rest of the evidence.
 - Treat evidence export as a data transfer: check where it goes.
 
+## Chain of custody
+
+Evidence is append-only once the instance is in production mode. Every upload
+records a SHA-256 hash and a ledger entry; the entries form a hash chain per
+evidence record. Editing the file is detectable, and a database edit of the
+ledger is blocked by a trigger.
+
+- Correct a mistake by **withdrawing** the evidence with a reason, then submitting
+  the corrected file.
+- Replace evidence by **superseding** it with the new file; both records remain.
+- Never delete an evidence record or point it at a different file in production.
+- Run `php artisan opengrc:evidence:verify` as part of the audit readiness check.
+  A failure is an audit finding, not a housekeeping task.
+
 ## Quality checklist
 
 - [ ] Level 3 or higher for every control claimed as implemented.

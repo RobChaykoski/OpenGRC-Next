@@ -138,6 +138,21 @@ privacy module. Do not build a one-off script and call it compliance.
 - [ ] Cross-border or processor implications escalated to the operator, not
       decided in code.
 
+## Canadian regimes (when the deployment is Canadian)
+
+| Regime | Core obligation | What OpenGRC helps with | What it does not do |
+|---|---|---|---|
+| PIPEDA | Meaningful consent, access/correction, breach reporting, retention limits | Evidence retention, access control, audit trail | Consent capture/withdrawal, breach register |
+| Quebec Law 25 | Consent, transparency, privacy officer, breach register, portability | Role separation, evidence trail, exportability | Privacy officer workflow, consent centre |
+| PHIPA and provincial health statutes | Circle of care, lockbox, access/correction, breach reporting, retention | Scoped access, evidence ledger, retention evidence | Clinical consent, lockbox, health-record integration |
+| PCMLTFA | AML/KYC program, beneficial ownership, record retention | Risk assessment, vendor/third-party evidence, retention | Transaction monitoring, identity verification |
+| OSFI | Governance, cyber-resilience, third-party risk | Risk register, control testing, vendor assessments | Regulatory filing |
+| HIPAA | US PHI only; applies to covered entities/business associates | Control mapping, evidence, vendor assessment | Assumes Canadian patient data is in scope |
+
+The evidence ledger (`opengrc:evidence:verify`, production mode) is the control
+that makes retention and chain-of-custody claims inspectable. It does not make a
+deployment compliant by itself.
+
 ## References
 
 - `docs/grc/evidence-standard.md` — what may be stored as evidence

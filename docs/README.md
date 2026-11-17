@@ -19,6 +19,9 @@ architecture, integrations, and the decisions behind them.
 | [decisions/](decisions/README.md) | Accepted architecture decisions (ADRs) |
 | [decisions/0001-version-policy.md](decisions/0001-version-policy.md) | Why the baseline is pinned and tiered |
 | [decisions/0002-training-integration-boundary.md](decisions/0002-training-integration-boundary.md) | OpenGRC and OpenCyberRange: system of record vs lab runtime |
+| [decisions/0008-evidence-ledger-and-migration-integrity.md](decisions/0008-evidence-ledger-and-migration-integrity.md) | Append-only evidence chain of custody and migration checksums |
+| [decisions/0009-continuous-control-monitoring.md](decisions/0009-continuous-control-monitoring.md) | Vendor-neutral evidence connectors and validation rules |
+| [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
 
@@ -43,6 +46,7 @@ architecture, integrations, and the decisions behind them.
 | Document | Purpose |
 |---|---|
 | [security/container-hardening.md](security/container-hardening.md) | Read-only filesystem, capabilities, WAF, and what is not hardened yet |
+| [security/tenant-and-access-roadmap.md](security/tenant-and-access-roadmap.md) | Tenancy, RBAC/ABAC, audit trail, and security analytics sequencing |
 | [OSS-POLICY.md](OSS-POLICY.md) | License, dependency allowlist, contribution model |
 | [../SECURITY.md](../SECURITY.md) | Vulnerability disclosure |
 

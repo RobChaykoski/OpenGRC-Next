@@ -6,16 +6,22 @@ use App\Filament\Exports\FileAttachmentExporter;
 use App\Filament\Resources\FileAttachmentResource\Pages\CreateFileAttachment;
 use App\Filament\Resources\FileAttachmentResource\Pages\EditFileAttachment;
 use App\Filament\Resources\FileAttachmentResource\Pages\ListFileAttachments;
+use App\Filament\Resources\FileAttachmentResource\Pages\ViewFileAttachment;
+use App\Models\EvidenceLedgerEntry;
 use App\Models\FileAttachment;
+use App\Services\Evidence\EvidenceLedger;
+use App\Support\InstanceMode;
 use App\Support\UploadRules;
 use Carbon\Carbon;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
-use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ExportBulkAction;
+use Filament\Actions\ViewAction;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Textarea;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
@@ -59,6 +65,7 @@ class FileAttachmentResource extends Resource
                     ->deletable()
                     ->reorderable()
                     ->columnSpanFull()
+                    ->disabled(fn (string $operation): bool => $operation === 'edit' && InstanceMode::isProduction())
                     ->required(),
             ]);
     }
@@ -80,6 +87,20 @@ class FileAttachmentResource extends Resource
                 TextColumn::make('file_size')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('evidenceState.status')
+                    ->label('Evidence status')
+                    ->badge()
+                    ->color(fn (?string $state) => match ($state) {
+                        'active' => 'success',
+                        'withdrawn' => 'danger',
+                        'superseded' => 'warning',
+                        default => 'gray',
+                    }),
+                TextColumn::make('file_sha256')
+                    ->label('SHA-256')
+                    ->limit(12)
+                    ->tooltip(fn (?string $state) => $state)
+                    ->toggleable(),
                 TextColumn::make('uploaded_by')
                     ->searchable()
                     ->sortable(),
@@ -96,7 +117,41 @@ class FileAttachmentResource extends Resource
                     ->icon('heroicon-o-arrow-down-tray'),
             ])
             ->recordActions([
+                ViewAction::make(),
                 EditAction::make(),
+                Action::make('ledger')
+                    ->label('Chain of custody')
+                    ->icon('heroicon-o-link')
+                    ->color('gray')
+                    ->modalSubmitAction(false)
+                    ->modalCancelActionLabel('Close')
+                    ->modalDescription(fn (FileAttachment $record): string => $record->ledgerEntries
+                        ->map(fn (EvidenceLedgerEntry $entry) => sprintf(
+                            '#%d %s %s %s',
+                            $entry->sequence,
+                            $entry->event,
+                            $entry->created_at?->toDateTimeString(),
+                            substr((string) $entry->entry_hash, 0, 12)
+                        ))
+                        ->implode("\n")),
+                Action::make('withdraw')
+                    ->label('Withdraw evidence')
+                    ->icon('heroicon-o-no-symbol')
+                    ->color('danger')
+                    ->requiresConfirmation()
+                    ->authorize(fn () => auth()->user()?->canWrite() ?? false)
+                    ->visible(fn (FileAttachment $record): bool => InstanceMode::isProduction()
+                        && (($record->evidenceState()->first()?->getAttribute('status')) ?? 'active') === 'active')
+                    ->schema([
+                        Textarea::make('reason')
+                            ->label('Reason for withdrawal')
+                            ->required()
+                            ->minLength(10)
+                            ->maxLength(2000)
+                            ->columnSpanFull(),
+                    ])
+                    ->action(fn (FileAttachment $record, array $data) => app(EvidenceLedger::class)
+                        ->withdraw($record, (string) $data['reason'], auth()->user())),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
@@ -104,7 +159,6 @@ class FileAttachmentResource extends Resource
                         ->exporter(FileAttachmentExporter::class)
                         ->label('Export Selected')
                         ->icon('heroicon-o-arrow-down-tray'),
-                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -121,6 +175,7 @@ class FileAttachmentResource extends Resource
         return [
             'index' => ListFileAttachments::route('/'),
             'create' => CreateFileAttachment::route('/create'),
+            'view' => ViewFileAttachment::route('/{record}'),
             'edit' => EditFileAttachment::route('/{record}/edit'),
         ];
     }

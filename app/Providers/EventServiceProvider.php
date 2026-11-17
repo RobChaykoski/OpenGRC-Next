@@ -5,12 +5,14 @@ namespace App\Providers;
 use App\Listeners\LogFailedLogin;
 use App\Listeners\LogSuccessfulLogin;
 use App\Listeners\LogSuccessfulLogout;
+use App\Listeners\RecordMigrationChecksums;
 use App\Listeners\SendCommentMentionNotification;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Logout;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Database\Events\MigrationsEnded;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
@@ -48,6 +50,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserWasMentionedEvent::class => [
             SendCommentMentionNotification::class,
+        ],
+        MigrationsEnded::class => [
+            RecordMigrationChecksums::class,
         ],
     ];
 

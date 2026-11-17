@@ -34,6 +34,8 @@ php artisan test                 # PHPUnit/Pest suite
 ./vendor/bin/pint                # format (the tree is kept clean; CI enforces it)
 ./vendor/bin/phpstan analyse     # static analysis (baseline in phpstan-baseline.neon)
 php artisan opengrc:doctor       # runtime, config, database and build health
+php artisan opengrc:migrations:manifest  # regenerate after adding a migration
+php artisan opengrc:evidence:verify      # verify evidence hashes and ledger chains
 php artisan opengrc:framework-import --list   # available control libraries
 php artisan opengrc:framework-audit  # framework data vs provenance register
 ```
@@ -110,6 +112,7 @@ docker compose -f docker/docker-compose.test.yml run --rm test   # suite in a co
 - [ ] `php artisan opengrc:doctor` reports no failures on a fresh install.
 - [ ] Framework data changes pass `php artisan opengrc:framework-audit --strict`.
 - [ ] New schema has a migration; do not add permission seeders (three-role model).
+- [ ] New or changed migrations regenerated `database/migration-manifest.json` in the same change.
 - [ ] Docs updated when behaviour, configuration, or supported versions change.
 - [ ] If the change is a decision with trade-offs, add an ADR in `docs/decisions/`.
 

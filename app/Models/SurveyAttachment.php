@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Contracts\EvidenceSubject;
+use App\Models\Concerns\HasEvidenceLedger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,9 +11,9 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
 
-class SurveyAttachment extends Model
+class SurveyAttachment extends Model implements EvidenceSubject
 {
-    use HasFactory, LogsActivity;
+    use HasEvidenceLedger, HasFactory, LogsActivity;
 
     protected $fillable = [
         'survey_answer_id',

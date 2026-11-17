@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Contracts\EvidenceSubject;
 use App\Enums\VendorDocumentStatus;
 use App\Enums\VendorDocumentType;
+use App\Models\Concerns\HasEvidenceLedger;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,9 +13,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
 
-class VendorDocument extends Model
+class VendorDocument extends Model implements EvidenceSubject
 {
-    use HasFactory, LogsActivity, SoftDeletes;
+    use HasEvidenceLedger, HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'vendor_id',
@@ -41,6 +43,11 @@ class VendorDocument extends Model
         'reviewed_at' => 'datetime',
         'file_size' => 'integer',
     ];
+
+    public function evidenceDisk(): string
+    {
+        return (string) config('filesystems.default');
+    }
 
     public function vendor(): BelongsTo
     {

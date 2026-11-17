@@ -96,6 +96,9 @@ jobs:
       - name: Check style
         run: ./vendor/bin/pint --test
 
+      - name: Check migration change control
+        run: php artisan opengrc:migrations:verify --files-only
+
       - name: Check dependency licenses
         run: php scripts/check-licenses.php
 
@@ -178,6 +181,11 @@ jobs:
 
       - name: Run the doctor
         run: php artisan opengrc:doctor --strict
+
+      - name: Verify evidence and migration integrity
+        run: |
+          php artisan opengrc:migrations:verify --strict
+          php artisan opengrc:evidence:verify --strict
 
       - name: Import a framework and audit it
         run: |

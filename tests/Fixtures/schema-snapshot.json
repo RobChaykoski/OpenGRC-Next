@@ -1550,6 +1550,140 @@
             "nullable": true
         }
     ],
+    "evidence_ledger_entries": [
+        {
+            "name": "actor_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "actor_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "entry_hash",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "event",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_path",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "file_sha256",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "metadata",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "previous_hash",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "reason",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "sequence",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "subject_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "subject_type",
+            "type": "varchar",
+            "nullable": false
+        }
+    ],
+    "evidence_states": [
+        {
+            "name": "actor_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "actor_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "changed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "reason",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "subject_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "subject_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "superseded_by_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "superseded_by_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "exports": [
         {
             "name": "completed_at",
@@ -1706,6 +1840,11 @@
             "name": "file_path",
             "type": "varchar",
             "nullable": false
+        },
+        {
+            "name": "file_sha256",
+            "type": "varchar",
+            "nullable": true
         },
         {
             "name": "file_size",
@@ -2126,9 +2265,19 @@
     ],
     "migrations": [
         {
+            "name": "applied_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
             "name": "batch",
             "type": "integer",
             "nullable": false
+        },
+        {
+            "name": "checksum",
+            "type": "varchar",
+            "nullable": true
         },
         {
             "name": "id",

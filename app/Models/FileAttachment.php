@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Casts\SanitizedHtml;
+use App\Contracts\EvidenceSubject;
+use App\Models\Concerns\HasEvidenceLedger;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -39,9 +41,9 @@ use Spatie\Activitylog\Support\LogOptions;
  *
  * @mixin Eloquent
  */
-class FileAttachment extends Model
+class FileAttachment extends Model implements EvidenceSubject
 {
-    use LogsActivity;
+    use HasEvidenceLedger, LogsActivity;
 
     /**
      * The attributes that should be cast.

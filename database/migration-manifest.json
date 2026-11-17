@@ -1,0 +1,457 @@
+{
+    "version": 1,
+    "migrations": [
+        {
+            "name": "2014_10_12_000000_create_users_table",
+            "sha256": "578836f8e8c8dec6c2f22fc931f6974383b5c8369ace883eec080f077db17ac3"
+        },
+        {
+            "name": "2014_10_12_100000_create_password_reset_tokens_table",
+            "sha256": "ef53688987325cb047271368b13bd9b799737ec7263377c56aea0e54522174b4"
+        },
+        {
+            "name": "2019_08_19_000000_create_failed_jobs_table",
+            "sha256": "078bd08f6e52fff8c9f2c80bbb811da21e91ca5ea396b635cdbd6377bf0e92ab"
+        },
+        {
+            "name": "2019_12_14_000001_create_personal_access_tokens_table",
+            "sha256": "640013d13b580eba63ad82fd388e134d2e8fd53fdfa6432372a5ffad592055f3"
+        },
+        {
+            "name": "2024_01_24_203232_create_socialite_users_table",
+            "sha256": "5747f2414e667dc118e9514742b027fae1105e5c0af9ef03d875bee10d02fdb9"
+        },
+        {
+            "name": "2024_01_25_224335_create_standards_table",
+            "sha256": "fd37bf9127019a603ac61dc31454ea3538742a1529e9b4fe5b012fb0b906696f"
+        },
+        {
+            "name": "2024_01_25_235552_create_controls_table",
+            "sha256": "23eca1e5dc43b31992e57b10aa20737b583d56f6ce3d74ed664cd0d472d64f5e"
+        },
+        {
+            "name": "2024_01_26_003409_create_implementations_table",
+            "sha256": "993cf5e2e05d4a340a816dd925240943e034dc2c717a4795fb6ced9ae09dabca"
+        },
+        {
+            "name": "2024_01_26_011657_create_audits_table",
+            "sha256": "d180b3b8976f106035ddb197545a4478ad575fa12590d27a4e91b0c113a3ca70"
+        },
+        {
+            "name": "2024_01_26_011706_create_audit_items_table",
+            "sha256": "7f0d64e47de05d72ed502c1c4e1051755bd4ef47748afd0ce74f3c8e55f06f63"
+        },
+        {
+            "name": "2024_01_26_050400_create_control_implementation_table",
+            "sha256": "dd1ad067bf754e970d727c02b8bb94e81c6bdeb999d19c808d6e7c1e2560590c"
+        },
+        {
+            "name": "2024_01_26_202400_create_breezy_sessions_table",
+            "sha256": "a259ac291efd564af5c3b4ade45e6033291f94c889758e79ae12b941109cab3b"
+        },
+        {
+            "name": "2024_02_04_015645_create_permission_tables",
+            "sha256": "bbfcbb65e016c10b933ac1b18a2cc5af6c6de8d3229bc7c2df364ebbefd11ec8"
+        },
+        {
+            "name": "2024_02_04_023453_add_category_to_permissions_table",
+            "sha256": "4a1db523ae511fed66c650f68414618a2e055e344882bbd64a99aa47206fd934"
+        },
+        {
+            "name": "2024_02_04_041400_create_data_requests_table",
+            "sha256": "1b9fb4cf3916b15d9b9152e4e003ebcc9c3a976f72f9863072bcd7b0bd1f61be"
+        },
+        {
+            "name": "2024_03_21_000000_create_risks_table",
+            "sha256": "10cea6e572b1547b40e2dcbd27f68f8dee23f40644d3dee3e3572fa3b5694960"
+        },
+        {
+            "name": "2024_03_21_000001_create_programs_table",
+            "sha256": "176c142b561580aee9137002457621693d9f7339650e5a7c313c6aba6b3683fc"
+        },
+        {
+            "name": "2024_09_05_141604_create_general-settings_table",
+            "sha256": "0cb04ba8e3b782e7152dea22246c538c4524c54fba67513a8df2d2d212383fd9"
+        },
+        {
+            "name": "2024_09_15_173645_create_file_attachments_table",
+            "sha256": "ac59be78504db29a9b1f684a36418ee31e94f6aa8ea887d811fe362615bb257f"
+        },
+        {
+            "name": "2024_09_24_175821_create_data_request_responses_table",
+            "sha256": "b7b5a492587b8f7942a447c06ebcc1918652cc9857e41afa4cb2bb35d66bd3f5"
+        },
+        {
+            "name": "2024_10_27_170857_create_settings_table",
+            "sha256": "08d241256c0c03d012c17b4e40371faf5f3a5c9102da1dbf6629e14ca217bb3b"
+        },
+        {
+            "name": "2024_11_24_232113_create_audit_member_table",
+            "sha256": "622442b46d76ed128a0a7916c0478bd8f5c75eac3365d908d5b5762f5867040c"
+        },
+        {
+            "name": "2024_12_22_003114_create_bundles_table",
+            "sha256": "ef9689e0a353ea97934eb0cadb4b32f101be111c217a69410b8b25c5e9ba89f5"
+        },
+        {
+            "name": "2025_01_02_030728_add_description_to_roles",
+            "sha256": "e36bba888a4a7b2cc85f0d044d7a82556799fd8daf356dc763f05585b175fec5"
+        },
+        {
+            "name": "2025_04_18_000001_update_audits_table_add_program_id",
+            "sha256": "6d2a25ba80af4450cca0697f41e0dbe5331a5e07f61c1f767e11b41e19ab24fb"
+        },
+        {
+            "name": "2025_04_19_015310_add_type_to_bundles",
+            "sha256": "f9e76b9dee204da16467c7750779f0e4ac0bdc812635d47f8b769c64e0932687"
+        },
+        {
+            "name": "2025_04_27_151137_create_cache_table",
+            "sha256": "9ff92b8a802e4ed29412c6d122b584d2a225f391be3c5bd4a19ab361435c43d3"
+        },
+        {
+            "name": "2025_05_30_000000_create_taxonomies_tables",
+            "sha256": "570ccbb3fff3e7ca5e7512b8ca88ff357f96a75d638ce9ac808704f06257b6ff"
+        },
+        {
+            "name": "2025_06_03_000001_create_vendors_table",
+            "sha256": "a43bbd7dc073eafd0366a4a126b413c94e9ab34c294e849ada3ca7882ff0d9d3"
+        },
+        {
+            "name": "2025_06_03_000002_create_applications_table",
+            "sha256": "239a728e03094d3fe3361d00a700294cd7536d5a6c5240c4ab90e003587359b1"
+        },
+        {
+            "name": "2025_06_04_121331_add_owner_columns_to_controls_and_implementations_table",
+            "sha256": "9eb7c324b24731b7f5c451a41a6eb57314e567a4e55fdc7abb1874c60e2d6e0a"
+        },
+        {
+            "name": "2025_06_04_204157_add_test_plan_to_implementations",
+            "sha256": "8337366823eb50621b5d48ae772e343b401ae63236f18f716597c25fc278a833"
+        },
+        {
+            "name": "2025_06_10_000001_make_data_request_response_id_nullable_on_file_attachments_table",
+            "sha256": "b91e1ff79a9c5581fb2555d4c6d13940c32a4b0b82ab94c96801a00820d03494"
+        },
+        {
+            "name": "2025_06_11_195243_update_audit_related_tables_for_cascade_and_remove_softdeletes",
+            "sha256": "0ac7f928e44993e62fd87de11c6bf33aa1db93646c9e6326e4964a29fb182f7d"
+        },
+        {
+            "name": "2025_06_19_193729_add_vendor_application_permissions",
+            "sha256": "9ce648052584e842ba748f6028debb526f2765102b406aeb0da3f16d415afa12"
+        },
+        {
+            "name": "2025_06_23_221807_create_jobs_table",
+            "sha256": "de166e93d82ad50e48a52ab9cf4602f6b5e844abc9fd1144ffe99c9a775f429f"
+        },
+        {
+            "name": "2025_07_21_000000_add_code_to_data_requests_table",
+            "sha256": "a952a3bd2b11eac800632e378ca93141854e8d21670172e4b85193b83b62a926"
+        },
+        {
+            "name": "2025_09_02_184316_ensure_all_permissions_exist_and_assign_to_roles",
+            "sha256": "b83a7d338b7a51a523b662aa5abb6ee4dbfd28a1565f81b449d117fbb07d9c55"
+        },
+        {
+            "name": "2025_09_02_231928_add_taxonomy_permissions",
+            "sha256": "b9ebdae3530387245d468bb2a8659c579006050326e42379b80d6f99b1789b2b"
+        },
+        {
+            "name": "2025_09_11_025409_add_cascade_delete_to_audit_user_table",
+            "sha256": "b9ffddaaffa893b190009fe8af46389f3b6c8b5253c38e6184d92b2cb4f78156"
+        },
+        {
+            "name": "2025_09_25_011941_create_activity_log_table",
+            "sha256": "cfbc926862d71978337c8e486530994dc1ff994dfe087df4cf9f0f336a5117ed"
+        },
+        {
+            "name": "2025_09_25_011942_add_event_column_to_activity_log_table",
+            "sha256": "64593e29dd4be1f3386dbd03e9a73a209118345365705b70e0e9d798587841e2"
+        },
+        {
+            "name": "2025_09_25_011943_add_batch_uuid_column_to_activity_log_table",
+            "sha256": "5c860a7614f5c5a20971065dd8b614f21c82be3f7c072a5280887ca2f762d7e4"
+        },
+        {
+            "name": "2025_10_09_203827_create_audit_item_data_request_table",
+            "sha256": "a17f50f57ebdebc5f2935302b03a5be99b98ded3caaa10d56ca6d85f5dcc4469"
+        },
+        {
+            "name": "2025_10_10_003112_create_notifications_table",
+            "sha256": "1ff561620b31b920b4bba2ada488bdda19200eb877c26a1d5f1f3f557dd4e876"
+        },
+        {
+            "name": "2025_10_14_151628_change_programs_description_to_longtext",
+            "sha256": "f077d43a87cb46ff409e21af5c2f284c755aa2a5616dbd53749adc3c1732361a"
+        },
+        {
+            "name": "2025_10_23_202858_create_assets_table",
+            "sha256": "cf4464268d95a01b3032f018d436e247bbc66c2813a84f3332a09b2a6cf3c5df"
+        },
+        {
+            "name": "2025_10_23_204212_create_asset_implementation_table",
+            "sha256": "411ecf1f38bf53a6ad91d7611f321dbd2f1c746f741fe6d120608ca1450f1c56"
+        },
+        {
+            "name": "2025_11_03_010122_add_asset_permissions",
+            "sha256": "5d672c615f709cf3dbfffc9d4ceb57bb4b89b7191a15b4364441e429a4d5a0b1"
+        },
+        {
+            "name": "2025_11_06_010141_create_sessions_table",
+            "sha256": "65395fd5244c9d7032cd29d5746b5c8548a187bda416f5d1a5b1aad23acdf494"
+        },
+        {
+            "name": "2025_11_10_102616_create_policies_table",
+            "sha256": "6f28fed05bdb2634efcba35e89767c60f27f96ddc8538eb6a4da1628f73232ab"
+        },
+        {
+            "name": "2025_11_10_102617_create_control_policy_table",
+            "sha256": "02f6b844e567f66e41120f898044e6564e2f46bdeb1e8c92a0f13d7189fd4605"
+        },
+        {
+            "name": "2025_11_10_102618_create_implementation_policy_table",
+            "sha256": "d8b6666eec51ef822a3d29727147e52924b3f7152c365c7584f5d9ea2c9eefaf"
+        },
+        {
+            "name": "2025_11_10_102619_create_policy_risk_table",
+            "sha256": "9c08323263b25a9988678bbc86da6947d05b56b1e09aa8b61181f7d6e51664c6"
+        },
+        {
+            "name": "2025_11_11_010237_create_commentions_tables",
+            "sha256": "9bd71f9e4e07a4df3729c17908596d02b95b456370ddc962603ea27bf623bc69"
+        },
+        {
+            "name": "2025_11_11_010238_create_commentions_reactions_table",
+            "sha256": "08a971d88d574c3aed28a44eb4d5fd825789307d3ada98d958b435e2985984b7"
+        },
+        {
+            "name": "2025_11_11_010239_create_commentions_subscriptions_table",
+            "sha256": "996561ed10bebff84333acbccb289c050a44438c7f27a9bcccc9b949d9fc0379"
+        },
+        {
+            "name": "2025_12_07_000001_create_survey_templates_table",
+            "sha256": "3e069bb97d1861bc9b128f7f90c857bac57ec3c4811de112c11233d048a1459d"
+        },
+        {
+            "name": "2025_12_07_000002_create_survey_questions_table",
+            "sha256": "090f4f54c079df75978c18b5374d8ec3de18f45397f9e05c1537bb48e6c32973"
+        },
+        {
+            "name": "2025_12_07_000003_create_surveys_table",
+            "sha256": "6e0c04cf40b70ba673c3326910df515408a91ed421a10dc149d8492d64fc7c6b"
+        },
+        {
+            "name": "2025_12_07_000004_create_survey_answers_table",
+            "sha256": "d983bd0701b74ef9fe4a37a87f8383657d0bad844e31560659be1c7debe96a23"
+        },
+        {
+            "name": "2025_12_07_000005_create_survey_attachments_table",
+            "sha256": "c3abe93781ec36810313b51cd1b7852505aef013db0d3a87e0dc32cf7a9506c0"
+        },
+        {
+            "name": "2025_12_08_000001_add_survey_invitation_email_template_settings",
+            "sha256": "65c54d31a7015f18e2d41e9952a9bfdf49e9ecb85d36777da76277aaf2bbe33f"
+        },
+        {
+            "name": "2025_12_08_000002_add_survey_permissions",
+            "sha256": "61e4c36c6737f15388b9eeafb365243878100f64825feb84cf2a2f833e9a3bc8"
+        },
+        {
+            "name": "2025_12_14_000001_create_vendor_users_table",
+            "sha256": "783630e6ddd3902f254598e2a8c6162004953497a477359df263039166edaa07"
+        },
+        {
+            "name": "2025_12_14_000002_add_vendor_portal_default_settings",
+            "sha256": "4709b24e8f8787ab3ee766b4e430bfd4fec3b3f8e1a30a82866b16c5d6a37059"
+        },
+        {
+            "name": "2025_12_14_000005_create_vendor_documents_table",
+            "sha256": "c7d3fd4538b658918431274453dc71b09808d214ef54fabee5f520a0a2311387"
+        },
+        {
+            "name": "2025_12_14_000006_add_risk_score_to_vendors_table",
+            "sha256": "0990429b46ef585db4c3054d2d3f26630423cae2974ecf47245c1b1311e5ad3e"
+        },
+        {
+            "name": "2025_12_14_000007_add_vendor_document_permissions",
+            "sha256": "d69bb1784d61f610d5b818c01081c60acafe47324923640218a07445b7aba031"
+        },
+        {
+            "name": "2025_12_17_005952_seed_vendor_security_survey_template",
+            "sha256": "a017903a6677a24ce9dd5829cff15466e2a5b7b67aff9f9aabb4339fe4463d3c"
+        },
+        {
+            "name": "2025_12_17_010940_seed_vendor_security_survey_internal_template",
+            "sha256": "b5a24e1c15f58e6797d142034b3d7aa3f01641396f9485007bcdd1673626f443"
+        },
+        {
+            "name": "2025_12_23_000001_add_contact_fields_to_vendors_table",
+            "sha256": "a1aacb386d3c4dbea55add11a7004394ee1ea5610364d67e3d2c67352bcb760f"
+        },
+        {
+            "name": "2025_12_24_000001_create_certifications_table",
+            "sha256": "6fcb13a65afc0524f5077d6cbaf9380c89c076c558ba45182e19a5c7a21c0f2e"
+        },
+        {
+            "name": "2025_12_24_000002_create_trust_center_documents_table",
+            "sha256": "90adb52252432bc761759080883e16c110f039c701afcae87ea0022e097bd5f9"
+        },
+        {
+            "name": "2025_12_24_000003_create_certification_document_table",
+            "sha256": "a37c67d63129dfc9dd98a6a764c60c5e0c0ee4a81a1885fa1a0dfe1126771bbc"
+        },
+        {
+            "name": "2025_12_24_000004_create_trust_center_access_requests_table",
+            "sha256": "ee70340daef7845d5cb99a6439bdb319b5b443ef90f20c7aa07361006a73b2d1"
+        },
+        {
+            "name": "2025_12_24_000005_create_access_request_document_table",
+            "sha256": "eca9cf8a637b4b5eed9a450986a16541bf180e250a0397fda5861ece5268f7be"
+        },
+        {
+            "name": "2025_12_24_000006_create_trust_center_content_blocks_table",
+            "sha256": "7c8ae52299bd2b9a1aefc380783f372e04d6fe4bf38ef714b993ddf6a6bfcee7"
+        },
+        {
+            "name": "2025_12_24_000007_add_trust_center_settings",
+            "sha256": "d3d814e7aa8be25fe276026595dd349ea9ee1d5358eea032e007ad1bc57778a3"
+        },
+        {
+            "name": "2025_12_24_000008_add_trust_center_permissions",
+            "sha256": "6836a143718b70c7c77ca9bc49e4d37cc8060fc3707336365551fe40980981c2"
+        },
+        {
+            "name": "2025_12_27_000001_add_manage_vendor_management_permission",
+            "sha256": "146b48b73555b1c89aafef44fd7eefe1f8a22ae841f1b294c510c985f937f288"
+        },
+        {
+            "name": "2025_12_28_021150_seed_trust_center_content_blocks",
+            "sha256": "cf8383da21ad18fc914dcf3f5d7d16537fb6f9168314f68be2f0b474c195132c"
+        },
+        {
+            "name": "2026_01_01_011827_encrypt_existing_mail_passwords",
+            "sha256": "816354051ad4ddd049a04d65331b750d46ce6d39a299b375886a7ae6a098537d"
+        },
+        {
+            "name": "2026_01_09_002247_create_application_implementation_table",
+            "sha256": "182fdeafe37e220976ba2c5dbcf744f1f15722e0ad29c2f36ca119c854677d71"
+        },
+        {
+            "name": "2026_01_09_010001_create_oauth_tables",
+            "sha256": "59942c205043c3f1b99564001b8ba79c7a5e4b0e10c81171473872ffed989195"
+        },
+        {
+            "name": "2026_01_09_010006_seed_mcp_settings",
+            "sha256": "f36a7aaf58ac6aebe2dcf8fe6d5dd31358be8db566786bb58646ae093f317dce"
+        },
+        {
+            "name": "2026_01_11_160225_add_indexes_to_risks_table",
+            "sha256": "205953bce67910536041da035c46680fa1b3cfa13a87ee46d6dbe20c692bb31f"
+        },
+        {
+            "name": "2026_01_16_103355_create_mitigations_table",
+            "sha256": "65848d37609fdfd96fdf562e06391e29503ff4be0866e9f3cd45595224419726"
+        },
+        {
+            "name": "2026_01_16_105340_add_is_active_to_risks_table",
+            "sha256": "8cded9ecb10a206609335eb960f6e6d8206151413f9ca64ccaa82d92da33dfe5"
+        },
+        {
+            "name": "2026_01_20_205716_create_implementation_vendor_table",
+            "sha256": "8fe7419a250121a05b7a3900bc240bbc4fb98230c813463b46b64c9e1b63d63d"
+        },
+        {
+            "name": "2026_01_23_002003_add_document_type_to_policies_table",
+            "sha256": "66569fc705449af3294427d9325bcf3e3a18e08c268729bc1ece9aa579e3d8bd"
+        },
+        {
+            "name": "2026_01_23_010202_create_job_batches_table",
+            "sha256": "e3a97315a448a94bbd8b51ed2895881980d6a683db577322108a9bed7636ca57"
+        },
+        {
+            "name": "2026_01_23_010203_create_imports_table",
+            "sha256": "f05c68c09ecfcfcb087eb9f520fb16a531272139d7841908a9d00666464c34c0"
+        },
+        {
+            "name": "2026_01_23_010204_create_exports_table",
+            "sha256": "45d4b26c43fddc19c9b86190e3e937a3a18491c43eb0113a7dd3fb17143483ac"
+        },
+        {
+            "name": "2026_01_23_010205_create_failed_import_rows_table",
+            "sha256": "500204b953560e1af2872227199c5a86dbf2c0ac75783605e9e4f942b0a47a2c"
+        },
+        {
+            "name": "2026_01_24_205057_create_data_request_response_policy_table",
+            "sha256": "de03c785c21629aa005d45345d2a2afd6ef2b2b3cda9d560a321fe06073cfdf0"
+        },
+        {
+            "name": "2026_01_24_220403_create_policy_exceptions_table",
+            "sha256": "72612534410d73bd04b479ea66b5b0b8e83eb372b7eafc79ca4be77c838da9bb"
+        },
+        {
+            "name": "2026_01_24_221118_seed_policy_exception_permissions",
+            "sha256": "92d3b265a2a286d9a57470dc40c89eaacd88350ced968c4c86f4551a5d50a6cb"
+        },
+        {
+            "name": "2026_01_27_023505_add_checklist_fields_to_survey_templates",
+            "sha256": "3c2525f4d06511c6e0bcc07c46be0c29a86121499a1b953a186ae8b244d489fe"
+        },
+        {
+            "name": "2026_01_27_023506_seed_checklist_permissions",
+            "sha256": "d3dbb240af7428ee87923deb4109fb6fdbd82d3693061284bcb167fa1dca2d1f"
+        },
+        {
+            "name": "2026_01_27_143653_add_approver_id_to_surveys",
+            "sha256": "af9f75d16e5f267d90a120719261a70d5fd8f30c16ed6c0ff7f065a7970728e2"
+        },
+        {
+            "name": "2026_01_27_145316_create_approvals_table",
+            "sha256": "77973989aa28107dd111b77a184b6a67e778d74eb69fd9766aa99b996afd6270"
+        },
+        {
+            "name": "2026_02_09_214824_add_new_fields_to_assets_table",
+            "sha256": "05c6d3146ca0c6298758dc120942dd3ca6a7e8b8a88ec68ac8e3bf7c4455a224"
+        },
+        {
+            "name": "2026_02_10_002817_add_asset_exposure_and_criticality_fields",
+            "sha256": "cf669d030e25f4705515fba1bd5e089a5db4a17b64abcac6deac75ff5059ef7b"
+        },
+        {
+            "name": "2026_04_25_000000_add_asset_taxonomy_foreign_keys",
+            "sha256": "7e16b93e6a544b14a984b4a196db2d5f55701d4241166c0a6783e768920650b0"
+        },
+        {
+            "name": "2026_04_25_000000_add_attribute_changes_to_activity_log_table",
+            "sha256": "9ca26f8347e5fa327edfddd84be53ae495a830e2e2c696ee9090ad2324211516"
+        },
+        {
+            "name": "2026_06_02_000000_create_asset_risk_table",
+            "sha256": "b5f801f62e7ab0efb2f5a323a59fa449f4f4116f4b630e5956697f65ad795a53"
+        },
+        {
+            "name": "2026_09_22_000000_backfill_vendor_survey_templates",
+            "sha256": "27b99394098c51e98a7e5e771c5eb2990cedaa7f10f0e96642778f662686f294"
+        },
+        {
+            "name": "2026_11_17_000000_remove_mcp_settings",
+            "sha256": "d6a3ca2903b20c5004df989ec073cdb05d74ccef19b2b3dfb5fa5926a587acbb"
+        },
+        {
+            "name": "2026_11_17_010000_simplify_authorization",
+            "sha256": "25090e7bc9ac548533a043fb63aa065282436d065972df9681487c5dc4aebdcd"
+        },
+        {
+            "name": "2026_11_17_020000_create_evidence_ledger_tables",
+            "sha256": "c093b3d10904bf9306afff38c0bbe327be3ea96f2a7873b60b03a2d5c7519856"
+        },
+        {
+            "name": "2026_11_17_021000_add_checksum_to_migrations_table",
+            "sha256": "0cdea44189921a1a6045cdc459d39d65816b1a2c17d07295360c47d36fac7f60"
+        },
+        {
+            "name": "2026_11_17_022000_add_file_sha256_to_file_attachments_table",
+            "sha256": "e75f95b994eca542c6b281e26995fbbc8455e02b8fb7fb9550aaaf8fc509b487"
+        }
+    ]
+}

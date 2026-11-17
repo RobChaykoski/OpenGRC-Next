@@ -5,7 +5,9 @@ namespace App\Models;
 use Aliziodev\LaravelTaxonomy\Models\Taxonomy;
 use Aliziodev\LaravelTaxonomy\Traits\HasTaxonomy;
 use App\Casts\SanitizedHtml;
+use App\Contracts\EvidenceSubject;
 use App\Enums\DocumentType;
+use App\Models\Concerns\HasEvidenceLedger;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,9 +22,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Represents an organizational policy in the GRC system.
  * Note: This is a Policy document model, not to be confused with Laravel authorization policies.
  */
-class Policy extends Model
+class Policy extends Model implements EvidenceSubject
 {
-    use HasFactory, HasTaxonomy, SoftDeletes;
+    use HasEvidenceLedger, HasFactory, HasTaxonomy, SoftDeletes;
+
+    public function evidencePathColumn(): string
+    {
+        return 'document_path';
+    }
 
     protected $fillable = [
         'code',
