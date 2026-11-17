@@ -192,10 +192,9 @@ class MailSchema
         $mailManager = app('mail.manager');
         $mailManager->purge('smtp');
 
-        // Add debug info for troubleshooting
-        $debugInfo = "Host: {$mailConfig['host']}, Port: {$mailConfig['port']}, Raw Encryption: {$mailConfig['encryption']}, Processed Encryption: {$encryption}, Username: ".substr($mailConfig['username'], 0, 12).'...';
+        // Troubleshooting context only: never log credentials or full mailer config.
+        $debugInfo = "Host: {$mailConfig['host']}, Port: {$mailConfig['port']}, Raw Encryption: {$mailConfig['encryption']}, Processed Encryption: {$encryption}";
         Log::info('Mail test configuration: '.$debugInfo);
-        Log::info('Full SMTP config: '.json_encode($smtpConfig));
     }
 
     protected static function testSmtpConnection(array $mailConfig): void

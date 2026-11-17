@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Aliziodev\LaravelTaxonomy\Traits\HasTaxonomy;
+use App\Casts\SanitizedHtml;
 use App\Enums\Applicability;
 use App\Enums\ControlCategory;
 use App\Enums\ControlEnforcementCategory;
@@ -77,6 +78,9 @@ class Control extends Model
         'type' => ControlType::class,
         'category' => ControlCategory::class,
         'enforcement' => ControlEnforcementCategory::class,
+        'description' => SanitizedHtml::class,
+        'discussion' => SanitizedHtml::class,
+        'test' => SanitizedHtml::class,
     ];
 
     /**

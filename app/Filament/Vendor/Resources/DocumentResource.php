@@ -9,6 +9,7 @@ use App\Filament\Vendor\Resources\DocumentResource\Pages\EditDocument;
 use App\Filament\Vendor\Resources\DocumentResource\Pages\ListDocuments;
 use App\Filament\Vendor\Resources\DocumentResource\Pages\ViewDocument;
 use App\Models\VendorDocument;
+use App\Support\UploadRules;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
@@ -78,16 +79,9 @@ class DocumentResource extends Resource
                             ->disk(config('filesystems.default'))
                             ->directory('vendor-documents')
                             ->visibility('private')
-                            ->maxSize(20480) // 20MB
-                            ->acceptedFileTypes([
-                                'application/pdf',
-                                'application/msword',
-                                'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-                                'application/vnd.ms-excel',
-                                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-                                'image/jpeg',
-                                'image/png',
-                            ])
+                            ->acceptedFileTypes(UploadRules::mimes(UploadRules::DOCUMENT))
+                            ->maxSize(UploadRules::maxKb(UploadRules::DOCUMENT))
+                            ->rules([UploadRules::validationRule(UploadRules::DOCUMENT)])
                             ->storeFileNamesIn('file_name'),
                     ])
                     ->columns(1),

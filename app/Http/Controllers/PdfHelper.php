@@ -109,7 +109,6 @@ class PdfHelper extends Controller
                     if (preg_match('#(ssp-uploads/.+?)(\?|$)#', $urlPath, $pathMatches)) {
                         $storagePath = $pathMatches[1];
                         Log::info('[PdfHelper] Extracted storage path from signed URL', [
-                            'url' => $src,
                             'storage_path' => $storagePath,
                         ]);
 
@@ -133,7 +132,7 @@ class PdfHelper extends Controller
 
                     // If we couldn't get it from storage, try downloading (for external images)
                     if (! $base64Image) {
-                        Log::info('[PdfHelper] Attempting to download remote image', ['url' => $src]);
+                        Log::info('[PdfHelper] Attempting to download remote image', ['host' => parse_url($src, PHP_URL_HOST)]);
 
                         $base64Image = self::fetchRemoteImage($src);
                     }
@@ -184,7 +183,7 @@ class PdfHelper extends Controller
 
             } catch (Exception $e) {
                 Log::warning('[PdfHelper] Failed to convert image to base64', [
-                    'src' => $src,
+                    'host' => parse_url($src, PHP_URL_HOST),
                     'storage_path' => $storagePath ?? 'not found',
                     'error' => $e->getMessage(),
                 ]);
@@ -197,7 +196,7 @@ class PdfHelper extends Controller
 
             // Otherwise, log and return the original tag
             Log::warning('[PdfHelper] Could not convert image to base64', [
-                'src' => $src,
+                'host' => parse_url($src, PHP_URL_HOST),
                 'storage_path' => $storagePath ?? 'not parsed',
             ]);
 
@@ -237,7 +236,7 @@ class PdfHelper extends Controller
 
         foreach ($ips as $ip) {
             if (! filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
-                Log::warning('[PdfHelper] Refusing to fetch image from non-public address', ['url' => $url, 'ip' => $ip]);
+                Log::warning('[PdfHelper] Refusing to fetch image from non-public address', ['ip' => $ip]);
 
                 return null;
             }
@@ -268,7 +267,7 @@ class PdfHelper extends Controller
 
         if ($imageContent === false || $httpCode !== 200) {
             Log::warning('[PdfHelper] Failed to download remote image', [
-                'url' => $url,
+                'host' => parse_url($url, PHP_URL_HOST),
                 'http_code' => $httpCode,
                 'curl_error' => $curlError,
             ]);

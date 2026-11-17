@@ -37,12 +37,9 @@ class SurveyResource extends Resource
     {
         $vendorUser = Auth::guard('vendor')->user();
 
-        // Show surveys where the user is the respondent OR surveys for their vendor
+        // Strict tenant isolation: a vendor user only sees their vendor's surveys.
         return parent::getEloquentQuery()
-            ->where(function (Builder $query) use ($vendorUser) {
-                $query->where('respondent_email', $vendorUser?->email)
-                    ->orWhere('vendor_id', $vendorUser?->vendor_id);
-            })
+            ->where('vendor_id', $vendorUser?->vendor_id)
             ->whereIn('status', [
                 SurveyStatus::SENT,
                 SurveyStatus::IN_PROGRESS,

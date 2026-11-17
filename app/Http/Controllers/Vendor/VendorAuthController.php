@@ -34,7 +34,7 @@ class VendorAuthController extends Controller
 
         // If user has no password, redirect to set password page
         if (! $vendorUser->hasPassword()) {
-            return redirect()->route('filament.vendor.auth.set-password');
+            return redirect()->route('filament.vendor.pages.set-password');
         }
 
         // Otherwise, redirect to dashboard
@@ -43,7 +43,10 @@ class VendorAuthController extends Controller
 
     /**
      * Magic link to access a specific survey.
-     * Redirects to the survey access page where users can login, register, or set password.
+     *
+     * The signed URL proves the link was delivered to the respondent's email.
+     * That is the only identity claim accepted here: the page is never opened
+     * from an unsigned query string, and self-registration is gone.
      */
     public function surveyMagicLink(Request $request, Survey $survey)
     {
@@ -57,27 +60,46 @@ class VendorAuthController extends Controller
             abort(404, 'Survey not found.');
         }
 
-        // Get the respondent email from the survey
-        $email = $survey->respondent_email;
+        $vendorUser = Auth::guard('vendor')->user();
 
-        // Check if user is already logged in as vendor
-        if (Auth::guard('vendor')->check()) {
-            $vendorUser = Auth::guard('vendor')->user();
-
-            // Verify user belongs to this vendor
-            if ($vendorUser->vendor_id === $survey->vendor_id) {
-                // Already logged in to the right vendor, go directly to survey
-                return redirect()->route('filament.vendor.resources.surveys.respond', ['record' => $survey->id]);
-            }
-
-            // Wrong vendor - log them out and continue to auth page
+        // A signed-in vendor user from another vendor must not see this survey.
+        if ($vendorUser && $vendorUser->vendor_id !== $survey->vendor_id) {
             Auth::guard('vendor')->logout();
+            $vendorUser = null;
         }
 
-        // Redirect to survey access page with survey ID and email
-        return redirect()->route('filament.vendor.pages.survey-access', [
-            'survey' => $survey->id,
-            'email' => $email,
-        ]);
+        if (! $vendorUser) {
+            $email = $survey->respondent_email;
+
+            if (! $email) {
+                abort(404, 'This survey has no respondent.');
+            }
+
+            $vendorUser = VendorUser::withTrashed()->where('email', $email)->first();
+
+            if ($vendorUser && ($vendorUser->trashed() || $vendorUser->vendor_id !== $survey->vendor_id)) {
+                abort(403, 'This survey is not available for this account.');
+            }
+
+            if (! $vendorUser) {
+                $vendorUser = VendorUser::create([
+                    'vendor_id' => $survey->vendor_id,
+                    'name' => $survey->respondent_name ?: $email,
+                    'email' => $email,
+                    'email_verified_at' => now(),
+                ]);
+            }
+
+            Auth::guard('vendor')->login($vendorUser);
+            $vendorUser->update(['last_login_at' => now()]);
+            session()->regenerate();
+        }
+
+        // Passwordless accounts must set a password before using the portal.
+        if (! $vendorUser->hasPassword()) {
+            return redirect()->route('filament.vendor.pages.set-password');
+        }
+
+        return redirect()->route('filament.vendor.resources.surveys.respond', ['record' => $survey->id]);
     }
 }

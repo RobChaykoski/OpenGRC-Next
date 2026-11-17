@@ -96,17 +96,20 @@ class VendorsTableWidget extends BaseWidget
                         ->icon('heroicon-o-pencil')
                         ->url(fn (Vendor $record): string => VendorResource::getUrl('edit', ['record' => $record])),
                     Action::make('assess_risk')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label(__('Assess Risk'))
                         ->icon('heroicon-o-clipboard-document-check')
                         ->color('primary')
                         ->schema(VendorAssessmentService::getAssessRiskFormSchema())
                         ->action(fn (Vendor $record, array $data) => VendorAssessmentService::handleAssessRisk($record, $data)),
-                    DeleteAction::make(),
+                    DeleteAction::make()
+                        ->authorize(fn () => auth()->user()?->canDeleteRecords() ?? false),
                 ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->authorize(fn () => auth()->user()?->canDeleteRecords() ?? false),
                 ]),
             ])
             ->emptyStateHeading(__('No vendors'))

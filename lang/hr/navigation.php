@@ -3,6 +3,7 @@
 return [
     // Navigation Groups
     'groups' => [
+        'system' => 'Sustav',
         'settings' => 'Postavke',
         'foundations' => 'Temelji',
     ],

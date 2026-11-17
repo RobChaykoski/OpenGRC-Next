@@ -153,6 +153,8 @@ class PolicyResource extends Resource
                     ->schema([
                         FileUpload::make('document_path')
                             ->label('Upload Policy Document')
+                            ->disk(setting('storage.driver', 'private'))
+                            ->visibility('private')
                             ->acceptedFileTypes(UploadRules::mimes(UploadRules::DOCUMENT))
                             ->maxSize(UploadRules::maxKb(UploadRules::DOCUMENT))
                             ->rules([UploadRules::validationRule(UploadRules::DOCUMENT)])
@@ -331,6 +333,7 @@ class PolicyResource extends Resource
             ->toolbarActions([
                 BulkActionGroup::make([
                     BulkAction::make('updateDocumentType')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label('Update Document Type')
                         ->icon('heroicon-o-document-text')
                         ->form([
@@ -345,6 +348,7 @@ class PolicyResource extends Resource
                         ->deselectRecordsAfterCompletion(),
 
                     BulkAction::make('updateStatus')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label('Update Status')
                         ->icon('heroicon-o-flag')
                         ->form([
@@ -359,6 +363,7 @@ class PolicyResource extends Resource
                         ->deselectRecordsAfterCompletion(),
 
                     BulkAction::make('updateDepartment')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label('Update Department')
                         ->icon('heroicon-o-building-office')
                         ->form([
@@ -373,6 +378,7 @@ class PolicyResource extends Resource
                         ->deselectRecordsAfterCompletion(),
 
                     BulkAction::make('updateOwner')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label('Update Owner')
                         ->icon('heroicon-o-user')
                         ->form([
@@ -389,6 +395,7 @@ class PolicyResource extends Resource
                         ->deselectRecordsAfterCompletion(),
 
                     BulkAction::make('updateScope')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label('Update Scope')
                         ->icon('heroicon-o-globe-alt')
                         ->form([
@@ -533,7 +540,6 @@ class PolicyResource extends Resource
                                     ->icon('heroicon-o-user'),
 
                                 TextEntry::make('changes')
-                                    ->html()
                                     ->label('Changes'),
                             ])
                             ->columns(4)

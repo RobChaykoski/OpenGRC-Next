@@ -137,8 +137,6 @@ abstract class BaseApiController extends Controller
      */
     public function show(Request $request, int $id): JsonResponse
     {
-        $this->authorize('view', $this->modelClass);
-
         $query = $this->modelClass::query();
 
         // Eager load relationships
@@ -146,13 +144,23 @@ abstract class BaseApiController extends Controller
             $query->with($this->showRelations);
         }
 
-        // Allow loading additional relationships via query param
+        // Allow loading additional relationships via query param, but only
+        // relationships this controller already exposes.
         if ($request->has('with')) {
-            $with = explode(',', $request->input('with'));
-            $query->with($with);
+            $allowed = array_merge($this->indexRelations, $this->showRelations);
+            $requested = array_intersect(
+                array_map('trim', explode(',', (string) $request->input('with'))),
+                $allowed
+            );
+
+            if (! empty($requested)) {
+                $query->with($requested);
+            }
         }
 
         $resource = $query->findOrFail($id);
+
+        $this->authorize('view', $resource);
 
         return response()->json([
             'data' => $resource,

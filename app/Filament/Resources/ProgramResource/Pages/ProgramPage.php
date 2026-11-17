@@ -118,7 +118,7 @@ class ProgramPage extends ViewRecord
                     ->schema([
                         TextEntry::make('description')
                             ->label('')
-                            ->markdown()
+                            ->html()
                             ->placeholder('No description provided'),
                     ])
                     ->collapsible()

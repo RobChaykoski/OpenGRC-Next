@@ -3,18 +3,29 @@
 namespace App\Filament\Vendor\Pages\Auth;
 
 use App\Models\VendorUser;
-use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
 use Filament\Notifications\Notification;
-use Filament\Pages\SimplePage;
+use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 
-class SetPassword extends SimplePage
+/**
+ * First-login password setup for vendor accounts created by magic link.
+ *
+ * The user is already authenticated by the signed link; this page only turns a
+ * passwordless account into one with credentials.
+ */
+class SetPassword extends Page implements HasForms
 {
-    protected string $view = 'filament-panels::pages.auth.password-reset.reset-password';
+    use InteractsWithForms;
+
+    protected string $view = 'filament.vendor.pages.auth.set-password';
+
+    protected static bool $shouldRegisterNavigation = false;
 
     public ?array $data = [];
 
@@ -24,6 +35,8 @@ class SetPassword extends SimplePage
 
         if (! $user instanceof VendorUser || $user->hasPassword()) {
             redirect()->intended(Filament::getUrl());
+
+            return;
         }
 
         $this->form->fill();
@@ -37,7 +50,7 @@ class SetPassword extends SimplePage
                     ->label('Password')
                     ->password()
                     ->required()
-                    ->rule(Password::default())
+                    ->rule(Password::default()->mixedCase()->uncompromised(3)->min(12))
                     ->same('passwordConfirmation')
                     ->validationAttribute('password'),
                 TextInput::make('passwordConfirmation')
@@ -47,15 +60,6 @@ class SetPassword extends SimplePage
                     ->dehydrated(false),
             ])
             ->statePath('data');
-    }
-
-    public function getFormActions(): array
-    {
-        return [
-            Action::make('setPassword')
-                ->label('Set Password')
-                ->submit('setPassword'),
-        ];
     }
 
     public function setPassword(): void

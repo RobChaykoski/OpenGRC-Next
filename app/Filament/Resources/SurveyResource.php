@@ -287,6 +287,7 @@ class SurveyResource extends Resource
                         ->action(fn () => null)
                         ->visible(fn (Survey $record): bool => $record->isInternal() || $record->access_token !== null),
                     Action::make('mark_complete')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label(__('survey.survey.actions.mark_complete'))
                         ->icon('heroicon-o-check-circle')
                         ->color('success')
@@ -299,6 +300,7 @@ class SurveyResource extends Resource
                         })
                         ->visible(fn (Survey $record): bool => ! in_array($record->status, [SurveyStatus::COMPLETED, SurveyStatus::EXPIRED])),
                     Action::make('send_invitation')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label(__('survey.survey.actions.send_invitation'))
                         ->icon('heroicon-o-envelope')
                         ->color('primary')
@@ -328,6 +330,7 @@ class SurveyResource extends Resource
                         })
                         ->visible(fn (Survey $record): bool => ! empty($record->respondent_email) && $record->status === SurveyStatus::DRAFT),
                     Action::make('resend_invitation')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label(__('survey.survey.actions.resend_invitation'))
                         ->icon('heroicon-o-arrow-path')
                         ->color('gray')
@@ -360,6 +363,7 @@ class SurveyResource extends Resource
                         ->url(fn (Survey $record): string => static::getUrl('score', ['record' => $record]))
                         ->visible(fn (Survey $record): bool => in_array($record->status, [SurveyStatus::PENDING_SCORING, SurveyStatus::COMPLETED])),
                     Action::make('recalculate_score')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label(__('Recalculate Risk Score'))
                         ->icon('heroicon-o-calculator')
                         ->color('warning')

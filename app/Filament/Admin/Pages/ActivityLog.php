@@ -37,7 +37,7 @@ class ActivityLog extends Page implements HasTable
 
     public static function canAccess(): bool
     {
-        return auth()->check() && auth()->user()->can('View Audit Log');
+        return auth()->check() && auth()->user()->isAdmin();
     }
 
     public function table(Table $table): Table

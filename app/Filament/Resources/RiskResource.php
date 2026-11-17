@@ -172,8 +172,12 @@ class RiskResource extends Resource
                         return $query->withCount('mitigations')
                             ->orderBy('mitigations_count', $direction);
                     }),
+                TextColumn::make('status')
+                    ->badge()
+                    ->sortable()
+                    ->searchable(),
                 TextColumn::make('is_active')
-                    ->label('Status')
+                    ->label('Active')
                     ->getStateUsing(fn (Risk $record) => $record->is_active ? 'Active' : 'Inactive')
                     ->badge()
                     ->color(fn (string $state) => $state === 'Active' ? 'success' : 'gray'),
@@ -194,12 +198,14 @@ class RiskResource extends Resource
                 TaxonomySelectFilter::make('department'),
                 TaxonomySelectFilter::make('scope'),
                 SelectFilter::make('is_active')
-                    ->label('Status')
+                    ->label('Active')
                     ->options([
                         '1' => 'Active',
                         '0' => 'Inactive',
                     ])
                     ->default('1'),
+                SelectFilter::make('status')
+                    ->options(RiskStatus::class),
             ])
             ->headerActions([
                 ExportAction::make()
@@ -270,7 +276,7 @@ class RiskResource extends Resource
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            'Risk' => $record->id,
+            'Status' => $record->status?->getLabel() ?? 'Unknown',
         ];
     }
 

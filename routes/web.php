@@ -1,6 +1,5 @@
 <?php
 
-use App\Filament\Vendor\Pages\Auth\SurveyAccess;
 use App\Http\Controllers\AttachmentDownloadController;
 use App\Http\Controllers\MediaProxyController;
 use App\Http\Controllers\PrivateStorageController;
@@ -78,10 +77,6 @@ Route::get('/portal/auth/magic-login/{vendorUser}', [VendorAuthController::class
 Route::get('/portal/survey/{survey}/respond', [VendorAuthController::class, 'surveyMagicLink'])
     ->name('vendor.survey.magic-link')
     ->middleware('signed');
-
-// Vendor Survey Access Page (login/register flow - no auth required)
-Route::get('/portal/survey-access', SurveyAccess::class)
-    ->name('filament.vendor.pages.survey-access');
 
 // Vendor Document Download Route (requires vendor auth)
 Route::middleware(['auth:vendor'])->group(function () {

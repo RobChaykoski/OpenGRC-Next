@@ -216,7 +216,6 @@ class VendorResource extends Resource
                         TextEntry::make('description')
                             ->label(__('Description'))
                             ->placeholder(__('No description provided'))
-                            ->html()
                             ->columnSpanFull(),
                         TextEntry::make('url')
                             ->label(__('Website'))
@@ -240,7 +239,6 @@ class VendorResource extends Resource
                             ->placeholder(__('-')),
                         TextEntry::make('address')
                             ->label(__('Physical Address'))
-                            ->html()
                             ->icon('heroicon-o-map-pin')
                             ->placeholder(__('-')),
                         TextEntry::make('risk_score_calculated_at')
@@ -318,6 +316,7 @@ class VendorResource extends Resource
             ])
             ->recordActions([
                 Action::make('send_survey')
+                    ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                     ->label(__('Send Survey'))
                     ->icon('heroicon-o-paper-airplane')
                     ->color('primary')

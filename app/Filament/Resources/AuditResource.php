@@ -215,8 +215,7 @@ class AuditResource extends Resource
                                 return self::getTaxonomyTerm($record, 'scope')?->name ?? 'Not assigned';
                             }),
                         TextEntry::make('description')
-                            ->columnSpanFull()
-                            ->html(),
+                            ->columnSpanFull(),
                     ])->columnSpanFull(),
             ]);
     }

@@ -20,6 +20,7 @@ class ViewRisk extends ViewRecord
     {
         return [
             Action::make('applyMitigation')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Apply Mitigation')
                 ->icon('heroicon-o-shield-check')
                 ->color('success')

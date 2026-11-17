@@ -76,6 +76,7 @@ class Implementation extends Model
         'effectiveness' => Effectiveness::class,
         'details' => SanitizedHtml::class,
         'test_procedure' => SanitizedHtml::class,
+        'notes' => SanitizedHtml::class,
     ];
 
     /**

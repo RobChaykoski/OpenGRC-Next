@@ -171,12 +171,14 @@ class SurveysTableWidget extends BaseWidget
                             }
                         })
                         ->visible(fn (Survey $record): bool => ! empty($record->respondent_email) && in_array($record->status, [SurveyStatus::SENT, SurveyStatus::IN_PROGRESS])),
-                    DeleteAction::make(),
+                    DeleteAction::make()
+                        ->authorize(fn () => auth()->user()?->canDeleteRecords() ?? false),
                 ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->authorize(fn () => auth()->user()?->canDeleteRecords() ?? false),
                 ]),
             ])
             ->headerActions([

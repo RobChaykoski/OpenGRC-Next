@@ -107,6 +107,11 @@ abstract class BaseSettings extends PackageSettings
             unset($data['ai']['openai_key']);
         }
 
+        // AI DigitalOcean key - same handling as the OpenAI key
+        if (isset($data['ai']['digitalocean_key'])) {
+            unset($data['ai']['digitalocean_key']);
+        }
+
         // Storage credentials - encrypted and should never be sent to browser
         // S3 credentials
         if (isset($data['storage']['s3']['key'])) {

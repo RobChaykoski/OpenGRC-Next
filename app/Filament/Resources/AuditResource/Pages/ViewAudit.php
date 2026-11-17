@@ -73,29 +73,17 @@ class ViewAudit extends ViewRecord
                     ->modalSubmitActionLabel('Yes, start the audit!')
                     ->disabled(function (Audit $record, $livewire) {
 
+                        if (auth()->user()->isAdmin()) {
+                            return $record->status === WorkflowStatus::INPROGRESS;
+                        }
+
                         if ($record->manager_id != auth()->id()) {
                             return true; // Disable if not the audit manager
                         }
 
-                        if ($record->status == WorkflowStatus::INPROGRESS) {
-                            return true; // Disable if already in progress
-                        }
-
-                        if (auth()->user()->isAdmin()) {
-                            return false; // Enable for Super Admin
-                        }
-
-                        if ($record->manager_id == auth()->id() && $record->status != WorkflowStatus::COMPLETED) {
-                            return false; // Enable for Audit Manager
-                        }
-
-                        if ($record->status == WorkflowStatus::COMPLETED && auth()->user()->isAdmin()) {
-                            return false; // Enable for super admin when status is COMPLETED
-                        }
-
-                        return true; // Disable for everyone else
-
+                        return $record->status === WorkflowStatus::INPROGRESS;
                     })
+                    ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                     ->action(function (Audit $record, $livewire) {
                         $record->update(['status' => WorkflowStatus::INPROGRESS]);
                         $livewire->redirectRoute('filament.app.resources.audits.view', $record);
@@ -109,24 +97,17 @@ class ViewAudit extends ViewRecord
                     ->modalSubmitActionLabel('Yes, complete this audit!')
                     ->modalIconColor('danger')
                     ->disabled(function (Audit $record, $livewire) {
-                        if ($record->manager_id != auth()->id()) {
-                            return true; // Disable if not the audit manager
-                        }
-
                         if (auth()->user()->isAdmin()) {
-                            return false; // Enable for Super Admin
+                            return $record->status !== WorkflowStatus::INPROGRESS;
                         }
 
                         if ($record->manager_id != auth()->id()) {
-                            return true; // Disable if not the audit manager
+                            return true;
                         }
 
-                        if ($record->status == WorkflowStatus::INPROGRESS) {
-                            return false; // Disable if already in progress
-                        }
-
-                        return true;
+                        return $record->status !== WorkflowStatus::INPROGRESS;
                     })
+                    ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                     ->action(function (Audit $record, $livewire) {
                         AuditResource::completeAudit($record);
                         $livewire->redirectRoute('filament.app.resources.audits.view', $record);

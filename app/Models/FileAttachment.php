@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\SanitizedHtml;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,19 @@ use Spatie\Activitylog\Support\LogOptions;
 class FileAttachment extends Model
 {
     use LogsActivity;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'description' => SanitizedHtml::class,
+    ];
+
+    protected $hidden = [
+        'file_path',
+    ];
 
     /**
      * The attributes that are mass assignable.

@@ -27,6 +27,11 @@ class Import extends Page
 {
     use HasWizard, InteractsWithForms; // , InteractsWithRecord;
 
+    public static function canAccess(): bool
+    {
+        return parent::canAccess() && (auth()->user()?->canWrite() ?? false);
+    }
+
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-arrow-up-tray';
 
     protected static string|\UnitEnum|null $navigationGroup = 'Tools';

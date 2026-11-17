@@ -188,6 +188,7 @@ class StandardResource extends Resource
                 ViewAction::make()->hiddenLabel(),
                 ActionGroup::make([
                     Action::make('set_in_scope')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label(__('standard.table.actions.set_in_scope.label'))
                         ->icon('heroicon-o-check-circle')
                         ->modalHeading(__('standard.table.actions.set_in_scope.modal_heading'))
@@ -198,6 +199,7 @@ class StandardResource extends Resource
                         )
                         ->action(fn ($record) => $record->update(['status' => StandardStatus::IN_SCOPE])),
                     Action::make('set_out_scope')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label(__('standard.table.actions.set_out_scope.label'))
                         ->icon('heroicon-o-check-circle')
                         ->modalHeading(__('standard.table.actions.set_out_scope.modal_heading'))

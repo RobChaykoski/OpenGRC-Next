@@ -3,5 +3,5 @@
         icon="{{ $icon }}"
         class="h-5 w-5"
     />
-    {!! $message !!}
+    {{ $message }}
 </div>

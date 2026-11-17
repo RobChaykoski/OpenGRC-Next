@@ -20,6 +20,7 @@ class ViewTrustCenterDocument extends ViewRecord
                 ->label(__('Download'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->color('gray')
+                ->authorize('Manage Trust Center')
                 ->action(function () {
                     $disk = setting('storage.driver', 'private');
                     $storage = Storage::disk($disk);

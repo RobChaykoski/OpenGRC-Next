@@ -337,7 +337,7 @@ class ControlResource extends Resource
                         TextEntry::make('test')
                             ->label(__('control.infolist.test_plan'))
                             ->columnSpanFull()
-                            ->hidden(fn (Control $record) => ! $record->discussion)
+                            ->hidden(fn (Control $record) => ! $record->test)
                             ->html(),
                     ])->columns(4),
             ]);

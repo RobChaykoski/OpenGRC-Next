@@ -6,7 +6,7 @@
     <meta name="application-name" content="OpenGRC"/>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC:wght@400;700&amp;display=swap" rel="stylesheet">
+    @include('partials.brand-font')
 
     <title>OpenGRC - Error 429 (Too Many Requests)</title>
 

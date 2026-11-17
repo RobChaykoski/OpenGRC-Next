@@ -185,7 +185,7 @@ class AnswersRelationManager extends RelationManager
                                     $html .= '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>';
                                     $html .= '</svg>';
                                     $html .= '<div class="flex-1">';
-                                    $html .= '<a href="'.e($downloadUrl).'" class="text-primary-600 hover:text-primary-800 font-medium" target="_blank">';
+                                    $html .= '<a href="'.e($downloadUrl).'" class="text-primary-600 hover:text-primary-800 font-medium" target="_blank" rel="noopener noreferrer">';
                                     $html .= e($attachment->file_name);
                                     $html .= '</a>';
                                     $html .= '<span class="text-xs text-gray-500 ml-2">('.$attachment->formatted_file_size.')</span>';

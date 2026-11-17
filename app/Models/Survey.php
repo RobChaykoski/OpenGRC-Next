@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\SanitizedHtml;
 use App\Enums\SurveyStatus;
 use App\Enums\SurveyType;
 use App\Models\Concerns\Approvable;
@@ -48,6 +49,7 @@ class Survey extends Model
         'completed_at' => 'datetime',
         'risk_score' => 'integer',
         'risk_score_calculated_at' => 'datetime',
+        'description' => SanitizedHtml::class,
     ];
 
     protected static function booted(): void

@@ -49,7 +49,7 @@ class UserController extends BaseApiController
      */
     public function store(Request $request): JsonResponse
     {
-        $this->authorize('Create '.$this->resourceName);
+        $this->authorize('create', User::class);
 
         $validatedData = $this->validateStore($request);
         $validatedData['role'] ??= UserRole::Viewer->value;
@@ -71,9 +71,9 @@ class UserController extends BaseApiController
      */
     public function update(Request $request, int $id): JsonResponse
     {
-        $this->authorize('Update '.$this->resourceName);
-
         $resource = $this->modelClass::findOrFail($id);
+
+        $this->authorize('update', $resource);
 
         $validatedData = $this->validateUpdate($request, $resource);
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Aliziodev\LaravelTaxonomy\Traits\HasTaxonomy;
+use App\Casts\SanitizedHtml;
 use App\Enums\StandardStatus;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -53,6 +54,7 @@ class Standard extends Model
     protected $casts = [
         'id' => 'integer',
         'status' => StandardStatus::class,
+        'description' => SanitizedHtml::class,
     ];
 
     /**

@@ -45,7 +45,6 @@ class TrustCenterDocumentsWidget extends BaseWidget
                     ->sortable(),
                 TextColumn::make('description')
                     ->label(__('Description'))
-                    ->html()
                     ->limit(50)
                     ->wrap(),
                 TextColumn::make('trust_level')

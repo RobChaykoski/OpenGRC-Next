@@ -11,6 +11,7 @@ use App\Models\SurveyAttachment;
 use App\Models\SurveyQuestion;
 use App\Notifications\DropdownNotification;
 use App\Services\VendorRiskScoringService;
+use App\Support\UploadRules;
 use Filament\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
@@ -176,7 +177,9 @@ class RespondToSurvey extends Page implements HasForms
                 ->disk(config('filesystems.default'))
                 ->directory('survey-attachments')
                 ->visibility('private')
-                ->maxSize(10240), // 10MB
+                ->acceptedFileTypes(UploadRules::mimes(UploadRules::EVIDENCE))
+                ->maxSize(UploadRules::maxKb(UploadRules::EVIDENCE))
+                ->rules([UploadRules::validationRule(UploadRules::EVIDENCE)]),
 
             default => TextInput::make($fieldName)
                 ->label("Q{$number}: {$question->question_text}")

@@ -21,8 +21,12 @@ class MediaProxyController extends Controller
         // Decode the path (in case it was URL encoded)
         $filePath = urldecode($path);
 
-        // Security: Prevent directory traversal attacks
-        if (str_contains($filePath, '..') || str_starts_with($filePath, '/')) {
+        // Security: reject traversal, Windows separators, NUL bytes and absolute paths.
+        if ($filePath === ''
+            || str_contains($filePath, '..')
+            || str_contains($filePath, '\\')
+            || str_contains($filePath, "\0")
+            || str_starts_with($filePath, '/')) {
             abort(403, 'Invalid file path');
         }
 
@@ -33,10 +37,19 @@ class MediaProxyController extends Controller
 
         // Get file metadata
         try {
-            $mimeType = $disk->mimeType($filePath);
+            $mimeType = (string) $disk->mimeType($filePath);
             $size = $disk->size($filePath);
         } catch (Exception $e) {
             abort(500, 'Unable to retrieve file metadata');
+        }
+
+        // This proxy exists for inline editor images. Anything else (HTML, SVG,
+        // PDF, archives) must go through the authorized download route so it is
+        // never rendered same-origin.
+        $allowedMimeTypes = ['image/png', 'image/jpeg', 'image/webp', 'image/gif'];
+
+        if (! in_array($mimeType, $allowedMimeTypes, true)) {
+            abort(403, 'Unsupported media type');
         }
 
         // Stream the file from S3 (efficient for large files)

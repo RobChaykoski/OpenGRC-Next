@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\AccessRequestStatus;
+use App\Enums\UserRole;
 use App\Mail\TrustCenterAccessRequestMail;
 use App\Models\Certification;
 use App\Models\TrustCenterAccessRequest;
@@ -118,12 +119,16 @@ class TrustCenterController extends Controller
             return back()->with('success', __('Your access request has been submitted. You will receive an email when it is reviewed.'));
         }
 
+        // Get NDA settings before validation and before the row is written.
+        $ndaRequired = (bool) setting('trust_center.nda_required', true);
+        $ndaText = (string) setting('trust_center.nda_text', '');
+
         $validator = Validator::make($request->all(), [
             'requester_name' => 'required|string|max:255',
             'requester_email' => 'required|email|max:255',
             'requester_company' => 'required|string|max:255',
             'reason' => 'nullable|string|max:5000',
-            'nda_agreed' => 'required|accepted',
+            'nda_agreed' => ($ndaRequired && $ndaText) ? 'required|accepted' : 'nullable|boolean',
             'document_ids' => 'required|array|min:1',
             'document_ids.*' => 'exists:trust_center_documents,id',
             'website_url' => 'max:0', // Honeypot must be empty
@@ -153,7 +158,7 @@ class TrustCenterController extends Controller
             'requester_email' => $request->requester_email,
             'requester_company' => $request->requester_company,
             'reason' => $request->reason,
-            'nda_agreed' => true,
+            'nda_agreed' => ($ndaRequired && $ndaText) ? $request->boolean('nda_agreed') : false,
             'status' => AccessRequestStatus::PENDING,
         ]);
 
@@ -167,9 +172,6 @@ class TrustCenterController extends Controller
             message: 'Trust Center access request submitted',
             context: [
                 'access_request_id' => $accessRequest->id,
-                'requester_name' => $accessRequest->requester_name,
-                'requester_email' => $accessRequest->requester_email,
-                'requester_company' => $accessRequest->requester_company,
                 'document_count' => $documents->count(),
                 'document_ids' => $documents->pluck('id')->toArray(),
             ],
@@ -274,8 +276,8 @@ class TrustCenterController extends Controller
      */
     protected function notifyManagers(TrustCenterAccessRequest $accessRequest): void
     {
-        // Get users with 'Manage Trust Access' permission
-        $managers = User::permission('Manage Trust Access')->get();
+        // Notify every admin: they are the only role that can review trust access.
+        $managers = User::where('role', UserRole::Admin)->get();
 
         foreach ($managers as $manager) {
             try {

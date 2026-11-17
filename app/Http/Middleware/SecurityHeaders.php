@@ -103,10 +103,10 @@ class SecurityHeaders
             "script-src 'self' 'unsafe-inline' 'unsafe-eval'".$cdnSources['script'],
 
             // Styles: self + unsafe-inline required for Filament's dynamic styles
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.bunny.net",
+            "style-src 'self' 'unsafe-inline' https://fonts.bunny.net",
 
-            // Fonts: Google Fonts, Bunny Fonts + self
-            "font-src 'self' https://fonts.gstatic.com https://fonts.bunny.net data:",
+            // Fonts: Bunny Fonts (trust center) + self. The brand font is self-hosted.
+            "font-src 'self' https://fonts.bunny.net data:",
 
             // Images: self + data URIs + ui-avatars for default avatars + external storage
             "img-src 'self' data: blob: https://ui-avatars.com".$storageEndpoints,

@@ -173,8 +173,7 @@ class BundleResource extends Resource
                         TextEntry::make('name')
                             ->columnSpanFull(),
                         TextEntry::make('description')
-                            ->columnSpanFull()
-                            ->html(),
+                            ->columnSpanFull(),
                     ]),
             ]);
     }

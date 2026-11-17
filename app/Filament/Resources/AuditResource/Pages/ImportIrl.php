@@ -37,6 +37,11 @@ class ImportIrl extends Page implements HasForms
 
     protected static ?string $title = 'IRL Import Wizard';
 
+    public static function canAccess(array $parameters = []): bool
+    {
+        return parent::canAccess($parameters) && (auth()->user()?->canWrite() ?? false);
+    }
+
     public ?array $data = [];
 
     public ?array $irlData = [];

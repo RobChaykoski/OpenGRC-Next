@@ -33,6 +33,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules\Password;
 
 class UserResource extends Resource
 {
@@ -62,23 +63,39 @@ class UserResource extends Resource
             ->components([
                 TextInput::make('name')
                     ->required()
-                    ->unique('users', 'email')
                     ->maxLength(255),
                 TextInput::make('email')
                     ->email()
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
+                TextInput::make('password')
+                    ->password()
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->rule(Password::default()->mixedCase()->uncompromised(3)->min(12))
+                    ->same('password_confirmation')
+                    ->autocomplete('new-password')
+                    ->visible(fn (string $operation): bool => $operation === 'create')
+                    ->dehydrated(fn (?string $state): bool => filled($state)),
+                TextInput::make('password_confirmation')
+                    ->password()
+                    ->required(fn (string $operation): bool => $operation === 'create')
+                    ->same('password')
+                    ->autocomplete('new-password')
+                    ->visible(fn (string $operation): bool => $operation === 'create')
+                    ->dehydrated(false),
                 Select::make('role')
                     ->options(UserRole::options())
                     ->required()
                     ->label('Role'),
                 Placeholder::make('last_activity')
                     ->content(
-                        function (User $record) {
-                            return $record->last_activity ? $record->last_activity->format('Y-m-d H:i:s') : null;
+                        function (?User $record) {
+                            return $record?->last_activity?->format('Y-m-d H:i:s');
                         }
                     )
                     ->label('Last Activity')
+                    ->visible(fn (string $operation): bool => in_array($operation, ['edit', 'view'], true))
                     ->disabled(),
             ]);
     }

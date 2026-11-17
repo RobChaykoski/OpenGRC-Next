@@ -438,6 +438,8 @@ class AssetResource extends Resource
 
                         FileUpload::make('image_url')
                             ->image()
+                            ->disk('public')
+                            ->visibility('public')
                             ->acceptedFileTypes(UploadRules::mimes(UploadRules::IMAGE))
                             ->maxSize(UploadRules::maxKb(UploadRules::IMAGE))
                             ->rules([UploadRules::validationRule(UploadRules::IMAGE)])
@@ -1476,8 +1478,7 @@ class AssetResource extends Resource
 
                         TextEntry::make('notes')
                             ->columnSpanFull()
-                            ->placeholder('No additional notes')
-                            ->html(),
+                            ->placeholder('No additional notes'),
 
                         TextEntry::make('tags')
                             ->badge()

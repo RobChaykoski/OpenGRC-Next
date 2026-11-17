@@ -104,12 +104,14 @@ class SurveyTemplatesTableWidget extends BaseWidget
 
                             return redirect(SurveyTemplateResource::getUrl('edit', ['record' => $newTemplate]));
                         }),
-                    DeleteAction::make(),
+                    DeleteAction::make()
+                        ->authorize(fn () => auth()->user()?->canDeleteRecords() ?? false),
                 ]),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                    DeleteBulkAction::make(),
+                    DeleteBulkAction::make()
+                        ->authorize(fn () => auth()->user()?->canDeleteRecords() ?? false),
                 ]),
             ])
             ->headerActions([

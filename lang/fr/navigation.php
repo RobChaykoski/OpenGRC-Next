@@ -3,6 +3,7 @@
 return [
     // Navigation Groups
     'groups' => [
+        'system' => 'Système',
         'settings' => 'Paramètres',
         'foundations' => 'Fondations',
     ],

@@ -7,6 +7,7 @@ use App\Exceptions\QuotaExceededException;
 use App\Models\Application;
 use App\Services\Ai\AiService;
 use App\Services\AppLogger;
+use App\Services\HtmlSanitizerService;
 use App\Services\QuotaService;
 use Illuminate\Support\HtmlString;
 
@@ -114,7 +115,7 @@ class AiController extends Controller
             $record
         );
 
-        return new HtmlString($response['content'].self::AI_DISCLAIMER);
+        return new HtmlString(app(HtmlSanitizerService::class)->sanitize($response['content']).self::AI_DISCLAIMER);
     }
 
     /**
@@ -181,6 +182,6 @@ class AiController extends Controller
             QuotaService::record(QuotaType::AI_RESPONSE, $response['usage']['completion_tokens']);
         }
 
-        return new HtmlString($response['content'].self::AI_DISCLAIMER);
+        return new HtmlString(app(HtmlSanitizerService::class)->sanitize($response['content']).self::AI_DISCLAIMER);
     }
 }

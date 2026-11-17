@@ -42,13 +42,14 @@
 
                 </td>
 
-                <td class="border px-4 py-2">{{ Carbon::parse($request->responses->first()->due_at)->format('F j, Y') }}</td>
-                <td class="border px-4 py-2"> {{ $request->responses->first()->status->value }} </td>
+                @php($firstResponse = $request->responses->first())
+                <td class="border px-4 py-2">{{ $firstResponse?->due_at ? \Illuminate\Support\Carbon::parse($firstResponse->due_at)->format('F j, Y') : '—' }}</td>
+                <td class="border px-4 py-2"> {{ $firstResponse?->status?->value ?? '—' }} </td>
             </tr>
         @endforeach
 
         </tbody>
     </table>
 @else
-    <p>No Implementations found.</p>
+    <p>No data requests found.</p>
 @endif

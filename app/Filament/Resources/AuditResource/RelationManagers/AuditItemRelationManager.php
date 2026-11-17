@@ -122,9 +122,9 @@ class AuditItemRelationManager extends RelationManager
         foreach ($dataRequests as $request) {
             $html .= '<tr>';
             $html .= '<td class="border px-4 py-2">'.e($request->code).'</td>';
-            $html .= '<td class="border px-4 py-2">'.'<a target="_blank"   href='.
+            $html .= '<td class="border px-4 py-2">'.'<a target="_blank" rel="noopener noreferrer" href="'.
                 route('filament.app.resources.implementations.view', $request->id).
-                '>'.e($request->title).'</a></td>';
+                '">'.e($request->title).'</a></td>';
             $html .= '<td class="border px-4 py-2">'.$request->details.'</td>';
             $html .= '</tr>';
         }
@@ -162,7 +162,7 @@ class AuditItemRelationManager extends RelationManager
                 $html .= '<div>'.$r->response.'</div>';
                 if (isset($r->attachments)) {
                     foreach ($r->attachments as $attachment) {
-                        $html .= '***<a href="#">'.$attachment->description.'</a>';
+                        $html .= '***<a href="#">'.e($attachment->description).'</a>';
                     }
                 }
             }

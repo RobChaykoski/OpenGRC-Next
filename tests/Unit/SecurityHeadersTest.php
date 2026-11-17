@@ -65,6 +65,16 @@ class SecurityHeadersTest extends TestCase
         $this->assertTrue((bool) config('session.encrypt'));
     }
 
+    #[Test]
+    public function it_does_not_allow_google_fonts(): void
+    {
+        $response = $this->handle('https://grc.example.com/app/login');
+        $csp = (string) $response->headers->get('Content-Security-Policy');
+
+        $this->assertStringNotContainsString('fonts.googleapis.com', $csp);
+        $this->assertStringNotContainsString('fonts.gstatic.com', $csp);
+    }
+
     protected function handle(string $url, string $contentType = 'text/html'): Response
     {
         $middleware = new SecurityHeaders;

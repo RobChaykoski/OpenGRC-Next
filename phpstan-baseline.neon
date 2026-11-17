@@ -391,12 +391,6 @@ parameters:
 			path: app/Filament/Resources/ChecklistResource.php
 
 		-
-			message: '#^Class App\\Policies\\ChecklistPolicy not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Filament/Resources/ChecklistResource.php
-
-		-
 			message: '#^Access to an undefined property App\\Filament\\Resources\\ChecklistResource\\Pages\\RespondToChecklist\:\:\$form\.$#'
 			identifier: property.notFound
 			count: 3
@@ -461,12 +455,6 @@ parameters:
 			identifier: larastan.relationExistence
 			count: 1
 			path: app/Filament/Resources/ChecklistResource/Pages/ViewChecklist.php
-
-		-
-			message: '#^Class App\\Policies\\ChecklistTemplatePolicy not found\.$#'
-			identifier: class.notFound
-			count: 1
-			path: app/Filament/Resources/ChecklistTemplateResource.php
 
 		-
 			message: '#^Cannot call method isLocked\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
@@ -1105,30 +1093,6 @@ parameters:
 			path: app/Filament/Vendor/Pages/Auth/SetPassword.php
 
 		-
-			message: '#^Access to an undefined property App\\Filament\\Vendor\\Pages\\Auth\\SurveyAccess\:\:\$loginForm\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Filament/Vendor/Pages/Auth/SurveyAccess.php
-
-		-
-			message: '#^Access to an undefined property App\\Filament\\Vendor\\Pages\\Auth\\SurveyAccess\:\:\$registerForm\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Filament/Vendor/Pages/Auth/SurveyAccess.php
-
-		-
-			message: '#^Access to an undefined property App\\Filament\\Vendor\\Pages\\Auth\\SurveyAccess\:\:\$setPasswordForm\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Filament/Vendor/Pages/Auth/SurveyAccess.php
-
-		-
-			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
-			identifier: property.notFound
-			count: 1
-			path: app/Filament/Vendor/Pages/Auth/SurveyAccess.php
-
-		-
 			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$description\.$#'
 			identifier: property.notFound
 			count: 1
@@ -1287,12 +1251,6 @@ parameters:
 		-
 			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\:\:active\(\)\.$#'
 			identifier: method.notFound
-			count: 1
-			path: app/Http/Controllers/TrustCenterController.php
-
-		-
-			message: '#^Call to an undefined static method App\\Models\\User\:\:permission\(\)\.$#'
-			identifier: staticMethod.notFound
 			count: 1
 			path: app/Http/Controllers/TrustCenterController.php
 

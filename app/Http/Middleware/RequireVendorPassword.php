@@ -17,11 +17,11 @@ class RequireVendorPassword
         // If user is logged in and doesn't have a password, redirect to set password page
         if ($user instanceof VendorUser && ! $user->hasPassword()) {
             // Allow access to set-password page and logout
-            if ($request->routeIs('filament.vendor.auth.set-password') || $request->routeIs('filament.vendor.auth.logout')) {
+            if ($request->routeIs('filament.vendor.pages.set-password') || $request->routeIs('filament.vendor.auth.logout')) {
                 return $next($request);
             }
 
-            return redirect()->route('filament.vendor.auth.set-password');
+            return redirect()->route('filament.vendor.pages.set-password');
         }
 
         return $next($request);

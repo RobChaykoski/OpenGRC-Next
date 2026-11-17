@@ -24,6 +24,7 @@ class ViewTrustCenterAccessRequest extends ViewRecord
                 ->label(__('Approve'))
                 ->icon('heroicon-o-check-circle')
                 ->color('success')
+                ->authorize('Manage Trust Center')
                 ->requiresConfirmation()
                 ->schema([
                     Textarea::make('review_notes')
@@ -56,6 +57,7 @@ class ViewTrustCenterAccessRequest extends ViewRecord
                 ->label(__('Reject'))
                 ->icon('heroicon-o-x-circle')
                 ->color('danger')
+                ->authorize('Manage Trust Center')
                 ->requiresConfirmation()
                 ->schema([
                     Textarea::make('review_notes')
@@ -88,6 +90,7 @@ class ViewTrustCenterAccessRequest extends ViewRecord
                 ->label(__('Revoke Access'))
                 ->icon('heroicon-o-no-symbol')
                 ->color('danger')
+                ->authorize('Manage Trust Center')
                 ->requiresConfirmation()
                 ->modalHeading(__('Revoke Access'))
                 ->modalDescription(__('Are you sure you want to revoke this user\'s access? Their magic link will be invalidated immediately.'))

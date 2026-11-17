@@ -104,16 +104,21 @@ class DataRequestResource extends Resource
             ->deferLoading()
             ->columns([
                 TextColumn::make('user_id')
+                    ->label('Requestee')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('audit_item_id')
+                    ->label('Audit Item')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('code')
                     ->label('Request Code')
                     ->sortable()
                     ->searchable(),
                 TextColumn::make('status')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -311,13 +316,13 @@ class DataRequestResource extends Resource
                                             $output .= "<tr>
                                             <td class='px-6 py-4 whitespace-nowrap w-auto'>";
                                             if ($downloadUrl) {
-                                                $output .= "<a href='{$downloadUrl}' class='text-indigo-600 hover:text-indigo-900' target='_blank'>{$attachment->file_name}</a>";
+                                                $output .= "<a href='".e($downloadUrl)."' rel='noopener noreferrer' class='text-indigo-600 hover:text-indigo-900' target='_blank'>".e($attachment->file_name).'</a>';
                                             } else {
-                                                $output .= "<span class='text-gray-400'>{$attachment->file_name} (not available)</span>";
+                                                $output .= "<span class='text-gray-400'>".e($attachment->file_name).' (not available)</span>';
                                             }
                                             $output .= "</td>
-                                            <td class='px-6 py-4 whitespace-normal'>{$attachment->description}</td>
-                                        </tr>";
+                                            <td class='px-6 py-4 whitespace-normal'>".e($attachment->description).'</td>
+                                        </tr>';
                                         }
 
                                         $output .= '</tbody></table>';
@@ -343,6 +348,7 @@ class DataRequestResource extends Resource
     {
         return [
             Action::make('reassign')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Reassign Request')
                 ->icon('heroicon-o-arrow-path')
                 ->color('warning')
@@ -419,6 +425,7 @@ class DataRequestResource extends Resource
         if ($record->responses()->exists()) {
             // Accept button
             $actions[] = Action::make('set_accepted')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Accept')
                 ->icon('heroicon-o-check-circle')
                 ->color('success')
@@ -449,6 +456,7 @@ class DataRequestResource extends Resource
 
             // Reject button
             $actions[] = Action::make('set_rejected')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Reject')
                 ->icon('heroicon-o-x-circle')
                 ->color('danger')
@@ -479,6 +487,7 @@ class DataRequestResource extends Resource
 
             // Reassign button
             $actions[] = Action::make('reassign')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Reassign')
                 ->icon('heroicon-o-user-group')
                 ->color('gray')
@@ -599,6 +608,7 @@ class DataRequestResource extends Resource
         if ($record->responses()->exists()) {
             // Accept button
             $actions[] = Action::make('set_accepted')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Accept')
                 ->icon('heroicon-o-check-circle')
                 ->color('success')
@@ -629,6 +639,7 @@ class DataRequestResource extends Resource
 
             // Reject button
             $actions[] = Action::make('set_rejected')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Reject')
                 ->icon('heroicon-o-x-circle')
                 ->color('danger')
@@ -659,6 +670,7 @@ class DataRequestResource extends Resource
 
             // Reassign button
             $actions[] = Action::make('reassign')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Reassign')
                 ->icon('heroicon-o-user-group')
                 ->color('gray')

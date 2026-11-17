@@ -30,6 +30,11 @@ class QueueMonitor extends Page implements HasTable
 
     protected static string|\UnitEnum|null $navigationGroup = 'System';
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->isAdmin() ?? false;
+    }
+
     public function table(Table $table): Table
     {
         return $table

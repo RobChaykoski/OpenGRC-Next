@@ -188,6 +188,7 @@ class VendorDocumentResource extends Resource
                             ->download($record->file_path, $record->file_name);
                     }),
                 Action::make('approve')
+                    ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                     ->label('Approve')
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
@@ -216,6 +217,7 @@ class VendorDocumentResource extends Resource
                         VendorDocumentStatus::UNDER_REVIEW,
                     ])),
                 Action::make('reject')
+                    ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                     ->label('Reject')
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')

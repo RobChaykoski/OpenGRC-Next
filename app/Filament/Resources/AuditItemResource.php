@@ -73,20 +73,28 @@ class AuditItemResource extends Resource
         return $table
             ->deferLoading()
             ->columns([
-                TextColumn::make('audit_id')
-                    ->numeric()
+                TextColumn::make('audit.title')
+                    ->label('Audit')
                     ->sortable(),
-                TextColumn::make('user_id')
-                    ->numeric()
+                TextColumn::make('user.name')
+                    ->label('Assigned To')
                     ->sortable(),
+                TextColumn::make('auditable.title')
+                    ->label('Control or Implementation')
+                    ->getStateUsing(fn ($record) => $record->auditable?->title ?? $record->auditable?->code),
                 TextColumn::make('control_id')
+                    ->label('Control ID')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('status')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('effectiveness')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('applicability')
+                    ->badge()
                     ->searchable(),
                 TextColumn::make('created_at')
                     ->dateTime()

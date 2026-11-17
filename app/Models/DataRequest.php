@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\SanitizedHtml;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +23,7 @@ class DataRequest extends Model
      */
     protected $casts = [
         'files' => 'array',
+        'details' => SanitizedHtml::class,
     ];
 
     protected $fillable = [

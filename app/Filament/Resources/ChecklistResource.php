@@ -15,7 +15,6 @@ use App\Models\Approval;
 use App\Models\Survey;
 use App\Models\SurveyTemplate;
 use App\Models\User;
-use App\Policies\ChecklistPolicy;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -61,8 +60,6 @@ class ChecklistResource extends Resource
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $slug = 'checklists';
-
-    protected static ?string $policy = ChecklistPolicy::class;
 
     public static function getNavigationLabel(): string
     {
@@ -270,6 +267,7 @@ class ChecklistResource extends Resource
                             && ! $record->isApproved()
                             && $record->canBeApprovedBy(auth()->user())),
                     Action::make('mark_complete')
+                        ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                         ->label(__('checklist.checklist.actions.mark_complete'))
                         ->icon('heroicon-o-check-circle')
                         ->color('success')

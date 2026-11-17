@@ -11,6 +11,7 @@ use App\Models\Control;
 use App\Models\DataRequest;
 use App\Models\DataRequestResponse;
 use App\Models\Policy;
+use App\Models\User;
 use App\Support\UploadRules;
 use Exception;
 use Filament\Actions\BulkActionGroup;
@@ -30,6 +31,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
@@ -38,6 +40,22 @@ use Illuminate\Support\Str;
 class DataRequestResponseResource extends Resource
 {
     protected static ?string $model = DataRequestResponse::class;
+
+    /**
+     * The list must not show rows the policy would deny on open.
+     * Admins keep the full view; everyone else sees their own requests.
+     */
+    public static function getEloquentQuery(): Builder
+    {
+        $query = parent::getEloquentQuery();
+        $user = Auth::user();
+
+        if (! $user instanceof User || $user->isAdmin()) {
+            return $query;
+        }
+
+        return $query->where('requestee_id', $user->id);
+    }
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-rectangle-stack';
 

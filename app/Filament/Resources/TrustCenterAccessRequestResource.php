@@ -32,6 +32,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TrashedFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Mail;
 
@@ -43,6 +44,31 @@ class TrustCenterAccessRequestResource extends Resource
 
     // Hide from navigation - access via Trust Center Manager
     protected static bool $shouldRegisterNavigation = false;
+
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->can('Manage Trust Center') ?? false;
+    }
+
+    public static function canViewAny(): bool
+    {
+        return static::canAccess();
+    }
+
+    public static function canCreate(): bool
+    {
+        return static::canAccess();
+    }
+
+    public static function canEdit(Model $record): bool
+    {
+        return static::canAccess();
+    }
+
+    public static function canDelete(Model $record): bool
+    {
+        return static::canAccess();
+    }
 
     public static function getNavigationLabel(): string
     {
@@ -266,6 +292,7 @@ class TrustCenterAccessRequestResource extends Resource
                     ->label(__('Approve'))
                     ->icon('heroicon-o-check-circle')
                     ->color('success')
+                    ->authorize('Manage Trust Center')
                     ->requiresConfirmation()
                     ->schema([
                         Textarea::make('review_notes')
@@ -296,6 +323,7 @@ class TrustCenterAccessRequestResource extends Resource
                     ->label(__('Reject'))
                     ->icon('heroicon-o-x-circle')
                     ->color('danger')
+                    ->authorize('Manage Trust Center')
                     ->requiresConfirmation()
                     ->schema([
                         Textarea::make('review_notes')
@@ -326,6 +354,7 @@ class TrustCenterAccessRequestResource extends Resource
                     ->label(__('Revoke Access'))
                     ->icon('heroicon-o-no-symbol')
                     ->color('danger')
+                    ->authorize('Manage Trust Center')
                     ->requiresConfirmation()
                     ->modalHeading(__('Revoke Access'))
                     ->modalDescription(__('Are you sure you want to revoke this user\'s access? Their magic link will be invalidated immediately.'))

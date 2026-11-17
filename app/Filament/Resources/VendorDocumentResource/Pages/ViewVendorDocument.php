@@ -28,6 +28,7 @@ class ViewVendorDocument extends ViewRecord
                         ->download($this->record->file_path, $this->record->file_name);
                 }),
             Action::make('approve')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Approve')
                 ->icon('heroicon-o-check-circle')
                 ->color('success')
@@ -56,6 +57,7 @@ class ViewVendorDocument extends ViewRecord
                     VendorDocumentStatus::UNDER_REVIEW,
                 ])),
             Action::make('reject')
+                ->authorize(fn () => auth()->user()?->canWrite() ?? false)
                 ->label('Reject')
                 ->icon('heroicon-o-x-circle')
                 ->color('danger')

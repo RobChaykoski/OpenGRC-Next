@@ -11,6 +11,11 @@ class About extends Page
 {
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-information-circle';
 
+    public static function canAccess(): bool
+    {
+        return auth()->user()?->isAdmin() ?? false;
+    }
+
     protected string $view = 'filament.admin.pages.about';
 
     protected static ?string $navigationLabel = 'About';

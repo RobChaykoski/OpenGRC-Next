@@ -13,7 +13,6 @@ use App\Filament\Resources\ChecklistTemplateResource\Pages\ViewChecklistTemplate
 use App\Filament\Resources\ChecklistTemplateResource\RelationManagers\ChecklistsRelationManager;
 use App\Models\SurveyQuestion;
 use App\Models\SurveyTemplate;
-use App\Policies\ChecklistTemplatePolicy;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
 use Filament\Actions\BulkActionGroup;
@@ -58,8 +57,6 @@ class ChecklistTemplateResource extends Resource
     protected static ?string $recordTitleAttribute = 'title';
 
     protected static ?string $slug = 'checklist-templates';
-
-    protected static ?string $policy = ChecklistTemplatePolicy::class;
 
     public static function shouldRegisterNavigation(): bool
     {

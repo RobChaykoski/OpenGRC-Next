@@ -7,19 +7,25 @@ use App\Models\AuditItem;
 use App\Models\DataRequest;
 use App\Models\DataRequestResponse;
 use App\Models\FileAttachment;
+use App\Models\Survey;
 use App\Models\User;
+use App\Models\VendorDocument;
 use App\Models\VendorUser;
 use App\Policies\AppPolicy;
 use App\Policies\AuditItemPolicy;
 use App\Policies\DataRequestPolicy;
 use App\Policies\DataRequestResponsePolicy;
+use App\Policies\ExportPolicy;
 use App\Policies\FileAttachmentPolicy;
+use App\Policies\SurveyPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\VendorDocumentPolicy;
 use App\Policies\VendorUserPolicy;
 use App\Services\HtmlSanitizerService;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use BladeUI\Icons\Factory as IconFactory;
 use Exception;
+use Filament\Actions\Exports\Models\Export;
 use Filament\Support\Facades\FilamentColor;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
@@ -253,8 +259,11 @@ class AppServiceProvider extends ServiceProvider
                 DataRequest::class => DataRequestPolicy::class,
                 DataRequestResponse::class => DataRequestResponsePolicy::class,
                 FileAttachment::class => FileAttachmentPolicy::class,
+                Survey::class => SurveyPolicy::class,
                 User::class => UserPolicy::class,
+                VendorDocument::class => VendorDocumentPolicy::class,
                 VendorUser::class => VendorUserPolicy::class,
+                Export::class => ExportPolicy::class,
                 default => AppPolicy::class,
             };
         });

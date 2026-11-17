@@ -41,6 +41,8 @@ class ScoreSurvey extends Page implements HasForms, HasInfolists
 
     public function mount(int|string $record): void
     {
+        abort_unless(auth()->user()?->canWrite() ?? false, 403);
+
         $this->record = $this->resolveRecord($record);
         $this->record->load(['template.questions', 'answers.question', 'vendor']);
 
