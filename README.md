@@ -79,7 +79,8 @@ For contributors, the repository also includes:
 - `docs/UPGRADING.md` — upgrade and rollback runbook
 - `docs/decisions/` — accepted architecture decisions
 - `.opencode/skills/` — reusable workflows for GRC, framework mapping, training
-  scenario authoring, OpenCyberRange integration, and upgrades
+  scenario authoring, OpenCyberRange integration, upgrades, security, privacy,
+  design, and user interface
 
 ## Community and Enterprise
 

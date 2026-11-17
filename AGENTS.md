@@ -117,4 +117,10 @@ docker compose -f docker/docker-compose.test.yml run --rm test   # suite in a co
 
 Reusable workflows live in `.opencode/skills/`. Load the one that matches the task:
 platform architecture, GRC domain model, framework mapping, training scenario
-authoring, OpenCyberRange integration, or upgrade and compatibility.
+authoring, OpenCyberRange integration, upgrade and compatibility, security,
+privacy, design, or user interface.
+
+Security and privacy are review skills as much as build skills. Load them before
+changing authentication, uploads, private files, trust center disclosure, exports,
+AI prompts, or anything that touches personal data. Load design and user interface
+before adding or reshaping a screen.

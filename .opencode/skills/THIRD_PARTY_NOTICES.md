@@ -19,3 +19,7 @@ licence first. Rewrite the idea in OpenGRC's own words, as these skills do.
 | `opengrc-training-scenario-authoring` | Hands-on GRC exercises and rubrics |
 | `opengrc-opencyberrange-integration` | Event contract and evidence ingestion |
 | `opengrc-upgrade-and-compatibility` | Version policy, upgrade gates, rollback |
+| `opengrc-security` | Threat model, controls, defaults that need an ADR |
+| `opengrc-privacy` | Personal data map, disclosure, retention, erasure |
+| `opengrc-design` | Visual language, colour semantics, states, accessibility |
+| `opengrc-user-interface` | Filament resources, pages, tables, hooks, portal UI |
