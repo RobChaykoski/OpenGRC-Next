@@ -2,6 +2,19 @@
 
 namespace Database\Seeders\Demo;
 
+use App\Models\Application;
+use App\Models\Asset;
+use App\Models\Certification;
+use App\Models\Control;
+use App\Models\Implementation;
+use App\Models\Policy;
+use App\Models\Program;
+use App\Models\Risk;
+use App\Models\Standard;
+use App\Models\SurveyTemplate;
+use App\Models\TrustCenterDocument;
+use App\Models\User;
+use App\Models\Vendor;
 use Faker\Factory as FakerFactory;
 use Faker\Generator as Faker;
 
@@ -13,46 +26,46 @@ class DemoContext
 {
     public Faker $faker;
 
-    /** @var array<\App\Models\User> */
+    /** @var array<User> */
     public array $users = [];
 
-    /** @var array<\App\Models\Vendor> */
+    /** @var array<Vendor> */
     public array $vendors = [];
 
-    /** @var array<\App\Models\Program> */
+    /** @var array<Program> */
     public array $programs = [];
 
-    /** @var array<\App\Models\Standard> */
+    /** @var array<Standard> */
     public array $standards = [];
 
-    /** @var array<\App\Models\Control> */
+    /** @var array<Control> */
     public array $controls = [];
 
-    /** @var array<\App\Models\Control> */
+    /** @var array<Control> */
     public array $tscControls = [];
 
-    /** @var array<\App\Models\Implementation> */
+    /** @var array<Implementation> */
     public array $implementations = [];
 
-    /** @var array<\App\Models\Policy> */
+    /** @var array<Policy> */
     public array $policies = [];
 
-    /** @var array<\App\Models\Risk> */
+    /** @var array<Risk> */
     public array $risks = [];
 
-    /** @var array<\App\Models\Application> */
+    /** @var array<Application> */
     public array $applications = [];
 
-    /** @var array<\App\Models\Asset> */
+    /** @var array<Asset> */
     public array $assets = [];
 
-    /** @var array<\App\Models\SurveyTemplate> */
+    /** @var array<SurveyTemplate> */
     public array $surveyTemplates = [];
 
-    /** @var array<\App\Models\Certification> */
+    /** @var array<Certification> */
     public array $certifications = [];
 
-    /** @var array<\App\Models\TrustCenterDocument> */
+    /** @var array<TrustCenterDocument> */
     public array $trustCenterDocuments = [];
 
     public function __construct()

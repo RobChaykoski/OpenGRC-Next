@@ -11,6 +11,7 @@ use App\Models\Risk;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Carbon;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -201,7 +202,7 @@ class PolicyTest extends TestCase
             'effective_date' => '2024-06-15',
         ]);
 
-        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $policy->effective_date);
+        $this->assertInstanceOf(Carbon::class, $policy->effective_date);
         $this->assertEquals('2024-06-15', $policy->effective_date->format('Y-m-d'));
     }
 
@@ -210,7 +211,7 @@ class PolicyTest extends TestCase
     {
         $policy = Policy::factory()->retired()->create();
 
-        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $policy->retired_date);
+        $this->assertInstanceOf(Carbon::class, $policy->retired_date);
     }
 
     #[Test]

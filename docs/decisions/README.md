@@ -24,3 +24,4 @@ What gets easier, what gets harder, and what we accept as debt.
 |---|---|---|
 | [0001](0001-version-policy.md) | Supported-version policy and upgrade tiers | accepted |
 | [0002](0002-training-integration-boundary.md) | Boundary between OpenGRC and OpenCyberRange | accepted |
+| [0003](0003-framework-provenance.md) | Framework data ships as public-domain sets with a provenance register | accepted |

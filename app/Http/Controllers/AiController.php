@@ -75,7 +75,7 @@ class AiController extends Controller
 
         $implementations = $record->implementations()->pluck('details')->join("\n") ?: 'None';
         $applicationNames = Application::get()->pluck('name')->toArray();
-        $applications = !empty($applicationNames) ? json_encode($applicationNames) : 'None';
+        $applications = ! empty($applicationNames) ? json_encode($applicationNames) : 'None';
 
         $description = $record['description'] ?: 'None';
         $discussion = $record['discussion'] ?: 'None';
@@ -157,7 +157,7 @@ class AiController extends Controller
         PROMPT;
 
         $applicationNames = Application::get()->pluck('name')->toArray();
-        $applications = !empty($applicationNames) ? json_encode($applicationNames) : 'None';
+        $applications = ! empty($applicationNames) ? json_encode($applicationNames) : 'None';
 
         $description = $record['description'] ?: 'None';
         $discussion = $record['discussion'] ?: 'None';

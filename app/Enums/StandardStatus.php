@@ -6,7 +6,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
 
-enum StandardStatus: string implements hasColor, hasDescription, hasLabel
+enum StandardStatus: string implements HasColor, HasDescription, HasLabel
 {
     case DRAFT = 'Draft';
     case NOT_IN_SCOPE = 'Not in Scope';

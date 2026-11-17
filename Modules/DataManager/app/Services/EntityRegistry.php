@@ -6,6 +6,8 @@ use App\Models\Application;
 use App\Models\Asset;
 use App\Models\Audit;
 use App\Models\AuditItem;
+use App\Models\Checklist;
+use App\Models\ChecklistTemplate;
 use App\Models\Control;
 use App\Models\DataRequest;
 use App\Models\FileAttachment;
@@ -62,11 +64,11 @@ class EntityRegistry
         $this->register('survey_questions', SurveyQuestion::class, 'Survey & Assessment');
 
         // Only register Checklist entities if they exist (may not be implemented yet)
-        if (class_exists(\App\Models\Checklist::class)) {
-            $this->register('checklists', \App\Models\Checklist::class, 'Survey & Assessment');
+        if (class_exists(Checklist::class)) {
+            $this->register('checklists', Checklist::class, 'Survey & Assessment');
         }
-        if (class_exists(\App\Models\ChecklistTemplate::class)) {
-            $this->register('checklist_templates', \App\Models\ChecklistTemplate::class, 'Survey & Assessment');
+        if (class_exists(ChecklistTemplate::class)) {
+            $this->register('checklist_templates', ChecklistTemplate::class, 'Survey & Assessment');
         }
 
         // Data Management

@@ -149,6 +149,70 @@ class Doctor extends Command
                 'contains backslashes; use forward slashes so Dotenv can parse it'
             );
         }
+
+        $this->checkUrlSourceOfTruth();
+    }
+
+    /**
+     * The settings table overrides APP_URL at boot, so editing .env alone can look
+     * like it did nothing. Surface the divergence instead of letting someone
+     * chase it.
+     */
+    protected function checkUrlSourceOfTruth(): void
+    {
+        try {
+            if (! Schema::hasTable('settings')) {
+                return;
+            }
+
+            $settingUrl = setting('general.url');
+        } catch (Throwable) {
+            return;
+        }
+
+        $envUrl = $this->envFileValue('APP_URL');
+
+        if (! is_string($settingUrl) || ! is_string($envUrl) || $settingUrl === '') {
+            return;
+        }
+
+        if (rtrim($settingUrl, '/') !== rtrim($envUrl, '/')) {
+            $this->record(
+                'URL source of truth',
+                'warn',
+                "settings general.url ({$settingUrl}) overrides APP_URL ({$envUrl})"
+            );
+        }
+    }
+
+    /**
+     * Read a value from the .env file without going through env().
+     *
+     * Larastan forbids env() outside config because it returns null when the
+     * config is cached. Reading the file is also the only way to see what a
+     * deployment actually wrote there.
+     */
+    protected function envFileValue(string $key): ?string
+    {
+        $path = base_path('.env');
+
+        if (! is_file($path)) {
+            return null;
+        }
+
+        foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [] as $line) {
+            $line = trim($line);
+
+            if (! str_starts_with($line, $key.'=')) {
+                continue;
+            }
+
+            $value = trim(substr($line, strlen($key) + 1));
+
+            return trim($value, '"\'');
+        }
+
+        return null;
     }
 
     /**
@@ -242,6 +306,20 @@ class Doctor extends Command
                     $pending < 100 ? 'pass' : 'warn',
                     $pending.' job(s) waiting'
                 );
+
+                $retryAfter = (int) config('queue.connections.database.retry_after', 90);
+                $stale = DB::table('jobs')
+                    ->whereNotNull('reserved_at')
+                    ->where('reserved_at', '<', now()->subSeconds($retryAfter * 2)->timestamp)
+                    ->count();
+
+                if ($stale > 0) {
+                    $this->record(
+                        'Queue worker',
+                        'warn',
+                        "{$stale} job(s) reserved but not progressing; is a worker running?"
+                    );
+                }
             }
         } catch (Throwable $e) {
             $this->record('Queue', 'warn', 'could not inspect: '.$e->getMessage());

@@ -6,7 +6,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
 
-enum RiskStatus: string implements hasColor, hasDescription, hasLabel
+enum RiskStatus: string implements HasColor, HasDescription, HasLabel
 {
     case NOT_ASSESSED = 'Not Assessed';
     case IN_PROGRESS = 'In Progress';

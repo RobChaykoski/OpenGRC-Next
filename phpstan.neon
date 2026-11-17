@@ -1,8 +1,12 @@
 includes:
     - vendor/larastan/larastan/extension.neon
     - vendor/nesbot/carbon/extension.neon
+    - phpstan-baseline.neon
 
 parameters:
     level: 2
     paths:
         - app/
+    # New and changed code must be clean. The baseline records existing debt so
+    # it cannot grow; remove entries as files are touched.
+    reportUnmatchedIgnoredErrors: true

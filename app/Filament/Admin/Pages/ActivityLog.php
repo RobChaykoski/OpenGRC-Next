@@ -2,6 +2,7 @@
 
 namespace App\Filament\Admin\Pages;
 
+use Filament\Forms\Components\DatePicker;
 use Filament\Pages\Page;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Concerns\InteractsWithTable;
@@ -102,9 +103,9 @@ class ActivityLog extends Page implements HasTable
                         ->toArray()),
                 Filter::make('created_at')
                     ->form([
-                        \Filament\Forms\Components\DatePicker::make('from')
+                        DatePicker::make('from')
                             ->label('From'),
-                        \Filament\Forms\Components\DatePicker::make('until')
+                        DatePicker::make('until')
                             ->label('Until'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {

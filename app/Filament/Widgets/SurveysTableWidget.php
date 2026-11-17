@@ -6,6 +6,7 @@ use App\Enums\SurveyStatus;
 use App\Filament\Resources\SurveyResource;
 use App\Mail\SurveyInvitationMail;
 use App\Models\Survey;
+use App\Models\User;
 use Exception;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -49,7 +50,7 @@ class SurveysTableWidget extends BaseWidget
                         if ($record->respondent_email) {
                             return $record->respondent_email;
                         }
-                        /** @var \App\Models\User|null $assignedTo */
+                        /** @var User|null $assignedTo */
                         $assignedTo = $record->assignedTo;
                         if ($assignedTo) {
                             return $assignedTo->trashed()

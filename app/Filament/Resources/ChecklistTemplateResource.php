@@ -11,6 +11,7 @@ use App\Filament\Resources\ChecklistTemplateResource\Pages\EditChecklistTemplate
 use App\Filament\Resources\ChecklistTemplateResource\Pages\ListChecklistTemplates;
 use App\Filament\Resources\ChecklistTemplateResource\Pages\ViewChecklistTemplate;
 use App\Filament\Resources\ChecklistTemplateResource\RelationManagers\ChecklistsRelationManager;
+use App\Models\SurveyQuestion;
 use App\Models\SurveyTemplate;
 use App\Policies\ChecklistTemplatePolicy;
 use Filament\Actions\Action;
@@ -326,7 +327,7 @@ class ChecklistTemplateResource extends Resource
                             $newTemplate->save();
 
                             foreach ($record->questions as $question) {
-                                /** @var \App\Models\SurveyQuestion $question */
+                                /** @var SurveyQuestion $question */
                                 $newQuestion = $question->replicate();
                                 $newQuestion->survey_template_id = $newTemplate->id;
                                 $newQuestion->save();

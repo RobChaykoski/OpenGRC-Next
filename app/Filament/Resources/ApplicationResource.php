@@ -11,7 +11,6 @@ use App\Filament\Resources\ApplicationResource\Pages\ListApplications;
 use App\Filament\Resources\ApplicationResource\Pages\ViewApplication;
 use App\Filament\Resources\ApplicationResource\RelationManagers\ImplementationsRelationManager;
 use App\Models\Application;
-use App\Models\User;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;

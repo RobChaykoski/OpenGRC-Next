@@ -173,12 +173,14 @@ class ApproveChecklist extends Page implements HasForms, HasInfolists
     public function getSubheading(): ?string
     {
         assert($this->record instanceof Survey);
+
         return $this->record->display_title;
     }
 
     public function getBreadcrumbs(): array
     {
         assert($this->record instanceof Survey);
+
         return [
             ChecklistResource::getUrl() => __('checklist.checklist.navigation.label'),
             ChecklistResource::getUrl('view', ['record' => $this->record]) => $this->record?->display_title ?? __('Checklist'),

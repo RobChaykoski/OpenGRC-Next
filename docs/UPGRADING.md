@@ -79,6 +79,14 @@ Read the output. Then:
 php artisan migrate --force
 ```
 
+If the release adds or changes tables, a test will fail because the committed
+schema snapshot no longer matches. That is deliberate: regenerate it only after
+reviewing the migration.
+
+```bash
+UPDATE_SCHEMA_SNAPSHOT=1 php artisan test --filter=SchemaSnapshotTest
+```
+
 For anything that rewrites data:
 
 - Take a second backup immediately before running it.
@@ -129,6 +137,7 @@ well. Confirm the scheduler is still running Laravel's `schedule:run` every minu
 
 ```bash
 php artisan opengrc:doctor
+php artisan opengrc:framework-audit
 php artisan about
 ```
 

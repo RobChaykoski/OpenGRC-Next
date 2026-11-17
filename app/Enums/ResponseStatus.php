@@ -6,7 +6,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasDescription;
 use Filament\Support\Contracts\HasLabel;
 
-enum ResponseStatus: string implements hasColor, hasDescription, hasLabel
+enum ResponseStatus: string implements HasColor, HasDescription, HasLabel
 {
     case PENDING = 'Pending';
     case RESPONDED = 'Responded';

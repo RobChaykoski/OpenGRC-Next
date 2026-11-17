@@ -2,6 +2,7 @@
 
 namespace Modules\DataManager\Services;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use League\Csv\Reader;
@@ -310,10 +311,10 @@ class ImportService
     /**
      * Convert string to date.
      */
-    protected function convertDate(string $value): ?\Carbon\Carbon
+    protected function convertDate(string $value): ?Carbon
     {
         try {
-            return \Carbon\Carbon::parse($value)->startOfDay();
+            return Carbon::parse($value)->startOfDay();
         } catch (\Exception $e) {
             throw new \InvalidArgumentException("'{$value}' is not a valid date.");
         }
@@ -322,10 +323,10 @@ class ImportService
     /**
      * Convert string to datetime.
      */
-    protected function convertDateTime(string $value): ?\Carbon\Carbon
+    protected function convertDateTime(string $value): ?Carbon
     {
         try {
-            return \Carbon\Carbon::parse($value);
+            return Carbon::parse($value);
         } catch (\Exception $e) {
             throw new \InvalidArgumentException("'{$value}' is not a valid datetime.");
         }

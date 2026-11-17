@@ -8,6 +8,7 @@ use App\Models\PolicyException;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Carbon;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -167,7 +168,7 @@ class PolicyExceptionTest extends TestCase
             'requested_date' => '2024-03-15',
         ]);
 
-        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $exception->requested_date);
+        $this->assertInstanceOf(Carbon::class, $exception->requested_date);
         $this->assertEquals('2024-03-15', $exception->requested_date->format('Y-m-d'));
     }
 
@@ -178,7 +179,7 @@ class PolicyExceptionTest extends TestCase
             'effective_date' => '2024-04-01',
         ]);
 
-        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $exception->effective_date);
+        $this->assertInstanceOf(Carbon::class, $exception->effective_date);
         $this->assertEquals('2024-04-01', $exception->effective_date->format('Y-m-d'));
     }
 
@@ -189,7 +190,7 @@ class PolicyExceptionTest extends TestCase
             'expiration_date' => '2024-12-31',
         ]);
 
-        $this->assertInstanceOf(\Illuminate\Support\Carbon::class, $exception->expiration_date);
+        $this->assertInstanceOf(Carbon::class, $exception->expiration_date);
         $this->assertEquals('2024-12-31', $exception->expiration_date->format('Y-m-d'));
     }
 

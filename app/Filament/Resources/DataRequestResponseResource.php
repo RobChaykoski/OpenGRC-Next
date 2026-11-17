@@ -8,6 +8,7 @@ use App\Filament\Resources\DataRequestResponseResource\Pages\EditDataRequestResp
 use App\Filament\Resources\DataRequestResponseResource\Pages\ListDataRequestResponses;
 use App\Filament\Resources\DataRequestResponseResource\Pages\ViewDataRequestResponse;
 use App\Models\Control;
+use App\Models\DataRequest;
 use App\Models\DataRequestResponse;
 use App\Models\Policy;
 use Exception;
@@ -264,8 +265,9 @@ class DataRequestResponseResource extends Resource
                                     ->default(function ($livewire) {
                                         /** @var DataRequestResponse|null $drr */
                                         $drr = DataRequestResponse::where('id', $livewire->data['id'])->first();
-                                        /** @var \App\Models\DataRequest|null $dataRequest */
+                                        /** @var DataRequest|null $dataRequest */
                                         $dataRequest = $drr?->dataRequest;
+
                                         return $dataRequest?->audit_id;
                                     }),
                             ]),

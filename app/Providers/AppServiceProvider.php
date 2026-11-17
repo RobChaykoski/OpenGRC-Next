@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Log;
+use MangoldSecurity\Settings\Services\Setting;
 use Schema;
 
 class AppServiceProvider extends ServiceProvider
@@ -255,7 +256,7 @@ class AppServiceProvider extends ServiceProvider
         // The mangoldsecurity/settings package registers this in boot() which is too late
         if (! $this->app->bound('setting')) {
             $this->app->singleton('setting', function () {
-                return new \MangoldSecurity\Settings\Services\Setting;
+                return new Setting;
             });
         }
     }

@@ -5,7 +5,7 @@ namespace App\Enums;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum MitigationType: string implements hasColor, hasLabel
+enum MitigationType: string implements HasColor, HasLabel
 {
     case OPEN = 'Open';
     case AVOID = 'Avoid';

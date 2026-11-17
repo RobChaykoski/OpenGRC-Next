@@ -1,0 +1,1727 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Console/Commands/GenerateRecurringChecklists.php
+
+		-
+			message: '#^Variable \$db_database might not be defined\.$#'
+			identifier: variable.undefined
+			count: 5
+			path: app/Console/Commands/Install.php
+
+		-
+			message: '#^Variable \$db_host might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: app/Console/Commands/Install.php
+
+		-
+			message: '#^Variable \$db_password might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: app/Console/Commands/Install.php
+
+		-
+			message: '#^Variable \$db_port might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: app/Console/Commands/Install.php
+
+		-
+			message: '#^Variable \$db_username might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: app/Console/Commands/Install.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Admin\\Pages\\RolePermissionMatrix\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Admin/Pages/RolePermissionMatrix.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 1
+			path: app/Filament/Admin/Pages/Settings/Schemas/MailSchema.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 6
+			path: app/Filament/Admin/Pages/Settings/StorageSettings.php
+
+		-
+			message: '#^Cannot access property \$name on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Admin/Resources/TaxonomyResource/Pages/EditTaxonomy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Admin/Resources/TaxonomyResource/RelationManagers/TaxonomyChildrenRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 9
+			path: app/Filament/Admin/Resources/TaxonomyResource/RelationManagers/TaxonomyChildrenRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$taxonomies\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Columns/TaxonomyColumn.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:taxonomies\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Columns/TaxonomyColumn.php
+
+		-
+			message: '#^Parameter \$metadata of method App\\Filament\\Forms\\Components\\ActionableMultiselectTwoSides\:\:optionsMetadata\(\) has invalid type App\\Filament\\Forms\\Components\\Closure\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Filament/Forms/Components/ActionableMultiselectTwoSides.php
+
+		-
+			message: '#^Property App\\Filament\\Forms\\Components\\ActionableMultiselectTwoSides\:\:\$optionsMetadata has unknown class App\\Filament\\Forms\\Components\\Closure as its type\.$#'
+			identifier: class.notFound
+			count: 2
+			path: app/Filament/Forms/Components/ActionableMultiselectTwoSides.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Pages\\Import\:\:\$error_string\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Pages/Import.php
+
+		-
+			message: '#^Call to an undefined static method Illuminate\\Support\\Facades\\Notification\:\:make\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: app/Filament/Pages/Import.php
+
+		-
+			message: '#^Cannot access property \$asset_tag on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/AssetResource/Pages/ViewAsset.php
+
+		-
+			message: '#^Cannot access property \$name on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/AssetResource/Pages/ViewAsset.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$audit_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditItemResource/Pages/EditAuditItem.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$code\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditItemResource/Pages/EditAuditItem.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditItemResource/Pages/EditAuditItem.php
+
+		-
+			message: '#^Cannot access property \$audit on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 5
+			path: app/Filament/Resources/AuditItemResource/Pages/EditAuditItem.php
+
+		-
+			message: '#^Cannot access property \$audit_id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/AuditItemResource/Pages/EditAuditItem.php
+
+		-
+			message: '#^Cannot access property \$dataRequests on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/AuditItemResource/Pages/EditAuditItem.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/AuditItemResource/Pages/EditAuditItem.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource.php
+
+		-
+			message: '#^Call to method taxonomies\(\) on an unknown class App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/AuditResource.php
+
+		-
+			message: '#^Cannot call method taxonomies\(\) on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/AuditResource.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$taxonomySlug$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\AuditResource\:\:getTaxonomyTerm\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\AuditResource\:\:saveTaxonomyRelationships\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/CreateAudit.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/AuditResource/Pages/CreateAudit.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:auditItems\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/CreateAudit.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Builder\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/EditAudit.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$data_request_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/ImportIrl.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$due_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/ImportIrl.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$requestee_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/ImportIrl.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: app/Filament/Resources/AuditResource/Pages/ImportIrl.php
+
+		-
+			message: '#^Cannot call method auditItems\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/ImportIrl.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/ViewAudit.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/AuditResource/Pages/ViewAudit.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$auditItems\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AttachmentsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$audit_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AttachmentsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/AuditResource/RelationManagers/AttachmentsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$code\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$dataRequests\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$details\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$implementations\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$manager_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$responses\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:auditItems\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/AuditItemRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$auditable\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/DataRequestsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 9
+			path: app/Filament/Resources/AuditResource/RelationManagers/DataRequestsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$manager_id\.$#'
+			identifier: property.notFound
+			count: 4
+			path: app/Filament/Resources/AuditResource/RelationManagers/DataRequestsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$responses\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/AuditResource/RelationManagers/DataRequestsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 7
+			path: app/Filament/Resources/AuditResource/RelationManagers/DataRequestsRelationManager.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:auditItems\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/AuditResource/RelationManagers/DataRequestsRelationManager.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 2
+			path: app/Filament/Resources/AuditResource/RelationManagers/DataRequestsRelationManager.php
+
+		-
+			message: '#^Cannot access property \$is_predefined on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/CertificationResource/Pages/EditCertification.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Filament/Resources/ChecklistResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Resources\\ChecklistResource\\Pages\\RespondToChecklist\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/ChecklistResource/Pages/RespondToChecklist.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$file_path\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/ChecklistResource/Pages/RespondToChecklist.php
+
+		-
+			message: '#^Cannot access property \$display_title on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/ChecklistResource/Pages/RespondToChecklist.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: app/Filament/Resources/ChecklistResource/Pages/RespondToChecklist.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/ChecklistResource/Pages/RespondToChecklist.php
+
+		-
+			message: '#^Cannot access property \$template on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 7
+			path: app/Filament/Resources/ChecklistResource/Pages/RespondToChecklist.php
+
+		-
+			message: '#^Cannot call method answers\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/ChecklistResource/Pages/RespondToChecklist.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/ChecklistResource/Pages/ViewChecklist.php
+
+		-
+			message: '#^Cannot call method canBeApprovedBy\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/ChecklistResource/Pages/ViewChecklist.php
+
+		-
+			message: '#^Cannot call method isApproved\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/ChecklistResource/Pages/ViewChecklist.php
+
+		-
+			message: '#^Relation ''approver'' is not found in App\\Models\\Survey model\.$#'
+			identifier: larastan.relationExistence
+			count: 1
+			path: app/Filament/Resources/ChecklistResource/Pages/ViewChecklist.php
+
+		-
+			message: '#^Cannot call method isLocked\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/ChecklistTemplateResource/Pages/EditChecklistTemplate.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/ChecklistTemplateResource/Pages/ViewChecklistTemplate.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/ChecklistTemplateResource/Pages/ViewChecklistTemplate.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource.php
+
+		-
+			message: '#^Call to method taxonomies\(\) on an unknown class App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/ControlResource.php
+
+		-
+			message: '#^Cannot call method taxonomies\(\) on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/ControlResource.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$taxonomySlug$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ControlResource\:\:getTaxonomyTerm\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ControlResource\:\:saveTaxonomyRelationships\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource.php
+
+		-
+			message: '#^Call to method taxonomies\(\) on an unknown class App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/ControlResource/Pages/CreateControl.php
+
+		-
+			message: '#^Cannot call method taxonomies\(\) on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/ControlResource/Pages/CreateControl.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$taxonomySlug$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource/Pages/CreateControl.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ControlResource\\Pages\\CreateControl\:\:getTaxonomyTerm\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource/Pages/CreateControl.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ControlResource\\Pages\\CreateControl\:\:saveTaxonomyRelationships\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource/Pages/CreateControl.php
+
+		-
+			message: '#^Call to method taxonomies\(\) on an unknown class App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/ControlResource/Pages/EditControl.php
+
+		-
+			message: '#^Cannot call method taxonomies\(\) on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/ControlResource/Pages/EditControl.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$taxonomySlug$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource/Pages/EditControl.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ControlResource\\Pages\\EditControl\:\:getTaxonomyTerm\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource/Pages/EditControl.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ControlResource\\Pages\\EditControl\:\:saveTaxonomyRelationships\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ControlResource/Pages/EditControl.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$code\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/ControlResource/Pages/ViewControl.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$due_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/DataRequestResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$manager_id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/DataRequestResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$requestee_id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/DataRequestResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 6
+			path: app/Filament/Resources/DataRequestResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$auditItem\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/DataRequestResponseResource/Pages/ViewDataRequestResponse.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/ImplementationResource.php
+
+		-
+			message: '#^Call to method taxonomies\(\) on an unknown class App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/ImplementationResource.php
+
+		-
+			message: '#^Cannot call method taxonomies\(\) on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/ImplementationResource.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$taxonomySlug$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Filament/Resources/ImplementationResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ImplementationResource\:\:getTaxonomyTerm\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ImplementationResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ImplementationResource\:\:saveTaxonomyRelationships\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ImplementationResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$code\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/ImplementationResource/Pages/ViewImplementations.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/ImplementationResource/RelationManagers/ApplicationsRelationManager.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/ImplementationResource/RelationManagers/VendorsRelationManager.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Filament/Resources/PolicyResource.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$code\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/PolicyResource/Pages/ViewPolicy.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/PolicyResource/Pages/ViewPolicy.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Filament/Resources/PolicyResource/RelationManagers/ExceptionsRelationManager.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/PolicyResource/RelationManagers/ImplementationsRelationManager.php
+
+		-
+			message: '#^Call to method taxonomies\(\) on an unknown class App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/ProgramResource.php
+
+		-
+			message: '#^Cannot call method taxonomies\(\) on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/ProgramResource.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$taxonomySlug$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Filament/Resources/ProgramResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ProgramResource\:\:getTaxonomyTerm\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ProgramResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\ProgramResource\:\:saveTaxonomyRelationships\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/ProgramResource.php
+
+		-
+			message: '#^Cannot access property \$name on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: app/Filament/Resources/ProgramResource/Pages/ProgramPage.php
+
+		-
+			message: '#^Cannot call method getAllControls\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/ProgramResource/Pages/ProgramPage.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/ProgramResource/Pages/ViewProgram.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/ProgramResource/RelationManagers/AuditsRelationManager.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:getAllControls\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/ProgramResource/RelationManagers/ControlsRelationManager.php
+
+		-
+			message: '#^Call to method taxonomies\(\) on an unknown class App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/RiskResource.php
+
+		-
+			message: '#^Cannot call method taxonomies\(\) on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/RiskResource.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$taxonomySlug$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Filament/Resources/RiskResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\RiskResource\:\:getTaxonomyTerm\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/RiskResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\RiskResource\:\:saveTaxonomyRelationships\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/RiskResource.php
+
+		-
+			message: '#^Cannot call method mitigations\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/RiskResource/Pages/ViewRisk.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/RiskResource/RelationManagers/ImplementationsRelationManager.php
+
+		-
+			message: '#^Call to method taxonomies\(\) on an unknown class App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 4
+			path: app/Filament/Resources/StandardResource.php
+
+		-
+			message: '#^Cannot call method taxonomies\(\) on array\<string, mixed\>\|Illuminate\\Database\\Eloquent\\Model\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/StandardResource.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$taxonomySlug$#'
+			identifier: parameter.notFound
+			count: 1
+			path: app/Filament/Resources/StandardResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\StandardResource\:\:getTaxonomyTerm\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/StandardResource.php
+
+		-
+			message: '#^Parameter \$record of method App\\Filament\\Resources\\StandardResource\:\:saveTaxonomyRelationships\(\) has invalid type App\\Filament\\Concerns\\Model\.$#'
+			identifier: class.notFound
+			count: 1
+			path: app/Filament/Resources/StandardResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/StandardResource/RelationManagers/AuditsRelationManager.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Resources\\SurveyResource\\Pages\\RespondToSurveyInternal\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$file_path\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Cannot access property \$display_title on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Cannot access property \$template on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 9
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Cannot access property \$vendor on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Cannot access property \$vendor_id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Cannot call method answers\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyResource/Pages/RespondToSurveyInternal.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Resources\\SurveyResource\\Pages\\ScoreSurvey\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$answers on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$display_title on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$risk_score on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$template on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$vendor on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$vendor_id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot call method answers\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 3
+			path: app/Filament/Resources/SurveyResource/Pages/ScoreSurvey.php
+
+		-
+			message: '#^Cannot access property \$display_title on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyResource/Pages/ViewSurvey.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 3
+			path: app/Filament/Resources/SurveyResource/Pages/ViewSurvey.php
+
+		-
+			message: '#^Cannot access property \$vendor_id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/SurveyResource/Pages/ViewSurvey.php
+
+		-
+			message: '#^Cannot call method isInternal\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyResource/Pages/ViewSurvey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$question_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Resources/SurveyResource/RelationManagers/AnswersRelationManager.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$risk_weight\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Resources/SurveyResource/RelationManagers/AnswersRelationManager.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyTemplateResource/Pages/ViewSurveyTemplate.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/SurveyTemplateResource/Pages/ViewSurveyTemplate.php
+
+		-
+			message: '#^Cannot access property \$requester_email on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 4
+			path: app/Filament/Resources/TrustCenterAccessRequestResource/Pages/ViewTrustCenterAccessRequest.php
+
+		-
+			message: '#^Cannot access property \$requester_name on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/TrustCenterAccessRequestResource/Pages/ViewTrustCenterAccessRequest.php
+
+		-
+			message: '#^Cannot call method approve\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/TrustCenterAccessRequestResource/Pages/ViewTrustCenterAccessRequest.php
+
+		-
+			message: '#^Cannot call method isApproved\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/TrustCenterAccessRequestResource/Pages/ViewTrustCenterAccessRequest.php
+
+		-
+			message: '#^Cannot call method isPending\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: app/Filament/Resources/TrustCenterAccessRequestResource/Pages/ViewTrustCenterAccessRequest.php
+
+		-
+			message: '#^Cannot call method reject\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/TrustCenterAccessRequestResource/Pages/ViewTrustCenterAccessRequest.php
+
+		-
+			message: '#^Cannot call method revoke\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Resources/TrustCenterAccessRequestResource/Pages/ViewTrustCenterAccessRequest.php
+
+		-
+			message: '#^Cannot access property \$file_name on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/TrustCenterDocumentResource/Pages/ViewTrustCenterDocument.php
+
+		-
+			message: '#^Cannot access property \$file_path on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/TrustCenterDocumentResource/Pages/ViewTrustCenterDocument.php
+
+		-
+			message: '#^Cannot access property \$file_name on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/VendorDocumentResource/Pages/ViewVendorDocument.php
+
+		-
+			message: '#^Cannot access property \$file_path on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Resources/VendorDocumentResource/Pages/ViewVendorDocument.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Resources/VendorDocumentResource/Pages/ViewVendorDocument.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/VendorResource.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\Relation\<\*, \*, \*\>\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/VendorResource/RelationManagers/ApplicationsRelationManager.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:vendorUsers\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Resources/VendorResource/RelationManagers/VendorUsersRelationManager.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Vendor\\Pages\\Auth\\SetPassword\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Vendor/Pages/Auth/SetPassword.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Vendor\\Pages\\Auth\\SurveyAccess\:\:\$loginForm\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Vendor/Pages/Auth/SurveyAccess.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Vendor\\Pages\\Auth\\SurveyAccess\:\:\$registerForm\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Vendor/Pages/Auth/SurveyAccess.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Vendor\\Pages\\Auth\\SurveyAccess\:\:\$setPasswordForm\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Vendor/Pages/Auth/SurveyAccess.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Vendor/Pages/Auth/SurveyAccess.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Vendor/Resources/SurveyResource.php
+
+		-
+			message: '#^Access to an undefined property App\\Filament\\Vendor\\Resources\\SurveyResource\\Pages\\RespondToSurvey\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$file_path\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$respondent_email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$vendor_id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Cannot access property \$createdBy on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Cannot access property \$display_title on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Cannot access property \$id on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 6
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Cannot access property \$template on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 8
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Cannot access property \$vendor on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 2
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Cannot call method answers\(\) on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/RespondToSurvey.php
+
+		-
+			message: '#^Cannot access property \$status on Illuminate\\Database\\Eloquent\\Model\|int\|string\.$#'
+			identifier: property.nonObject
+			count: 1
+			path: app/Filament/Vendor/Resources/SurveyResource/Pages/ViewSurvey.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Widgets/AuditListWidget.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Filament/Widgets/SurveysTableWidget.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_predefined\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Widgets/TrustCenter/CertificationsWidget.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$slug\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Filament/Widgets/TrustCenter/ContentBlocksWidget.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$status\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Filament/Widgets/TrustCenter/PendingAccessRequestsWidget.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:approve\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Widgets/TrustCenter/PendingAccessRequestsWidget.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:reject\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Widgets/TrustCenter/PendingAccessRequestsWidget.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsTo\:\:withTrashed\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Filament/Widgets/VendorsTableWidget.php
+
+		-
+			message: '#^Access to undefined constant App\\Enums\\SurveyStatus\:\:PENDING\.$#'
+			identifier: classConstant.notFound
+			count: 1
+			path: app/Http/Controllers/API/ChecklistController.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Http/Controllers/API/UserController.php
+
+		-
+			message: '#^Called ''pluck'' on Laravel collection, but could have been retrieved as a query\.$#'
+			identifier: larastan.noUnnecessaryCollectionCall
+			count: 2
+			path: app/Http/Controllers/AiController.php
+
+		-
+			message: '#^Variable \$tmpFiles on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: app/Http/Controllers/PdfHelper.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Relations\\BelongsToMany\:\:active\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Http/Controllers/TrustCenterController.php
+
+		-
+			message: '#^Array has 2 duplicate keys with value ''mcp\.enabled'' \(''mcp\.enabled'', ''mcp\.enabled''\)\.$#'
+			identifier: array.duplicateKey
+			count: 1
+			path: app/Http/Kernel.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$attachments\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Jobs/ExportAuditEvidenceJob.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Listeners/LogSuccessfulLogin.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Listeners/LogSuccessfulLogin.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Listeners/LogSuccessfulLogout.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Listeners/LogSuccessfulLogout.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\|Kirschbaum\\Commentions\\Contracts\\Commenter\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Listeners/SendCommentMentionNotification.php
+
+		-
+			message: '#^Access to an undefined property Kirschbaum\\Commentions\\Contracts\\Commenter\:\:\$email\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Listeners/SendCommentMentionNotification.php
+
+		-
+			message: '#^Call to an undefined method Kirschbaum\\Commentions\\Contracts\\Commenter\:\:notify\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Listeners/SendCommentMentionNotification.php
+
+		-
+			message: '#^Access to an undefined property App\\Livewire\\PasswordResetPage\:\:\$form\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Livewire/PasswordResetPage.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\|Kirschbaum\\Commentions\\Contracts\\Commenter\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mail/CommentMentionMail.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$description\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mail/SurveyInvitationMail.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mail/VendorDocumentExpiringMail.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mail/VendorInvitationMail.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mail/VendorMagicLinkMail.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mail/VendorSurveyAssignedMail.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Mcp/Tools/BaseManageEntityTool.php
+
+		-
+			message: '#^Call to an undefined method DateTimeInterface\:\:toIso8601String\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: app/Mcp/Tools/BaseManageEntityTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$is_required\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$question\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$response_type\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$sort_order\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTemplateTool.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approval_notes\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approval_signature\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approvedBy\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approved_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$answer_value\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$id\.$#'
+			identifier: property.notFound
+			count: 3
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$questions\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Relation ''approvedBy'' is not found in App\\Models\\Survey model\.$#'
+			identifier: larastan.relationExistence
+			count: 2
+			path: app/Mcp/Tools/ManageChecklistTool.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Application.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Application.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Asset.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Asset.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Audit.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Audit.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/AuditItem.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/AuditItem.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Control.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Control.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$effectiveness\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Implementation.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$updated_at\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Implementation.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Implementation.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Implementation.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 2
+			path: app/Models/Policy.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Policy.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Policy.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Program.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Program.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Risk.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Risk.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Standard.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Standard.php
+
+		-
+			message: '#^Access to an undefined property App\\Models\\Survey\:\:\$approver\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Survey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$approved_at\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Survey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$approver_name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Survey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$name\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Survey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$questions_count\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Survey.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Models/Survey.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:questions\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Survey.php
+
+		-
+			message: '#^Call to an undefined method ReflectionType\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: app/Models/Vendor.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 2
+			path: app/Models/Vendor.php
+
+		-
+			message: """
+				#^PHPDoc tag @if has invalid value \\(\\(\\$var\\) \\.\\.\\. @else \\.\\.\\. @endif\r
+				\r
+				Anything else, including expressions or function calls, is left in the output as literal text\\.\\)\\: Unexpected token "\\$var", expected type at offset 551 on line 12$#
+			"""
+			identifier: phpDoc.parseError
+			count: 1
+			path: app/Services/MailTemplateRenderer.php
+
+		-
+			message: '#^Called ''env'' outside of the config directory which returns null when the config is cached, use ''config''\.$#'
+			identifier: larastan.noEnvCallsOutsideOfConfig
+			count: 1
+			path: app/Services/QuotaService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$answer_value\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/VendorRiskScoringService.php
+
+		-
+			message: '#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$risk_score\.$#'
+			identifier: property.notFound
+			count: 1
+			path: app/Services/VendorRiskScoringService.php
+
+		-
+			message: '#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:questions\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: app/Services/VendorRiskScoringService.php

@@ -26,6 +26,18 @@ architecture, integrations, and the decisions behind them.
 |---|---|
 | [integrations/opencyberrange-grc-training.md](integrations/opencyberrange-grc-training.md) | Hands-on GRC training design and phased roadmap |
 
+## GRC practice
+
+| Document | Purpose |
+|---|---|
+| [grc/README.md](grc/README.md) | Capability map, maturity levels, stated gaps |
+| [grc/framework-catalog.md](grc/framework-catalog.md) | Shipped frameworks, licensing, provenance |
+| [grc/risk-methodology.md](grc/risk-methodology.md) | 5×5 scoring, treatment, appetite, cadence |
+| [grc/evidence-standard.md](grc/evidence-standard.md) | What counts as evidence and how to store it |
+| [grc/audit-playbook.md](grc/audit-playbook.md) | Audit lifecycle, findings, closure |
+| [grc/program-playbook.md](grc/program-playbook.md) | Roles, cadence, metrics, onboarding |
+| [grc/data-dictionary.md](grc/data-dictionary.md) | Objects, fields, relations, invariants |
+
 ## Reference
 
 | Document | Purpose |
@@ -40,3 +52,7 @@ architecture, integrations, and the decisions behind them.
 `php artisan opengrc:doctor` is the executable form of the operations documents.
 Add `--json` for monitoring, `--strict` for CI, and `--skip-queue` when the queue
 is inspected separately.
+
+`php artisan opengrc:framework-import` imports a control library by catalog code;
+`php artisan opengrc:framework-audit` validates imported data against the
+provenance register in `config/framework_catalog.php`.

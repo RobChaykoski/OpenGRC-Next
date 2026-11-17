@@ -6,6 +6,7 @@ use Aliziodev\LaravelTaxonomy\Models\Taxonomy;
 use App\Models\Asset;
 use App\Models\Implementation;
 use App\Models\User;
+use Database\Seeders\AssetTaxonomySeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -19,7 +20,7 @@ class AssetTest extends TestCase
         parent::setUp();
 
         // Seed asset taxonomies for testing
-        $this->seed(\Database\Seeders\AssetTaxonomySeeder::class);
+        $this->seed(AssetTaxonomySeeder::class);
     }
 
     /**
@@ -28,6 +29,7 @@ class AssetTest extends TestCase
     private function getTaxonomyTerm(string $parentSlug, string $termName): ?Taxonomy
     {
         $parent = Taxonomy::where('slug', $parentSlug)->first();
+
         return Taxonomy::where('parent_id', $parent->id)->where('name', $termName)->first();
     }
 

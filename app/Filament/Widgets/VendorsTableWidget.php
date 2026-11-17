@@ -39,7 +39,7 @@ class VendorsTableWidget extends BaseWidget
                 TextColumn::make('vendorManager.name')
                     ->label(__('Vendor Manager'))
                     ->formatStateUsing(function (Vendor $record): string {
-                        /** @var \App\Models\User|null $vendorManager */
+                        /** @var User|null $vendorManager */
                         $vendorManager = $record->vendorManager;
 
                         return $vendorManager

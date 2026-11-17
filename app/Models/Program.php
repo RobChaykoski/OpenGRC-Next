@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Activitylog\Support\LogOptions;
+use Illuminate\Support\Collection;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 class Program extends Model
 {
@@ -58,7 +59,7 @@ class Program extends Model
      *
      * @param  array<string>  $with  Relationships to eager load on controls
      */
-    public function getAllControls(array $with = []): \Illuminate\Support\Collection
+    public function getAllControls(array $with = []): Collection
     {
         $standardControls = $this->standards()
             ->with(['controls' => fn ($query) => $query->with($with)])

@@ -27,6 +27,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\HtmlString;
 
 class RespondToSurvey extends Page implements HasForms
 {
@@ -118,7 +119,7 @@ class RespondToSurvey extends Page implements HasForms
         return $form
             ->components([
                 Section::make($this->record->template->title)
-                    ->description(new \Illuminate\Support\HtmlString($this->record->template->description))
+                    ->description(new HtmlString($this->record->template->description))
                     ->schema($schema),
             ])
             ->statePath('data');

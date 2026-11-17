@@ -15,6 +15,9 @@ Read these before touching infrastructure or dependencies:
 - `docs/UPGRADING.md` — the upgrade runbook
 - `docs/decisions/` — accepted architecture decisions, including the boundary
   with OpenCyberRange
+- `docs/grc/` — how the product is meant to be operated as a GRC programme; the
+  capability map lists known gaps honestly
+- `config/framework_catalog.php` — framework provenance and licensing register
 
 ## Commands
 
@@ -26,9 +29,11 @@ php artisan serve                # development server
 npm run dev                      # Vite dev server
 npm run build                    # production assets
 php artisan test                 # PHPUnit/Pest suite
-./vendor/bin/pint --dirty        # format changed files only
-./vendor/bin/phpstan analyse     # static analysis (baseline in progress)
+./vendor/bin/pint                # format (the tree is kept clean; CI enforces it)
+./vendor/bin/phpstan analyse     # static analysis (baseline in phpstan-baseline.neon)
 php artisan opengrc:doctor       # runtime, config, database and build health
+php artisan opengrc:framework-import --list   # available control libraries
+php artisan opengrc:framework-audit  # framework data vs provenance register
 ```
 
 `php artisan opengrc:doctor` is the fastest way to tell "my change is broken" from
@@ -83,9 +88,12 @@ php artisan opengrc:doctor       # runtime, config, database and build health
 ## Definition of done
 
 - [ ] `php artisan test` passes.
-- [ ] `./vendor/bin/pint --dirty` is clean.
+- [ ] `./vendor/bin/pint` is clean.
+- [ ] `./vendor/bin/phpstan analyse` passes; do not add new baseline entries.
+- [ ] If the schema changed, the schema snapshot was regenerated deliberately.
 - [ ] `npm ci && npm run build` succeeds if front-end assets changed.
 - [ ] `php artisan opengrc:doctor` reports no failures on a fresh install.
+- [ ] Framework data changes pass `php artisan opengrc:framework-audit --strict`.
 - [ ] New schema has a migration; new permissions have a seeder.
 - [ ] Docs updated when behaviour, configuration, or supported versions change.
 - [ ] If the change is a decision with trade-offs, add an ADR in `docs/decisions/`.

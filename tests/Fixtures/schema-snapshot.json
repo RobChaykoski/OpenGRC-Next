@@ -1,0 +1,4112 @@
+{
+    "access_request_document": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "downloaded_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "trust_center_access_request_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "trust_center_document_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "activity_log": [
+        {
+            "name": "attribute_changes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "batch_uuid",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "causer_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "causer_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "event",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "log_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "properties",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "subject_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "subject_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "application_implementation": [
+        {
+            "name": "application_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "implementation_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "applications": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "logo",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "url",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "vendor_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "approvals": [
+        {
+            "name": "approvable_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "approvable_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "approved_at",
+            "type": "datetime",
+            "nullable": false
+        },
+        {
+            "name": "approver_email",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "approver_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "approver_name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "signature",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "asset_implementation": [
+        {
+            "name": "asset_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "implementation_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "asset_risk": [
+        {
+            "name": "asset_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "risk_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "assets": [
+        {
+            "name": "alternative_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "antivirus_installed",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "asset_criticality_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "asset_exposure_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "asset_tag",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "asset_type_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "assigned_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "assigned_to_user_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "building",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "category_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "cloud_provider",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "compliance_status_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "condition_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "cost_per_hour",
+            "type": "numeric",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "current_value",
+            "type": "numeric",
+            "nullable": true
+        },
+        {
+            "name": "custom_fields",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "data_classification_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "department_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "deployment_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "depreciation_method",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "depreciation_rate",
+            "type": "numeric",
+            "nullable": true
+        },
+        {
+            "name": "disposal_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "disposal_method",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "encryption_enabled",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "endpoint_agent_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "expected_life_years",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "floor",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "graphics_card",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "hostname",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "image_url",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "invoice_number",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "ip_address",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "is_active",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "last_audit_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "last_maintenance_date",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "last_security_scan",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "license_expiry_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "license_key",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "license_seats",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "license_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "location_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "mac_address",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "maintenance_notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "manufacturer",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "model",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "next_audit_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "next_maintenance_date",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "operating_system",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "os_version",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "parent_asset_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "processor",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "purchase_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "purchase_order_number",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "purchase_price",
+            "type": "numeric",
+            "nullable": true
+        },
+        {
+            "name": "qr_code",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "ram_gb",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "received_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "residual_value",
+            "type": "numeric",
+            "nullable": true
+        },
+        {
+            "name": "retirement_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "room",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "screen_size",
+            "type": "numeric",
+            "nullable": true
+        },
+        {
+            "name": "serial_number",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "status_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "storage_capacity_gb",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "storage_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "supplier_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "support_contract_number",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "support_expiry_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "tags",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "updated_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "warranty_end_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "warranty_provider",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "warranty_start_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "warranty_type",
+            "type": "varchar",
+            "nullable": true
+        }
+    ],
+    "audit_item_data_request": [
+        {
+            "name": "audit_item_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "data_request_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "audit_items": [
+        {
+            "name": "applicability",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "audit_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "auditable_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "auditable_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "auditor_notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "effectiveness",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "audit_user": [
+        {
+            "name": "audit_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "audits": [
+        {
+            "name": "audit_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "controls",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "end_date",
+            "type": "date",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "manager_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "program_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "sid",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "start_date",
+            "type": "date",
+            "nullable": false
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "title",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "breezy_sessions": [
+        {
+            "name": "authenticatable_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "authenticatable_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "expires_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "guard",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "ip_address",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "panel_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "two_factor_confirmed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "two_factor_recovery_codes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "two_factor_secret",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_agent",
+            "type": "text",
+            "nullable": true
+        }
+    ],
+    "bundles": [
+        {
+            "name": "authority",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "image",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "repo_url",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "source_url",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "version",
+            "type": "varchar",
+            "nullable": false
+        }
+    ],
+    "cache": [
+        {
+            "name": "expiration",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "key",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "value",
+            "type": "text",
+            "nullable": false
+        }
+    ],
+    "cache_locks": [
+        {
+            "name": "expiration",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "key",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "owner",
+            "type": "varchar",
+            "nullable": false
+        }
+    ],
+    "certification_document": [
+        {
+            "name": "certification_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "trust_center_document_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "certifications": [
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "icon",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_active",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "is_predefined",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "sort_order",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "comment_reactions": [
+        {
+            "name": "comment_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "reaction",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "reactor_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "reactor_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "comment_subscriptions": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "subscribable_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "subscribable_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "subscriber_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "subscriber_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "comments": [
+        {
+            "name": "author_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "author_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "body",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "commentable_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "commentable_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "control_implementation": [
+        {
+            "name": "control_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "implementation_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "control_policy": [
+        {
+            "name": "control_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "policy_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "control_program": [
+        {
+            "name": "control_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "program_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "controls": [
+        {
+            "name": "applicability",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "category",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "control_owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "discussion",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "effectiveness",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "enforcement",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "standard_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "test",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "title",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "data_request_response_policy": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "data_request_response_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "policy_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "data_request_responses": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "data_request_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "due_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "requestee_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "requester_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "response",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "data_requests": [
+        {
+            "name": "assigned_to_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "audit_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "audit_item_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "details",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "files",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "response",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "exports": [
+        {
+            "name": "completed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "exporter",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_disk",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "processed_rows",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "successful_rows",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "total_rows",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "failed_import_rows": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "data",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "import_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "validation_error",
+            "type": "text",
+            "nullable": true
+        }
+    ],
+    "failed_jobs": [
+        {
+            "name": "connection",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "exception",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "failed_at",
+            "type": "datetime",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "payload",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "queue",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "uuid",
+            "type": "varchar",
+            "nullable": false
+        }
+    ],
+    "file_attachments": [
+        {
+            "name": "audit_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "data_request_response_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "file_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "file_path",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_size",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "uploaded_by",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "general_settings": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "email_from_address",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "email_from_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "email_settings",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "google_analytics_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "more_configs",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "posthog_html_snippet",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "seo_keywords",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "seo_metadata",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "seo_title",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "site_description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "site_favicon",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "site_logo",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "site_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "social_network",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "support_email",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "support_phone",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "theme_color",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "implementation_policy": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "implementation_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "policy_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "implementation_risk": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "implementation_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "risk_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "implementation_vendor": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "implementation_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "vendor_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "implementations": [
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "details",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "effectiveness",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "implementation_owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "test_plan",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "test_procedure",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "title",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "imports": [
+        {
+            "name": "completed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "file_name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_path",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "importer",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "processed_rows",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "successful_rows",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "total_rows",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "job_batches": [
+        {
+            "name": "cancelled_at",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "failed_job_ids",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "failed_jobs",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "finished_at",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "options",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "pending_jobs",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "total_jobs",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "jobs": [
+        {
+            "name": "attempts",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "available_at",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "payload",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "queue",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "reserved_at",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "migrations": [
+        {
+            "name": "batch",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "migration",
+            "type": "varchar",
+            "nullable": false
+        }
+    ],
+    "mitigations": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "date_implemented",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "mitigatable_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "mitigatable_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "strategy",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "model_has_permissions": [
+        {
+            "name": "model_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "model_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "permission_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "model_has_roles": [
+        {
+            "name": "model_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "model_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "role_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "notifications": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "data",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notifiable_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "notifiable_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "read_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "oauth_access_tokens": [
+        {
+            "name": "client_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "expires_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "revoked",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "scopes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "oauth_auth_codes": [
+        {
+            "name": "client_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "expires_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "revoked",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "scopes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "oauth_clients": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "password_client",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "personal_access_client",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "provider",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "redirect",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "revoked",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "secret",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "oauth_personal_access_clients": [
+        {
+            "name": "client_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "oauth_refresh_tokens": [
+        {
+            "name": "access_token_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "expires_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "revoked",
+            "type": "tinyint",
+            "nullable": false
+        }
+    ],
+    "password_reset_tokens": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "email",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "token",
+            "type": "varchar",
+            "nullable": false
+        }
+    ],
+    "permissions": [
+        {
+            "name": "category",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "guard_name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "personal_access_tokens": [
+        {
+            "name": "abilities",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "expires_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "last_used_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "token",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "tokenable_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "tokenable_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "policies": [
+        {
+            "name": "body",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "department_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "document_path",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "document_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "effective_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "policy_scope",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "purpose",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "retired_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "revision_history",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "scope_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "status_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "updated_by",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "policy_exceptions": [
+        {
+            "name": "approved_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "compensating_controls",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "effective_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "expiration_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "justification",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "policy_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "requested_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "requested_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "risk_assessment",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "updated_by",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "policy_risk": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "policy_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "risk_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "program_risk": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "program_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "risk_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "program_standard": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "program_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "standard_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "programs": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "last_audit_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "program_manager_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "scope_status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "risks": [
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "inherent_impact",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "inherent_likelihood",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "inherent_risk",
+            "type": "float",
+            "nullable": false
+        },
+        {
+            "name": "is_active",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "residual_impact",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "residual_likelihood",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "residual_risk",
+            "type": "float",
+            "nullable": false
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "role_has_permissions": [
+        {
+            "name": "permission_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "role_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "roles": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "guard_name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "sessions": [
+        {
+            "name": "id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "ip_address",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "last_activity",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "payload",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "user_agent",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "settings": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "key",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "value",
+            "type": "text",
+            "nullable": true
+        }
+    ],
+    "socialite_users": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "provider",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "provider_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "standards": [
+        {
+            "name": "authority",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "reference_url",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "survey_answers": [
+        {
+            "name": "answer_value",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "comment",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "manual_score",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "scored_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "scored_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "survey_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "survey_question_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "survey_attachments": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "file_name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_path",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_size",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "survey_answer_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "uploaded_by",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "survey_questions": [
+        {
+            "name": "allow_comments",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "help_text",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_required",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "option_scores",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "options",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "question_text",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "question_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "risk_impact",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "risk_weight",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "sort_order",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "survey_template_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "survey_templates": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "default_assignee_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_public",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "last_checklist_generated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "next_checklist_due_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "recurrence_day_of_month",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "recurrence_day_of_week",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "recurrence_frequency",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "recurrence_interval",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "title",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "surveys": [
+        {
+            "name": "access_token",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "approver_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "assigned_to_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "completed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "due_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "expiration_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "respondent_email",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "respondent_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "risk_score",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "risk_score_calculated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "survey_template_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "title",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "vendor_id",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
+    "taxonomables": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "taxonomable_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "taxonomable_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "taxonomy_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "taxonomies": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "depth",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "lft",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "meta",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "parent_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "rgt",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "slug",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "sort_order",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "trust_center_access_requests": [
+        {
+            "name": "access_count",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "access_expires_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "access_token",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "last_accessed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "nda_agreed",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "reason",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "requester_company",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "requester_email",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "requester_name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "review_notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "reviewed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "reviewed_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "trust_center_content_blocks": [
+        {
+            "name": "content",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "icon",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_enabled",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "slug",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "sort_order",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "title",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "trust_center_documents": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "file_name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_path",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_size",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_active",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "mime_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "requires_nda",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "sort_order",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "trust_level",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "uploaded_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "valid_from",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "valid_until",
+            "type": "date",
+            "nullable": true
+        }
+    ],
+    "users": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "email",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "email_verified_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "last_activity",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "password",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "password_reset_required",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "remember_token",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "vendor_documents": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "document_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "expiration_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "file_name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_path",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "file_size",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "issue_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "mime_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "review_notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "reviewed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "reviewed_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "uploaded_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "vendor_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "vendor_users": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "email",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "email_verified_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_primary",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "last_login_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "password",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "remember_token",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "vendor_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
+    "vendors": [
+        {
+            "name": "address",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "contact_email",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "contact_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "contact_phone",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "logo",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "risk_rating",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "risk_score",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "risk_score_calculated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "url",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "vendor_manager_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ]
+}

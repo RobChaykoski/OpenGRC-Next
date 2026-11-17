@@ -46,6 +46,7 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Carbon;
 
 class ChecklistResource extends Resource
 {
@@ -160,6 +161,7 @@ class ChecklistResource extends Resource
                     ->description(function (Survey $record): string {
                         /** @var SurveyTemplate|null $template */
                         $template = $record->template;
+
                         return ($template?->title ?? 'Unknown').' Template';
                     })
                     ->searchable(['title'])
@@ -178,8 +180,10 @@ class ChecklistResource extends Resource
                         if ($record->status === SurveyStatus::COMPLETED && $record->relationLoaded('assignedTo')) {
                             /** @var User|null $assignedTo */
                             $assignedTo = $record->assignedTo;
+
                             return $assignedTo ? "by {$assignedTo->displayName()}" : null;
                         }
+
                         return null;
                     }),
                 TextColumn::make('progress')
@@ -197,14 +201,16 @@ class ChecklistResource extends Resource
                     ->color(fn (Survey $record): string => $record->isApproved() ? 'success' : 'gray')
                     ->description(function (Survey $record): ?string {
                         if ($record->isApproved() && $record->relationLoaded('latestApproval')) {
-                            /** @var \App\Models\Approval|null $approval */
+                            /** @var Approval|null $approval */
                             $approval = $record->latestApproval;
                             if ($approval && $approval->approved_at) {
-                                /** @var \Illuminate\Support\Carbon $approvedAt */
+                                /** @var Carbon $approvedAt */
                                 $approvedAt = $approval->approved_at;
+
                                 return "by {$approval->approver_name} on {$approvedAt->format('M j, Y')}";
                             }
                         }
+
                         return null;
                     }),
                 TextColumn::make('due_date')

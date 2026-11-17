@@ -5,7 +5,7 @@ namespace App\Enums;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum WorkflowStatus: string implements hasColor, hasLabel
+enum WorkflowStatus: string implements HasColor, HasLabel
 {
     case NOTSTARTED = 'Not Started';
     case INPROGRESS = 'In Progress';

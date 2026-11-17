@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 return new class extends Migration
 {
@@ -15,7 +16,7 @@ return new class extends Migration
         $assetActions = ['List', 'Create', 'Read', 'Update', 'Delete'];
         foreach ($assetActions as $action) {
             $permission = Permission::where('name', "{$action} Assets")->first();
-            if (!$permission) {
+            if (! $permission) {
                 Permission::create([
                     'name' => "{$action} Assets",
                     'guard_name' => 'web',
@@ -25,7 +26,7 @@ return new class extends Migration
         }
 
         // Clear permission cache so newly created permissions are available
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Get the roles
         $regular = Role::where('name', 'Regular User')->first();
@@ -39,7 +40,7 @@ return new class extends Migration
         // Assign permissions to Super Admin (all permissions)
         if ($superAdmin && $assetPermissions->isNotEmpty()) {
             foreach ($assetPermissions as $permission) {
-                if (!$superAdmin->hasPermissionTo($permission)) {
+                if (! $superAdmin->hasPermissionTo($permission)) {
                     $superAdmin->givePermissionTo($permission);
                 }
             }
@@ -49,7 +50,7 @@ return new class extends Migration
         if ($regular) {
             $permissionsToAssign = ['List Assets', 'Read Assets'];
             foreach ($permissionsToAssign as $permName) {
-                if (!$regular->hasPermissionTo($permName)) {
+                if (! $regular->hasPermissionTo($permName)) {
                     $regular->givePermissionTo($permName);
                 }
             }
@@ -59,7 +60,7 @@ return new class extends Migration
         if ($securityAdmin) {
             $permissionsToAssign = ['List Assets', 'Create Assets', 'Read Assets', 'Update Assets'];
             foreach ($permissionsToAssign as $permName) {
-                if (!$securityAdmin->hasPermissionTo($permName)) {
+                if (! $securityAdmin->hasPermissionTo($permName)) {
                     $securityAdmin->givePermissionTo($permName);
                 }
             }

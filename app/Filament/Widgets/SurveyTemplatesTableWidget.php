@@ -5,6 +5,7 @@ namespace App\Filament\Widgets;
 use App\Enums\SurveyTemplateStatus;
 use App\Filament\Resources\SurveyResource;
 use App\Filament\Resources\SurveyTemplateResource;
+use App\Models\SurveyQuestion;
 use App\Models\SurveyTemplate;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -95,7 +96,7 @@ class SurveyTemplatesTableWidget extends BaseWidget
                             $newTemplate->save();
 
                             foreach ($record->questions as $question) {
-                                /** @var \App\Models\SurveyQuestion $question */
+                                /** @var SurveyQuestion $question */
                                 $newQuestion = $question->replicate();
                                 $newQuestion->survey_template_id = $newTemplate->id;
                                 $newQuestion->save();

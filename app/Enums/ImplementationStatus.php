@@ -5,7 +5,7 @@ namespace App\Enums;
 use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasLabel;
 
-enum ImplementationStatus: string implements hasColor, hasLabel
+enum ImplementationStatus: string implements HasColor, HasLabel
 {
     case FULL = 'Implemented';
     case PARTIAL = 'Partially Implemented';

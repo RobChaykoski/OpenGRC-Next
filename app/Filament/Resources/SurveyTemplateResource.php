@@ -11,6 +11,7 @@ use App\Filament\Resources\SurveyTemplateResource\Pages\EditSurveyTemplate;
 use App\Filament\Resources\SurveyTemplateResource\Pages\ListSurveyTemplates;
 use App\Filament\Resources\SurveyTemplateResource\Pages\ViewSurveyTemplate;
 use App\Filament\Resources\SurveyTemplateResource\RelationManagers\SurveysRelationManager;
+use App\Models\SurveyQuestion;
 use App\Models\SurveyTemplate;
 use Filament\Actions\Action;
 use Filament\Actions\ActionGroup;
@@ -286,7 +287,7 @@ class SurveyTemplateResource extends Resource
                             $newTemplate->save();
 
                             foreach ($record->questions as $question) {
-                                /** @var \App\Models\SurveyQuestion $question */
+                                /** @var SurveyQuestion $question */
                                 $newQuestion = $question->replicate();
                                 $newQuestion->survey_template_id = $newTemplate->id;
                                 $newQuestion->save();

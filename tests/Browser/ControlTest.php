@@ -7,6 +7,7 @@ use App\Enums\ControlEnforcementCategory;
 use App\Enums\ControlType;
 use App\Models\Control;
 use App\Models\Standard;
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -34,7 +35,7 @@ class ControlTest extends DuskTestCase
 
     protected function loginAs(Browser $browser): Browser
     {
-        $user = \App\Models\User::where('email', 'admin@example.com')->first();
+        $user = User::where('email', 'admin@example.com')->first();
 
         return $browser->loginAs($user)
             ->visit('/app');
@@ -63,7 +64,7 @@ class ControlTest extends DuskTestCase
         // Create the test standard first
         $standard = $this->createTestStandard();
 
-        $this->browse(function (Browser $browser) use ($standard) {
+        $this->browse(function (Browser $browser) {
             $this->loginAs($browser);
 
             // ==========================================
@@ -213,7 +214,7 @@ class ControlTest extends DuskTestCase
         $standard = $this->createTestStandard();
 
         // Get the admin user for control owner
-        $adminUser = \App\Models\User::where('email', 'admin@example.com')->first();
+        $adminUser = User::where('email', 'admin@example.com')->first();
 
         // Create a control via the database (simulating what the modal would do)
         $control = Control::create([

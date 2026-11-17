@@ -39,7 +39,7 @@ return new class extends Migration
             Log::info('Mail password is already encrypted, skipping migration.');
 
             return;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Decryption failed, so the password is plaintext and needs encryption
         }
 

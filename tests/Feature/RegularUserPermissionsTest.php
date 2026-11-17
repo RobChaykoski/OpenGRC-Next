@@ -12,6 +12,7 @@ use App\Models\Risk;
 use App\Models\Standard;
 use App\Models\User;
 use App\Models\Vendor;
+use Database\Seeders\RolePermissionSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 use Spatie\Permission\Models\Role;
@@ -28,7 +29,7 @@ class RegularUserPermissionsTest extends TestCase
         parent::setUp();
 
         // Run seeders to set up roles and permissions
-        $this->seed(\Database\Seeders\RolePermissionSeeder::class);
+        $this->seed(RolePermissionSeeder::class);
 
         // Create a Regular User
         $this->regularUser = User::factory()->create([

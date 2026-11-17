@@ -3,6 +3,7 @@
 namespace Modules\DataManager\Services;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
 class RelationshipResolver
 {
@@ -145,7 +146,7 @@ class RelationshipResolver
     /**
      * Format relationship IDs for export as comma-separated string.
      *
-     * @param  \Illuminate\Support\Collection|array  $relatedRecords
+     * @param  Collection|array  $relatedRecords
      */
     public function formatForExport($relatedRecords): string
     {

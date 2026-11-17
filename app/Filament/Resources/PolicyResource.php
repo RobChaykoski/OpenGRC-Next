@@ -15,7 +15,6 @@ use App\Filament\Resources\PolicyResource\RelationManagers\ExceptionsRelationMan
 use App\Filament\Resources\PolicyResource\RelationManagers\ImplementationsRelationManager;
 use App\Filament\Resources\PolicyResource\RelationManagers\RisksRelationManager;
 use App\Models\Policy;
-use App\Models\User;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;

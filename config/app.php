@@ -1,5 +1,15 @@
 <?php
 
+use App\Providers\AppServiceProvider;
+use App\Providers\AuthServiceProvider;
+use App\Providers\EventServiceProvider;
+use App\Providers\Filament\AdminPanelProvider;
+use App\Providers\Filament\AppPanelProvider;
+use App\Providers\Filament\TrustCenterPanelProvider;
+use App\Providers\Filament\VendorPanelProvider;
+use App\Providers\FilamentDefaultsServiceProvider;
+use App\Providers\RouteServiceProvider;
+use App\Providers\SocialiteServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
@@ -163,18 +173,18 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\AuthServiceProvider::class,
+        AppServiceProvider::class,
+        AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         // App\Providers\DigitalOceanStorageServiceProvider::class, // Replaced with direct env file writing in settings
-        App\Providers\EventServiceProvider::class,
-        App\Providers\SocialiteServiceProvider::class, // Must be before Filament panels for SSO config
-        App\Providers\FilamentDefaultsServiceProvider::class,
-        App\Providers\Filament\AppPanelProvider::class,
-        App\Providers\Filament\AdminPanelProvider::class,
-        App\Providers\Filament\VendorPanelProvider::class,
-        App\Providers\Filament\TrustCenterPanelProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        EventServiceProvider::class,
+        SocialiteServiceProvider::class, // Must be before Filament panels for SSO config
+        FilamentDefaultsServiceProvider::class,
+        AppPanelProvider::class,
+        AdminPanelProvider::class,
+        VendorPanelProvider::class,
+        TrustCenterPanelProvider::class,
+        RouteServiceProvider::class,
     ])->toArray(),
 
     /*

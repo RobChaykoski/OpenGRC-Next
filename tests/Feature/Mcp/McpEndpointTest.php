@@ -359,7 +359,7 @@ class McpEndpointTest extends TestCase
     }
 
     /**
-     * Test MCP server context size is under 4000 tokens.
+     * Test the MCP tool context keeps headroom below the 4000 token ceiling.
      *
      * This ensures the MCP server doesn't consume too much of an AI's context window
      * when the server is enabled. Uses tiktoken with cl100k_base encoding (GPT-4/Claude approx).
@@ -367,7 +367,7 @@ class McpEndpointTest extends TestCase
      * Note: With individual Manage* tools for each entity type (11 tools), the context is
      * larger than a unified ManageEntity tool but provides better discoverability for LLMs.
      */
-    public function test_mcp_context_size_is_under_4000_tokens(): void
+    public function test_mcp_context_keeps_headroom_under_4000_tokens(): void
     {
         $user = User::factory()->create();
         Passport::actingAs($user, ['mcp:use']);
@@ -433,10 +433,12 @@ class McpEndpointTest extends TestCase
         // Use the highest for the limit check
         $maxTokens = max($claudeTokens, $gptTokens);
 
+        // Leave headroom so adding a tool does not break every client at the
+        // documented 4000-token ceiling.
         $this->assertLessThan(
-            4000,
+            3800,
             $maxTokens,
-            'MCP context exceeds 4000 token limit. '
+            'MCP context exceeds 3800 token limit (headroom budget). '
             ."Claude 4.5 Sonnet (cl100k_base): {$claudeTokens} tokens. "
             ."GPT-5.2 (o200k_base): {$gptTokens} tokens. "
             .'Context length: '.strlen($fullContext).' characters.'

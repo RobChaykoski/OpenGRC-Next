@@ -65,7 +65,7 @@ return new class extends Migration
             Schema::table('file_attachments', function (Blueprint $table) {
                 try {
                     $table->dropForeign(['audit_id']);
-                } catch (\Exception $e) {
+                } catch (Exception $e) {
                     // Ignore if not supported or doesn't exist
                 }
                 $table->foreign('audit_id')->references('id')->on('audits')->onDelete('cascade');

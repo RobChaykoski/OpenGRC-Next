@@ -3,6 +3,7 @@
 namespace Tests\Browser;
 
 use App\Models\Standard;
+use App\Models\User;
 use Illuminate\Support\Facades\Artisan;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
@@ -24,7 +25,7 @@ class StandardTest extends DuskTestCase
 
     protected function loginAs(Browser $browser): Browser
     {
-        $user = \App\Models\User::where('email', 'admin@example.com')->first();
+        $user = User::where('email', 'admin@example.com')->first();
 
         return $browser->loginAs($user)
             ->visit('/app');

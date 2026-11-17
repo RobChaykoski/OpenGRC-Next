@@ -26,7 +26,7 @@ class AttachmentsRelationManager extends RelationManager
     {
         return $schema
             ->components([
-                TextArea::make('description')
+                Textarea::make('description')
                     ->label('Description')
                     ->columnSpanFull()
                     ->required(),
