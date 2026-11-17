@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Livewire\Livewire;
 use Log;
 use MangoldSecurity\Settings\Services\Setting;
-use Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,6 +29,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Force secure session cookies whenever the app is served over HTTPS in
+        // production. .env is not enough: a copy/paste deploy can silently drop
+        // the flag and send the session cookie over plain HTTP.
+        if (app()->environment('production') && config('security.force_secure_cookies', true)) {
+            if (str_starts_with((string) config('app.url'), 'https://')) {
+                Config::set('session.secure', true);
+                Config::set('session.http_only', true);
+            }
+        }
+
         // Override the package's SessionGuard component with our custom one
         Livewire::component('filament-inactivity-guard::session-guard', CustomSessionGuard::class);
 
@@ -44,27 +54,39 @@ class AppServiceProvider extends ServiceProvider
         $isInstaller = false;
         if ($this->app->runningInConsole()) {
             $argv = $_SERVER['argv'] ?? [];
-            if (isset($argv[1]) && (
-                $argv[1] === 'opengrc:install'
-            || $argv[1] === 'opengrc:deploy'
-            || $argv[1] === 'package:discover'
-            || $argv[1] === 'filament:upgrade'
-            || $argv[1] === 'vendor:publish'
-            || $argv[1] === 'test'
-            || $argv[1] === 'migrate'
-            || str_starts_with($argv[1], 'migrate:')
-            || $argv[1] === 'config:cache'
-            || $argv[1] === 'config:clear'
-            || $argv[1] === 'route:cache'
-            || $argv[1] === 'route:clear'
-            || $argv[1] === 'view:cache'
-            || $argv[1] === 'view:clear'
-            || $argv[1] === 'cache:clear'
-            || $argv[1] === 'key:generate'
-            || $argv[1] === 'storage:link'
-            || $argv[1] === 'db:seed'
-            || $argv[1] === 'opengrc:create-user'
-            || $argv[1] === 'settings:set'
+            $command = $argv[1] ?? null;
+
+            $installerCommands = [
+                'package:discover',
+                'filament:upgrade',
+                'vendor:publish',
+                'test',
+                'migrate',
+                'config:cache',
+                'config:clear',
+                'route:cache',
+                'route:clear',
+                'view:cache',
+                'view:clear',
+                'cache:clear',
+                'optimize',
+                'optimize:clear',
+                'key:generate',
+                'storage:link',
+                'db:seed',
+                'passport:keys',
+                'queue:work',
+                'queue:restart',
+                'about',
+            ];
+
+            // Every OpenGRC command must run before (or without) a working
+            // database, otherwise the command that diagnoses a broken install
+            // cannot start. The same applies to migration and queue plumbing.
+            if ($command !== null && (
+                str_starts_with($command, 'opengrc:')
+                || str_starts_with($command, 'migrate:')
+                || in_array($command, $installerCommands, true)
             )) {
                 $isInstaller = true;
             }

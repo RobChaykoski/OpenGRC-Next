@@ -7,6 +7,7 @@ use App\Filament\Resources\FileAttachmentResource\Pages\CreateFileAttachment;
 use App\Filament\Resources\FileAttachmentResource\Pages\EditFileAttachment;
 use App\Filament\Resources\FileAttachmentResource\Pages\ListFileAttachments;
 use App\Models\FileAttachment;
+use App\Support\UploadRules;
 use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -43,6 +44,9 @@ class FileAttachmentResource extends Resource
                 FileUpload::make('file_path')
                     ->label('File')
                     ->preserveFilenames()
+                    ->acceptedFileTypes(UploadRules::mimes(UploadRules::EVIDENCE))
+                    ->maxSize(UploadRules::maxKb(UploadRules::EVIDENCE))
+                    ->rules([UploadRules::validationRule(UploadRules::EVIDENCE)])
                     ->disk(setting('storage.driver', 'private'))
                     ->directory(function () {
                         $rand = Carbon::now()->timestamp.'-'.Str::random(2);

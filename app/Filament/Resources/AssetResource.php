@@ -12,6 +12,7 @@ use App\Filament\Resources\AssetResource\RelationManagers\ImplementationsRelatio
 use App\Filament\Resources\AssetResource\RelationManagers\RisksRelationManager;
 use App\Models\Asset;
 use App\Models\User;
+use App\Support\UploadRules;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -437,6 +438,9 @@ class AssetResource extends Resource
 
                         FileUpload::make('image_url')
                             ->image()
+                            ->acceptedFileTypes(UploadRules::mimes(UploadRules::IMAGE))
+                            ->maxSize(UploadRules::maxKb(UploadRules::IMAGE))
+                            ->rules([UploadRules::validationRule(UploadRules::IMAGE)])
                             ->label('Asset Image')
                             ->columnSpanFull(),
                     ])

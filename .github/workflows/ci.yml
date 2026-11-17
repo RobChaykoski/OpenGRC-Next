@@ -96,6 +96,9 @@ jobs:
       - name: Check style
         run: ./vendor/bin/pint --test
 
+      - name: Check dependency licenses
+        run: php scripts/check-licenses.php
+
       # Blocking. Existing debt is recorded in phpstan-baseline.neon; new code
       # must be clean, and the baseline may only shrink.
       - name: Static analysis
@@ -121,6 +124,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Check dependency licenses
+        run: npx --yes license-checker --summary --onlyAllow "MIT;ISC;Apache-2.0;BSD-2-Clause;BSD-3-Clause;MPL-2.0;0BSD;CC0-1.0;Unlicense"
 
       - name: Build
         run: npm run build
@@ -163,6 +169,12 @@ jobs:
           sed -i 's#APP_URL=.*#APP_URL="http://127.0.0.1:8000"#' .env
           php artisan settings:set general.url "http://127.0.0.1:8000"
           php artisan optimize:clear
+
+      - name: Enrol the bootstrap admin in 2FA
+        run: |
+          # Privileged accounts are required to have 2FA; enrol the installer
+          # admin so the strict doctor run reflects a complete installation.
+          php artisan tinker --execute="\$user = \App\Models\User::query()->first(); \$user->enableTwoFactorAuthentication(); \$user->confirmTwoFactorAuthentication();"
 
       - name: Run the doctor
         run: php artisan opengrc:doctor --strict

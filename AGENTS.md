@@ -17,6 +17,8 @@ Read these before touching infrastructure or dependencies:
   with OpenCyberRange
 - `docs/grc/` — how the product is meant to be operated as a GRC programme; the
   capability map lists known gaps honestly
+- `docs/security/` — container hardening, WAF mode, and what is not hardened yet
+- `docs/OSS-POLICY.md` — license, dependency allowlist, contribution model
 - `config/framework_catalog.php` — framework provenance and licensing register
 
 ## Commands
@@ -34,6 +36,13 @@ php artisan test                 # PHPUnit/Pest suite
 php artisan opengrc:doctor       # runtime, config, database and build health
 php artisan opengrc:framework-import --list   # available control libraries
 php artisan opengrc:framework-audit  # framework data vs provenance register
+```
+
+Docker:
+
+```bash
+docker build -t opengrc:local .                    # production image
+docker compose -f docker/docker-compose.test.yml run --rm test   # suite in a container
 ```
 
 `php artisan opengrc:doctor` is the fastest way to tell "my change is broken" from
@@ -82,7 +91,12 @@ php artisan opengrc:framework-audit  # framework data vs provenance register
    `docs/decisions/0002-training-integration-boundary.md`.
 6. Do not add a dependency that is pre-release, abandoned, or unmaintained. Check
    the package, not only the version string.
-7. Windows contributors: use forward slashes in `DB_DATABASE`. Dotenv treats
+7. Do not add a dependency outside the license allowlist in `docs/OSS-POLICY.md`.
+   Run `php scripts/check-licenses.php` before proposing one.
+8. Do not weaken a security default (MFA for privileged roles, closed client
+   registration, upload content checks, session encryption, read-only container)
+   without an ADR in `docs/decisions/`.
+9. Windows contributors: use forward slashes in `DB_DATABASE`. Dotenv treats
    backslashes as escapes. `opengrc:doctor` warns if you forget.
 
 ## Definition of done

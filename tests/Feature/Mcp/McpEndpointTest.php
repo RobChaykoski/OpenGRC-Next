@@ -509,8 +509,15 @@ class McpEndpointTest extends TestCase
     public function test_oauth_dynamic_client_registration(): void
     {
         setting(['mcp.enabled' => true]);
+        config([
+            'mcp.dynamic_client_registration' => true,
+            'mcp.registration_requires_auth' => true,
+            'mcp.redirect_domains' => ['https://example.com/'],
+        ]);
 
-        $response = $this->postJson('/oauth/register', [
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->postJson('/oauth/register', [
             'client_name' => 'Test AI Client',
             'redirect_uris' => ['https://example.com/callback'],
         ]);
@@ -521,5 +528,40 @@ class McpEndpointTest extends TestCase
             'grant_types',
             'redirect_uris',
         ]);
+    }
+
+    /**
+     * Test dynamic client registration is closed by default.
+     */
+    public function test_oauth_dynamic_client_registration_is_disabled_by_default(): void
+    {
+        setting(['mcp.enabled' => true]);
+        config(['mcp.dynamic_client_registration' => false]);
+
+        $user = User::factory()->create();
+
+        $this->actingAs($user)
+            ->postJson('/oauth/register', [
+                'client_name' => 'Unwanted Client',
+                'redirect_uris' => ['https://example.com/callback'],
+            ])
+            ->assertNotFound();
+    }
+
+    /**
+     * Test registration requires an authenticated session when enabled.
+     */
+    public function test_oauth_dynamic_client_registration_requires_authentication(): void
+    {
+        setting(['mcp.enabled' => true]);
+        config([
+            'mcp.dynamic_client_registration' => true,
+            'mcp.registration_requires_auth' => true,
+        ]);
+
+        $this->postJson('/oauth/register', [
+            'client_name' => 'Anonymous Client',
+            'redirect_uris' => ['https://example.com/callback'],
+        ])->assertStatus(401);
     }
 }

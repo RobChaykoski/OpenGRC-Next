@@ -157,6 +157,12 @@ class Install extends Command
         $this->info('Creating database tables');
         $this->call('migrate', ['--force']);
 
+        // OAuth keys: the API and MCP guards fail at request time without them.
+        if (! file_exists(storage_path('oauth-private.key'))) {
+            $this->info('Generating OAuth keys');
+            $this->call('passport:keys', ['--force' => true]);
+        }
+
         // Create the admin user.
         $this->call('opengrc:create-user', [
             'email' => $email,

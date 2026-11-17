@@ -24,10 +24,15 @@ class SecurityHeaders
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
-        // HSTS - only in production to avoid issues with local development
-        if (app()->environment('production')) {
-            // $response->headers->set('Strict-Transport-Security', 'max-age=31536000; includeSubDomains');
+        // HSTS - only in production, and only over HTTPS. Sending it over plain
+        // HTTP is ignored by browsers; sending it from a development host can
+        // poison localhost for months.
+        if ($this->shouldSendHsts($request)) {
+            $response->headers->set('Strict-Transport-Security', $this->hstsValue());
         }
+
+        // Prevent MIME sniffing-based policy bypasses on downloads.
+        $response->headers->set('X-Permitted-Cross-Domain-Policies', 'none');
 
         // CSP only for HTML responses
         if ($this->shouldAddCsp($response)) {
@@ -35,6 +40,40 @@ class SecurityHeaders
         }
 
         return $response;
+    }
+
+    /**
+     * Determine if the request should receive an HSTS header.
+     */
+    protected function shouldSendHsts(Request $request): bool
+    {
+        if (! config('security.hsts.enabled', true)) {
+            return false;
+        }
+
+        if (! app()->environment('production')) {
+            return false;
+        }
+
+        return $request->isSecure() || str_starts_with((string) config('app.url'), 'https://');
+    }
+
+    /**
+     * Build the HSTS header value.
+     */
+    protected function hstsValue(): string
+    {
+        $value = 'max-age='.(int) config('security.hsts.max_age', 15552000);
+
+        if (config('security.hsts.include_subdomains', false)) {
+            $value .= '; includeSubDomains';
+        }
+
+        if (config('security.hsts.preload', false)) {
+            $value .= '; preload';
+        }
+
+        return $value;
     }
 
     /**

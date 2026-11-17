@@ -73,7 +73,26 @@ Depending on how large the project is, you may want to outsource the questioning
 ## I Want To Contribute
 
 > ### Legal Notice <!-- omit in toc -->
-> When contributing to this project, you must agree that you have authored 100% of the content, that you have the necessary rights to the content and that the content you contribute may be provided under the project licence.
+>
+> OpenGRC is licensed under `AGPL-3.0-only`. Contributions are accepted under the
+> same license (**inbound = outbound**). When contributing, you must agree that
+> you authored 100% of the content, that you have the necessary rights to it, and
+> that it may be provided under the project license.
+>
+> Certify this with the Developer Certificate of Origin by signing off every
+> commit:
+>
+> ```bash
+> git commit -s -m "fix: describe the change"
+> ```
+>
+> This adds a line like `Signed-off-by: Your Name <you@example.com>` to the
+> commit message. Pull requests without sign-off cannot be merged. The full DCO
+> text is at <https://developercertificate.org/>.
+>
+> Do not paste code, control text, or documentation from a project whose license
+> is incompatible with the AGPL. Framework data follows the rules in
+> `docs/OSS-POLICY.md` and must be registered in `config/framework_catalog.php`.
 
 ### Reporting Bugs
 

@@ -24,6 +24,17 @@ class OAuthRegisterController
      */
     public function __invoke(Request $request): JsonResponse
     {
+        if (! config('mcp.dynamic_client_registration', false)) {
+            abort(404, 'Dynamic client registration is disabled.');
+        }
+
+        if (config('mcp.registration_requires_auth', true) && ! $request->user()) {
+            return response()->json([
+                'error' => 'unauthorized_client',
+                'error_description' => 'Client registration requires an authenticated session.',
+            ], 401);
+        }
+
         $validated = $request->validate([
             'redirect_uris' => ['required', 'array', 'min:1'],
             'redirect_uris.*' => ['required', 'url', function (string $attribute, $value, $fail): void {

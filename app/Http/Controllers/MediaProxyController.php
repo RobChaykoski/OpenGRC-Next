@@ -52,7 +52,8 @@ class MediaProxyController extends Controller
         }, 200, [
             'Content-Type' => $mimeType,
             'Content-Length' => $size,
-            'Cache-Control' => 'public, max-age=31536000', // Cache for 1 year
+            // Private content must not be cached by shared proxies.
+            'Cache-Control' => 'private, no-store, max-age=0',
             'Content-Disposition' => 'inline', // Display in browser, not download
         ]);
     }

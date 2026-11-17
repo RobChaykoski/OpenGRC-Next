@@ -109,7 +109,28 @@ php artisan serve
 
 This starts the server at `http://127.0.0.1:8000`
 
-### 4. Configure Claude Code with OAuth
+### 4. Client registration
+
+Dynamic client registration (`POST /oauth/register`) is **disabled by default**.
+Enabling it lets any authenticated session mint an OAuth client, which is not a
+safe default for a self-hosted system of record.
+
+To enable it, set:
+
+```dotenv
+MCP_DYNAMIC_CLIENT_REGISTRATION=true
+MCP_REGISTRATION_REQUIRES_AUTH=true
+MCP_REDIRECT_DOMAINS=https://your-client.example.com/
+```
+
+`MCP_REDIRECT_DOMAINS` is a comma-separated list of allowed redirect URI prefixes.
+Empty means no redirect target is accepted. Do not use `*` outside a host you
+control.
+
+If registration stays disabled, create the client in the admin panel and
+configure the MCP client with the resulting client id.
+
+### 5. Configure Claude Code with OAuth
 
 Claude Code supports OAuth 2.1 authentication natively. Add the following to your Claude Code MCP settings:
 

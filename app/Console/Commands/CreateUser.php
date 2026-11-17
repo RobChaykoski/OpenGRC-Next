@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'opengrc:create-user')]
@@ -15,7 +16,10 @@ class CreateUser extends Command
      *
      * @var string
      */
-    protected $signature = 'opengrc:create-user {email? : The email of the user} {password? : The password of the user}';
+    protected $signature = 'opengrc:create-user
+                            {email? : The email of the user}
+                            {password? : The password of the user}
+                            {--role=auto : Role to assign. "auto" grants Super Admin only to the first user; use an empty value to skip}';
 
     /**
      * The console command description.
@@ -31,13 +35,35 @@ class CreateUser extends Command
     {
         $email = $this->argument('email');
         $password = $this->argument('password');
-        User::create([
+
+        $user = User::create([
             'email' => $email,
             'name' => $email,
             'password' => Hash::make($password),
             'password_reset_required' => false,
         ]);
 
-        $this->components->info('User Created.');
+        $roleOption = trim((string) $this->option('role'));
+
+        if ($roleOption === 'auto') {
+            // Bootstrap only: the first account is the installer admin. Later
+            // accounts must be granted a role explicitly, so a hurried CLI call
+            // cannot silently create another Super Admin.
+            $roleName = User::query()->count() <= 1 ? 'Super Admin' : '';
+        } else {
+            $roleName = $roleOption;
+        }
+
+        if ($roleName !== '') {
+            // The role may not exist yet on a first install (the permission
+            // seeder runs after this command), so create the shell role and let
+            // the seeder attach permissions to it.
+            $role = Role::findOrCreate($roleName, 'web');
+            $user->assignRole($role);
+
+            $this->components->info("User created and assigned the [{$roleName}] role.");
+        } else {
+            $this->components->info('User Created.');
+        }
     }
 }

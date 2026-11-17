@@ -44,7 +44,7 @@ sudo apt install php8.4 php8.4-cli php8.4-common php8.4-sqlite3 php8.4-mysql \
 
 #### Windows
 
-OpenGRC runs natively on Windows; WSL is not required.
+OpenGRC runs natively on Windows; WSL is not required. Docker is also supported and is the easier path if you do not want to manage PHP extensions by hand.
 
 ```powershell
 winget install --id PHP.PHP.8.4 --exact
@@ -72,6 +72,77 @@ Windows-specific notes:
   `opengrc:doctor` checks with `file_exists()` and `realpath()` instead.
 - Run `php artisan queue:work` in a second terminal; there is no Supervisor on
   Windows.
+
+### Docker (any platform)
+
+Build the production image and run it with SQLite:
+
+```bash
+docker build -t opengrc:local .
+
+docker run -d --name opengrc-local -p 8090:80 \
+  -e APP_URL=http://localhost:8090 \
+  -e ADMIN_EMAIL=admin@opengrc.local \
+  -e ADMIN_PASSWORD=admin123 \
+  -e RUN_QUEUE_WORKER=true \
+  -v opengrc-data:/var/www/html/database \
+  -v opengrc-storage:/var/www/html/storage/app \
+  opengrc:local
+```
+
+What happens on first start:
+
+- migrations run, defaults are seeded, and the admin account is created from
+  `ADMIN_EMAIL` / `ADMIN_PASSWORD`
+- an application key is generated and persisted in `storage/app/.app-key`; pass
+  `APP_KEY` explicitly if you manage secrets elsewhere
+- Passport keys are generated, so the API and MCP guards work
+- configuration, routes, and views are cached
+- `opengrc:doctor` prints its findings to the container log
+
+> **Persist `storage/app`.** It holds the application key and uploaded evidence.
+> Losing it while keeping the database makes encrypted values unreadable.
+
+Useful commands:
+
+```bash
+docker inspect --format='{{.State.Health.Status}}' opengrc-local
+docker logs -f opengrc-local
+docker exec -it opengrc-local bash
+docker exec opengrc-local php artisan opengrc:doctor
+docker exec opengrc-local php artisan opengrc:framework-import --list
+```
+
+The in-container queue worker is opt-in (`RUN_QUEUE_WORKER=true`). For production,
+run the worker as its own service instead of sharing a container with Apache.
+
+MySQL via the bundled Compose file:
+
+```bash
+docker compose up -d --build
+```
+
+The application is then on http://localhost:8080.
+
+If 8080 is already in use, pick a host port:
+
+```bash
+OPENGRC_PORT=8091 docker compose up -d --build
+```
+
+The stack runs the app with a read-only root filesystem and a separate queue
+worker. See `docs/security/container-hardening.md` for what is enforced and what
+is deliberately not hardened yet.
+
+Run the test suite in a container, with no host PHP:
+
+```bash
+docker compose -f docker/docker-compose.test.yml run --rm test
+docker compose -f docker/docker-compose.test.yml run --rm test --filter=Doctor
+```
+
+The image intentionally excludes `tests/`, `docs/`, and dev dependencies; the test
+image mounts the working tree and installs its own `vendor/` into a named volume.
 
 ## Quick Start
 

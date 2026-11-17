@@ -11,6 +11,7 @@ use App\Models\Control;
 use App\Models\DataRequest;
 use App\Models\DataRequestResponse;
 use App\Models\Policy;
+use App\Support\UploadRules;
 use Exception;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -239,6 +240,8 @@ class DataRequestResponseResource extends Resource
                                     ->label('File')
                                     ->required()
                                     ->preserveFilenames()
+                                    ->acceptedFileTypes(UploadRules::mimes(UploadRules::EVIDENCE))
+                                    ->rules([UploadRules::validationRule(UploadRules::EVIDENCE)])
                                     ->disk(setting('storage.driver', 'private'))
                                     ->directory('data-request-attachments')
                                     ->storeFileNamesIn('file_name')
@@ -247,7 +250,7 @@ class DataRequestResponseResource extends Resource
                                     ->openable()
                                     ->deletable()
                                     ->reorderable()
-                                    ->maxSize(10240) // 2MB max (matches PHP upload_max_filesize)
+                                    ->maxSize(UploadRules::maxKb(UploadRules::EVIDENCE))
                                     ->getUploadedFileNameForStorageUsing(function ($file) {
                                         $random = Str::random(8);
 

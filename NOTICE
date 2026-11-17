@@ -1,0 +1,38 @@
+OpenGRC
+Copyright (C) 2024-2026 OpenGRC, LLC and contributors
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License as published by the Free
+Software Foundation, version 3 of the License.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along
+with this program in LICENSE.txt. If not, see <https://www.gnu.org/licenses/>.
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+------------------------------------------------------------------------------
+License history
+------------------------------------------------------------------------------
+
+Releases published before 14 April 2025 were made available under the MIT
+License. Releases between 14 April 2025 and the adoption of the AGPL were made
+available under the CC BY-NC-SA 4.0 license and, later, the Elastic License 2.0.
+Those releases remain available under the terms they were published with; this
+does not change those grants for anyone who received them.
+
+From the AGPL adoption commit forward, the project is licensed under
+AGPL-3.0-only. Contributions are accepted under the same license; see
+CONTRIBUTING.md for the sign-off requirement.
+
+------------------------------------------------------------------------------
+Trademarks
+------------------------------------------------------------------------------
+
+"OpenGRC" and the OpenGRC logo are trademarks of OpenGRC, LLC. The license does
+not grant permission to use them except to describe the origin of the software.
+Forks may state that they are "based on OpenGRC" but must not imply endorsement.
+See TRADEMARKS.md.

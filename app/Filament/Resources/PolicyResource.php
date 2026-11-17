@@ -15,6 +15,7 @@ use App\Filament\Resources\PolicyResource\RelationManagers\ExceptionsRelationMan
 use App\Filament\Resources\PolicyResource\RelationManagers\ImplementationsRelationManager;
 use App\Filament\Resources\PolicyResource\RelationManagers\RisksRelationManager;
 use App\Models\Policy;
+use App\Support\UploadRules;
 use Filament\Actions\BulkAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
@@ -152,8 +153,9 @@ class PolicyResource extends Resource
                     ->schema([
                         FileUpload::make('document_path')
                             ->label('Upload Policy Document')
-                            ->acceptedFileTypes(['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'])
-                            ->maxSize(10240)
+                            ->acceptedFileTypes(UploadRules::mimes(UploadRules::DOCUMENT))
+                            ->maxSize(UploadRules::maxKb(UploadRules::DOCUMENT))
+                            ->rules([UploadRules::validationRule(UploadRules::DOCUMENT)])
                             ->directory('policies')
                             ->columnSpanFull()
                             ->helperText('Upload a policy document instead of filling in the fields above (PDF, DOC, DOCX - max 10MB)'),

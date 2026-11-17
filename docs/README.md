@@ -38,6 +38,14 @@ architecture, integrations, and the decisions behind them.
 | [grc/program-playbook.md](grc/program-playbook.md) | Roles, cadence, metrics, onboarding |
 | [grc/data-dictionary.md](grc/data-dictionary.md) | Objects, fields, relations, invariants |
 
+## Security
+
+| Document | Purpose |
+|---|---|
+| [security/container-hardening.md](security/container-hardening.md) | Read-only filesystem, capabilities, WAF, and what is not hardened yet |
+| [OSS-POLICY.md](OSS-POLICY.md) | License, dependency allowlist, contribution model |
+| [../SECURITY.md](../SECURITY.md) | Vulnerability disclosure |
+
 ## Reference
 
 | Document | Purpose |

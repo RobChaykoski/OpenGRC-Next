@@ -1,0 +1,35 @@
+# Run the test suite in a container, with no host PHP required:
+#
+#   docker compose -f docker/docker-compose.test.yml run --rm test
+#   docker compose -f docker/docker-compose.test.yml run --rm test --filter=Doctor
+#
+# The working tree is mounted, so edits are picked up immediately. Vendor
+# dependencies live in a named volume, which keeps Windows/macOS host binaries
+# out of the container and makes repeat runs fast.
+
+services:
+  test:
+    build:
+      context: ..
+      dockerfile: docker/test.Dockerfile
+    working_dir: /app
+    volumes:
+      - ..:/app
+      - opengrc_test_vendor:/app/vendor
+    environment:
+      APP_ENV: testing
+      # Test-only key: base64 of 32 "a" bytes. Never use outside tests.
+      APP_KEY: "base64:YWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWE="
+      DB_CONNECTION: sqlite
+      DB_DATABASE: ":memory:"
+      CACHE_DRIVER: array
+      QUEUE_CONNECTION: sync
+      SESSION_DRIVER: array
+      MAIL_MAILER: array
+      BCRYPT_ROUNDS: "4"
+    command: >
+      sh -c "composer install --prefer-dist --no-interaction --no-progress &&
+             php artisan test"
+
+volumes:
+  opengrc_test_vendor:

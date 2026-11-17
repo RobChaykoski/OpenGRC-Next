@@ -115,27 +115,36 @@ how to report a vulnerability, or use the contact details published at
 
 ## License
 
-OpenGRC is **source-available** under the [Elastic License 2.0](LICENSE.txt).
+OpenGRC is **free software** under the [GNU Affero General Public License v3.0](LICENSE.txt)
+(`AGPL-3.0-only`).
 
 In plain terms, you may:
 
 - ✅ Use OpenGRC for free, including inside a commercial business
 - ✅ Self-host it on your own infrastructure, for your own organisation
-- ✅ Read, modify and redistribute the source
+- ✅ Read, modify and redistribute the source under the same license
 
-What you may **not** do:
+What the license requires:
 
-- ❌ Offer OpenGRC to third parties as a hosted or managed service
-- ❌ Circumvent the licence key functionality
-- ❌ Remove or obscure licensing and copyright notices
+- 📄 If you modify OpenGRC and let other people use it over a network, you must
+  offer them the corresponding source of your modified version
+- 📄 Redistributions must keep the license and copyright notices
 
-If you want to provide OpenGRC as a service to your own clients, that is what the
-[MSSP edition](https://opengrc.com/mssp) is for — [talk to
-us](https://opengrc.com/contact).
+The AGPL is what keeps this project open: it prevents a competitor from taking the
+community edition, hosting it as a closed service, and contributing nothing back.
+Running OpenGRC internally, or for your own organisation's clients, does not
+require you to publish anything.
 
-> **Licence history.** Commits prior to 14 April 2025 were released under the MIT License.
-> Commits from 14 April 2025 were released under CC BY-NC-SA 4.0. Those releases remain
-> available under their original terms; the Elastic License 2.0 applies from the date noted
-> in this file forward.
+If you need a commercial license, the hosted/managed service, or terms that are
+not compatible with the AGPL, that is what the [MSSP edition](https://opengrc.com/mssp)
+and [Enterprise](https://opengrc.com/enterprise) are for —
+[talk to us](https://opengrc.com/contact).
 
-OpenGRC™ is a trademark of OpenGRC, LLC.
+> **License history.** Releases before 14 April 2025 were published under the MIT
+> License. Releases from 14 April 2025 were published under CC BY-NC-SA 4.0 and
+> later the Elastic License 2.0. Those releases remain available under the terms
+> they were published with. The AGPL applies from the adoption commit forward.
+> Details are in [NOTICE](NOTICE) and [docs/OSS-POLICY.md](docs/OSS-POLICY.md).
+
+OpenGRC™ and the OpenGRC logo are trademarks of OpenGRC, LLC. See
+[TRADEMARKS.md](TRADEMARKS.md).

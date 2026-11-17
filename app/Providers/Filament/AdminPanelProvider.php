@@ -12,6 +12,7 @@ use App\Filament\Admin\Pages\Settings\Settings;
 use App\Filament\Admin\Pages\Settings\StorageSettings;
 use App\Filament\Admin\Pages\Settings\TrustCenterSettings;
 use App\Filament\Admin\Pages\Settings\VendorPortalSettings;
+use App\Http\Middleware\RequireTwoFactorAuthentication;
 use DB;
 use Exception;
 use Filament\Http\Middleware\Authenticate;
@@ -93,6 +94,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
+                RequireTwoFactorAuthentication::class,
             ])
             ->plugins([
                 BreezyCore::make()

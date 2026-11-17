@@ -4,9 +4,12 @@
     "description": "The skeleton application for the Laravel framework.",
     "keywords": [
         "laravel",
-        "framework"
+        "framework",
+        "grc",
+        "compliance",
+        "risk"
     ],
-    "license": "MIT",
+    "license": "AGPL-3.0-only",
     "repositories": [
         {
             "type": "vcs",

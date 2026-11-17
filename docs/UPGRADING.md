@@ -24,6 +24,8 @@ are the ones nobody expected to be expensive.
 - [ ] Note the current release: `git describe --tags --always --dirty`.
 - [ ] Schedule a window. Migrations are not instantaneous on large installs.
 - [ ] Put the app in maintenance mode if it has live users.
+- [ ] Expect one forced re-login: sessions are encrypted by default from the
+      security-defaults release. Nothing is lost; existing cookies are invalid.
 
 ```bash
 php artisan down --retry=60

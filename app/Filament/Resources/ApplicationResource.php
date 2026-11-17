@@ -11,6 +11,7 @@ use App\Filament\Resources\ApplicationResource\Pages\ListApplications;
 use App\Filament\Resources\ApplicationResource\Pages\ViewApplication;
 use App\Filament\Resources\ApplicationResource\RelationManagers\ImplementationsRelationManager;
 use App\Models\Application;
+use App\Support\UploadRules;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -99,11 +100,13 @@ class ApplicationResource extends Resource
                     ->required(),
                 FileUpload::make('logo')
                     ->label(__('Logo'))
+                    ->acceptedFileTypes(UploadRules::mimes(UploadRules::IMAGE))
+                    ->maxSize(UploadRules::maxKb(UploadRules::IMAGE))
+                    ->rules([UploadRules::validationRule(UploadRules::IMAGE)])
                     ->disk(config('filesystems.default'))
                     ->directory('application-logos')
                     ->storeFileNamesIn('logo')
                     ->visibility('private')
-                    ->maxSize(1024) // 1MB
                     ->deletable()
                     ->deleteUploadedFileUsing(function ($state) {
                         if ($state) {

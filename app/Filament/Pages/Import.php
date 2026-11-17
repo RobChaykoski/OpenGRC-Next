@@ -6,6 +6,7 @@ use App\Models\Control;
 use App\Models\Implementation;
 use App\Models\Standard;
 use App\Models\User;
+use App\Support\UploadRules;
 use Exception;
 use Filament\Actions\Concerns\HasWizard;
 use Filament\Forms\Components\FileUpload;
@@ -92,8 +93,9 @@ class Import extends Page
                                 ->required()
                                 ->disk('private')
                                 ->directory('imports')
-                                ->acceptedFileTypes(['text/csv'])
-                                ->rules([])
+                                ->acceptedFileTypes(UploadRules::mimes(UploadRules::IMPORT))
+                                ->maxSize(UploadRules::maxKb(UploadRules::IMPORT))
+                                ->rules([UploadRules::validationRule(UploadRules::IMPORT)])
                                 ->afterStateUpdated(function ($state, Get $get) {
                                     if ($state) {
                                         $this->data_file_path = $state->getPathname();

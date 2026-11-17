@@ -1,7 +1,9 @@
 <?php
 
 use App\Filament\Vendor\Pages\Auth\SurveyAccess;
+use App\Http\Controllers\AttachmentDownloadController;
 use App\Http\Controllers\MediaProxyController;
+use App\Http\Controllers\PrivateStorageController;
 use App\Http\Controllers\SurveyAttachmentController;
 use App\Http\Controllers\TrustCenterController;
 use App\Http\Controllers\Vendor\VendorAuthController;
@@ -9,7 +11,6 @@ use App\Http\Controllers\Vendor\VendorDocumentController;
 use App\Livewire\PasswordResetPage;
 use App\Models\Survey;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 
 // Health check endpoint for load balancers and Docker health checks
@@ -30,9 +31,14 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/app/reset-password', PasswordResetPage::class)->name('password-reset-page');
 
-    Route::get('/app/priv-storage/{filepath}', function ($filepath) {
-        return Storage::disk('private')->download($filepath);
-    })->where('filepath', '.*')->name('priv-storage');
+    Route::get('/app/priv-storage/{filepath}', PrivateStorageController::class)
+        ->where('filepath', '.*')
+        ->name('priv-storage');
+
+    // Signed evidence download. URLs are short-lived and bound to the file.
+    Route::get('/attachments/{fileAttachment}/download', AttachmentDownloadController::class)
+        ->middleware('signed')
+        ->name('attachments.download');
 
     // Media proxy route for serving private S3/cloud storage files
     Route::get('/media/{path}', [MediaProxyController::class, 'show'])

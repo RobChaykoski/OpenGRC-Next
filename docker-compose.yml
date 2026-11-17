@@ -2,6 +2,8 @@ services:
   db:
     image: mysql:8.0
     restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: opengrc
@@ -17,18 +19,46 @@ services:
 
   app:
     image: opengrc
+    build: .
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - "8080:80"
+      - "${OPENGRC_PORT:-8080}:80"
+    # Runtime hardening. The image is designed to run with a read-only root
+    # filesystem: writable paths are explicit volumes or tmpfs mounts.
+    read_only: true
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETUID
+      - SETGID
+      - NET_BIND_SERVICE
+    tmpfs:
+      - /tmp:size=64m
+      - /run:size=16m
+      - /var/run/apache2:size=8m
+      # PHP-FPM writes its error log here; Apache writes access/error and the
+      # ModSecurity audit log. A read-only root needs this writable.
+      - /var/log:size=32m
+      - /var/www/html/bootstrap/cache:size=32m
+    stop_grace_period: 30s
+    volumes:
+      # Application key, evidence files, framework caches, and logs.
+      - opengrc_storage:/var/www/html/storage
     environment:
       APP_NAME: OpenGRC
       APP_ENV: local
       APP_DEBUG: "true"
       APP_KEY: ${APP_KEY:-}
-      APP_URL: http://localhost:8080
+      APP_URL: http://localhost:${OPENGRC_PORT:-8080}
 
       DB_CONNECTION: mysql
       DB_HOST: db
@@ -42,9 +72,80 @@ services:
 
       CACHE_DRIVER: file
       SESSION_DRIVER: file
-      QUEUE_CONNECTION: sync
+      SESSION_ENCRYPT: "true"
+
+      # The worker runs in its own service below.
+      QUEUE_CONNECTION: database
+      RUN_QUEUE_WORKER: "false"
 
       MAIL_MAILER: log
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 1G
+          pids: 512
+
+  worker:
+    image: opengrc
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      # Wait for the app to finish migrations and seeding before starting a
+      # second entrypoint that would also try to migrate.
+      app:
+        condition: service_healthy
+    read_only: true
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+      - FOWNER
+      - SETUID
+      - SETGID
+    tmpfs:
+      - /tmp:size=64m
+      - /run:size=16m
+      - /var/www/html/bootstrap/cache:size=32m
+    stop_grace_period: 30s
+    volumes:
+      - opengrc_storage:/var/www/html/storage
+    environment:
+      APP_NAME: OpenGRC
+      APP_ENV: local
+      APP_DEBUG: "true"
+      APP_KEY: ${APP_KEY:-}
+      APP_URL: http://localhost:${OPENGRC_PORT:-8080}
+
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: opengrc
+      DB_USERNAME: opengrc_user
+      DB_PASSWORD: opengrc_password
+
+      CACHE_DRIVER: file
+      SESSION_DRIVER: file
+      SESSION_ENCRYPT: "true"
+      QUEUE_CONNECTION: database
+      MAIL_MAILER: log
+    command: ["php", "artisan", "queue:work", "--sleep=3", "--tries=3"]
+    # The image healthcheck probes Apache; this container does not serve HTTP.
+    healthcheck:
+      disable: true
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+          pids: 256
 
 volumes:
   opengrc_db:
+  opengrc_storage:

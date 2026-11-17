@@ -28,6 +28,9 @@ RUN apt-get update \
 RUN apt-get update && apt-get install -y \
     # Apache2
     apache2 \
+    # WAF (detection mode by default; see docs/security/container-hardening.md)
+    libapache2-mod-security2 \
+    modsecurity-crs \
     # PHP and extensions
     php${PHP_VERSION} \
     php${PHP_VERSION}-cli \
@@ -83,9 +86,21 @@ RUN a2enmod rewrite \
     && a2enmod proxy_fcgi \
     && a2enmod setenvif \
     && a2enmod remoteip \
+    && a2enmod security2 \
     && a2dismod mpm_prefork \
     && a2enmod mpm_event \
     && a2enconf php${PHP_VERSION}-fpm
+
+# ModSecurity with the OWASP Core Rule Set.
+#
+# DetectionOnly on purpose: CRS legitimately flags some Filament/Livewire
+# request patterns, and a fresh install that returns 403 on login is a worse
+# outcome than a log line. Switch to On after reviewing your own traffic; see
+# docs/security/container-hardening.md.
+RUN cp -n /etc/modsecurity/modsecurity.conf-recommended /etc/modsecurity/modsecurity.conf \
+    && sed -i 's/^SecRuleEngine .*/SecRuleEngine DetectionOnly/' /etc/modsecurity/modsecurity.conf \
+    && sed -i 's#^SecAuditLog .*#SecAuditLog /var/log/apache2/modsec_audit.log#' /etc/modsecurity/modsecurity.conf \
+    && apache2ctl -t
 
 # Configure RemoteIP to trust load balancer
 RUN echo 'RemoteIPHeader X-Forwarded-For\n\
@@ -131,6 +146,10 @@ WORKDIR /var/www/html
 # Copy application code
 COPY . .
 
+# The public storage link is created at build time so the runtime filesystem can
+# be read-only. The target is a volume at runtime.
+RUN ln -sfn /var/www/html/storage/app/public /var/www/html/public/storage
+
 # Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
@@ -169,9 +188,10 @@ RUN echo "* * * * * www-data cd /var/www/html && php artisan schedule:run >> /de
 # Expose port 80
 EXPOSE 80
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=5 \
-    CMD curl -f http://localhost/ || exit 1
+# Health check: the login page returns 200 only when the app, database, and
+# compiled assets are all working. `/` returns a redirect either way.
+HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=5 \
+    CMD curl -fsS http://localhost/app/login >/dev/null || exit 1
 
 # Copy and set up entrypoint script
 COPY docker-entrypoint.sh /var/www/html/docker-entrypoint.sh

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use App\Support\DatabasePath;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +47,7 @@ class Doctor extends Command
         $this->checkBuild();
         $this->checkDatabase();
         $this->checkOauthKeys();
+        $this->checkPrivilegedMfa();
         $this->checkVersion();
 
         $failures = $this->countByStatus('fail');
@@ -345,6 +347,40 @@ class Doctor extends Command
             'OAuth keys',
             $present ? 'pass' : 'warn',
             $present ? 'present' : 'missing; run php artisan passport:keys (API and MCP auth will fail)'
+        );
+    }
+
+    /**
+     * Privileged accounts should have confirmed two-factor authentication.
+     */
+    protected function checkPrivilegedMfa(): void
+    {
+        try {
+            if (! Schema::hasTable('users') || ! Schema::hasTable('breezy_sessions')) {
+                return;
+            }
+
+            $privileged = User::query()
+                ->whereHas('roles', fn ($query) => $query->whereIn('name', ['Super Admin', 'Security Admin']))
+                ->get();
+        } catch (Throwable) {
+            return;
+        }
+
+        if ($privileged->isEmpty()) {
+            $this->record('Privileged MFA', 'pass', 'no privileged accounts yet');
+
+            return;
+        }
+
+        $missing = $privileged->reject(fn ($user) => $user->hasConfirmedTwoFactor());
+
+        $this->record(
+            'Privileged MFA',
+            $missing->isEmpty() ? 'pass' : 'warn',
+            $missing->isEmpty()
+                ? $privileged->count().' privileged account(s) enrolled'
+                : $missing->count().' privileged account(s) without 2FA: '.$missing->pluck('email')->take(5)->implode(', ')
         );
     }
 
