@@ -18,10 +18,8 @@ return [
         'bundle' => 'Bundles',
         'program' => 'Programs',
         'audit_item' => 'Audit Items',
-        'permission' => 'Permissions',
         'data_request' => 'Data Requests',
         'implementation' => 'Implementations',
-        'role' => 'Roles',
     ],
 
     // Menu Items

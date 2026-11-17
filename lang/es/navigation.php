@@ -17,10 +17,8 @@ return [
         'bundle' => 'Paquetes',
         'program' => 'Programas',
         'audit_item' => 'Elementos de Auditoría',
-        'permission' => 'Permisos',
         'data_request' => 'Solicitudes de Datos',
         'implementation' => 'Implementaciones',
-        'role' => 'Roles',
     ],
 
     // Menu Items

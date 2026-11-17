@@ -17,10 +17,8 @@ return [
         'bundle' => 'Paketi',
         'program' => 'Programi',
         'audit_item' => 'Stavke Revizije',
-        'permission' => 'Dozvole',
         'data_request' => 'Zahtjevi za Podacima',
         'implementation' => 'Implementacije',
-        'role' => 'Uloge',
     ],
 
     // Menu Items

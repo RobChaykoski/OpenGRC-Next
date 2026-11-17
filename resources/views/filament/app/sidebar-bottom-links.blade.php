@@ -7,7 +7,7 @@
             'url' => '/admin/settings',
             'icon' => 'heroicon-o-cog-6-tooth',
             'external' => false,
-            'permissions' => ['Manage Users', 'View Audit Log', 'Manage Permissions', 'Configure Authentication'],
+            'permissions' => ['Manage Preferences'],
         ],
         [
             'label' => 'Help',
