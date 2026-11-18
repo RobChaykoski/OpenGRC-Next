@@ -92,7 +92,6 @@ class SecurityHeaders
     protected function buildPolicy(Request $request): string
     {
         $storageEndpoints = $this->getStorageEndpoints();
-        $cdnSources = $this->getCdnSources($request);
         $formAction = $this->getFormAction($request);
 
         $directives = [
@@ -100,13 +99,13 @@ class SecurityHeaders
             "default-src 'self'",
 
             // Scripts: self + unsafe-inline/eval required for Livewire/Alpine.js
-            "script-src 'self' 'unsafe-inline' 'unsafe-eval'".$cdnSources['script'],
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
 
             // Styles: self + unsafe-inline required for Filament's dynamic styles
-            "style-src 'self' 'unsafe-inline' https://fonts.bunny.net",
+            "style-src 'self' 'unsafe-inline'",
 
-            // Fonts: Bunny Fonts (trust center) + self. The brand font is self-hosted.
-            "font-src 'self' https://fonts.bunny.net data:",
+            // Fonts: self only; the brand font and trust-centre styles are built
+            "font-src 'self' data:",
 
             // Images: self + data URIs + ui-avatars for default avatars + external storage
             "img-src 'self' data: blob: https://ui-avatars.com".$storageEndpoints,
@@ -134,25 +133,6 @@ class SecurityHeaders
         ];
 
         return implode('; ', array_filter($directives));
-    }
-
-    /**
-     * Get CDN sources for public pages that use external scripts.
-     *
-     * Trust Center public pages use Tailwind CDN and Alpine.js CDN.
-     */
-    protected function getCdnSources(Request $request): array
-    {
-        $scriptSources = '';
-
-        // Trust Center public pages need Tailwind CDN and Alpine.js CDN
-        if ($request->is('trust', 'trust/*')) {
-            $scriptSources = ' https://cdn.tailwindcss.com https://cdn.jsdelivr.net';
-        }
-
-        return [
-            'script' => $scriptSources,
-        ];
     }
 
     /**

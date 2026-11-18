@@ -7,23 +7,7 @@
 
     <title>Protected Document Access - Trust Center</title>
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700&display=swap" rel="stylesheet" />
-
-    <!-- Tailwind CSS via CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                }
-            }
-        }
-    </script>
+    @vite('resources/css/trust-center.css')
 </head>
 <body class="font-sans antialiased bg-gray-50 min-h-screen">
     <div class="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8">

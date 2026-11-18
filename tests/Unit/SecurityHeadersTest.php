@@ -75,6 +75,17 @@ class SecurityHeadersTest extends TestCase
         $this->assertStringNotContainsString('fonts.gstatic.com', $csp);
     }
 
+    #[Test]
+    public function it_does_not_allow_third_party_trust_center_assets(): void
+    {
+        $response = $this->handle('https://grc.example.com/trust');
+        $csp = (string) $response->headers->get('Content-Security-Policy');
+
+        $this->assertStringNotContainsString('cdn.tailwindcss.com', $csp);
+        $this->assertStringNotContainsString('cdn.jsdelivr.net', $csp);
+        $this->assertStringNotContainsString('fonts.bunny.net', $csp);
+    }
+
     protected function handle(string $url, string $contentType = 'text/html'): Response
     {
         $middleware = new SecurityHeaders;
