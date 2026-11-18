@@ -5,7 +5,6 @@ namespace Tests\Feature\Api;
 use App\Models\EvidenceRecord;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Laravel\Sanctum\Sanctum;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -16,55 +15,131 @@ class EvidenceIngestionApiTest extends TestCase
     #[Test]
     public function it_accepts_a_hash_verified_evidence_snapshot(): void
     {
-        Sanctum::actingAs(User::factory()->create());
+        $token = $this->token();
+        $evidence = $this->evidence();
 
-        $evidence = [
-            'schema' => 'opendiscovery.evidence/v1',
-            'scan' => ['id' => 'scan-1', 'findingsCount' => 1],
-            'findings' => [['detector' => 'ca_sin', 'preview' => '04****86']],
-        ];
+        $this->withToken($token)
+            ->postJson('/api/v1/evidence', [
+                'id' => 'evidence-1',
+                'sha256' => $this->digest($evidence),
+                'scanId' => 'scan-1',
+                'findingCount' => 1,
+                'evidence' => $evidence,
+            ])
+            ->assertCreated()
+            ->assertJsonPath('status', 'accepted');
 
-        $response = $this->postJson('/api/v1/evidence', [
-            'id' => 'evidence-1',
-            'sha256' => $this->digest($evidence),
-            'evidence' => $evidence,
-        ]);
-
-        $response->assertCreated()->assertJsonPath('status', 'accepted');
         $this->assertSame(1, EvidenceRecord::query()->count());
+        $this->assertDatabaseHas('evidence_records', ['client_id' => 'acme', 'external_id' => 'evidence-1']);
     }
 
     #[Test]
     public function it_rejects_a_mismatched_hash(): void
     {
-        Sanctum::actingAs(User::factory()->create());
+        $this->withToken($this->token())
+            ->postJson('/api/v1/evidence', [
+                'id' => 'evidence-2',
+                'sha256' => str_repeat('a', 64),
+                'evidence' => ['schema' => 'opendiscovery.evidence/v1'],
+            ])
+            ->assertStatus(422);
 
-        $response = $this->postJson('/api/v1/evidence', [
-            'id' => 'evidence-2',
-            'sha256' => str_repeat('a', 64),
-            'evidence' => ['schema' => 'opendiscovery.evidence/v1'],
-        ]);
-
-        $response->assertStatus(422);
         $this->assertSame(0, EvidenceRecord::query()->count());
     }
 
     #[Test]
-    public function a_replay_is_not_duplicated(): void
+    public function a_replay_returns_the_original_record(): void
     {
-        Sanctum::actingAs(User::factory()->create());
-
-        $evidence = ['schema' => 'opendiscovery.evidence/v1', 'scan' => ['id' => 'scan-3']];
+        $token = $this->token();
+        $evidence = $this->evidence();
         $body = [
             'id' => 'evidence-3',
             'sha256' => $this->digest($evidence),
             'evidence' => $evidence,
         ];
 
-        $this->postJson('/api/v1/evidence', $body)->assertCreated();
-        $this->postJson('/api/v1/evidence', $body)->assertCreated();
+        $first = $this->withToken($token)->postJson('/api/v1/evidence', $body)->assertCreated();
+        $second = $this->withToken($token)->postJson('/api/v1/evidence', $body)->assertOk();
+
+        $this->assertSame(
+            $first->json('evidenceId'),
+            $second->json('evidenceId')
+        );
+        $this->assertSame(1, EvidenceRecord::query()->count());
+    }
+
+    #[Test]
+    public function a_duplicate_external_id_does_not_create_a_second_row(): void
+    {
+        $token = $this->token();
+        $first = $this->evidence();
+        $second = ['schema' => 'opendiscovery.evidence/v1', 'scan' => ['id' => 'scan-other']];
+
+        $this->withToken($token)->postJson('/api/v1/evidence', [
+            'id' => 'evidence-4',
+            'sha256' => $this->digest($first),
+            'evidence' => $first,
+        ])->assertCreated();
+
+        $this->withToken($token)->postJson('/api/v1/evidence', [
+            'id' => 'evidence-4',
+            'sha256' => $this->digest($second),
+            'evidence' => $second,
+        ])->assertOk();
 
         $this->assertSame(1, EvidenceRecord::query()->count());
+    }
+
+    #[Test]
+    public function a_missing_token_returns_401_json(): void
+    {
+        $this->postJson('/api/v1/evidence', [])
+            ->assertStatus(401)
+            ->assertJsonStructure(['message']);
+    }
+
+    #[Test]
+    public function a_token_without_the_scope_returns_403(): void
+    {
+        $this->withToken($this->token(abilities: []))
+            ->postJson('/api/v1/evidence', [])
+            ->assertStatus(403)
+            ->assertJsonPath('message', 'The token is missing the evidence.write scope.');
+    }
+
+    #[Test]
+    public function a_token_without_a_client_returns_403(): void
+    {
+        $this->withToken($this->token(clientId: null))
+            ->postJson('/api/v1/evidence', [])
+            ->assertStatus(403)
+            ->assertJsonPath('message', 'The token is not bound to a client.');
+    }
+
+    /**
+     * @param  array<int, string>  $abilities
+     */
+    private function token(array $abilities = ['evidence.write'], ?string $clientId = 'acme'): string
+    {
+        $new = User::factory()->create()->createToken('discovery', $abilities);
+
+        if ($clientId !== null) {
+            $new->accessToken->forceFill(['client_id' => $clientId])->save();
+        }
+
+        return $new->plainTextToken;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function evidence(): array
+    {
+        return [
+            'schema' => 'opendiscovery.evidence/v1',
+            'scan' => ['id' => 'scan-1', 'findingsCount' => 1],
+            'findings' => [['detector' => 'ca_sin', 'preview' => '04****86']],
+        ];
     }
 
     /**

@@ -2011,6 +2011,11 @@
             "nullable": true
         },
         {
+            "name": "client_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
             "name": "collected_at",
             "type": "datetime",
             "nullable": false
@@ -3198,6 +3203,11 @@
         {
             "name": "abilities",
             "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "client_id",
+            "type": "varchar",
             "nullable": true
         },
         {

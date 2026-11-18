@@ -500,6 +500,10 @@
         {
             "name": "2026_11_18_030000_add_test_dates_to_implementations_table",
             "sha256": "ddf90c72e71bd4fdaa18eaee8f87374071518b08517f422bf62b8af4da88837f"
+        },
+        {
+            "name": "2026_11_18_040000_bind_discovery_clients",
+            "sha256": "aa8f2807f94ce0db19777a0e8bcce0597d9c94c32c66c5fcb5a37960931e5d46"
         }
     ]
 }

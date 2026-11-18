@@ -18,6 +18,7 @@ use App\Http\Controllers\API\RiskController;
 use App\Http\Controllers\API\StandardController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\VendorController;
+use App\Http\Middleware\EnsureEvidenceWriteScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,7 +59,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('checklist-templates', ChecklistTemplateController::class);
 
     // Discovery evidence from OpenDLP-NG (hash verified, append-only)
-    Route::post('/v1/evidence', [EvidenceIngestionController::class, 'store']);
+    Route::post('/v1/evidence', [EvidenceIngestionController::class, 'store'])
+        ->middleware(EnsureEvidenceWriteScope::class);
 
     // Checklist approval
     Route::post('/checklists/{id}/approve', [ChecklistController::class, 'approve']);

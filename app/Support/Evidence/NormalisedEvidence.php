@@ -25,5 +25,6 @@ final readonly class NormalisedEvidence
         public array $payload = [],
         public ?string $assetIdentifier = null,
         public ?string $controlIdentifier = null,
+        public ?string $clientId = null,
     ) {}
 }

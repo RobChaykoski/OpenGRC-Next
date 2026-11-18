@@ -23,6 +23,7 @@ class EvidenceRecord extends Model
         'source_id',
         'job_id',
         'external_id',
+        'client_id',
         'asset_id',
         'control_id',
         'evidence_type',

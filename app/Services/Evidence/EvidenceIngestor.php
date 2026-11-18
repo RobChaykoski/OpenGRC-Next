@@ -35,8 +35,13 @@ class EvidenceIngestor
         $payload = $this->hasher->canonicalize($evidence->payload);
 
         $collectedAt = $evidence->collectedAt->utc();
+
+        // Connector measurements can repeat for the same asset over time, so the
+        // measurement time is part of identity. API snapshots are additionally
+        // deduplicated by (client_id, external_id), which is unique.
         $key = hash('sha256', implode('|', [
             (string) $source->getKey(),
+            (string) ($evidence->clientId ?? ''),
             $evidence->externalId,
             $collectedAt->toIso8601ZuluString(),
         ]));
@@ -45,6 +50,7 @@ class EvidenceIngestor
             'source_id' => $source->getKey(),
             'job_id' => $job->getKey(),
             'external_id' => $evidence->externalId,
+            'client_id' => $evidence->clientId,
             'asset_id' => $this->resolveAssetId($evidence->assetIdentifier),
             'control_id' => $this->resolveControlId($evidence->controlIdentifier),
             'evidence_type' => $evidence->evidenceType,
