@@ -14,6 +14,10 @@ class Kernel extends ConsoleKernel
     {
         // Generate recurring checklists daily at 6:00 AM
         $schedule->command('checklists:generate-recurring')->dailyAt('06:00');
+
+        // Record one assurance snapshot per framework per day so the score has
+        // a trend; re-running the command updates the same day's row.
+        $schedule->command('opengrc:assurance:snapshot')->dailyAt('06:15');
     }
 
     /**

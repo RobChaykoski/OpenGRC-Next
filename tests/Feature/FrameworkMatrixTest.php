@@ -47,6 +47,9 @@ class FrameworkMatrixTest extends TestCase
             ->assertOk()
             ->assertSee('CTRL-ACCESS-001')
             ->assertSee(__('assurance.framework.help'))
+            ->assertSee(__('assurance.score.heading'))
+            ->assertSee(__('assurance.score.components.reviewed'))
+            ->assertSee(__('assurance.score.no_trend'))
             ->assertDontSee('CTRL-TRAIN-001');
     }
 

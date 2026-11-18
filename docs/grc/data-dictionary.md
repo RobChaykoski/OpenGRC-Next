@@ -96,6 +96,7 @@ control chain.
 | `control_canonical_outcome` | `control_id`, `canonical_control_id`, `source` (`config` or `manual`) | Curated, many-to-many link. `config` rows are replaced by `opengrc:catalog:link`; `manual` rows are never touched |
 | `policy_canonical_outcome` | `policy_id`, `canonical_control_id`, `source` | Direct policy/document link from the UI. Coverage also counts policies attached to linked controls, de-duplicated |
 | `evidence_records.canonical outcome` | via `control_id` | Evidence inherits outcomes from its control; the ledger is never re-pointed |
+| `assurance_snapshots` | `framework_code`, `snapshot_date`, `score`, `components`, `counts` | One row per framework per day. Re-running the command updates the same day, so the trend has no duplicates |
 
 ## Invariants
 

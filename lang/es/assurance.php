@@ -44,6 +44,23 @@ return [
         'only_gaps' => 'Solo resultados que requieren revisión',
         'only_gaps_helper' => 'Muestra resultados sin control vinculado, o con control vinculado pero sin evidencia.',
     ],
+    'score' => [
+        'heading' => 'Puntuación de aseguramiento',
+        'total' => 'Puntuación',
+        'counts' => ':reviewed de :outcomes resultados revisados',
+        'trend' => ':change en :days días',
+        'no_trend' => 'Aún no hay tendencia: la instantánea diaria la construye.',
+        'weight' => ':weight% de peso',
+        'help' => 'Una vista ponderada de los vínculos revisados y la calidad de la evidencia. No es un porcentaje de cumplimiento; lea los componentes antes de actuar.',
+        'unavailable' => 'Aún no hay puntuación: este marco no tiene resultados en el catálogo.',
+        'components' => [
+            'reviewed' => 'Revisado',
+            'evidence' => 'Evidencia',
+            'quality' => 'Calidad',
+            'automation' => 'Automatización',
+            'monitoring' => 'Monitoreo',
+        ],
+    ],
     'not_set' => 'Sin definir',
     'latest_evidence' => 'Última evidencia: :date',
     'empty' => [

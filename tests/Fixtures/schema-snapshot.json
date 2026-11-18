@@ -710,6 +710,48 @@
             "nullable": true
         }
     ],
+    "assurance_snapshots": [
+        {
+            "name": "components",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "counts",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "framework_code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "score",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "snapshot_date",
+            "type": "date",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "audit_item_data_request": [
         {
             "name": "audit_item_id",

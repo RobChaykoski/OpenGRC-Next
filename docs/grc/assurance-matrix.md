@@ -20,8 +20,8 @@ every canonical outcome that framework requires, with:
 
 | Status | Meaning |
 |---|---|
-| **Linked + evidenced** | At least one control is linked and at least one of those controls has evidence |
-| **Evidence missing** | A control is linked, but no evidence has been collected for it |
+| **Linked + evidenced** | At least one control is linked and at least one of those controls has evidence, or a validation result |
+| **Evidence missing** | A control is linked, but no evidence or validation exists |
 | **No reviewed control** | Nobody has linked a control to this outcome yet |
 
 None of these states says the organisation is compliant. "Linked + evidenced"
@@ -29,6 +29,47 @@ means a person reviewed the link and a measurement exists. It does not say the
 measurement passed, the control is effective, or the framework is satisfied. A
 failed validation is reported on the control and in findings, not hidden by a
 green badge here.
+
+## Assurance score
+
+Above the table, the page shows a score for the selected framework. It is a
+weighted summary of review and evidence quality, with every component visible:
+
+| Component | Weight | Computed from |
+|---|---|---|
+| Reviewed | 25% | Share of required outcomes with a linked control |
+| Evidence | 30% | Share with an evidence record or validation result |
+| Quality | 20% | Average best confidence among evidenced outcomes |
+| Automation | 15% | Share whose best evidence is API-collected or a validation |
+| Monitoring | 10% | Share with an enabled validation rule on a linked control |
+
+Confidence is derived from how evidence arrived, never typed in:
+
+| Basis | Confidence |
+|---|---|
+| Validation result | 100 |
+| API or connector evidence | 80 |
+| Manual or unknown evidence record | 50 |
+| Documentation only (a linked policy) | 20 |
+| Nothing | 0 |
+
+The best available basis for each outcome wins. An outcome supported only by a
+policy is therefore capped at 20 until evidence of operation exists.
+
+The score is framework-specific and has no cross-framework total. A framework
+with no outcomes has no score. **It is not a compliance percentage**: read the
+components before acting on it.
+
+### Trend
+
+```bash
+php artisan opengrc:assurance:snapshot
+```
+
+Stores one row per framework per day, including the components and counts.
+Running it twice on the same day updates that day's row rather than duplicating
+it. It is scheduled daily at 06:15. The page shows a 30-day delta once at least
+two snapshots exist; before that it says so instead of inventing history.
 
 ## Gaps filter
 

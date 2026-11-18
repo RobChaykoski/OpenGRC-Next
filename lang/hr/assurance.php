@@ -44,6 +44,23 @@ return [
         'only_gaps' => 'Samo ishodi koje treba pregledati',
         'only_gaps_helper' => 'Prikazuje ishode bez povezane kontrole ili s povezanom kontrolom bez dokaza.',
     ],
+    'score' => [
+        'heading' => 'Ocjena pokrivenosti',
+        'total' => 'Ocjena',
+        'counts' => ':reviewed od :outcomes ishoda pregledano',
+        'trend' => ':change kroz :days dana',
+        'no_trend' => 'Još nema trenda — dnevna snimka ga gradi.',
+        'weight' => ':weight% težine',
+        'help' => 'Ponderirani prikaz pregledanih poveznica i kvalitete dokaza. To nije postotak usklađenosti; pročitajte komponente prije djelovanja.',
+        'unavailable' => 'Još nema ocjene — ovaj okvir nema ishoda u katalogu.',
+        'components' => [
+            'reviewed' => 'Pregledano',
+            'evidence' => 'Dokazi',
+            'quality' => 'Kvaliteta',
+            'automation' => 'Automatizacija',
+            'monitoring' => 'Nadzor',
+        ],
+    ],
     'not_set' => 'Nije postavljeno',
     'latest_evidence' => 'Posljednji dokaz: :date',
     'empty' => [

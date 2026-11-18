@@ -2,8 +2,10 @@
 
 namespace App\Filament\Pages;
 
+use App\Models\AssuranceSnapshot;
 use App\Models\CanonicalControl;
 use App\Models\CanonicalFramework;
+use App\Services\Scoping\AssuranceScore;
 use App\Services\Scoping\CanonicalOutcomeCoverage;
 use Filament\Forms\Components\Toggle;
 use Filament\Pages\Page;
@@ -77,6 +79,46 @@ class FrameworkMatrix extends Page implements HasTable
     {
         $this->coverage = null;
         $this->resetTable();
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function score(): ?array
+    {
+        if (blank($this->framework)) {
+            return null;
+        }
+
+        return app(AssuranceScore::class)->forFramework((string) $this->framework);
+    }
+
+    /**
+     * @return array{change: int, days: int}|null
+     */
+    public function trend(): ?array
+    {
+        if (blank($this->framework)) {
+            return null;
+        }
+
+        $snapshots = AssuranceSnapshot::query()
+            ->where('framework_code', $this->framework)
+            ->where('snapshot_date', '>=', now()->subDays(30)->startOfDay())
+            ->orderBy('snapshot_date')
+            ->get();
+
+        if ($snapshots->count() < 2) {
+            return null;
+        }
+
+        $first = $snapshots->first();
+        $last = $snapshots->last();
+
+        return [
+            'change' => $last->score - $first->score,
+            'days' => (int) $first->snapshot_date->diffInDays($last->snapshot_date),
+        ];
     }
 
     public function table(Table $table): Table
@@ -213,7 +255,7 @@ class FrameworkMatrix extends Page implements HasTable
             return 'no_control';
         }
 
-        return $row['evidence'] === 0 ? 'no_evidence' : 'covered';
+        return $row['has_evidence'] ? 'covered' : 'no_evidence';
     }
 
     private function matrixQuery(): Builder

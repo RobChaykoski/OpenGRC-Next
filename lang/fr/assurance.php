@@ -44,6 +44,23 @@ return [
         'only_gaps' => 'Seulement les résultats à revoir',
         'only_gaps_helper' => 'Affiche les résultats sans contrôle lié, ou avec un contrôle lié mais sans preuve.',
     ],
+    'score' => [
+        'heading' => 'Score d\'assurance',
+        'total' => 'Score',
+        'counts' => ':reviewed résultats sur :outcomes revus',
+        'trend' => ':change sur :days jours',
+        'no_trend' => 'Pas encore de tendance — l\'instantané quotidien la construit.',
+        'weight' => ':weight% du poids',
+        'help' => 'Une vue pondérée des liens revus et de la qualité des preuves. Ce n\'est pas un pourcentage de conformité ; lisez les composantes avant d\'agir.',
+        'unavailable' => 'Pas encore de score — ce référentiel n\'a aucun résultat dans le catalogue.',
+        'components' => [
+            'reviewed' => 'Revu',
+            'evidence' => 'Preuves',
+            'quality' => 'Qualité',
+            'automation' => 'Automatisation',
+            'monitoring' => 'Surveillance',
+        ],
+    ],
     'not_set' => 'Non défini',
     'latest_evidence' => 'Dernière preuve : :date',
     'empty' => [

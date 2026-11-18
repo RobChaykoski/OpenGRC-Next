@@ -20,6 +20,7 @@ in. It is a plan, not a promise. Decisions with trade-offs belong in
 | Unified control catalogue | Built as data; links pending | `canonical_controls`, `canonical_frameworks`, `opengrc:catalog:sync` (ADR 0012) |
 | Curated control-to-outcome links | Built | `control_canonical_outcome`, `opengrc:catalog:link` (ADR 0013) |
 | Policy and evidence coverage | Built | `policy_canonical_outcome`, `CanonicalOutcomeCoverage` (ADR 0014) |
+| Evidence confidence and assurance score | Built | `AssuranceScore`, `assurance_snapshots`, `opengrc:assurance:snapshot` (ADR 0015) |
 | Control matrix UI | Built | Foundations → Assurance matrix (`FrameworkMatrix`) |
 | Evidence confidence | Missing | — |
 | Assurance score and history | Missing | — |
@@ -63,13 +64,21 @@ score) builds on these counts.
 
 ### Milestone B — confidence and coverage
 
-1. Evidence confidence derived from the source, not typed in by a user:
-   documentation 20, manual upload 50, API-collected 80, real-time validation 100.
-2. Automation coverage: share of controls whose evidence arrives without a human.
-3. Monitoring coverage: share of controls with an enabled validation rule.
-4. Assurance score v1: weighted coverage, evidence quality, automation, and
-   monitoring — with the components visible, never a single unexplained number.
-5. Snapshot the score periodically so it has a trend.
+1. ~~Evidence confidence derived from the source, not typed in by a user:
+   documentation 20, manual upload 50, API-collected 80, real-time validation
+   100.~~ Done: `CanonicalOutcomeCoverage` derives the best basis per outcome.
+2. ~~Automation coverage: share of controls whose evidence arrives without a
+   human.~~ Done: the automation component counts API or validation evidence.
+3. ~~Monitoring coverage: share of controls with an enabled validation rule.~~
+   Done: the monitoring component.
+4. ~~Assurance score v1: weighted coverage, evidence quality, automation, and
+   monitoring — with the components visible, never a single unexplained
+   number.~~ Done: `AssuranceScore`, weights 25/30/20/15/10 (ADR 0015).
+5. ~~Snapshot the score periodically so it has a trend.~~ Done:
+   `opengrc:assurance:snapshot` daily, one row per framework per day; the page
+   shows a 30-day delta.
+
+Milestone B is complete. Milestone C (audit readiness) is next.
 
 ### Milestone C — audit readiness
 

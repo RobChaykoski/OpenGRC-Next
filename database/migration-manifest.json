@@ -516,6 +516,10 @@
         {
             "name": "2026_11_18_070000_link_policies_to_canonical_outcomes",
             "sha256": "3ad8596f3d26645b9e5dd613e5861ff2cd402bf5c999fe40da10652cf22d8e24"
+        },
+        {
+            "name": "2026_11_18_080000_create_assurance_snapshots_table",
+            "sha256": "a8181c5bf05cdf82221e38eca4c129edb294242d7660c869a9a95ef200ff8325"
         }
     ]
 }

@@ -44,6 +44,23 @@ return [
         'only_gaps' => 'Only outcomes needing review',
         'only_gaps_helper' => 'Shows outcomes with no linked control, or with a linked control but no evidence.',
     ],
+    'score' => [
+        'heading' => 'Assurance score',
+        'total' => 'Score',
+        'counts' => ':reviewed of :outcomes outcomes reviewed',
+        'trend' => ':change over :days days',
+        'no_trend' => 'No trend yet — the daily snapshot builds it.',
+        'weight' => ':weight% weight',
+        'help' => 'A weighted view of reviewed links and evidence quality. It is not a compliance percentage; read the components before acting on it.',
+        'unavailable' => 'No score yet — this framework has no outcomes in the catalogue.',
+        'components' => [
+            'reviewed' => 'Reviewed',
+            'evidence' => 'Evidence',
+            'quality' => 'Quality',
+            'automation' => 'Automation',
+            'monitoring' => 'Monitoring',
+        ],
+    ],
     'not_set' => 'Not set',
     'latest_evidence' => 'Latest evidence: :date',
     'empty' => [

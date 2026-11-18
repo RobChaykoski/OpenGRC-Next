@@ -8,6 +8,8 @@ use App\Enums\EvidenceSourceType;
 use App\Models\CanonicalControl;
 use App\Models\CanonicalFramework;
 use App\Models\Control;
+use App\Models\ControlValidation;
+use App\Models\ControlValidationRule;
 use App\Models\EvidenceJob;
 use App\Models\EvidenceRecord;
 use App\Models\EvidenceSource;
@@ -110,6 +112,55 @@ class CanonicalOutcomeCoverageTest extends TestCase
         $this->assertNotContains($other->code, array_column($summary, 'code'));
     }
 
+    #[Test]
+    public function confidence_reflects_how_evidence_arrived(): void
+    {
+        $outcome = $this->outcome('CTRL-ACCESS-001');
+        $control = Control::factory()->create(['code' => 'T-1']);
+        $control->canonicalOutcomes()->attach($outcome->getKey());
+
+        $this->assertSame('none', $this->rowFor($outcome)['confidence_basis']);
+        $this->assertSame(0, $this->rowFor($outcome)['best_confidence']);
+
+        $control->policies()->attach(Policy::factory()->create()->getKey());
+
+        $this->assertSame('documentation', $this->rowFor($outcome)['confidence_basis']);
+        $this->assertSame(20, $this->rowFor($outcome)['best_confidence']);
+
+        $this->evidenceFor($control, 'T-1', 'host-1');
+
+        $this->assertSame('manual', $this->rowFor($outcome)['confidence_basis']);
+        $this->assertSame(50, $this->rowFor($outcome)['best_confidence']);
+
+        $this->machineEvidenceFor($control, 'T-1', 'host-2');
+
+        $this->assertSame('api', $this->rowFor($outcome)['confidence_basis']);
+        $this->assertSame(80, $this->rowFor($outcome)['best_confidence']);
+        $this->assertTrue($this->rowFor($outcome)['automated']);
+
+        ControlValidationRule::create([
+            'control_id' => $control->getKey(),
+            'definition' => [],
+            'enabled' => true,
+        ]);
+
+        $this->assertTrue($this->rowFor($outcome)['monitored']);
+
+        ControlValidation::create([
+            'control_id' => $control->getKey(),
+            'status' => ControlStatus::Effective,
+            'evaluated_at' => now(),
+        ]);
+
+        $row = $this->rowFor($outcome);
+
+        $this->assertSame('validation', $row['confidence_basis']);
+        $this->assertSame(100, $row['best_confidence']);
+        $this->assertSame(1, $row['validations']);
+        $this->assertNotNull($row['latest_validation_at']);
+        $this->assertTrue($row['has_evidence']);
+    }
+
     private function outcome(string $code): CanonicalControl
     {
         return CanonicalControl::create([
@@ -135,11 +186,16 @@ class CanonicalOutcomeCoverageTest extends TestCase
         $this->fail("No coverage row for {$outcome->code}.");
     }
 
-    private function evidenceFor(Control $control, string $controlIdentifier, string $externalId): EvidenceRecord
-    {
+    private function evidenceFor(
+        Control $control,
+        string $controlIdentifier,
+        string $externalId,
+        EvidenceSourceType $type = EvidenceSourceType::Other,
+        ?string $clientId = null,
+    ): EvidenceRecord {
         $source = EvidenceSource::create([
             'name' => 'Test source '.$externalId,
-            'type' => EvidenceSourceType::Other,
+            'type' => $type,
             'enabled' => true,
             'configuration' => [],
         ]);
@@ -159,7 +215,13 @@ class CanonicalOutcomeCoverageTest extends TestCase
                 collectedAt: CarbonImmutable::parse('2026-11-18T09:00:00Z'),
                 payload: ['ok' => true],
                 controlIdentifier: $controlIdentifier,
+                clientId: $clientId,
             ),
         );
+    }
+
+    private function machineEvidenceFor(Control $control, string $controlIdentifier, string $externalId): EvidenceRecord
+    {
+        return $this->evidenceFor($control, $controlIdentifier, $externalId, EvidenceSourceType::Patchmon);
     }
 }
