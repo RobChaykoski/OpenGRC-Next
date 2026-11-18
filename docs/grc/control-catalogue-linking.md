@@ -121,7 +121,7 @@ Before merging a change to the curated map:
 
 ## What comes next
 
-The read-only framework matrix (Milestone A.4) will show, for one framework,
-which canonical outcomes are required, which internal controls are linked, and
-whether evidence exists. Unlinked controls remain visible there as review work,
-not as zeros that can be improved by clicking.
+The read-only [assurance matrix](assurance-matrix.md) now shows, for one
+framework, which canonical outcomes are required, which internal controls are
+linked, and whether evidence exists. Unlinked controls remain visible there as
+review work, not as zeros that can be improved by clicking.
