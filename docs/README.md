@@ -28,6 +28,7 @@ architecture, integrations, and the decisions behind them.
 | Document | Purpose |
 |---|---|
 | [integrations/opencyberrange-grc-training.md](integrations/opencyberrange-grc-training.md) | Hands-on GRC training design and phased roadmap |
+| [integrations/discovery-evidence.md](integrations/discovery-evidence.md) | OpenDLP-NG evidence ingestion: token, payload, replay, retries |
 
 ## GRC practice
 
@@ -55,6 +56,7 @@ architecture, integrations, and the decisions behind them.
 
 | Document | Purpose |
 |---|---|
+| [ROADMAP-continuous-assurance.md](ROADMAP-continuous-assurance.md) | Where the assurance product is, and the order to build it in |
 | [API_DOCUMENTATION.md](API_DOCUMENTATION.md) | REST API |
 | [NOTIFICATIONS_GUIDE.md](NOTIFICATIONS_GUIDE.md) | Notification behaviour |
 | [MediaProxy.md](MediaProxy.md) | Media handling |
