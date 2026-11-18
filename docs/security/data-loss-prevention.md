@@ -60,7 +60,7 @@ the content hash. Review findings before allowing an exception.
 | **Gitleaks** | MIT | Secrets and credential scanning in files and repositories |
 | **LLM Guard** | MIT | Prompt/response scanning, PII, secrets, prompt injection |
 | **ClamAV** | GPL-2.0 | Malware scanning; complementary, not DLP |
-| **OpenDLP** | GPL-2.0 | Historical; unmaintained, do not add |
+| **OpenDLP** | GPL-3.0 | Historical code, but the discovery model is under evaluation as a separate service (`opendiscoveryengine`). Do not link the Perl/C code into OpenGRC; integrate over an API |
 
 There is no turnkey open-source DLP product here. Content extraction (PDF, OCR,
 images), entity tuning, and review workflow are the hard parts. Start with the
