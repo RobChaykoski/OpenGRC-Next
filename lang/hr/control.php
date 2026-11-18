@@ -40,6 +40,10 @@ return [
         'discussion' => [
             'tooltip' => 'Opcionalno: Navedite bilo koji kontekst ili dodatne informacije o ovoj kontroli koje bi nekome pomogle odrediti kako je implementirati.',
         ],
+        'canonical_outcomes' => [
+            'label' => 'Kanonski ishodi',
+            'helper' => 'Koje ishode ova kontrola zadovoljava? Poveznice pregledava osoba i nikada se ne stvaraju automatski. Ostavite prazno ako zahtjev očito ne služi ishodu: kontrola bez poveznice prijavljuje se kao nedostatak pokrivenosti, a ne kao neuspjeh.',
+        ],
         'test' => [
             'label' => 'Plan Testiranja',
             'tooltip' => 'Opcionalno: Kako planirate testirati je li ova kontrola implementirana i učinkovita?',
@@ -55,6 +59,8 @@ return [
             'code' => 'Kod',
             'title' => 'Naslov',
             'standard' => 'Standard',
+            'canonical_outcomes' => 'Kanonski ishod',
+            'canonical_outcomes_unlinked' => 'Bez poveznice',
             'type' => 'Tip',
             'category' => 'Kategorija',
             'enforcement' => 'Provedba',
@@ -66,6 +72,9 @@ return [
         ],
         'filters' => [
             'standard' => 'Standard',
+            'canonical_link' => 'Poveznica s kanonskim ishodom',
+            'canonical_linked' => 'Povezano',
+            'canonical_unlinked' => 'Bez poveznice',
             'effectiveness' => 'Učinkovitost',
             'type' => 'Tip',
             'category' => 'Kategorija',
@@ -75,6 +84,8 @@ return [
     ],
     'infolist' => [
         'section_title' => 'Detalji Kontrole',
+        'canonical_outcomes' => 'Kanonski ishodi',
+        'canonical_outcomes_empty' => 'Bez poveznice — nema pregledanog podudaranja. To je nedostatak pokrivenosti, a ne neuspjeh.',
         'test_plan' => 'Plan Testiranja',
     ],
 ];

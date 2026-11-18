@@ -40,6 +40,10 @@ return [
         'discussion' => [
             'tooltip' => 'Opcional: Proporcione cualquier contexto o información adicional sobre este control que ayude a alguien a determinar cómo implementarlo.',
         ],
+        'canonical_outcomes' => [
+            'label' => 'Resultados canónicos',
+            'helper' => '¿Qué resultados satisface este control? Los vínculos los revisa una persona y nunca se emparejan automáticamente. Déjelo vacío si el requisito no sirve claramente a un resultado: un control sin vínculo se informa como una brecha de cobertura, no como un fallo.',
+        ],
         'test' => [
             'label' => 'Plan de Prueba',
             'tooltip' => 'Opcional: ¿Cómo planea probar que este control está implementado y es efectivo?',
@@ -54,6 +58,8 @@ return [
         'columns' => [
             'code' => 'Código del Control',
             'title' => 'Título del Control',
+            'canonical_outcomes' => 'Resultado canónico',
+            'canonical_outcomes_unlinked' => 'Sin vínculo',
             'type' => 'Tipo de Control',
             'category' => 'Categoría del Control',
             'enforcement' => 'Nivel de Cumplimiento',
@@ -64,6 +70,9 @@ return [
             'updated_at' => 'Actualizado El',
         ],
         'filters' => [
+            'canonical_link' => 'Vínculo con resultado canónico',
+            'canonical_linked' => 'Vinculado',
+            'canonical_unlinked' => 'Sin vínculo',
             'type' => 'Tipo de Control',
             'category' => 'Categoría del Control',
             'enforcement' => 'Nivel de Cumplimiento',
@@ -71,6 +80,8 @@ return [
     ],
     'infolist' => [
         'section_title' => 'Detalles del Control',
+        'canonical_outcomes' => 'Resultados canónicos',
+        'canonical_outcomes_empty' => 'Sin vínculo: no hay una coincidencia revisada. Es una brecha de cobertura, no un fallo.',
         'test_plan' => 'Plan de Prueba',
     ],
 ];

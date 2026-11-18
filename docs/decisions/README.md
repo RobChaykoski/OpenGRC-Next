@@ -34,3 +34,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0010](0010-framework-scoping-engine.md) | Deterministic framework scoping before AI narrative | proposed |
 | [0011](0011-discovery-engine.md) | Discovery engine as a separate service, not an OpenDLP port | accepted |
 | [0012](0012-canonical-control-catalogue.md) | Canonical control catalogue is configuration, synced into the data graph | accepted |
+| [0013](0013-curated-control-outcome-links.md) | Control-to-canonical links are curated and many-to-many | accepted |

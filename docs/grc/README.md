@@ -104,7 +104,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 
 | Topic | Document |
 |---|---|
-| Control mapping across frameworks | `docs/grc/framework-catalog.md`, `docs/grc/framework-scoping.md` |
+| Control mapping across frameworks | `docs/grc/framework-catalog.md`, `docs/grc/framework-scoping.md`, `docs/grc/control-catalogue-linking.md` |
 | Risk scoring | `docs/grc/risk-methodology.md` |
 | Audit and testing | `docs/grc/audit-playbook.md` |
 | Evidence and integrity | `docs/grc/evidence-standard.md` |

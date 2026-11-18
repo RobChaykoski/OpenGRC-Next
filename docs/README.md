@@ -37,6 +37,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/README.md](grc/README.md) | Capability map, maturity levels, stated gaps |
 | [grc/framework-catalog.md](grc/framework-catalog.md) | Shipped frameworks, licensing, provenance |
 | [grc/framework-scoping.md](grc/framework-scoping.md) | Profile → framework/control/evidence scoping |
+| [grc/control-catalogue-linking.md](grc/control-catalogue-linking.md) | What a control-to-outcome link means, and why unlinked is a valid state |
 | [grc/risk-methodology.md](grc/risk-methodology.md) | 5×5 scoring, treatment, appetite, cadence |
 | [grc/evidence-standard.md](grc/evidence-standard.md) | What counts as evidence and how to store it |
 | [grc/audit-playbook.md](grc/audit-playbook.md) | Audit lifecycle, findings, closure |
@@ -70,4 +71,6 @@ is inspected separately.
 
 `php artisan opengrc:framework-import` imports a control library by catalog code;
 `php artisan opengrc:framework-audit` validates imported data against the
-provenance register in `config/framework_catalog.php`.
+provenance register in `config/framework_catalog.php`. `opengrc:catalog:sync`
+seeds the canonical outcomes, and `opengrc:catalog:link` applies the curated
+control-to-outcome links (see `grc/control-catalogue-linking.md`).

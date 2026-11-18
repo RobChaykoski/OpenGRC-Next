@@ -40,6 +40,10 @@ return [
         'discussion' => [
             'tooltip' => 'Optionnel : Fournissez tout contexte ou information supplémentaire sur ce contrôle qui aiderait quelqu\'un à déterminer comment le mettre en œuvre.',
         ],
+        'canonical_outcomes' => [
+            'label' => 'Résultats canoniques',
+            'helper' => 'Quels résultats ce contrôle satisfait-il ? Les liens sont revus par une personne et ne sont jamais établis automatiquement. Laissez vide si l\'exigence ne sert pas clairement un résultat : un contrôle non lié est signalé comme un écart de couverture, pas comme un échec.',
+        ],
         'test' => [
             'label' => 'Plan de Test',
             'tooltip' => 'Optionnel : Comment prévoyez-vous de tester que ce contrôle est en place et efficace ?',
@@ -55,6 +59,8 @@ return [
             'code' => 'Code du Contrôle',
             'title' => 'Titre du Contrôle',
             'standard' => 'Standard',
+            'canonical_outcomes' => 'Résultat canonique',
+            'canonical_outcomes_unlinked' => 'Non lié',
             'type' => 'Type de Contrôle',
             'category' => 'Catégorie du Contrôle',
             'enforcement' => 'Niveau d\'Application',
@@ -66,6 +72,9 @@ return [
         ],
         'filters' => [
             'standard' => 'Standard',
+            'canonical_link' => 'Lien vers un résultat canonique',
+            'canonical_linked' => 'Lié',
+            'canonical_unlinked' => 'Non lié',
             'effectiveness' => 'Efficacité',
             'type' => 'Type',
             'category' => 'Catégorie',
@@ -75,6 +84,8 @@ return [
     ],
     'infolist' => [
         'section_title' => 'Détails du Contrôle',
+        'canonical_outcomes' => 'Résultats canoniques',
+        'canonical_outcomes_empty' => 'Non lié — aucune correspondance revue. C\'est un écart de couverture, pas un échec.',
         'test_plan' => 'Plan de Test',
     ],
 ];

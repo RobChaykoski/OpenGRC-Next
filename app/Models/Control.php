@@ -118,6 +118,19 @@ class Control extends Model
     }
 
     /**
+     * Canonical outcomes this control is curated against.
+     *
+     * A link is a reviewed judgement, not a generated match. An empty set is a
+     * valid state and appears as a coverage gap until someone reviews it.
+     */
+    public function canonicalOutcomes(): BelongsToMany
+    {
+        return $this->belongsToMany(CanonicalControl::class, 'control_canonical_outcome')
+            ->withPivot('source')
+            ->withTimestamps();
+    }
+
+    /**
      * The policies that belong to the control.
      */
     public function policies(): BelongsToMany

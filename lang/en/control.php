@@ -40,6 +40,10 @@ return [
         'discussion' => [
             'tooltip' => 'Optional: Provide any context or additional information about this control that would help someone determine how to implement it.',
         ],
+        'canonical_outcomes' => [
+            'label' => 'Canonical outcomes',
+            'helper' => 'Which outcomes does this control satisfy? Links are reviewed by a person and never matched automatically. Leave this empty when the requirement does not clearly serve an outcome: an unlinked control is reported as a coverage gap, not treated as a failure.',
+        ],
         'test' => [
             'label' => 'Test Plan',
             'tooltip' => 'Optional: How do you plan to test that this control is in place and effective?',
@@ -55,6 +59,8 @@ return [
             'code' => 'Code',
             'title' => 'Title',
             'standard' => 'Standard',
+            'canonical_outcomes' => 'Canonical outcome',
+            'canonical_outcomes_unlinked' => 'Not linked',
             'type' => 'Type',
             'category' => 'Category',
             'enforcement' => 'Enforcement',
@@ -66,6 +72,9 @@ return [
         ],
         'filters' => [
             'standard' => 'Standard',
+            'canonical_link' => 'Canonical outcome link',
+            'canonical_linked' => 'Linked',
+            'canonical_unlinked' => 'Not linked',
             'effectiveness' => 'Effectiveness',
             'type' => 'Type',
             'category' => 'Category',
@@ -75,6 +84,8 @@ return [
     ],
     'infolist' => [
         'section_title' => 'Control Details',
+        'canonical_outcomes' => 'Canonical outcomes',
+        'canonical_outcomes_empty' => 'Not linked — no reviewed match. This is a coverage gap, not a failure.',
         'test_plan' => 'Test Plan',
     ],
 ];

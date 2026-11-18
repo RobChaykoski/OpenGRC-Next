@@ -37,4 +37,14 @@ class CanonicalControl extends Model
         return $this->belongsToMany(CanonicalFramework::class, 'canonical_control_framework')
             ->withTimestamps();
     }
+
+    /**
+     * Imported controls curated against this outcome.
+     */
+    public function controls(): BelongsToMany
+    {
+        return $this->belongsToMany(Control::class, 'control_canonical_outcome')
+            ->withPivot('source')
+            ->withTimestamps();
+    }
 }

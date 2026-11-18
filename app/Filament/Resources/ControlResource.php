@@ -20,6 +20,7 @@ use App\Filament\Resources\ControlResource\RelationManagers\ControlValidationsRe
 use App\Filament\Resources\ControlResource\RelationManagers\EvidenceRecordsRelationManager;
 use App\Filament\Resources\ControlResource\RelationManagers\ImplementationRelationManager;
 use App\Filament\Resources\ControlResource\RelationManagers\PoliciesRelationManager;
+use App\Models\CanonicalControl;
 use App\Models\Control;
 use App\Models\Standard;
 use App\Models\User;
@@ -99,6 +100,15 @@ class ControlResource extends Resource
                     ->afterStateUpdated(function (Component $livewire, TextInput $component) {
                         $livewire->validateOnly($component->getStatePath());
                     }),
+                Select::make('canonicalOutcomes')
+                    ->label(__('control.form.canonical_outcomes.label'))
+                    ->relationship('canonicalOutcomes', 'code')
+                    ->getOptionLabelFromRecordUsing(fn (CanonicalControl $record): string => "{$record->code} — {$record->name}")
+                    ->multiple()
+                    ->searchable(['code', 'name'])
+                    ->preload()
+                    ->helperText(__('control.form.canonical_outcomes.helper'))
+                    ->columnSpanFull(),
                 Select::make('standard_id')
                     ->label(__('control.form.standard.label'))
 
@@ -188,6 +198,14 @@ class ControlResource extends Resource
                 TextColumn::make('standard.name')
                     ->label(__('control.table.columns.standard'))
                     ->wrap(),
+                TextColumn::make('canonicalOutcomes.code')
+                    ->label(__('control.table.columns.canonical_outcomes'))
+                    ->badge()
+                    ->separator(',')
+                    ->placeholder(__('control.table.columns.canonical_outcomes_unlinked'))
+                    ->tooltip(fn (Control $record): ?string => $record->canonicalOutcomes->isEmpty()
+                        ? null
+                        : $record->canonicalOutcomes->pluck('name')->implode(', ')),
                 TextColumn::make('type')
                     ->label(__('control.table.columns.type')),
                 TextColumn::make('category')
@@ -231,6 +249,17 @@ class ControlResource extends Resource
                     ->options(Standard::pluck('name', 'id')->toArray())
                     ->multiple()
                     ->label(__('control.table.filters.standard')),
+                SelectFilter::make('canonical_link')
+                    ->label(__('control.table.filters.canonical_link'))
+                    ->options([
+                        'linked' => __('control.table.filters.canonical_linked'),
+                        'unlinked' => __('control.table.filters.canonical_unlinked'),
+                    ])
+                    ->query(fn (Builder $query, array $data): Builder => match ($data['value'] ?? null) {
+                        'linked' => $query->whereHas('canonicalOutcomes'),
+                        'unlinked' => $query->whereDoesntHave('canonicalOutcomes'),
+                        default => $query,
+                    }),
                 SelectFilter::make('effectiveness')
                     ->options(Effectiveness::class)
                     ->label(__('control.table.filters.effectiveness')),
@@ -297,7 +326,7 @@ class ControlResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ])
-            ->with(['taxonomies', 'latestCompletedAudit', 'controlOwner' => fn ($q) => $q->withTrashed(), 'standard']);
+            ->with(['taxonomies', 'latestCompletedAudit', 'controlOwner' => fn ($q) => $q->withTrashed(), 'standard', 'canonicalOutcomes']);
     }
 
     public static function infolist(Schema $schema): Schema
@@ -330,6 +359,11 @@ class ControlResource extends Resource
                                 return self::getTaxonomyTerm($record, 'scope')?->name ?? 'Not assigned';
                             }),
                         TextEntry::make('title')->columnSpanFull(),
+                        TextEntry::make('canonicalOutcomes.code')
+                            ->label(__('control.infolist.canonical_outcomes'))
+                            ->badge()
+                            ->placeholder(__('control.infolist.canonical_outcomes_empty'))
+                            ->columnSpanFull(),
                         TextEntry::make('description')
                             ->columnSpanFull()
                             ->extraAttributes(['class' => 'control-description-text'])

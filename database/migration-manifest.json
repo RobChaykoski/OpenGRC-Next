@@ -508,6 +508,10 @@
         {
             "name": "2026_11_18_050000_create_canonical_control_catalogue",
             "sha256": "2a594dc2dbe97f50cee833083e3566f7cc1286baacae8d3fb21f538d71e2665a"
+        },
+        {
+            "name": "2026_11_18_060000_link_controls_to_canonical_outcomes",
+            "sha256": "848bd7156071f5188a27a67b296d90fe726728a53be89ad06434e1eb04c4c394"
         }
     ]
 }

@@ -78,6 +78,16 @@ kept and reported rather than deleted, because upstream records may link to it
 (ADR 0012). Frameworks that reference an unknown control fail the sync before
 anything is written.
 
+Reviewed links from imported controls to canonical outcomes are applied separately:
+
+```bash
+php artisan opengrc:catalog:link
+```
+
+Links are curated, many-to-many, and never guessed. An unlinked control is a
+coverage gap to review, not a failure. See
+[control-catalogue-linking.md](control-catalogue-linking.md) and ADR 0013.
+
 ## Boundaries
 
 - The engine recommends; a person accepts scope and records the decision.

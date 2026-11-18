@@ -93,6 +93,7 @@ control chain.
 | `CanonicalControl` | `code` (unique), `name`, `category`, `risk_domain`, `priority`, `evidence_expectation`, `automation_level`, `frequency`, `sources` | One row per outcome, shared by every framework. Seeded from `config/framework_scoping.php` by `opengrc:catalog:sync`; do not hand-edit |
 | `CanonicalFramework` | `code` (unique), `name`, `category`, `priority`, regions/industries/labels/drivers, `rationale` | Applicability definition for scoping, not an imported `Standard` |
 | `canonical_control_framework` | `canonical_control_id`, `canonical_framework_id` | Framework → required outcome mapping; replaced on every sync |
+| `control_canonical_outcome` | `control_id`, `canonical_control_id`, `source` (`config` or `manual`) | Curated, many-to-many link. `config` rows are replaced by `opengrc:catalog:link`; `manual` rows are never touched |
 
 ## Invariants
 

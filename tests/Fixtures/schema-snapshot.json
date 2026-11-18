@@ -1402,6 +1402,38 @@
             "nullable": true
         }
     ],
+    "control_canonical_outcome": [
+        {
+            "name": "canonical_control_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "control_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "source",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "control_implementation": [
         {
             "name": "control_id",
