@@ -134,6 +134,15 @@ The stack runs the app with a read-only root filesystem and a separate queue
 worker. See `docs/security/container-hardening.md` for what is enforced and what
 is deliberately not hardened yet.
 
+`APP_URL` decides the scheme used for generated links. Set it to an `https://`
+URL when a proxy terminates TLS in front of the container; leave it on `http://`
+for a plain-HTTP instance. Production mode does not force HTTPS on its own,
+because that redirects a plain-HTTP install to a port that does not answer TLS.
+
+Compose also reads `.env`, so a developer `.env` containing `APP_ENV=local`
+overrides the production default. Export `APP_ENV=production` before `up` when
+you want the production behaviour, including the evidence immutability latch.
+
 Run the test suite in a container, with no host PHP:
 
 ```bash

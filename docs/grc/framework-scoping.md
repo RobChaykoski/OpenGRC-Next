@@ -55,7 +55,11 @@ Industry packs are seeded from `config/data_classification.php`:
 | Critical infrastructure | OT data, CUI |
 
 Custom labels live in `data_classifications` and may be global or limited to an
-industry. The engine refuses to apply a label that is not available for the
+industry. A label is reused across industries when the legal concept is the same,
+so `cardholder_data` applies to financial services and retail, and `cui` and
+`ot_data` apply to government, energy, manufacturing and critical infrastructure.
+The migration merges the industry list instead of creating a second label with
+the same code. The engine refuses to apply a label that is not available for the
 selected industry; it reports a gap instead.
 
 ## Boundaries

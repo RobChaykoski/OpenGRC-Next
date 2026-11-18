@@ -312,8 +312,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Force HTTPS in production environments (must be in register, not boot)
-        if (! $this->app->environment('local')) {
+        /*
+         * Follow the scheme in APP_URL (must be in register, not boot).
+         *
+         * Forcing https for every non-local environment used to redirect a
+         * plain-HTTP install to a port that does not answer TLS, which made the
+         * container unreachable. A deployment that terminates TLS sets an
+         * https:// URL and gets https links; one that does not stays on http.
+         * Proxy headers still mark the request secure when a terminator sets
+         * X-Forwarded-Proto, so isSecure() and HSTS behave correctly either way.
+         */
+        if (! $this->app->environment('local') && str_starts_with((string) config('app.url'), 'https://')) {
             URL::forceScheme('https');
 
             // Ensure HTTPS is detected from proxy headers
