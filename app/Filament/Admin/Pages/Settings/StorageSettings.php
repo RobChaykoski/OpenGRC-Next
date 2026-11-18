@@ -920,6 +920,19 @@ class StorageSettings extends BaseSettings
         }
     }
 
+    protected static function quoteEnvValue(string $value): string
+    {
+        if ($value === '') {
+            return '';
+        }
+
+        if (preg_match('/[\s#\'"\\\\]/', $value)) {
+            return '"'.addcslashes($value, "\\\"\n\r").'"';
+        }
+
+        return $value;
+    }
+
     protected static function writeEnvVars(array $vars): void
     {
         // Validate that $vars is actually an array
@@ -945,16 +958,27 @@ class StorageSettings extends BaseSettings
                 continue;
             }
 
-            $pattern = "/^{$key}=.*$/m";
-            $replacement = $key.'='.(empty($value) ? '' : $value);
+            $value = (string) $value;
+
+            if (str_contains($value, "\n") || str_contains($value, "\r")) {
+                throw new Exception("The environment value for {$key} may not contain a newline.");
+            }
+
+            $pattern = '/^'.preg_quote($key, '/').'=.*$/m';
+            $replacement = $key.'='.self::quoteEnvValue($value);
 
             if (preg_match($pattern, $envContent)) {
-                // Update existing variable
-                $envContent = preg_replace($pattern, $replacement, $envContent);
+                // Update existing variable. A callback prevents $ and \ in the
+                // value from being interpreted as a backreference.
+                $envContent = preg_replace_callback($pattern, fn (): string => $replacement, $envContent);
             } else {
                 // Add new variable at the end
                 $envContent .= "\n{$replacement}";
             }
+        }
+
+        if (! File::isWritable($envPath)) {
+            throw new Exception('.env is not writable; update it through your deployment configuration instead.');
         }
 
         File::put($envPath, $envContent);

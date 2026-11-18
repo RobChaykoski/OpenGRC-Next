@@ -181,39 +181,19 @@
                             Request Access to All
                         </button>
                     </div>
-                    <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                        @foreach($protectedDocuments as $document)
-                            <div class="bg-white rounded-lg shadow-sm border p-5 hover:shadow-md transition-shadow">
-                                <div class="flex items-start justify-between">
-                                    <div class="flex-1">
-                                        <div class="flex items-center">
-                                            <h4 class="font-medium text-gray-900">{{ $document->name }}</h4>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 ml-2 text-amber-500">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                            </svg>
-                                        </div>
-                                        @if($document->description)
-                                            <p class="text-sm text-gray-500 mt-1">{{ Str::limit($document->description, 100) }}</p>
-                                        @endif
-                                        @if($document->certifications->count() > 0)
-                                            <div class="flex flex-wrap gap-1 mt-2">
-                                                @foreach($document->certifications as $cert)
-                                                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">
-                                                        {{ $cert->name }}
-                                                    </span>
-                                                @endforeach
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <button
-                                        type="button"
-                                        @click="if (!selectedDocuments.includes({{ $document->id }})) { selectedDocuments.push({{ $document->id }}) }; showRequestModal = true"
-                                        class="ml-4 inline-flex items-center px-3 py-2 border border-blue-600 shadow-sm text-sm leading-4 font-medium rounded-md text-blue-600 bg-white hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                                        Request Access
-                                    </button>
-                                </div>
-                            </div>
-                        @endforeach
+                    <div class="bg-white rounded-lg shadow-sm border p-6">
+                        <h4 class="font-medium text-gray-900">Protected documents available under NDA</h4>
+                        <p class="text-sm text-gray-500 mt-1">
+                            {{ $protectedDocuments->count() }} protected
+                            {{ Str::plural('document', $protectedDocuments->count()) }} are available to
+                            approved requesters. Titles and descriptions are disclosed after approval.
+                        </p>
+                        <button
+                            type="button"
+                            @click="selectedDocuments = [{{ $protectedDocuments->pluck('id')->implode(', ') }}]; showRequestModal = true"
+                            class="mt-4 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Request access
+                        </button>
                     </div>
                 </div>
 
@@ -275,17 +255,14 @@
                                     </div>
 
                                     <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Select Documents</label>
-                                        <div class="space-y-2 max-h-40 overflow-y-auto border rounded-md p-3">
-                                            @foreach($protectedDocuments as $document)
-                                                <label class="flex items-center">
-                                                    <input type="checkbox" name="document_ids[]" value="{{ $document->id }}"
-                                                        :checked="selectedDocuments.includes({{ $document->id }})"
-                                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                                    <span class="ml-2 text-sm text-gray-700">{{ $document->name }}</span>
-                                                </label>
-                                            @endforeach
-                                        </div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">Selected documents</label>
+                                        <p class="text-sm text-gray-600">
+                                            {{ $protectedDocuments->count() }} protected
+                                            {{ Str::plural('document', $protectedDocuments->count()) }} will be included in this request.
+                                        </p>
+                                        @foreach($protectedDocuments as $document)
+                                            <input type="hidden" name="document_ids[]" value="{{ $document->id }}">
+                                        @endforeach
                                         @error('document_ids')
                                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                         @enderror

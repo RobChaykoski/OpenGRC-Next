@@ -44,7 +44,8 @@
             <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 <div class="text-center">
                     <p class="text-gray-600 mb-6">
-                        Document access links expire after 24 hours for security purposes.
+                        Document access links expire after
+                        {{ (int) setting('trust_center.magic_link_expiry_hours', 24) }} hours for security purposes.
                         If you still need access to these documents, please submit a new access request.
                     </p>
 
