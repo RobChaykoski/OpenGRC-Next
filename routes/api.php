@@ -9,6 +9,7 @@ use App\Http\Controllers\API\ChecklistTemplateController;
 use App\Http\Controllers\API\ControlController;
 use App\Http\Controllers\API\DataRequestController;
 use App\Http\Controllers\API\DataRequestResponseController;
+use App\Http\Controllers\API\EvidenceIngestionController;
 use App\Http\Controllers\API\FileAttachmentController;
 use App\Http\Controllers\API\ImplementationController;
 use App\Http\Controllers\API\PolicyController;
@@ -55,6 +56,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('file-attachments', FileAttachmentController::class);
     Route::apiResource('checklists', ChecklistController::class);
     Route::apiResource('checklist-templates', ChecklistTemplateController::class);
+
+    // Discovery evidence from OpenDLP-NG (hash verified, append-only)
+    Route::post('/v1/evidence', [EvidenceIngestionController::class, 'store']);
 
     // Checklist approval
     Route::post('/checklists/{id}/approve', [ChecklistController::class, 'approve']);
