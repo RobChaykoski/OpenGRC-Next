@@ -512,6 +512,10 @@
         {
             "name": "2026_11_18_060000_link_controls_to_canonical_outcomes",
             "sha256": "848bd7156071f5188a27a67b296d90fe726728a53be89ad06434e1eb04c4c394"
+        },
+        {
+            "name": "2026_11_18_070000_link_policies_to_canonical_outcomes",
+            "sha256": "3ad8596f3d26645b9e5dd613e5861ff2cd402bf5c999fe40da10652cf22d8e24"
         }
     ]
 }

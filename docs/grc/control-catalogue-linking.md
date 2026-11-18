@@ -90,6 +90,24 @@ A framework whose imported version differs from the map will produce
 "identifier did not match" warnings. Fix the identifier; do not loosen the
 matching.
 
+## Policies and evidence
+
+A canonical outcome is not supported by controls alone:
+
+- **Policies and documents** link directly from the policy form. A policy counts
+  for an outcome when it is linked directly, or when it is attached to a control
+  that is linked to the outcome. The same policy counted both ways is still one
+  policy. An unlinked policy is a coverage gap to review, not a failure.
+- **Evidence** does not have its own outcome link. It inherits the outcomes of the
+  control it names on the evidence record. This keeps the ledger append-only: no
+  one can re-point a hashed record to change a report. Evidence with no control
+  has no outcome, which is an honest gap; link the control to the outcome if the
+  measurement really supports it.
+
+The evidence view labels the outcomes as inherited from the control, and the
+policy view marks an unlinked policy as a coverage gap, so the empty state is not
+mistaken for a bug.
+
 ## Review checklist
 
 Before merging a change to the curated map:

@@ -38,6 +38,8 @@ return [
         'source' => 'Source and job',
     ],
     'entries' => [
+        'canonical_outcomes' => 'Canonical outcomes (inherited from control)',
+        'canonical_outcomes_none' => 'No outcome — the control has no reviewed link. Evidence is not re-pointed so the ledger stays immutable.',
         'external_id' => 'External ID',
         'collected_at' => 'Collected',
         'ingested_at' => 'Ingested',

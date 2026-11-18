@@ -47,4 +47,14 @@ class CanonicalControl extends Model
             ->withPivot('source')
             ->withTimestamps();
     }
+
+    /**
+     * Policies and documents that support this outcome.
+     */
+    public function policies(): BelongsToMany
+    {
+        return $this->belongsToMany(Policy::class, 'policy_canonical_outcome')
+            ->withPivot('source')
+            ->withTimestamps();
+    }
 }

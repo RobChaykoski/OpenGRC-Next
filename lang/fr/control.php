@@ -43,6 +43,7 @@ return [
         'canonical_outcomes' => [
             'label' => 'Résultats canoniques',
             'helper' => 'Quels résultats ce contrôle satisfait-il ? Les liens sont revus par une personne et ne sont jamais établis automatiquement. Laissez vide si l\'exigence ne sert pas clairement un résultat : un contrôle non lié est signalé comme un écart de couverture, pas comme un échec.',
+            'policy_helper' => 'Quels résultats cette politique ou ce document soutient-il ? Les liens sont revus par une personne et ne sont jamais établis automatiquement. Une politique peut soutenir un résultat directement ou par les contrôles auxquels elle est rattachée. Laisser vide est un écart de couverture à revoir, pas un échec.',
         ],
         'test' => [
             'label' => 'Plan de Test',
@@ -86,6 +87,7 @@ return [
         'section_title' => 'Détails du Contrôle',
         'canonical_outcomes' => 'Résultats canoniques',
         'canonical_outcomes_empty' => 'Non lié — aucune correspondance revue. C\'est un écart de couverture, pas un échec.',
+        'canonical_outcomes_policy_empty' => 'Non lié — aucune correspondance revue. Cette politique est un écart de couverture jusqu\'à sa revue, pas un échec.',
         'test_plan' => 'Plan de Test',
     ],
 ];

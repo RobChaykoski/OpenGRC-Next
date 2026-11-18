@@ -1,0 +1,165 @@
+<?php
+
+namespace Tests\Feature\Scoping;
+
+use App\Enums\ControlStatus;
+use App\Enums\EvidenceJobStatus;
+use App\Enums\EvidenceSourceType;
+use App\Models\CanonicalControl;
+use App\Models\CanonicalFramework;
+use App\Models\Control;
+use App\Models\EvidenceJob;
+use App\Models\EvidenceRecord;
+use App\Models\EvidenceSource;
+use App\Models\Policy;
+use App\Services\Evidence\EvidenceIngestor;
+use App\Services\Scoping\CanonicalOutcomeCoverage;
+use App\Support\Evidence\NormalisedEvidence;
+use Carbon\CarbonImmutable;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
+use Tests\TestCase;
+
+class CanonicalOutcomeCoverageTest extends TestCase
+{
+    use RefreshDatabase;
+
+    #[Test]
+    public function it_counts_controls_policies_and_evidence_per_outcome(): void
+    {
+        $outcome = $this->outcome('CTRL-ACCESS-001');
+        $control = Control::factory()->create(['code' => 'T-1']);
+        $control->canonicalOutcomes()->attach($outcome->getKey(), ['source' => 'manual']);
+
+        Policy::factory()->create()->canonicalOutcomes()->attach($outcome->getKey());
+
+        $viaControl = Policy::factory()->create();
+        $control->policies()->attach($viaControl->getKey());
+
+        // Linked both directly and via the control: still one policy.
+        $both = Policy::factory()->create();
+        $both->canonicalOutcomes()->attach($outcome->getKey());
+        $control->policies()->attach($both->getKey());
+
+        // Soft-deleted policies do not count.
+        $retired = Policy::factory()->create();
+        $retired->canonicalOutcomes()->attach($outcome->getKey());
+        $retired->delete();
+
+        $this->evidenceFor($control, 'T-1', 'host-1');
+
+        $row = $this->rowFor($outcome);
+
+        $this->assertSame(1, $row['controls']);
+        $this->assertSame(3, $row['policies']);
+        $this->assertSame(1, $row['evidence']);
+        $this->assertNotNull($row['latest_evidence_at']);
+    }
+
+    #[Test]
+    public function a_soft_deleted_control_does_not_count_its_policies_or_evidence(): void
+    {
+        $outcome = $this->outcome('CTRL-LOG-001');
+        $control = Control::factory()->create(['code' => 'T-1']);
+        $control->canonicalOutcomes()->attach($outcome->getKey());
+        $control->policies()->attach(Policy::factory()->create()->getKey());
+        $this->evidenceFor($control, 'T-1', 'host-1');
+
+        $control->delete();
+
+        $row = $this->rowFor($outcome);
+
+        $this->assertSame(0, $row['controls']);
+        $this->assertSame(0, $row['policies']);
+        $this->assertSame(0, $row['evidence']);
+        $this->assertNull($row['latest_evidence_at']);
+    }
+
+    #[Test]
+    public function evidence_is_counted_only_through_a_linked_control(): void
+    {
+        $outcome = $this->outcome('CTRL-VULN-001');
+        $control = Control::factory()->create(['code' => 'T-1']);
+
+        $this->evidenceFor($control, 'T-1', 'host-1');
+
+        $this->assertSame(0, $this->rowFor($outcome)['evidence']);
+
+        $control->canonicalOutcomes()->attach($outcome->getKey());
+
+        $this->assertSame(1, $this->rowFor($outcome)['evidence']);
+    }
+
+    #[Test]
+    public function summary_can_be_scoped_to_one_framework(): void
+    {
+        $required = $this->outcome('CTRL-ACCESS-001');
+        $other = $this->outcome('CTRL-TRAIN-001');
+
+        CanonicalFramework::create([
+            'code' => 'TEST-FW',
+            'name' => 'Test framework',
+            'priority' => 1,
+        ])->controls()->attach($required->getKey());
+
+        $summary = app(CanonicalOutcomeCoverage::class)->summary('TEST-FW');
+
+        $this->assertCount(1, $summary);
+        $this->assertSame('CTRL-ACCESS-001', $summary[0]['code']);
+        $this->assertSame(['TEST-FW'], $summary[0]['frameworks']);
+        $this->assertNotContains($other->code, array_column($summary, 'code'));
+    }
+
+    private function outcome(string $code): CanonicalControl
+    {
+        return CanonicalControl::create([
+            'code' => $code,
+            'name' => $code,
+            'priority' => 1,
+        ]);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function rowFor(CanonicalControl $outcome): array
+    {
+        $rows = app(CanonicalOutcomeCoverage::class)->summary();
+
+        foreach ($rows as $row) {
+            if ($row['code'] === $outcome->code) {
+                return $row;
+            }
+        }
+
+        $this->fail("No coverage row for {$outcome->code}.");
+    }
+
+    private function evidenceFor(Control $control, string $controlIdentifier, string $externalId): EvidenceRecord
+    {
+        $source = EvidenceSource::create([
+            'name' => 'Test source '.$externalId,
+            'type' => EvidenceSourceType::Other,
+            'enabled' => true,
+            'configuration' => [],
+        ]);
+
+        $job = EvidenceJob::create([
+            'source_id' => $source->getKey(),
+            'status' => EvidenceJobStatus::Queued,
+        ]);
+
+        return app(EvidenceIngestor::class)->ingest(
+            $source,
+            $job,
+            new NormalisedEvidence(
+                externalId: $externalId,
+                evidenceType: 'test',
+                status: ControlStatus::Effective,
+                collectedAt: CarbonImmutable::parse('2026-11-18T09:00:00Z'),
+                payload: ['ok' => true],
+                controlIdentifier: $controlIdentifier,
+            ),
+        );
+    }
+}

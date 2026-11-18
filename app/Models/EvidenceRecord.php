@@ -66,6 +66,9 @@ class EvidenceRecord extends Model
         return $this->belongsTo(Asset::class, 'asset_id');
     }
 
+    /**
+     * @return BelongsTo<Control, $this>
+     */
     public function control(): BelongsTo
     {
         return $this->belongsTo(Control::class, 'control_id');

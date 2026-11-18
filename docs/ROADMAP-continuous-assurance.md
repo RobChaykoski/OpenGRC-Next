@@ -19,6 +19,7 @@ in. It is a plan, not a promise. Decisions with trade-offs belong in
 | Framework scoping from an organisation profile | Built (CLI) | `opengrc:scope profile.json`, `FrameworkScopingService` |
 | Unified control catalogue | Built as data; links pending | `canonical_controls`, `canonical_frameworks`, `opengrc:catalog:sync` (ADR 0012) |
 | Curated control-to-outcome links | Built | `control_canonical_outcome`, `opengrc:catalog:link` (ADR 0013) |
+| Policy and evidence coverage | Built | `policy_canonical_outcome`, `CanonicalOutcomeCoverage` (ADR 0014) |
 | Control matrix UI | Missing | — |
 | Evidence confidence | Missing | — |
 | Assurance score and history | Missing | — |
@@ -44,7 +45,10 @@ Everything else reads from this.
    `opengrc:catalog:link` applies the reviewed map, the UI lets people link a
    control, and unlinked controls are labelled as coverage gaps (ADR 0013,
    `docs/grc/control-catalogue-linking.md`).
-3. Link policies/documents and evidence records to canonical controls.
+3. ~~Link policies/documents and evidence records to canonical controls.~~ Done:
+   policies link directly in the UI; evidence inherits outcomes through its
+   control, so the ledger is never re-pointed. `CanonicalOutcomeCoverage` returns
+   de-duplicated counts (ADR 0014).
 4. Read-only matrix page: canonical control × framework, with category, evidence
    expectation, automation level, and a link back to the internal control.
 

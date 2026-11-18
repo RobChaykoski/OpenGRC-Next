@@ -77,7 +77,7 @@ class EvidenceRecordResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(['source', 'control', 'asset']))
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['source', 'control.canonicalOutcomes', 'asset']))
             ->columns([
                 TextColumn::make('source.name')
                     ->label(__('evidence.table.source'))
@@ -227,6 +227,13 @@ class EvidenceRecordResource extends Resource
                             ->formatStateUsing(fn ($state): ?string => $state?->getLabel())
                             ->color(fn ($state): ?string => $state?->getColor())
                             ->placeholder('—'),
+
+                        TextEntry::make('canonical_outcomes')
+                            ->label(__('evidence.entries.canonical_outcomes'))
+                            ->state(fn (EvidenceRecord $record): array => $record->control?->canonicalOutcomes->pluck('code')->all() ?? [])
+                            ->badge()
+                            ->placeholder(__('evidence.entries.canonical_outcomes_none'))
+                            ->columnSpanFull(),
                     ]),
 
                 Section::make(__('evidence.sections.integrity'))

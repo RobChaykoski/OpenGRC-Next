@@ -14,6 +14,7 @@ use App\Filament\Resources\PolicyResource\RelationManagers\ControlsRelationManag
 use App\Filament\Resources\PolicyResource\RelationManagers\ExceptionsRelationManager;
 use App\Filament\Resources\PolicyResource\RelationManagers\ImplementationsRelationManager;
 use App\Filament\Resources\PolicyResource\RelationManagers\RisksRelationManager;
+use App\Models\CanonicalControl;
 use App\Models\Policy;
 use App\Support\UploadRules;
 use Filament\Actions\BulkAction;
@@ -125,6 +126,16 @@ class PolicyResource extends Resource
                         DatePicker::make('retired_date')
                             ->label('Retired Date')
                             ->helperText('Date when this policy was retired (only for retired/superseded policies)'),
+
+                        Select::make('canonicalOutcomes')
+                            ->label(__('control.form.canonical_outcomes.label'))
+                            ->relationship('canonicalOutcomes', 'code')
+                            ->getOptionLabelFromRecordUsing(fn (CanonicalControl $record): string => "{$record->code} — {$record->name}")
+                            ->multiple()
+                            ->searchable(['code', 'name'])
+                            ->preload()
+                            ->helperText(__('control.form.canonical_outcomes.policy_helper'))
+                            ->columnSpanFull(),
                     ]),
 
                 // Policy Content Section
@@ -219,6 +230,13 @@ class PolicyResource extends Resource
                     ->label('Code')
                     ->toggleable()
                     ->color('primary'),
+
+                TextColumn::make('canonicalOutcomes.code')
+                    ->label(__('control.table.columns.canonical_outcomes'))
+                    ->badge()
+                    ->separator(',')
+                    ->placeholder(__('control.table.columns.canonical_outcomes_unlinked'))
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('name')
                     ->searchable()
@@ -492,6 +510,12 @@ class PolicyResource extends Resource
                                     ->color(fn ($state) => $state ? 'success' : 'gray')
                                     ->icon(fn ($state) => $state ? 'heroicon-o-document-check' : 'heroicon-o-document'),
                             ]),
+
+                        TextEntry::make('canonicalOutcomes.code')
+                            ->label(__('control.infolist.canonical_outcomes'))
+                            ->badge()
+                            ->placeholder(__('control.infolist.canonical_outcomes_policy_empty'))
+                            ->columnSpanFull(),
                     ])
                     ->collapsible(),
 
@@ -603,7 +627,7 @@ class PolicyResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ])
-            ->with(['status', 'scope', 'department', 'owner' => fn ($q) => $q->withTrashed(), 'creator' => fn ($q) => $q->withTrashed(), 'updater' => fn ($q) => $q->withTrashed()]);
+            ->with(['status', 'scope', 'department', 'owner' => fn ($q) => $q->withTrashed(), 'creator' => fn ($q) => $q->withTrashed(), 'updater' => fn ($q) => $q->withTrashed(), 'canonicalOutcomes']);
     }
 
     public static function getGlobalSearchResultTitle($record): string

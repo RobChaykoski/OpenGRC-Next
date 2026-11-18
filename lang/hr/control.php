@@ -43,6 +43,7 @@ return [
         'canonical_outcomes' => [
             'label' => 'Kanonski ishodi',
             'helper' => 'Koje ishode ova kontrola zadovoljava? Poveznice pregledava osoba i nikada se ne stvaraju automatski. Ostavite prazno ako zahtjev očito ne služi ishodu: kontrola bez poveznice prijavljuje se kao nedostatak pokrivenosti, a ne kao neuspjeh.',
+            'policy_helper' => 'Koje ishode podupire ova politika ili dokument? Poveznice pregledava osoba i nikada se ne stvaraju automatski. Politika može podupirati ishod izravno ili preko kontrola na koje je vezana. Ostavljanje praznim je nedostatak pokrivenosti koji treba pregledati, a ne neuspjeh.',
         ],
         'test' => [
             'label' => 'Plan Testiranja',
@@ -86,6 +87,7 @@ return [
         'section_title' => 'Detalji Kontrole',
         'canonical_outcomes' => 'Kanonski ishodi',
         'canonical_outcomes_empty' => 'Bez poveznice — nema pregledanog podudaranja. To je nedostatak pokrivenosti, a ne neuspjeh.',
+        'canonical_outcomes_policy_empty' => 'Bez poveznice — nema pregledanog podudaranja. Ova politika je nedostatak pokrivenosti dok je netko ne pregleda, a ne neuspjeh.',
         'test_plan' => 'Plan Testiranja',
     ],
 ];

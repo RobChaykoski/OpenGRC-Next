@@ -43,6 +43,7 @@ return [
         'canonical_outcomes' => [
             'label' => 'Resultados canónicos',
             'helper' => '¿Qué resultados satisface este control? Los vínculos los revisa una persona y nunca se emparejan automáticamente. Déjelo vacío si el requisito no sirve claramente a un resultado: un control sin vínculo se informa como una brecha de cobertura, no como un fallo.',
+            'policy_helper' => '¿Qué resultados apoya esta política o documento? Los vínculos los revisa una persona y nunca se emparejan automáticamente. Una política puede apoyar un resultado directamente o mediante los controles a los que está vinculada. Dejarlo vacío es una brecha de cobertura que revisar, no un fallo.',
         ],
         'test' => [
             'label' => 'Plan de Prueba',
@@ -82,6 +83,7 @@ return [
         'section_title' => 'Detalles del Control',
         'canonical_outcomes' => 'Resultados canónicos',
         'canonical_outcomes_empty' => 'Sin vínculo: no hay una coincidencia revisada. Es una brecha de cobertura, no un fallo.',
+        'canonical_outcomes_policy_empty' => 'Sin vínculo: no hay una coincidencia revisada. Esta política es una brecha de cobertura hasta que alguien la revise, no un fallo.',
         'test_plan' => 'Plan de Prueba',
     ],
 ];

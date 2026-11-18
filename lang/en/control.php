@@ -43,6 +43,7 @@ return [
         'canonical_outcomes' => [
             'label' => 'Canonical outcomes',
             'helper' => 'Which outcomes does this control satisfy? Links are reviewed by a person and never matched automatically. Leave this empty when the requirement does not clearly serve an outcome: an unlinked control is reported as a coverage gap, not treated as a failure.',
+            'policy_helper' => 'Which outcomes does this policy or document support? These links are reviewed by a person and never matched automatically. A policy can support an outcome directly, or through the controls it is attached to. Leaving it empty is a coverage gap to review, not a failure.',
         ],
         'test' => [
             'label' => 'Test Plan',
@@ -86,6 +87,7 @@ return [
         'section_title' => 'Control Details',
         'canonical_outcomes' => 'Canonical outcomes',
         'canonical_outcomes_empty' => 'Not linked — no reviewed match. This is a coverage gap, not a failure.',
+        'canonical_outcomes_policy_empty' => 'Not linked — no reviewed match. This policy is a coverage gap until someone reviews it, not a failure.',
         'test_plan' => 'Test Plan',
     ],
 ];

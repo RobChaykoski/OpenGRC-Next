@@ -146,6 +146,19 @@ class Policy extends Model implements EvidenceSubject
     }
 
     /**
+     * Canonical outcomes this policy or document supports.
+     *
+     * A policy can support outcomes directly even when it is not tied to an
+     * imported control. Leave it empty when no reviewed match exists.
+     */
+    public function canonicalOutcomes(): BelongsToMany
+    {
+        return $this->belongsToMany(CanonicalControl::class, 'policy_canonical_outcome')
+            ->withPivot('source')
+            ->withTimestamps();
+    }
+
+    /**
      * Get the implementations associated with this policy.
      */
     public function implementations(): BelongsToMany
