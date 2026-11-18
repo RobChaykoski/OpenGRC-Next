@@ -1,0 +1,14 @@
+{
+  "name": "Example Hospital",
+  "industry": "healthcare",
+  "sector": "healthcare",
+  "country": "CA",
+  "province": "ON",
+  "employees": "250",
+  "revenue": "50m",
+  "ownership": "non_profit",
+  "operations": ["healthcare", "education"],
+  "technology": ["azure", "hybrid"],
+  "data_classifications": ["phi", "clinical_records", "personal_information"],
+  "regions": ["CA", "CA-ON"]
+}

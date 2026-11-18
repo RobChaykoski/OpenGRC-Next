@@ -35,6 +35,7 @@ architecture, integrations, and the decisions behind them.
 |---|---|
 | [grc/README.md](grc/README.md) | Capability map, maturity levels, stated gaps |
 | [grc/framework-catalog.md](grc/framework-catalog.md) | Shipped frameworks, licensing, provenance |
+| [grc/framework-scoping.md](grc/framework-scoping.md) | Profile → framework/control/evidence scoping |
 | [grc/risk-methodology.md](grc/risk-methodology.md) | 5×5 scoring, treatment, appetite, cadence |
 | [grc/evidence-standard.md](grc/evidence-standard.md) | What counts as evidence and how to store it |
 | [grc/audit-playbook.md](grc/audit-playbook.md) | Audit lifecycle, findings, closure |

@@ -1409,6 +1409,58 @@
             "nullable": true
         }
     ],
+    "data_classifications": [
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "industries",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "is_system",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "label",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "level",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "data_request_response_policy": [
         {
             "name": "created_at",

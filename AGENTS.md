@@ -36,6 +36,7 @@ php artisan test                 # PHPUnit/Pest suite
 php artisan opengrc:doctor       # runtime, config, database and build health
 php artisan opengrc:migrations:manifest  # regenerate after adding a migration
 php artisan opengrc:evidence:verify      # verify evidence hashes and ledger chains
+php artisan opengrc:scope profile.json   # framework/control scoping from an organization profile
 php artisan opengrc:framework-import --list   # available control libraries
 php artisan opengrc:framework-audit  # framework data vs provenance register
 ```

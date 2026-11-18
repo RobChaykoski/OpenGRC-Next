@@ -456,6 +456,10 @@
         {
             "name": "2026_11_17_022000_add_file_sha256_to_file_attachments_table",
             "sha256": "e75f95b994eca542c6b281e26995fbbc8455e02b8fb7fb9550aaaf8fc509b487"
+        },
+        {
+            "name": "2026_11_17_030000_create_data_classifications_table",
+            "sha256": "e607b5bd420d2cba1cb30b3ba2a7f1a7e6951c85248f58b7850353c3c736c032"
         }
     ]
 }
