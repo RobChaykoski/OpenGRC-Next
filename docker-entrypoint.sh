@@ -102,12 +102,11 @@ if [ "$USER_COUNT" = "0" ]; then
 
     php artisan db:seed --class=SettingsSeeder --force
     php artisan opengrc:create-user "${ADMIN_EMAIL:-admin@opengrc.local}" "${ADMIN_PASSWORD:-admin123}"
-    php artisan db:seed --class=RolePermissionSeeder --force
     php artisan db:seed --class=VendorSurveyTemplatesSeeder --force
     php artisan settings:set general.name "${APP_NAME:-OpenGRC}"
     php artisan settings:set general.url "${APP_URL:-http://localhost}"
     php artisan settings:set storage.driver private
-    php artisan storage:link
+    mkdir -p storage/app/public
 fi
 
 # ---------------------------------------------------------------------------

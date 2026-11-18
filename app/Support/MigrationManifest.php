@@ -20,7 +20,14 @@ final class MigrationManifest
     {
         $checksums = [];
 
-        foreach (File::glob(database_path('migrations/*.php')) ?: [] as $file) {
+        $paths = array_merge(
+            File::glob(database_path('migrations/*.php')) ?: [],
+            File::glob(base_path('Modules/*/database/migrations/*.php')) ?: [],
+        );
+
+        sort($paths);
+
+        foreach ($paths as $file) {
             $checksums[basename($file, '.php')] = hash_file('sha256', $file);
         }
 

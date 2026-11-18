@@ -75,8 +75,23 @@ ModSecurity in `DetectionOff` to avoid duplicated logging cost:
 SecRuleEngine Off
 ```
 
-## What is not hardened yet
+## Evidence ledger triggers on MySQL
 
+The evidence ledger uses database triggers to block UPDATE and DELETE. MySQL 8.0
+enables binary logging by default, and a non-SUPER application user cannot create
+triggers unless the server allows it. The reference Compose file starts MySQL
+with:
+
+```
+--log-bin-trust-function-creators=1
+```
+
+Apply the same setting on your own MySQL/MariaDB server, or create the triggers
+with a privileged account during installation. Without it, the evidence-ledger
+migration fails with error 1419. PostgreSQL deployments do not need this and rely
+on the model guard plus the verifier.
+
+## What is not hardened yet
 - **The process runs as root inside the container.** Apache needs root to bind
   port 80 and switch to `www-data`. Moving to an unprivileged port (8080) with
   `USER www-data` is the next step; it requires changing the Apache vhost,

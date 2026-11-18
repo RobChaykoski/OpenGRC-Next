@@ -410,6 +410,10 @@
             "sha256": "77973989aa28107dd111b77a184b6a67e778d74eb69fd9766aa99b996afd6270"
         },
         {
+            "name": "2026_01_28_191859_seed_data_manager_permissions",
+            "sha256": "dfed0b8578d9a5552124ffe411069d6caefedd6b968929aa3b7d18ee7ea94d4b"
+        },
+        {
             "name": "2026_02_09_214824_add_new_fields_to_assets_table",
             "sha256": "05c6d3146ca0c6298758dc120942dd3ca6a7e8b8a88ec68ac8e3bf7c4455a224"
         },
@@ -443,7 +447,7 @@
         },
         {
             "name": "2026_11_17_020000_create_evidence_ledger_tables",
-            "sha256": "c093b3d10904bf9306afff38c0bbe327be3ea96f2a7873b60b03a2d5c7519856"
+            "sha256": "c51a3249d5998972a2b1dabade2f66949ef8eae9503d27b0cf4d60f504b460b1"
         },
         {
             "name": "2026_11_17_021000_add_checksum_to_migrations_table",

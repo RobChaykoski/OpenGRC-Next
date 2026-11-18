@@ -5,6 +5,7 @@ vendor
 # Build artifacts (will be generated during build)
 public/build
 public/hot
+public/storage
 
 # Environment and configuration
 .env
