@@ -116,6 +116,11 @@ class SurveyTemplateResource extends Resource
                             ->cloneable()
                             ->itemLabel(fn (array $state): ?string => $state['question_text'] ?? 'New Question')
                             ->schema([
+                                TextInput::make('section')
+                                    ->label(__('survey.template.form.questions.section'))
+                                    ->helperText(__('survey.template.form.questions.section_helper'))
+                                    ->maxLength(191)
+                                    ->columnSpanFull(),
                                 TextInput::make('question_text')
                                     ->label(__('survey.template.form.questions.question_text'))
                                     ->required()

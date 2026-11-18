@@ -349,6 +349,14 @@ class Asset extends Model
     }
 
     /**
+     * Machine measurements collected for this asset (ADR 0009).
+     */
+    public function evidenceRecords(): HasMany
+    {
+        return $this->hasMany(EvidenceRecord::class, 'asset_id');
+    }
+
+    /**
      * Get the asset type name accessor.
      */
     public function getAssetTypeNameAttribute(): ?string

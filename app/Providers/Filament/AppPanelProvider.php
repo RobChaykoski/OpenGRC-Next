@@ -11,6 +11,7 @@ use Exception;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\NavigationItem;
 use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
@@ -151,6 +152,12 @@ class AppPanelProvider extends PanelProvider
             ->navigationGroups([
                 'Foundations',
                 'Entities',
+            ])
+            ->navigationItems([
+                NavigationItem::make('Administration')
+                    ->url('/admin')
+                    ->icon('heroicon-o-cog-6-tooth')
+                    ->visible(fn (): bool => auth()->user()?->isAdmin() ?? false),
             ])
             ->middleware([
                 EncryptCookies::class,

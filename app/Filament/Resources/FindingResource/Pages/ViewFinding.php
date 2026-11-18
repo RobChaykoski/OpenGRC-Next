@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Filament\Resources\FindingResource\Pages;
+
+use App\Filament\Resources\FindingResource;
+use Filament\Actions\EditAction;
+use Filament\Resources\Pages\ViewRecord;
+
+class ViewFinding extends ViewRecord
+{
+    protected static string $resource = FindingResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            EditAction::make(),
+            FindingResource::resolveAction(),
+            FindingResource::acceptRiskAction(),
+        ];
+    }
+}

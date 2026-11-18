@@ -7,6 +7,7 @@ use App\Casts\SanitizedHtml;
 use App\Enums\Effectiveness;
 use App\Enums\ImplementationStatus;
 use Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
@@ -63,7 +63,7 @@ class Implementation extends Model
      */
     public bool $asYouType = true;
 
-    protected $fillable = ['code', 'title', 'details', 'status', 'notes', 'effectiveness', 'test_procedure', 'implementation_owner_id'];
+    protected $fillable = ['code', 'title', 'details', 'status', 'notes', 'effectiveness', 'test_procedure', 'implementation_owner_id', 'last_tested_at', 'next_test_at'];
 
     /**
      * The attributes that should be cast.
@@ -77,6 +77,8 @@ class Implementation extends Model
         'details' => SanitizedHtml::class,
         'test_procedure' => SanitizedHtml::class,
         'notes' => SanitizedHtml::class,
+        'last_tested_at' => 'date',
+        'next_test_at' => 'date',
     ];
 
     /**
@@ -211,6 +213,31 @@ class Implementation extends Model
     public function implementationOwner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'implementation_owner_id');
+    }
+
+    /**
+     * A test date in the past means the control has not been re-tested on the
+     * cadence the programme agreed to.
+     */
+    public function isTestOverdue(): bool
+    {
+        return $this->next_test_at !== null && $this->next_test_at->isPast();
+    }
+
+    public function isTestDueSoon(int $days = 30): bool
+    {
+        return $this->next_test_at !== null
+            && ! $this->isTestOverdue()
+            && $this->next_test_at->lessThanOrEqualTo(now()->addDays($days));
+    }
+
+    /**
+     * @param  Builder<Implementation>  $query
+     * @return Builder<Implementation>
+     */
+    public function scopeTestOverdue(Builder $query): Builder
+    {
+        return $query->whereNotNull('next_test_at')->whereDate('next_test_at', '<', now());
     }
 
     public function getActivitylogOptions(): LogOptions

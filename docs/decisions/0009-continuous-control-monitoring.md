@@ -1,6 +1,6 @@
 # 0009 — Continuous control monitoring and vendor-neutral evidence connectors
 
-Status: proposed
+Status: accepted
 Date: 2026-11-17
 
 ## Context
@@ -91,10 +91,34 @@ ISO 27001 A.8.8, NIST CSF PR.PS, NIST 800-53 SI-2, CIS Control 7, SOC 2 CC7.1,
 PCI DSS 6.3.3/6.3.4, HIPAA Security Management Process. The mapping is data, not
 code; it must be reviewable and survive framework version changes.
 
+### First slice implemented
+
+The foundation is in place: the five tables, append-only evidence records with a
+database trigger, the `EvidenceConnector` contract, `NormalisedEvidence`, the
+connector registry, the ingesting service, and `Http::grcReadOnly()` for outbound
+reads. The collection runner and `opengrc:evidence:collect` are built. Validation
+rules, per-asset control validations, drift detection, and first-class findings
+are built; `opengrc:evidence:validate` runs them. Findings and evidence have
+Filament screens, and `opengrc:doctor` checks connector presence and staleness.
+
+The PatchMon connector and the per-connector source editor are built. The
+connector reads hosts, stats, system state, the latest package report, and the
+agent queue. It deliberately does not pull the full package list: that payload is
+large and the control rules need counts and report freshness, not every package.
+The source editor keeps the password write-only and the Run collection action
+queues `CollectEvidenceJob`.
+
+Not built yet: scheduled collection and the remaining vendor connectors.
+
 ## Consequences
 
 - New connectors implement one interface and one normaliser; they do not touch
   the GRC schema.
+- Automated findings are deduplicated per rule, source, and asset: a repeat
+  failure updates the open finding, and a pass resolves only that asset's
+  finding.
+- The first validation implementation reduces the latest record per asset in PHP.
+  Move that into SQL before a fleet reaches tens of thousands of records.
 - The dashboard can attribute every automated result to a source, a rule version,
   and a raw payload hash.
 - Connector outages produce `unknown`, not false compliance.

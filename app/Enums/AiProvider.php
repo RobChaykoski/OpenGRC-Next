@@ -8,12 +8,14 @@ enum AiProvider: string implements HasLabel
 {
     case OpenAI = 'openai';
     case DigitalOcean = 'digitalocean';
+    case Ollama = 'ollama';
 
     public function getLabel(): ?string
     {
         return match ($this) {
             self::OpenAI => 'OpenAI',
             self::DigitalOcean => 'DigitalOcean',
+            self::Ollama => 'Ollama (local)',
         };
     }
 
@@ -22,6 +24,7 @@ enum AiProvider: string implements HasLabel
         return match ($this) {
             self::OpenAI => 'https://api.openai.com/v1/chat/completions',
             self::DigitalOcean => 'https://inference.do-ai.run/v1/chat/completions',
+            self::Ollama => 'http://localhost:11434/v1/chat/completions',
         };
     }
 
@@ -43,9 +46,16 @@ enum AiProvider: string implements HasLabel
             ],
             self::DigitalOcean => [
                 'alibaba-qwen3-32b' => 'Qwen3 32B',
-                // 'alibaba-qwen3-235b' => 'Qwen3 235B',
-                // 'anthropic-claude-3.5-sonnet' => 'Claude 3.5 Sonnet',
-                // 'meta-llama-3.3-70b-instruct' => 'Llama 3.3 70B Instruct',
+            ],
+            self::Ollama => [
+                'llama3.1' => 'Llama 3.1',
+                'llama3.2' => 'Llama 3.2',
+                'qwen2.5' => 'Qwen 2.5',
+                'qwen2.5-coder' => 'Qwen 2.5 Coder',
+                'mistral' => 'Mistral',
+                'deepseek-r1' => 'DeepSeek R1',
+                'phi4' => 'Phi 4',
+                'gemma3' => 'Gemma 3',
             ],
         };
     }
@@ -55,6 +65,7 @@ enum AiProvider: string implements HasLabel
         return match ($this) {
             self::OpenAI => 'gpt-4.1-mini',
             self::DigitalOcean => 'alibaba-qwen3-32b',
+            self::Ollama => 'llama3.1',
         };
     }
 
@@ -63,6 +74,7 @@ enum AiProvider: string implements HasLabel
         return match ($this) {
             self::OpenAI => 'OPENAI_API_KEY',
             self::DigitalOcean => 'DIGITALOCEAN_AI_KEY',
+            self::Ollama => 'OLLAMA_API_KEY',
         };
     }
 
@@ -71,6 +83,15 @@ enum AiProvider: string implements HasLabel
         return match ($this) {
             self::OpenAI => 'ai.openai_key',
             self::DigitalOcean => 'ai.digitalocean_key',
+            self::Ollama => 'ai.ollama_key',
         };
+    }
+
+    /**
+     * A local Ollama server needs no API key.
+     */
+    public function requiresApiKey(): bool
+    {
+        return $this !== self::Ollama;
     }
 }

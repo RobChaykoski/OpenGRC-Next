@@ -27,6 +27,10 @@ class ImplementationExporter extends Exporter
             ExportColumn::make('effectiveness')
                 ->label('Effectiveness')
                 ->formatStateUsing(fn ($state) => $state?->getLabel() ?? ''),
+            ExportColumn::make('last_tested_at')
+                ->label('Last tested'),
+            ExportColumn::make('next_test_at')
+                ->label('Next test due'),
             ExportColumn::make('implementationOwner.name')
                 ->label('Owner'),
             ExportColumn::make('details')

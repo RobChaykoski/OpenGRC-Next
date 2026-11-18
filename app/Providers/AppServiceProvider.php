@@ -2,26 +2,42 @@
 
 namespace App\Providers;
 
+use App\Enums\EvidenceSourceType;
 use App\Livewire\CustomSessionGuard;
 use App\Models\AuditItem;
+use App\Models\ControlValidationRule;
 use App\Models\DataRequest;
 use App\Models\DataRequestResponse;
+use App\Models\DlpFinding;
+use App\Models\DocumentTemplate;
+use App\Models\EvidenceRecord;
+use App\Models\EvidenceSource;
 use App\Models\FileAttachment;
+use App\Models\Finding;
 use App\Models\Survey;
 use App\Models\User;
 use App\Models\VendorDocument;
 use App\Models\VendorUser;
 use App\Policies\AppPolicy;
 use App\Policies\AuditItemPolicy;
+use App\Policies\ControlValidationRulePolicy;
 use App\Policies\DataRequestPolicy;
 use App\Policies\DataRequestResponsePolicy;
+use App\Policies\DlpFindingPolicy;
+use App\Policies\DocumentTemplatePolicy;
+use App\Policies\EvidenceRecordPolicy;
+use App\Policies\EvidenceSourcePolicy;
 use App\Policies\ExportPolicy;
 use App\Policies\FileAttachmentPolicy;
+use App\Policies\FindingPolicy;
 use App\Policies\SurveyPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VendorDocumentPolicy;
 use App\Policies\VendorUserPolicy;
+use App\Services\Evidence\ConnectorRegistry;
+use App\Services\Evidence\Connectors\PatchMonConnector;
 use App\Services\HtmlSanitizerService;
+use App\Support\Http\ReadOnlyHttp;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use BladeUI\Icons\Factory as IconFactory;
 use Exception;
@@ -36,6 +52,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 use Livewire\Livewire;
 use Log;
 use MangoldSecurity\Settings\Services\Setting;
@@ -59,6 +76,15 @@ class AppServiceProvider extends ServiceProvider
 
         // Override the package's SessionGuard component with our custom one
         Livewire::component('filament-inactivity-guard::session-guard', CustomSessionGuard::class);
+
+        // Passport is headless: it registers the browser authorise routes but no
+        // longer ships views. Without these bindings /oauth/authorize and
+        // /oauth/device fail while resolving the response contract. Point them
+        // at the self-hosted consent pages in resources/views/oauth.
+        Passport::viewPrefix('oauth');
+
+        // Outbound evidence collection is read-only by construction.
+        ReadOnlyHttp::register();
 
         // Render user-supplied rich text as sanitized HTML. Use these instead of {!! !!}.
         $this->app->singleton(HtmlSanitizerService::class);
@@ -256,9 +282,15 @@ class AppServiceProvider extends ServiceProvider
         Gate::guessPolicyNamesUsing(function (string $model): string {
             return match ($model) {
                 AuditItem::class => AuditItemPolicy::class,
+                ControlValidationRule::class => ControlValidationRulePolicy::class,
                 DataRequest::class => DataRequestPolicy::class,
                 DataRequestResponse::class => DataRequestResponsePolicy::class,
+                DlpFinding::class => DlpFindingPolicy::class,
+                DocumentTemplate::class => DocumentTemplatePolicy::class,
+                EvidenceRecord::class => EvidenceRecordPolicy::class,
+                EvidenceSource::class => EvidenceSourcePolicy::class,
                 FileAttachment::class => FileAttachmentPolicy::class,
+                Finding::class => FindingPolicy::class,
                 Survey::class => SurveyPolicy::class,
                 User::class => UserPolicy::class,
                 VendorDocument::class => VendorDocumentPolicy::class,
@@ -312,6 +344,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
+        // Connectors register against this singleton during boot.
+        $this->app->singleton(ConnectorRegistry::class, function (): ConnectorRegistry {
+            $registry = new ConnectorRegistry;
+            $registry->register(EvidenceSourceType::Patchmon, PatchMonConnector::class);
+
+            return $registry;
+        });
+
         /*
          * Follow the scheme in APP_URL (must be in register, not boot).
          *

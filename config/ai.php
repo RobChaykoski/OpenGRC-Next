@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Local models
+    |--------------------------------------------------------------------------
+    |
+    | Ollama exposes an OpenAI-compatible endpoint. From a container, use
+    | http://host.docker.internal:11434 (Docker Desktop) or the host LAN address.
+    |
+    */
+
+    'ollama_url' => env('OLLAMA_URL', 'http://localhost:11434'),
+    'ollama_model' => env('OLLAMA_MODEL', 'llama3.1'),
+
+    /*
+    |--------------------------------------------------------------------------
     | API Keys
     |--------------------------------------------------------------------------
     |

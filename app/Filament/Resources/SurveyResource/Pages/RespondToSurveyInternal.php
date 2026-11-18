@@ -98,9 +98,26 @@ class RespondToSurveyInternal extends Page implements HasForms
         $questions = $this->record->template->questions()->orderBy('sort_order')->get();
 
         $schema = [];
+        $number = 1;
 
-        foreach ($questions as $index => $question) {
-            $schema[] = $this->buildQuestionField($question, $index + 1);
+        $grouped = $questions->groupBy(fn (SurveyQuestion $question): string => (string) $question->section);
+
+        foreach ($grouped as $section => $sectionQuestions) {
+            $fields = [];
+
+            foreach ($sectionQuestions as $question) {
+                $fields[] = $this->buildQuestionField($question, $number++);
+            }
+
+            if ($section === '') {
+                array_push($schema, ...$fields);
+
+                continue;
+            }
+
+            $schema[] = Section::make($section)
+                ->schema($fields)
+                ->columnSpanFull();
         }
 
         return $form

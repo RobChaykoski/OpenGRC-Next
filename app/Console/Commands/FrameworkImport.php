@@ -89,7 +89,7 @@ class FrameworkImport extends Command
         $results = [];
 
         foreach ($catalog as $code => $definition) {
-            $results[$code] = $this->runSeeder($definition);
+            $results[$code] = $this->runSeeder($code, $definition);
         }
 
         $failures = array_keys(array_filter($results, fn (bool $ok) => ! $ok));
@@ -112,7 +112,7 @@ class FrameworkImport extends Command
      */
     protected function importOne(string $code, array $definition): int
     {
-        if (! $this->runSeeder($definition)) {
+        if (! $this->runSeeder($code, $definition)) {
             return Command::FAILURE;
         }
 
@@ -123,12 +123,27 @@ class FrameworkImport extends Command
     }
 
     /**
-     * Run the seeder that produces a framework.
+     * Run the importer that produces a framework.
      *
      * @param  array<string, mixed>  $definition
      */
-    protected function runSeeder(array $definition): bool
+    protected function runSeeder(string $code, array $definition): bool
     {
+        $importer = $definition['importer'] ?? null;
+
+        if (is_string($importer) && class_exists($importer)) {
+            try {
+                $count = app($importer)->import($code, $definition);
+                $this->line('  '.$count.' control(s) present.');
+
+                return $count > 0;
+            } catch (Throwable $e) {
+                $this->error("Importer {$importer} failed: ".$e->getMessage());
+
+                return false;
+            }
+        }
+
         $seeder = $definition['seeder'] ?? null;
 
         if (! is_string($seeder) || $seeder === '') {

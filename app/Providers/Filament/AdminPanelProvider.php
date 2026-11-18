@@ -11,10 +11,10 @@ use App\Filament\Admin\Pages\Settings\Settings;
 use App\Filament\Admin\Pages\Settings\StorageSettings;
 use App\Filament\Admin\Pages\Settings\TrustCenterSettings;
 use App\Filament\Admin\Pages\Settings\VendorPortalSettings;
+use App\Http\Middleware\AuthenticateAdminPanel;
 use App\Http\Middleware\RequireTwoFactorAuthentication;
 use DB;
 use Exception;
-use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -68,7 +68,8 @@ class AdminPanelProvider extends PanelProvider
             ->databaseNotificationsPolling('30s')
             ->readOnlyRelationManagersOnResourceViewPagesByDefault(false)
             ->sidebarCollapsibleOnDesktop()
-            ->spa()
+            // No SPA here: the "Back to OpenGRC" link crosses into the app
+            // panel, and SPA navigation does not hand off cleanly between panels.
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
             ->discoverWidgets(in: app_path('Filament/Admin/Widgets'), for: 'App\\Filament\\Admin\\Widgets')
@@ -88,8 +89,9 @@ class AdminPanelProvider extends PanelProvider
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
             ])
+            ->authGuard('web')
             ->authMiddleware([
-                Authenticate::class,
+                AuthenticateAdminPanel::class,
                 RequireTwoFactorAuthentication::class,
             ])
             ->plugins([

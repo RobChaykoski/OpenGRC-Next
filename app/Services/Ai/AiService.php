@@ -3,15 +3,13 @@
 namespace App\Services\Ai;
 
 use App\Enums\AiProvider;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use App\Services\Dlp\DlpService;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
 class AiService
 {
-    protected Client $client;
-
     protected AiProvider $provider;
 
     protected string $model;
@@ -20,7 +18,6 @@ class AiService
 
     public function __construct()
     {
-        $this->client = new Client;
         $this->initializeProvider();
     }
 
@@ -48,6 +45,13 @@ class AiService
 
     protected function resolveModel(): string
     {
+        if ($this->provider === AiProvider::Ollama) {
+            $ollamaModel = setting('ai.ollama_model') ?: config('ai.ollama_model');
+            if (filled($ollamaModel)) {
+                return $ollamaModel;
+            }
+        }
+
         $settingModel = setting('ai.model');
         if ($settingModel) {
             return $settingModel;
@@ -63,6 +67,10 @@ class AiService
 
     protected function resolveApiKey(): string
     {
+        if (! $this->provider->requiresApiKey()) {
+            return '';
+        }
+
         $settingKey = setting($this->provider->getSettingKeyName());
         if (filled($settingKey)) {
             try {
@@ -92,7 +100,27 @@ class AiService
 
     public function isConfigured(): bool
     {
-        return filled($this->apiKey);
+        return $this->provider->requiresApiKey() ? filled($this->apiKey) : true;
+    }
+
+    /**
+     * Resolve the chat-completions URL. Ollama uses an operator-configured base
+     * URL so the same code works for localhost, a LAN host, or a sidecar.
+     */
+    public function endpoint(): string
+    {
+        if ($this->provider !== AiProvider::Ollama) {
+            return $this->provider->getEndpoint();
+        }
+
+        $base = setting('ai.ollama_url') ?: config('ai.ollama_url', 'http://localhost:11434');
+        $base = rtrim((string) $base, '/');
+
+        return match (true) {
+            str_ends_with($base, '/v1/chat/completions') => $base,
+            str_ends_with($base, '/v1') => $base.'/chat/completions',
+            default => $base.'/v1/chat/completions',
+        };
     }
 
     /**
@@ -101,13 +129,16 @@ class AiService
      * @return array{content: string, model: string, usage: array}
      *
      * @throws RuntimeException
-     * @throws GuzzleException
      */
     public function chatCompletion(string $systemPrompt, string $userPrompt): array
     {
         if (! $this->isConfigured()) {
             throw new RuntimeException('AI provider is not configured. Please set an API key.');
         }
+
+        // Hard boundary: HR, special-category, and credential content must never
+        // leave the application through an AI provider.
+        app(DlpService::class)->assertSafeForAi($systemPrompt."\n".$userPrompt);
 
         $payload = [
             'model' => $this->model,
@@ -127,21 +158,27 @@ class AiService
             $payload['store'] = true;
         }
 
-        $response = $this->client->request('POST', $this->provider->getEndpoint(), [
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => "Bearer {$this->apiKey}",
-            ],
-            'json' => $payload,
-        ]);
+        $headers = ['Content-Type' => 'application/json'];
 
-        $body = $response->getBody();
-        $data = json_decode($body, true);
+        if (filled($this->apiKey)) {
+            $headers['Authorization'] = "Bearer {$this->apiKey}";
+        }
+
+        $response = Http::withHeaders($headers)
+            ->timeout($this->provider === AiProvider::Ollama ? 120 : 60)
+            ->post($this->endpoint(), $payload)
+            ->throw();
+
+        $data = $response->json();
+
+        if (! is_array($data)) {
+            throw new RuntimeException('The AI provider returned an invalid response.');
+        }
 
         return [
-            'content' => $data['choices'][0]['message']['content'],
-            'model' => $data['model'] ?? $this->model,
-            'usage' => $data['usage'] ?? [],
+            'content' => (string) ($data['choices'][0]['message']['content'] ?? ''),
+            'model' => (string) ($data['model'] ?? $this->model),
+            'usage' => is_array($data['usage'] ?? null) ? $data['usage'] : [],
         ];
     }
 }

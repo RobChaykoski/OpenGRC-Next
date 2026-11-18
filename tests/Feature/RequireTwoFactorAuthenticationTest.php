@@ -27,6 +27,26 @@ class RequireTwoFactorAuthenticationTest extends TestCase
     }
 
     #[Test]
+    public function an_admin_opening_the_app_panel_is_redirected_to_the_app_profile(): void
+    {
+        Filament::setCurrentPanel(Filament::getPanel('app'));
+
+        $user = User::factory()->create(['role' => UserRole::Admin]);
+        $request = Request::create('/app', 'GET');
+        $request->setUserResolver(fn () => $user);
+
+        $response = (new RequireTwoFactorAuthentication)->handle(
+            $request,
+            fn () => response('passed-through')
+        );
+
+        $this->assertSame(302, $response->getStatusCode());
+        $this->assertStringContainsString('/app/me', $response->headers->get('Location'));
+
+        Filament::setCurrentPanel(null);
+    }
+
+    #[Test]
     public function an_admin_with_confirmed_two_factor_passes(): void
     {
         $user = User::factory()->create(['role' => UserRole::Admin]);

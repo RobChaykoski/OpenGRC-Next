@@ -33,6 +33,7 @@ use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ForceDeleteBulkAction;
 use Filament\Actions\RestoreBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -44,6 +45,7 @@ use Filament\Schemas\Schema;
 use Filament\Tables;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
@@ -189,6 +191,14 @@ class ImplementationResource extends Resource
                     ])
                     ->columnSpanFull()
                     ->hintIcon('heroicon-m-question-mark-circle', tooltip: 'Any additional internal notes. This is never visible to an auditor.'),
+
+                DatePicker::make('last_tested_at')
+                    ->label('Last tested')
+                    ->helperText('When this control was last tested. Audit items record the result.'),
+
+                DatePicker::make('next_test_at')
+                    ->label('Next test due')
+                    ->helperText('The cadence your programme agreed to. Overdue tests appear in the list filter.'),
             ]);
     }
 
@@ -225,6 +235,15 @@ class ImplementationResource extends Resource
                     ->searchable(false)
                     ->sortable()
                     ->badge(),
+                TextColumn::make('next_test_at')
+                    ->label('Next test')
+                    ->date('M j, Y')
+                    ->placeholder('Not scheduled')
+                    ->badge()
+                    ->color(fn (Implementation $record): string => $record->isTestOverdue()
+                        ? 'danger'
+                        : ($record->isTestDueSoon() ? 'warning' : 'gray'))
+                    ->sortable(),
                 TextColumn::make('status')
                     ->label(__('implementation.table.columns.status'))
                     ->toggleable()
@@ -267,6 +286,18 @@ class ImplementationResource extends Resource
                 SelectFilter::make('implementation_owner_id')
                     ->label('Owner')
                     ->options(User::optionsWithDeactivated()),
+                TernaryFilter::make('test_overdue')
+                    ->label('Test overdue')
+                    ->placeholder('Any test date')
+                    ->trueLabel('Overdue')
+                    ->falseLabel('On schedule')
+                    ->queries(
+                        true: fn (Builder $query) => $query->whereNotNull('next_test_at')->whereDate('next_test_at', '<', now()),
+                        false: fn (Builder $query) => $query->where(function (Builder $query): void {
+                            $query->whereNull('next_test_at')
+                                ->orWhereDate('next_test_at', '>=', now());
+                        }),
+                    ),
                 TaxonomySelectFilter::make('department'),
                 TaxonomySelectFilter::make('scope'),
             ])
@@ -307,6 +338,18 @@ class ImplementationResource extends Resource
                             ->getStateUsing(fn ($record) => $record->getEffectiveness())
                             ->badge(),
                         TextEntry::make('status')->badge(),
+                        TextEntry::make('last_tested_at')
+                            ->label('Last tested')
+                            ->date('M j, Y')
+                            ->placeholder('Not recorded'),
+                        TextEntry::make('next_test_at')
+                            ->label('Next test due')
+                            ->date('M j, Y')
+                            ->placeholder('Not scheduled')
+                            ->badge()
+                            ->color(fn (Implementation $record): string => $record->isTestOverdue()
+                                ? 'danger'
+                                : ($record->isTestDueSoon() ? 'warning' : 'gray')),
                         TextEntry::make('taxonomies')
                             ->label('Department')
                             ->getStateUsing(function (Implementation $record) {

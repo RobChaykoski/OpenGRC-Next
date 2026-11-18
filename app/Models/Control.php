@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -123,6 +124,30 @@ class Control extends Model
     {
         return $this->belongsToMany(Policy::class, 'control_policy')
             ->withTimestamps();
+    }
+
+    /**
+     * Machine measurements mapped to this control (ADR 0009).
+     */
+    public function evidenceRecords(): HasMany
+    {
+        return $this->hasMany(EvidenceRecord::class, 'control_id');
+    }
+
+    /**
+     * Validation rules that evaluate measurements for this control.
+     */
+    public function validationRules(): HasMany
+    {
+        return $this->hasMany(ControlValidationRule::class, 'control_id');
+    }
+
+    /**
+     * Historical validation results, newest last.
+     */
+    public function validations(): HasMany
+    {
+        return $this->hasMany(ControlValidation::class, 'control_id');
     }
 
     /**

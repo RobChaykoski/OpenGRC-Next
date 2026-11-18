@@ -44,6 +44,7 @@
         "livewire/livewire": "^3.8.9",
         "mangoldsecurity/filament-settings": "^2.4",
         "nwidart/laravel-modules": "^11.1.10",
+        "openspout/openspout": "^4.32",
         "pxlrbt/filament-activity-log": "^2.2.0",
         "socialiteproviders/auth0": "^4.2",
         "socialiteproviders/google": "^4.1",

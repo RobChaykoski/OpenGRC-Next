@@ -51,6 +51,8 @@ return [
             'questions' => [
                 'description' => 'Add questions to your survey template. You can reorder questions by dragging them.',
                 'question_text' => 'Question',
+                'section' => 'Section',
+                'section_helper' => 'Optional group heading. Imported questionnaires set this automatically.',
                 'question_type' => 'Question Type',
                 'is_required' => 'Required',
                 'allow_comments' => 'Allow Comments',
@@ -85,6 +87,19 @@ return [
         'actions' => [
             'create_survey' => 'Create Survey',
             'duplicate' => 'Duplicate',
+            'import_questionnaire' => 'Import questionnaire',
+            'import_description' => 'Upload an XLSX questionnaire with section headings and one question per row. Existing questions are kept unless you choose to replace them.',
+            'import_name' => 'Template title',
+            'import_file' => 'Questionnaire file',
+            'import_file_help' => 'XLSX only. Sections become question groups; answer options in the same cell become choices.',
+            'import_replace' => 'Replace existing questions',
+            'import_replace_helper' => 'Off by default: an existing template with this title keeps its questions.',
+            'import_dry_run' => 'Preview only',
+        ],
+        'notifications' => [
+            'imported' => 'Imported :count question(s) into :name.',
+            'previewed' => 'Found :count question(s) in :sections section(s). Nothing was written.',
+            'import_failed' => 'The questionnaire could not be imported: :error',
         ],
     ],
 

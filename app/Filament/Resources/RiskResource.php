@@ -116,11 +116,20 @@ class RiskResource extends Resource
                     ->enum(RiskStatus::class)
                     ->options(RiskStatus::class)
                     ->required(),
+                Select::make('owner_id')
+                    ->label('Risk owner')
+                    ->helperText('The person accountable for treating and reviewing this risk.')
+                    ->relationship('owner', 'name')
+                    ->searchable(['name', 'email'])
+                    ->preload(),
                 Toggle::make('is_active')
                     ->label('Active')
                     ->default(true)
                     ->helperText('Inactive risks are excluded from reports and dashboards'),
                 self::taxonomySelect('Department', 'department')
+                    ->nullable()
+                    ->columnSpan(1),
+                self::taxonomySelect('Risk category', 'risk-category')
                     ->nullable()
                     ->columnSpan(1),
                 self::taxonomySelect('Scope', 'scope')
@@ -157,6 +166,7 @@ class RiskResource extends Resource
                     ->badge()
                     ->sortable(),
                 TaxonomyColumn::make('department'),
+                TaxonomyColumn::make('risk-category'),
                 TaxonomyColumn::make('scope'),
                 TextColumn::make('mitigation_status')
                     ->label('Mitigation')
@@ -176,6 +186,11 @@ class RiskResource extends Resource
                     ->badge()
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('owner.name')
+                    ->label('Owner')
+                    ->placeholder('Unassigned')
+                    ->searchable()
+                    ->sortable(),
                 TextColumn::make('is_active')
                     ->label('Active')
                     ->getStateUsing(fn (Risk $record) => $record->is_active ? 'Active' : 'Inactive')
@@ -196,6 +211,7 @@ class RiskResource extends Resource
                     ->label('Residual Impact')
                     ->options(RiskLevel::options()),
                 TaxonomySelectFilter::make('department'),
+                TaxonomySelectFilter::make('risk-category'),
                 TaxonomySelectFilter::make('scope'),
                 SelectFilter::make('is_active')
                     ->label('Active')
@@ -206,6 +222,11 @@ class RiskResource extends Resource
                     ->default('1'),
                 SelectFilter::make('status')
                     ->options(RiskStatus::class),
+                SelectFilter::make('owner_id')
+                    ->label('Owner')
+                    ->relationship('owner', 'name')
+                    ->searchable()
+                    ->preload(),
             ])
             ->headerActions([
                 ExportAction::make()

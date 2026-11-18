@@ -460,6 +460,46 @@
         {
             "name": "2026_11_17_030000_create_data_classifications_table",
             "sha256": "e607b5bd420d2cba1cb30b3ba2a7f1a7e6951c85248f58b7850353c3c736c032"
+        },
+        {
+            "name": "2026_11_17_040000_create_continuous_monitoring_tables",
+            "sha256": "b3524589b2d600ed65157fbe2e61b47fa3a6d4605bee2f18c4a09cc890baa44c"
+        },
+        {
+            "name": "2026_11_17_050000_add_asset_id_to_control_validations",
+            "sha256": "c491d1f93612f24e38eccae76fd2c5167a1b3328849738f466515272f3a2318a"
+        },
+        {
+            "name": "2026_11_17_051000_create_findings_table",
+            "sha256": "36dea9d1529057507a225dba8666a51641f5adddf3d9e65a6ed192855ab7ed81"
+        },
+        {
+            "name": "2026_11_17_052000_add_asset_identifier_to_control_validations",
+            "sha256": "537c00d99a4c998becb51ae5adee3cf7a1f7b2eabe80f35c2342a243dc424bd0"
+        },
+        {
+            "name": "2026_11_17_060000_create_policy_readiness_tables",
+            "sha256": "de9db08b47290fd30b6a278069cff76a6ce4fa44ad4b71f4c4c3911753313be7"
+        },
+        {
+            "name": "2026_11_17_070000_create_dlp_findings_table",
+            "sha256": "ee7ca0690599e0816e54ab3b343ae83883e6af118be7737be96a0d6853eb1924"
+        },
+        {
+            "name": "2026_11_18_000000_create_document_templates_table",
+            "sha256": "fcd828d523d6c7316c47d9172716623d54bc87e7333044760aa278a820d30767"
+        },
+        {
+            "name": "2026_11_18_010000_add_section_to_survey_questions_table",
+            "sha256": "10a858c423b1acfd35425058df2c5a479ec3d5f5fdceed1c427e1023fea863f5"
+        },
+        {
+            "name": "2026_11_18_020000_add_owner_to_risks_table",
+            "sha256": "52b11deff1d5938fe8379c6911adc5f4386bf77692c530a952b7edba67e52f59"
+        },
+        {
+            "name": "2026_11_18_030000_add_test_dates_to_implementations_table",
+            "sha256": "ddf90c72e71bd4fdaa18eaee8f87374071518b08517f422bf62b8af4da88837f"
         }
     ]
 }

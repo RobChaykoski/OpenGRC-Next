@@ -1,0 +1,70 @@
+<?php
+
+return [
+    'navigation' => [
+        'label' => 'Findings',
+        'group' => 'Entities',
+    ],
+    'model' => [
+        'label' => 'Finding',
+        'plural_label' => 'Findings',
+    ],
+    'form' => [
+        'title' => 'Title',
+        'title_help' => 'A short statement of the gap, not the whole remediation plan.',
+        'description' => 'Description',
+        'description_help' => 'State the condition, criteria, cause, effect, and recommendation.',
+        'severity' => 'Severity',
+        'status' => 'Status',
+        'control' => 'Control',
+        'asset' => 'Asset',
+        'owner' => 'Owner',
+        'owner_help' => 'The person accountable for remediation.',
+        'due_at' => 'Due date',
+        'resolution_notes' => 'Resolution notes',
+        'resolution_notes_help' => 'What changed, or why the risk was accepted.',
+    ],
+    'table' => [
+        'title' => 'Title',
+        'severity' => 'Severity',
+        'status' => 'Status',
+        'control' => 'Control',
+        'asset' => 'Asset',
+        'owner' => 'Owner',
+        'source' => 'Source',
+        'due_at' => 'Due',
+        'occurrences' => 'Seen',
+        'identified_at' => 'Identified',
+        'last_seen_at' => 'Last seen',
+        'empty_heading' => 'No findings',
+        'empty_description' => 'Automated checks open findings here when a control fails. You can also raise one manually.',
+    ],
+    'filters' => [
+        'status' => 'Status',
+        'severity' => 'Severity',
+        'source' => 'Source',
+        'owner' => 'Owner',
+        'overdue' => 'Overdue',
+    ],
+    'actions' => [
+        'resolve' => 'Resolve',
+        'resolve_confirm' => 'Mark this finding resolved? Record what changed.',
+        'accept_risk' => 'Accept risk',
+        'accept_confirm' => 'Accept this risk? It stays visible and is not treated as fixed.',
+        'assign_owner' => 'Assign owner',
+    ],
+    'sections' => [
+        'finding' => 'Finding',
+        'mapping' => 'Where it came from',
+        'timeline' => 'Timeline',
+        'resolution' => 'Resolution',
+    ],
+    'entries' => [
+        'reference' => 'Reference',
+        'occurrences' => 'Times seen',
+    ],
+    'notifications' => [
+        'resolved' => 'Finding resolved.',
+        'accepted' => 'Risk accepted. The finding stays visible for review.',
+    ],
+];

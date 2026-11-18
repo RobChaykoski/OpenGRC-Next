@@ -94,6 +94,76 @@ to place implementation evidence on the audit item that tests it, and reference
 the item in the implementation's notes. Record the workaround in your own
 documentation so an auditor is not surprised.
 
+## Machine-collected evidence
+
+ADR 0009 adds a second path: a connector reads a source (PatchMon first), a
+normaliser emits a vendor-neutral measurement, and the ingestor stores it as an
+immutable `evidence_records` row with a canonical SHA-256 payload hash and an
+idempotency key. Replays never duplicate a measurement; corrections are new rows
+that point at the record they replace.
+
+- A missing measurement is Unknown, never Effective.
+- Credentials live encrypted on `evidence_sources` and are never written into a
+  payload.
+- Collection is read-only: `Http::grcReadOnly()` refuses anything but GET/HEAD
+  and does not follow redirects.
+- Validation rules, findings, the evidence browser, and the PatchMon connector
+  are built; scheduled collection is not.
+
+### PatchMon source
+
+Admins configure a source under **Admin → System → Evidence sources**:
+
+| Field | Value |
+|---|---|
+| API base URL | The PatchMon API root, for example `https://patchmon.example/api/v1/api` |
+| Username / password | Scoped Basic Authentication. The password is write-only in the UI. |
+| Primary control | Optional code such as `SI-2`, used for display and direct mapping. |
+| Timeout | Per-request timeout in seconds. |
+
+The connector reads `/hosts`, then per host `/stats`, `/system`, `/package_reports`,
+and `/agent_queue`. It does not pull `/packages`; the full list is large and the
+rules use counts, report status, and agent health. A host whose per-host calls
+fail is stored as Unknown with the error, so one unreachable machine does not
+discard the rest of the fleet.
+
+The **Run collection** action queues `CollectEvidenceJob`; the worker writes the
+records. `php artisan opengrc:evidence:collect --source=ID` runs the same path
+synchronously for operators.
+
+### Continuous verification
+
+A rule is data, not code. It names the evidence type it applies to and a list of
+assertions:
+
+```json
+{
+  "match": { "evidence_type": "patch-compliance" },
+  "assert": [
+    { "path": "securityUpdates", "op": "eq", "value": 0 },
+    { "path": "reportAgeDays", "op": "lt", "value": 2 },
+    { "path": "agentReporting", "op": "eq", "value": true }
+  ]
+}
+```
+
+Collect with `php artisan opengrc:evidence:collect` (or `--source=ID`). The runner
+creates an evidence job, ingests each measurement, and records duplicates and
+per-record failures without discarding the rest of the batch. It only reads: the
+connector may not issue anything but GET or HEAD.
+
+Run `php artisan opengrc:evidence:validate`. It records one control validation per
+rule and asset, marks drift when the status changes, and opens or resolves a
+finding. A missing value is Unknown and never closes a finding; only a passing
+check does. Supported operators: `eq`, `ne`, `gt`, `gte`, `lt`, `lte`, `in`,
+`not_in`, `contains`, `exists`, `missing`.
+
+`opengrc:doctor` warns when an enabled source has no registered connector, has
+never run, or is older than `evidence.stale_after_days`.
+
+Admins edit rules under **Admin → System → Validation rules**. The rule
+definition is JSON; the editor validates that it is an object before saving.
+
 ## Redaction and safety
 
 - Never store credentials, API keys, session tokens, or personal data beyond what

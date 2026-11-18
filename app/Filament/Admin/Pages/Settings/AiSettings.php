@@ -71,6 +71,10 @@ class AiSettings extends BaseSettings
                                                     $provider = AiProvider::tryFrom($state);
                                                     if ($provider) {
                                                         $set('ai.model', $provider->getDefaultModel());
+
+                                                        if ($provider === AiProvider::Ollama) {
+                                                            $set('ai.ollama_model', $provider->getDefaultModel());
+                                                        }
                                                     }
                                                 }
                                             })
@@ -84,6 +88,8 @@ class AiSettings extends BaseSettings
                                                 return $provider?->getModels() ?? [];
                                             })
                                             ->default(AiProvider::OpenAI->getDefaultModel())
+                                            ->visible(fn (Get $get): bool => $get('ai.provider') !== AiProvider::Ollama->value)
+                                            ->dehydrated(fn (Get $get): bool => $get('ai.provider') !== AiProvider::Ollama->value)
                                             ->helperText('Select the model to use for AI suggestions'),
                                     ]),
                                 Section::make('OpenAI')
@@ -175,6 +181,23 @@ class AiSettings extends BaseSettings
                                             ->afterStateHydrated(function (TextInput $component, $state) {
                                                 $component->state(null);
                                             }),
+                                    ]),
+
+                                Section::make('Ollama (local)')
+                                    ->description('Connect to a locally run Ollama server. No API key is required.')
+                                    ->visible(fn (Get $get): bool => $get('ai.provider') === AiProvider::Ollama->value)
+                                    ->schema([
+                                        TextInput::make('ai.ollama_url')
+                                            ->label('Base URL')
+                                            ->default(config('ai.ollama_url'))
+                                            ->required(fn (Get $get): bool => $get('ai.provider') === AiProvider::Ollama->value)
+                                            ->helperText('Use http://host.docker.internal:11434 from inside Docker, or the host LAN address. Do not include /v1.'),
+
+                                        TextInput::make('ai.ollama_model')
+                                            ->label('Model')
+                                            ->default(config('ai.ollama_model', 'llama3.1'))
+                                            ->required(fn (Get $get): bool => $get('ai.provider') === AiProvider::Ollama->value)
+                                            ->helperText('The model name as shown by ollama list.'),
                                     ]),
                             ]),
                         Tab::make('Quota Usage')

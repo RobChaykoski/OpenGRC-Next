@@ -22,34 +22,43 @@ important controls and 2 for the rest.
 
 | Capability | Supported today | Level the tool enables | Evidence |
 |---|---|---|---|
-| Framework and control library | Yes: 10 public standards, provenance register | 3 | `docs/grc/framework-catalog.md` |
-| Control implementation and ownership | Yes: status, effectiveness, owner, test procedure | 4 | `Implementation` model |
-| Risk register | Yes: inherent + residual 1–5 scoring, treatment, mitigations | 4 | `docs/grc/risk-methodology.md` |
+| Framework and control library | Yes: 20 registered standards, provenance register, NIST generated from OSCAL | 3 | `docs/grc/framework-catalog.md` |
+| Control implementation and ownership | Yes: status, effectiveness, owner, test procedure, last/next test dates | 4 | `Implementation` model |
+| Risk register | Yes: inherent + residual 1–5 scoring, owner, category, treatment, mitigations | 4 | `docs/grc/risk-methodology.md` |
 | Policies and exceptions | Yes: lifecycle, acknowledgements, exceptions with expiry | 4 | `Policy`, `PolicyException` |
-| Audits and testing | Yes: audits, audit items, effectiveness, notes | 3 | `docs/grc/audit-playbook.md` |
-| Evidence management | Partial: attachments on audits and data requests | 3 | `docs/grc/evidence-standard.md` |
-| Vendor risk (TPRM) | Yes: inventory, questionnaires, scoring, documents | 4 | `Vendor`, `Survey*` |
+| Audits and testing | Yes: audits, items, effectiveness, notes, attachments, findings | 3 | `docs/grc/audit-playbook.md` |
+| Evidence management | Partial: attachments on audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
+| Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
+| Document templates | Yes: private originals, encrypted extracted text, classification access | 2 | `docs/grc/document-templates.md` |
+| Policy readiness | Yes: readiness register with separate design/operating/evidence status | 3 | `docs/grc/policy-readiness.md` |
+| Vendor risk (TPRM) | Yes: inventory, questionnaires, scoring, documents; no nth-party graph | 3 | `Vendor`, `Survey*` |
 | Asset and application inventory | Yes: assets, applications, taxonomy, risk links | 3 | `Asset`, `Application` |
-| Findings and remediation | Partial: audit item effectiveness + mitigations | 2 | Gap 2 |
-| Control testing cadence | Partial: test procedure, no scheduled re-test | 2 | Gap 1 |
-| Metrics and reporting | Partial: widgets, exports, AI summaries | 2 | Gap 3 |
+| Findings and remediation | Yes: triage queue, severity, owner, due date, status; automated from validation | 3 | `Finding` |
+| Control testing cadence | Yes: last/next test dates, overdue filter; no automatic reminders | 3 | Gap 1 |
+| Metrics and reporting | Partial: widgets, exports, AI summaries; no heat map or scorecard builder | 2 | Gap 3 |
 | Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
+| Regulatory change monitoring | Not built: no feed of new or amended requirements | 1 | Gap 7 |
+| Collaboration and workflow | Partial: three roles, assignments, comments, exports; no approval engine | 2 | Gap 8 |
 
 ## Gaps, stated plainly
 
 These are known limitations. They are listed here so nobody discovers them during
 an audit.
 
-1. **No scheduled control testing.** Implementations record a test procedure and
-   effectiveness, but not *when* they were last tested or when the next test is
-   due. Until that exists, cadence lives in a calendar or a checklist. Recommended
-   fields: `last_tested_at`, `next_review_at`, plus a stale-control report.
-2. **Findings are not first-class.** A failed audit item carries an effectiveness
-   value and notes; remediation is a mitigation on a risk. There is no finding
-   object with severity, owner, due date, and status. Recommended next feature.
-3. **Evidence is scoped to audits and data requests.** An implementation can be
-   described and tested, but a file cannot be attached directly to it. Evidence
-   has to live on an audit item or a data request response.
+1. **Testing cadence is recorded, not enforced.** Implementations have
+   `last_tested_at` and `next_test_at`, and the list can filter overdue controls.
+   Nothing sends a reminder, and completing an audit item does not stamp the
+   dates; someone must update them. Recommended next step: a scheduled command
+   that reports overdue tests and, optionally, a notification channel.
+2. **Findings are first-class; remediation is lightweight.** A finding has
+   severity, owner, due date, status, and resolution notes, with a triage screen
+   and automated raising from validation. There is no separate remediation plan
+   with tasks, milestones, or a link to a risk treatment. Use the notes field and
+   a linked risk until that lands.
+3. **Human evidence is scoped to audits and data requests.** Machine evidence can
+   reference a control directly, but a person cannot attach a file to an
+   implementation. Until that exists, upload human evidence to an audit item and
+   record machine evidence through a connector.
 4. **Crosswalks are manual.** Two standards can both be imported, but there is no
    mapping object between their controls, so coverage across frameworks is a
    spreadsheet exercise.
@@ -58,6 +67,19 @@ an audit.
    not enforced by a setting.
 6. **No attestation workflow for control owners.** Owners are recorded; a periodic
    "I confirm this is still true" event is not.
+7. **No regulatory change feed.** Requirements are imported when you choose to
+   import them. There is no subscription that tells you a standard was revised,
+   and no diff against the version you assessed against.
+8. **Approvals are per record, not a workflow engine.** Resources have approve,
+   edit, and delete actions with role checks. There is no multi-step approval
+   chain, delegation, or notification on assignment, and no per-field conditional
+   routing. Use the audit trail and comments for accountability.
+9. **Nth-party risk is not modelled.** A vendor's own subcontractors are not a
+   first-class relationship. Record them in the vendor record or as separate
+   vendors with a parent note until a supply-chain graph exists.
+10. **Monitoring is scheduled, not streaming.** Connectors run on a schedule and
+    write evidence after the fact. There is no event stream, and no near-real-time
+    detection path; see ADR 0009 for the current contract.
 
 Each gap has a documented workaround. Say so in your own programme documentation
 rather than pretending the tool covers it.
@@ -77,3 +99,16 @@ about a quarter:
 8. Review quarterly: stale owners, open risks, failed items, expiring exceptions.
 
 The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
+
+## Further reading
+
+| Topic | Document |
+|---|---|
+| Control mapping across frameworks | `docs/grc/framework-catalog.md`, `docs/grc/framework-scoping.md` |
+| Risk scoring | `docs/grc/risk-methodology.md` |
+| Audit and testing | `docs/grc/audit-playbook.md` |
+| Evidence and integrity | `docs/grc/evidence-standard.md` |
+| Policy readiness register | `docs/grc/policy-readiness.md` |
+| Document templates | `docs/grc/document-templates.md` |
+| Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
+| Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

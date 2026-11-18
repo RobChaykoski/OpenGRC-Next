@@ -17,6 +17,7 @@ class SurveyQuestion extends Model
 
     protected $fillable = [
         'survey_template_id',
+        'section',
         'question_text',
         'question_type',
         'options',
@@ -53,7 +54,7 @@ class SurveyQuestion extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-            ->logOnly(['question_text', 'question_type', 'options', 'is_required', 'sort_order', 'allow_comments'])
+            ->logOnly(['question_text', 'section', 'question_type', 'options', 'is_required', 'sort_order', 'allow_comments'])
             ->logOnlyDirty()
             ->dontLogEmptyChanges();
     }

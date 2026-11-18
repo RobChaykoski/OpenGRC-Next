@@ -70,14 +70,15 @@ could repeat the test.
 
 ## 6. Findings
 
-There is no dedicated Findings object yet (see `docs/grc/README.md`, gap 2).
-Record a finding this way, consistently:
+A Finding is now a first-class object with a triage screen (severity, owner, due
+date, status). A failed automated validation raises one automatically and a
+passing validation resolves it. For a manual finding:
 
 1. Set the item to `Not Effective` or `Partially Effective`.
-2. In the auditor notes, state: condition, criteria, cause, effect, recommendation.
-3. Create a risk or update the existing risk for the underlying exposure.
-4. Create a mitigation with an owner and a date, and reference the audit item.
-5. Re-test at the next audit and link the new item to the previous one in the notes.
+2. Raise a finding, link the control, and set severity, owner, and due date.
+3. In the description, state: condition, criteria, cause, effect, recommendation.
+4. Create a risk or update the existing risk for the underlying exposure.
+5. Resolve the finding when re-testing confirms the fix; do not delete it.
 
 That chain gives you severity, ownership, remediation, and re-test — even without
 a first-class object.

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\DlpBlockedException;
+use App\Services\Dlp\DlpService;
 use App\Support\UploadRules;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\ValidationException;
@@ -77,6 +79,15 @@ class UploadValidationService
         // allowed by the extension check above and rejected here.
         if (! in_array($detected, $this->mimesForExtension($extension), true)) {
             $this->fail('The file content does not match its extension.');
+        }
+
+        // Scan text-extractable content. Credentials are blocked; HR and
+        // special-category data is flagged so it can be stored securely rather
+        // than rejected. Images, PDFs, and archives are not scanned here.
+        try {
+            app(DlpService::class)->scanUpload($file, $group);
+        } catch (DlpBlockedException $exception) {
+            $this->fail($exception->getMessage());
         }
     }
 

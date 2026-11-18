@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\User;
 use Closure;
+use Filament\Facades\Filament;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,8 +37,14 @@ class RequireTwoFactorAuthentication
             return $next($request);
         }
 
+        // Keep the user in the panel they came from. An admin who opens /app
+        // must not be bounced into /admin just to enrol.
+        $route = Filament::getCurrentPanel()?->getId() === 'app'
+            ? 'filament.app.pages.me'
+            : 'filament.admin.pages.me';
+
         return new RedirectResponse(
-            route('filament.admin.pages.me', ['require_two_factor' => 1])
+            route($route, ['require_two_factor' => 1])
         );
     }
 

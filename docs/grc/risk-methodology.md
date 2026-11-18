@@ -93,6 +93,28 @@ Put that statement in your governance documentation and reference it from the ri
 register's front page. When a score crosses a threshold, the acceptance must be
 traceable to a person.
 
+## Ownership and category
+
+Every risk beyond triage needs an **owner**: the person accountable for the
+treatment decision and the next review, not the person who happened to type it
+in. The owner is a user reference (`risks.owner_id`), so the register can be
+filtered by person and the name stays correct after a rename. An unassigned risk
+is a finding in itself.
+
+Category and department answer different questions:
+
+| Field | Answers | Example |
+|---|---|---|
+| Risk category | What kind of risk is this? | Cybersecurity, Compliance, Operational |
+| Department | Where does it live? | Infrastructure, Finance, HR |
+| Scope | What does it affect? | Enterprise, a programme, a system |
+
+Categories are seeded as taxonomy terms: Strategic, Financial, Operational,
+Compliance, Cybersecurity, Reputational, Environmental. Rename or extend them in
+the taxonomy settings; do not encode a category into the risk title or the code.
+A risk may genuinely span categories, but pick one primary category so counts
+mean something.
+
 ## Cadence
 
 | Frequency | Activity |

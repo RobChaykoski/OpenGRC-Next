@@ -16,6 +16,8 @@ use App\Filament\Resources\ControlResource\Pages\EditControl;
 use App\Filament\Resources\ControlResource\Pages\ListControls;
 use App\Filament\Resources\ControlResource\Pages\ViewControl;
 use App\Filament\Resources\ControlResource\RelationManagers\AuditItemRelationManager;
+use App\Filament\Resources\ControlResource\RelationManagers\ControlValidationsRelationManager;
+use App\Filament\Resources\ControlResource\RelationManagers\EvidenceRecordsRelationManager;
 use App\Filament\Resources\ControlResource\RelationManagers\ImplementationRelationManager;
 use App\Filament\Resources\ControlResource\RelationManagers\PoliciesRelationManager;
 use App\Models\Control;
@@ -274,6 +276,8 @@ class ControlResource extends Resource
             ImplementationRelationManager::class,
             AuditItemRelationManager::class,
             PoliciesRelationManager::class,
+            EvidenceRecordsRelationManager::class,
+            ControlValidationsRelationManager::class,
         ];
     }
 

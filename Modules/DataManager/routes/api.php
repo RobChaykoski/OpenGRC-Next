@@ -1,19 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use Modules\DataManager\Http\Controllers\DataManagerController;
-
 /*
- *--------------------------------------------------------------------------
- * API Routes
- *--------------------------------------------------------------------------
- *
- * Here is where you can register API routes for your application. These
- * routes are loaded by the RouteServiceProvider within a group which
- * is assigned the "api" middleware group. Enjoy building your API!
- *
+|--------------------------------------------------------------------------
+| API Routes
+|--------------------------------------------------------------------------
+|
+| Import and export are Filament pages, not JSON endpoints. The scaffold
+| resource registered here pointed at a controller that returned views and
+| bare 204 responses, which is not an API. Do not re-register a route until
+| there is a real controller behind it.
+|
 */
-
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('datamanager', DataManagerController::class)->names('datamanager');
-});

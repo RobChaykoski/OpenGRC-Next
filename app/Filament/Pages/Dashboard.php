@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Filament\Widgets\AuditListWidget;
+use App\Filament\Widgets\ContinuousVerificationWidget;
 use App\Filament\Widgets\ControlsStatsWidget;
 use App\Filament\Widgets\ImplementationsStatsWidget;
 use App\Filament\Widgets\StatsOverview;
@@ -22,6 +23,7 @@ class Dashboard extends TabbedPage
     {
         return [
             StatsOverview::class,
+            ContinuousVerificationWidget::class,
             ControlsStatsWidget::class,
             AuditListWidget::class,
             ImplementationsStatsWidget::class,

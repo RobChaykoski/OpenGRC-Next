@@ -24,6 +24,8 @@ class RiskExporter extends Exporter
             ExportColumn::make('status')
                 ->label('Status')
                 ->formatStateUsing(fn ($state) => $state?->getLabel() ?? ''),
+            ExportColumn::make('owner.name')
+                ->label('Owner'),
             ExportColumn::make('inherent_likelihood')
                 ->label('Inherent Likelihood'),
             ExportColumn::make('inherent_impact')
@@ -50,6 +52,16 @@ class RiskExporter extends Exporter
                 ->label('Scope')
                 ->state(function (Risk $record): ?string {
                     $parent = Taxonomy::where('slug', 'scope')->whereNull('parent_id')->first();
+                    if (! $parent) {
+                        return null;
+                    }
+
+                    return $record->taxonomies()->where('parent_id', $parent->id)->first()?->name;
+                }),
+            ExportColumn::make('risk_category')
+                ->label('Risk category')
+                ->state(function (Risk $record): ?string {
+                    $parent = Taxonomy::where('slug', 'risk-category')->whereNull('parent_id')->first();
                     if (! $parent) {
                         return null;
                     }

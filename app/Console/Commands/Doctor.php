@@ -2,7 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\EvidenceSourceType;
+use App\Models\DocumentTemplate;
+use App\Models\EvidenceSource;
 use App\Models\User;
+use App\Services\Evidence\ConnectorRegistry;
 use App\Services\Evidence\EvidenceLedger;
 use App\Support\DatabasePath;
 use App\Support\InstanceMode;
@@ -10,6 +14,7 @@ use App\Support\MigrationManifest;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\Passport;
 use Throwable;
 
@@ -47,10 +52,12 @@ class Doctor extends Command
         $this->checkRuntime();
         $this->checkEnvironment();
         $this->checkFilesystem();
+        $this->checkDocumentTemplates();
         $this->checkBuild();
         $this->checkDatabase();
         $this->checkMigrationIntegrity();
         $this->checkEvidenceIntegrity();
+        $this->checkEvidencePipeline();
         $this->checkOauthKeys();
         $this->checkPrivilegedMfa();
         $this->checkVersion();
@@ -245,6 +252,50 @@ class Doctor extends Command
     }
 
     /**
+     * Document template originals must still be on the private disk. A restored
+     * database without the storage volume leaves rows pointing at nothing.
+     */
+    protected function checkDocumentTemplates(): void
+    {
+        try {
+            if (! Schema::hasTable('document_templates')) {
+                return;
+            }
+
+            $templates = DocumentTemplate::query()->get(['id', 'source_file', 'body_text']);
+
+            if ($templates->isEmpty()) {
+                return;
+            }
+
+            $disk = Storage::disk('private');
+            $missing = $templates->filter(fn (DocumentTemplate $template): bool => ! is_string($template->source_file)
+                || $template->source_file === ''
+                || ! $disk->exists($template->source_file));
+
+            $this->record(
+                'Document template files',
+                $missing->isEmpty() ? 'pass' : 'fail',
+                $missing->isEmpty()
+                    ? $templates->count().' template(s) present'
+                    : $missing->count().' template(s) missing their source file',
+            );
+
+            $unparsed = $templates->filter(fn (DocumentTemplate $template): bool => blank($template->body_text));
+
+            $this->record(
+                'Document template text',
+                $unparsed->isEmpty() ? 'pass' : 'warn',
+                $unparsed->isEmpty()
+                    ? 'extracted text present'
+                    : $unparsed->count().' template(s) have no extracted text; edit and save to re-parse',
+            );
+        } catch (Throwable $e) {
+            $this->record('Document template files', 'warn', 'could not inspect: '.$e->getMessage());
+        }
+    }
+
+    /**
      * Compiled front-end assets.
      */
     protected function checkBuild(): void
@@ -425,6 +476,74 @@ class Doctor extends Command
             );
         } catch (Throwable $e) {
             $this->record('Evidence ledger', 'warn', 'could not inspect: '.$e->getMessage());
+        }
+    }
+
+    /**
+     * Enabled sources need a registered connector and a fresh run. A source
+     * that has never run, or has gone stale, is a blind spot, not a pass.
+     */
+    protected function checkEvidencePipeline(): void
+    {
+        try {
+            if (! Schema::hasTable('evidence_sources') || ! Schema::hasTable('evidence_records')) {
+                $this->record('Evidence pipeline', 'warn', 'tables are missing; run migrations');
+
+                return;
+            }
+
+            $sources = EvidenceSource::query()->where('enabled', true)->get();
+
+            if ($sources->isEmpty()) {
+                $this->record('Evidence pipeline', 'pass', 'no enabled sources');
+
+                return;
+            }
+
+            $registry = app(ConnectorRegistry::class);
+            $threshold = now()->subDays((int) config('evidence.stale_after_days', 7));
+            $missing = [];
+            $never = [];
+            $stale = [];
+
+            foreach ($sources as $source) {
+                $type = $source->type;
+                $key = $type instanceof EvidenceSourceType ? $type->value : (string) $type;
+
+                if (! $registry->has($key)) {
+                    $missing[] = "{$source->name} ({$key})";
+                }
+
+                if ($source->last_run_at === null) {
+                    $never[] = $source->name;
+                } elseif ($source->last_run_at->lt($threshold)) {
+                    $stale[] = $source->name;
+                }
+            }
+
+            $problems = [];
+
+            if ($missing !== []) {
+                $problems[] = count($missing).' without a connector ('.implode(', ', array_slice($missing, 0, 3)).')';
+            }
+
+            if ($never !== []) {
+                $problems[] = count($never).' never collected';
+            }
+
+            if ($stale !== []) {
+                $problems[] = count($stale).' stale';
+            }
+
+            $this->record(
+                'Evidence pipeline',
+                $problems === [] ? 'pass' : 'warn',
+                $problems === []
+                    ? count($sources).' enabled source(s), all with a connector and a fresh run'
+                    : implode('; ', $problems)
+            );
+        } catch (Throwable $exception) {
+            $this->record('Evidence pipeline', 'warn', 'could not inspect: '.$exception->getMessage());
         }
     }
 

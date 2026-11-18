@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SettingsSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(AssetTaxonomySeeder::class);
+        $this->call(RiskCategoryTaxonomySeeder::class);
         $this->call(VendorSurveyTemplatesSeeder::class);
         $this->call(TrustCenterContentBlockSeeder::class);
 

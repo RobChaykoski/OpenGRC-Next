@@ -2,10 +2,10 @@
     "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
     "bomFormat": "CycloneDX",
     "specVersion": "1.5",
-    "serialNumber": "urn:uuid:f64aee1b-7c96-419a-bfbc-994cac119464",
+    "serialNumber": "urn:uuid:ce570e68-0048-47c0-8d86-6c9178747cf7",
     "version": 1,
     "metadata": {
-        "timestamp": "2026-11-17T22:56:53Z",
+        "timestamp": "2026-11-18T04:15:31Z",
         "tools": [
             {
                 "name": "composer",
@@ -85,7 +85,7 @@
             "bom-ref": "laravel/laravel-dev-main",
             "type": "application",
             "name": "laravel",
-            "version": "dev-main 501a2bd",
+            "version": "dev-main 921008f",
             "group": "laravel",
             "description": "Self-hosted governance, risk and compliance platform, and a hands-on GRC training target.",
             "licenses": [
@@ -95,15 +95,15 @@
                     }
                 }
             ],
-            "purl": "pkg:composer/laravel/laravel@dev-main%20501a2bd",
+            "purl": "pkg:composer/laravel/laravel@dev-main%20921008f",
             "properties": [
                 {
                     "name": "cdx:composer:package:distReference",
-                    "value": "501a2bde0bef9dd1722be70f46f105abaf22c1c3"
+                    "value": "921008fd45551c2e182705b91f2aefc73529c6e0"
                 },
                 {
                     "name": "cdx:composer:package:sourceReference",
-                    "value": "501a2bde0bef9dd1722be70f46f105abaf22c1c3"
+                    "value": "921008fd45551c2e182705b91f2aefc73529c6e0"
                 },
                 {
                     "name": "cdx:composer:package:type",
@@ -15642,6 +15642,7 @@
                 "livewire/livewire-3.8.10.0",
                 "mangoldsecurity/filament-settings-2.4.0.0",
                 "nwidart/laravel-modules-11.1.10.0",
+                "openspout/openspout-4.32.0.0",
                 "pxlrbt/filament-activity-log-2.2.0.0",
                 "socialiteproviders/auth0-4.2.0.0",
                 "socialiteproviders/google-4.1.0.0",

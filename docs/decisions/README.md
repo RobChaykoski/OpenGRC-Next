@@ -30,5 +30,5 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0006](0006-remove-mcp.md) | Remove MCP from the community edition | accepted |
 | [0007](0007-three-role-authorization.md) | Replace granular RBAC with three roles | accepted |
 | [0008](0008-evidence-ledger-and-migration-integrity.md) | Evidence ledger and migration change control | accepted |
-| [0009](0009-continuous-control-monitoring.md) | Continuous control monitoring and vendor-neutral evidence connectors | proposed |
+| [0009](0009-continuous-control-monitoring.md) | Continuous control monitoring and vendor-neutral evidence connectors | accepted |
 | [0010](0010-framework-scoping-engine.md) | Deterministic framework scoping before AI narrative | proposed |

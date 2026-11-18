@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttachmentDownloadController;
+use App\Http\Controllers\DocumentTemplateDownloadController;
 use App\Http\Controllers\MediaProxyController;
 use App\Http\Controllers\PrivateStorageController;
 use App\Http\Controllers\SurveyAttachmentController;
@@ -26,6 +27,12 @@ Route::get('login', function () {
     return redirect()->route('filament.app.auth.login');
 })->name('login');
 
+// The admin panel shares the app panel's login page. Redirect the conventional
+// admin login URL rather than leaving a 404 for anyone who bookmarks it.
+Route::get('admin/login', function () {
+    return redirect()->route('filament.app.auth.login');
+});
+
 Route::middleware(['auth'])->group(function () {
 
     Route::get('/app/reset-password', PasswordResetPage::class)->name('password-reset-page');
@@ -38,6 +45,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/attachments/{fileAttachment}/download', AttachmentDownloadController::class)
         ->middleware('signed')
         ->name('attachments.download');
+
+    // Document template original file. Authorization is the template policy.
+    Route::get('/app/document-templates/{template}/download', DocumentTemplateDownloadController::class)
+        ->name('document-templates.download');
 
     // Media proxy route for serving private S3/cloud storage files
     Route::get('/media/{path}', [MediaProxyController::class, 'show'])
