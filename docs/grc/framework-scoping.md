@@ -62,6 +62,22 @@ The migration merges the industry list instead of creating a second label with
 the same code. The engine refuses to apply a label that is not available for the
 selected industry; it reports a gap instead.
 
+## Persisted catalogue
+
+The scoping engine reads `config/framework_scoping.php` directly. To make the
+catalogue joinable to internal controls, evidence, and the matrix page, sync it
+into the database:
+
+```bash
+php artisan opengrc:catalog:sync
+```
+
+This upserts `canonical_controls` and `canonical_frameworks` by code and replaces
+each framework's control set. Re-running is safe. A control removed from config is
+kept and reported rather than deleted, because upstream records may link to it
+(ADR 0012). Frameworks that reference an unknown control fail the sync before
+anything is written.
+
 ## Boundaries
 
 - The engine recommends; a person accepts scope and records the decision.

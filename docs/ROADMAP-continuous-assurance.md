@@ -17,7 +17,7 @@ in. It is a plan, not a promise. Decisions with trade-offs belong in
 | Continuous control validation | Built | `control_validation_rules`, `control_validations` |
 | Automated findings from failed validation | Built | `findings` opened/updated/resolved with owners and due dates |
 | Framework scoping from an organisation profile | Built (CLI) | `opengrc:scope profile.json`, `FrameworkScopingService` |
-| Unified control catalogue | **Config only** | `config/framework_scoping.php` (`CTRL-*`, framework mappings, evidence sources, automation level) |
+| Unified control catalogue | Built as data; links pending | `canonical_controls`, `canonical_frameworks`, `opengrc:catalog:sync` (ADR 0012) |
 | Control matrix UI | Missing | — |
 | Evidence confidence | Missing | — |
 | Assurance score and history | Missing | — |
@@ -35,8 +35,9 @@ join is the product.
 
 Everything else reads from this.
 
-1. Tables for canonical controls and framework mappings, seeded idempotently from
-   `config/framework_scoping.php` (`opengrc:catalog:sync`).
+1. ~~Tables for canonical controls and framework mappings.~~ Done:
+   `canonical_controls`, `canonical_frameworks`, `canonical_control_framework`,
+   seeded idempotently by `opengrc:catalog:sync` (ADR 0012).
 2. Link existing `controls` to canonical controls; backfill where codes map
    cleanly, leave the rest unlinked rather than guessing.
 3. Link policies/documents and evidence records to canonical controls.

@@ -33,3 +33,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0009](0009-continuous-control-monitoring.md) | Continuous control monitoring and vendor-neutral evidence connectors | accepted |
 | [0010](0010-framework-scoping-engine.md) | Deterministic framework scoping before AI narrative | proposed |
 | [0011](0011-discovery-engine.md) | Discovery engine as a separate service, not an OpenDLP port | accepted |
+| [0012](0012-canonical-control-catalogue.md) | Canonical control catalogue is configuration, synced into the data graph | accepted |

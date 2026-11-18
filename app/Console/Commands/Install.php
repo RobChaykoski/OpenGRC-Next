@@ -177,6 +177,11 @@ class Install extends Command
         // so they are seeded here rather than by their migrations.
         $this->call('db:seed', ['--class' => 'VendorSurveyTemplatesSeeder']);
 
+        // Seed the unified control catalogue so the matrix and assurance views
+        // have stable rows from the first login.
+        $this->info('Syncing the control catalogue');
+        $this->call('opengrc:catalog:sync');
+
         // Set the site name and URL.
         $this->call('settings:set', [
             'key' => 'general.name',

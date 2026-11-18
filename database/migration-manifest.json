@@ -504,6 +504,10 @@
         {
             "name": "2026_11_18_040000_bind_discovery_clients",
             "sha256": "aa8f2807f94ce0db19777a0e8bcce0597d9c94c32c66c5fcb5a37960931e5d46"
+        },
+        {
+            "name": "2026_11_18_050000_create_canonical_control_catalogue",
+            "sha256": "2a594dc2dbe97f50cee833083e3566f7cc1286baacae8d3fb21f538d71e2665a"
         }
     ]
 }

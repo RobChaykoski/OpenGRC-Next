@@ -1051,6 +1051,157 @@
             "nullable": false
         }
     ],
+    "canonical_control_framework": [
+        {
+            "name": "canonical_control_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "canonical_framework_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "canonical_controls": [
+        {
+            "name": "automation_level",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "category",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "evidence_expectation",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "frequency",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "priority",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "risk_domain",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "sources",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "canonical_frameworks": [
+        {
+            "name": "category",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "drivers",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "industries",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "labels",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "priority",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "rationale",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "regions",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "certification_document": [
         {
             "name": "certification_id",

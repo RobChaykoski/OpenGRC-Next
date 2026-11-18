@@ -61,7 +61,6 @@ Applicability values: `Applicable`, `Not Applicable`, `Partially Applicable`,
 | `Survey` / `SurveyAnswer` / `SurveyAttachment` | vendor, template, answers, status | Assessment instance and its evidence |
 
 ## Inventory and programme
-
 | Object | Key fields | Notes |
 |---|---|---|
 | `Asset` | name, owner, criticality, exposure, category, location, supplier | Many `Risk`, `Implementation`; taxonomy-driven classification |
@@ -87,6 +86,14 @@ control chain.
 | `Taxonomy` | Controlled vocabularies for assets and other objects |
 | `QueueJob` | Job visibility for the database queue |
 
+## Canonical catalogue
+
+| Object | Key fields | Notes |
+|---|---|---|
+| `CanonicalControl` | `code` (unique), `name`, `category`, `risk_domain`, `priority`, `evidence_expectation`, `automation_level`, `frequency`, `sources` | One row per outcome, shared by every framework. Seeded from `config/framework_scoping.php` by `opengrc:catalog:sync`; do not hand-edit |
+| `CanonicalFramework` | `code` (unique), `name`, `category`, `priority`, regions/industries/labels/drivers, `rationale` | Applicability definition for scoping, not an imported `Standard` |
+| `canonical_control_framework` | `canonical_control_id`, `canonical_framework_id` | Framework → required outcome mapping; replaced on every sync |
+
 ## Invariants
 
 1. A `Control` belongs to exactly one `Standard`.
@@ -102,4 +109,5 @@ control chain.
 See `docs/grc/README.md` for the full list. The two that affect the dictionary:
 
 - No `Finding` object; findings are audit-item states plus mitigations.
-- No crosswalk object between controls of different standards.
+- No clause-level crosswalk between imported controls of different standards; the
+  canonical catalogue maps outcomes, not clause-to-clause equivalences.

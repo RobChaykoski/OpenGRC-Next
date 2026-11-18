@@ -57,6 +57,7 @@ architecture, integrations, and the decisions behind them.
 | Document | Purpose |
 |---|---|
 | [ROADMAP-continuous-assurance.md](ROADMAP-continuous-assurance.md) | Where the assurance product is, and the order to build it in |
+| [decisions/0012-canonical-control-catalogue.md](decisions/0012-canonical-control-catalogue.md) | Why the catalogue is config-authoritative and synced into the data graph |
 | [API_DOCUMENTATION.md](API_DOCUMENTATION.md) | REST API |
 | [NOTIFICATIONS_GUIDE.md](NOTIFICATIONS_GUIDE.md) | Notification behaviour |
 | [MediaProxy.md](MediaProxy.md) | Media handling |
