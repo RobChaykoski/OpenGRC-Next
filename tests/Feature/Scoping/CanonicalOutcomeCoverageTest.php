@@ -161,6 +161,39 @@ class CanonicalOutcomeCoverageTest extends TestCase
         $this->assertTrue($row['has_evidence']);
     }
 
+    #[Test]
+    public function stale_evidence_follows_the_catalogue_frequency(): void
+    {
+        $weekly = CanonicalControl::create([
+            'code' => 'CTRL-WEEKLY',
+            'name' => 'Weekly outcome',
+            'priority' => 1,
+            'frequency' => 'weekly',
+        ]);
+        $annual = CanonicalControl::create([
+            'code' => 'CTRL-ANNUAL',
+            'name' => 'Annual outcome',
+            'priority' => 1,
+            'frequency' => 'annual',
+        ]);
+
+        $weeklyControl = Control::factory()->create(['code' => 'W-1']);
+        $weeklyControl->canonicalOutcomes()->attach($weekly->getKey());
+        $this->evidenceFor($weeklyControl, 'W-1', 'weekly-host', EvidenceSourceType::Other, null, CarbonImmutable::now()->subDays(30));
+
+        $annualControl = Control::factory()->create(['code' => 'A-1']);
+        $annualControl->canonicalOutcomes()->attach($annual->getKey());
+        $this->evidenceFor($annualControl, 'A-1', 'annual-host', EvidenceSourceType::Other, null, CarbonImmutable::now()->subDays(200));
+
+        $weeklyRow = $this->rowFor($weekly);
+        $annualRow = $this->rowFor($annual);
+
+        $this->assertTrue($weeklyRow['stale']);
+        $this->assertSame(14, $weeklyRow['expected_interval_days']);
+        $this->assertFalse($annualRow['stale']);
+        $this->assertSame(400, $annualRow['expected_interval_days']);
+    }
+
     private function outcome(string $code): CanonicalControl
     {
         return CanonicalControl::create([
@@ -192,6 +225,7 @@ class CanonicalOutcomeCoverageTest extends TestCase
         string $externalId,
         EvidenceSourceType $type = EvidenceSourceType::Other,
         ?string $clientId = null,
+        ?CarbonImmutable $collectedAt = null,
     ): EvidenceRecord {
         $source = EvidenceSource::create([
             'name' => 'Test source '.$externalId,
@@ -212,7 +246,7 @@ class CanonicalOutcomeCoverageTest extends TestCase
                 externalId: $externalId,
                 evidenceType: 'test',
                 status: ControlStatus::Effective,
-                collectedAt: CarbonImmutable::parse('2026-11-18T09:00:00Z'),
+                collectedAt: $collectedAt ?? CarbonImmutable::parse('2026-11-18T09:00:00Z'),
                 payload: ['ok' => true],
                 controlIdentifier: $controlIdentifier,
                 clientId: $clientId,

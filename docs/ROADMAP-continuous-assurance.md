@@ -82,10 +82,15 @@ Milestone B is complete. Milestone C (audit readiness) is next.
 
 ### Milestone C — audit readiness
 
-1. Evidence pack export per framework: control → implementation → evidence →
-   validation results → findings.
-2. Gap report: controls with no evidence, stale evidence, or failing validation.
+1. ~~Evidence pack export per framework: control → implementation → evidence →
+   validation results → findings.~~ Done: `opengrc:evidence:pack` writes a ZIP
+   index with hashes; payloads and attachments stay in OpenGRC (ADR 0016).
+2. ~~Gap report: controls with no evidence, stale evidence, or failing
+   validation.~~ Done: `opengrc:evidence:gaps`, plus the matrix statuses and
+   gaps filter.
 3. Auditor portal scoped to an audit, read-only, with an access log.
+
+Milestone C.1 and C.2 are complete. C.3 (auditor portal) is next.
 
 ### Milestone D — assisted reasoning
 

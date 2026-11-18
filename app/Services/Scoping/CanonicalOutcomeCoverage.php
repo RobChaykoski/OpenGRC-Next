@@ -4,6 +4,7 @@ namespace App\Services\Scoping;
 
 use App\Enums\EvidenceSourceType;
 use App\Models\CanonicalControl;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -32,7 +33,10 @@ final class CanonicalOutcomeCoverage
      *     validations: int,
      *     latest_evidence_at: string|null,
      *     latest_validation_at: string|null,
+     *     latest_validation_status: string|null,
      *     has_evidence: bool,
+     *     stale: bool,
+     *     expected_interval_days: int|null,
      *     monitored: bool,
      *     automated: bool,
      *     best_confidence: int,
@@ -85,19 +89,7 @@ final class CanonicalOutcomeCoverage
 
         $machineEvidence = $this->machineEvidenceByOutcome($ids);
 
-        $validations = DB::table('control_validations as validation')
-            ->join('control_canonical_outcome as link', 'link.control_id', '=', 'validation.control_id')
-            ->join('controls as control', 'control.id', '=', 'validation.control_id')
-            ->whereIn('link.canonical_control_id', $ids)
-            ->whereNull('control.deleted_at')
-            ->select(
-                'link.canonical_control_id',
-                DB::raw('count(distinct validation.id) as aggregate'),
-                DB::raw('max(validation.evaluated_at) as latest')
-            )
-            ->groupBy('link.canonical_control_id')
-            ->get()
-            ->keyBy('canonical_control_id');
+        $validations = $this->validationsByOutcome($ids);
 
         $monitored = $this->monitoredOutcomeIds($ids);
 
@@ -105,10 +97,10 @@ final class CanonicalOutcomeCoverage
             ->map(function (CanonicalControl $outcome) use ($controls, $policies, $evidence, $machineEvidence, $validations, $monitored): array {
                 $id = $outcome->getKey();
                 $evidenceRow = $evidence->get($id);
-                $validationRow = $validations->get($id);
+                $validation = $validations[$id] ?? ['count' => 0, 'latest' => null, 'status' => null];
 
                 $evidenceCount = (int) ($evidenceRow->aggregate ?? 0);
-                $validationCount = (int) ($validationRow->aggregate ?? 0);
+                $validationCount = $validation['count'];
                 $policyCount = count($policies[$id] ?? []);
 
                 $best = 0;
@@ -134,6 +126,18 @@ final class CanonicalOutcomeCoverage
                     $basis = 'validation';
                 }
 
+                $hasEvidence = $evidenceCount > 0 || $validationCount > 0;
+                $interval = $this->expectedIntervalDays($outcome->frequency);
+                $latestActivity = collect([$evidenceRow->latest ?? null, $validation['latest']])
+                    ->filter()
+                    ->sort()
+                    ->last();
+
+                $stale = $hasEvidence
+                    && $interval !== null
+                    && $latestActivity !== null
+                    && Carbon::parse($latestActivity)->lt(now()->subDays($interval));
+
                 return [
                     'code' => $outcome->code,
                     'name' => $outcome->name,
@@ -145,8 +149,11 @@ final class CanonicalOutcomeCoverage
                     'evidence' => $evidenceCount,
                     'validations' => $validationCount,
                     'latest_evidence_at' => $evidenceRow->latest ?? null,
-                    'latest_validation_at' => $validationRow->latest ?? null,
-                    'has_evidence' => $evidenceCount > 0 || $validationCount > 0,
+                    'latest_validation_at' => $validation['latest'],
+                    'latest_validation_status' => $validation['status'],
+                    'has_evidence' => $hasEvidence,
+                    'stale' => $stale,
+                    'expected_interval_days' => $interval,
                     'monitored' => isset($monitored[$id]),
                     'automated' => in_array($basis, ['api', 'validation'], true),
                     'best_confidence' => $best,
@@ -154,6 +161,70 @@ final class CanonicalOutcomeCoverage
                 ];
             })
             ->all();
+    }
+
+    /**
+     * Latest validation per outcome, including the status of that latest result.
+     * Results are fetched in order so no window function is needed.
+     *
+     * @param  array<int, int>  $outcomeIds
+     * @return array<int, array{count: int, latest: string|null, status: string|null}>
+     */
+    private function validationsByOutcome(array $outcomeIds): array
+    {
+        $rows = DB::table('control_validations as validation')
+            ->join('control_canonical_outcome as link', 'link.control_id', '=', 'validation.control_id')
+            ->join('controls as control', 'control.id', '=', 'validation.control_id')
+            ->whereIn('link.canonical_control_id', $outcomeIds)
+            ->whereNull('control.deleted_at')
+            ->select(
+                'link.canonical_control_id',
+                'validation.id',
+                'validation.status',
+                'validation.evaluated_at'
+            )
+            ->distinct()
+            ->orderBy('validation.evaluated_at')
+            ->get();
+
+        $grouped = [];
+        $seen = [];
+
+        foreach ($rows as $row) {
+            $outcomeId = (int) $row->canonical_control_id;
+            $validationId = (int) $row->id;
+
+            if (isset($seen[$outcomeId][$validationId])) {
+                continue;
+            }
+
+            $seen[$outcomeId][$validationId] = true;
+
+            $grouped[$outcomeId] ??= ['count' => 0, 'latest' => null, 'status' => null];
+            $grouped[$outcomeId]['count']++;
+            $grouped[$outcomeId]['latest'] = $row->evaluated_at;
+            $grouped[$outcomeId]['status'] = $row->status;
+        }
+
+        return $grouped;
+    }
+
+    /**
+     * How long evidence for this outcome is expected to stay current. `as needed`
+     * and unknown frequencies never go stale automatically.
+     */
+    private function expectedIntervalDays(?string $frequency): ?int
+    {
+        return match ($frequency) {
+            'continuous' => 7,
+            'daily' => 2,
+            'weekly' => 14,
+            'monthly' => 62,
+            'quarterly' => 125,
+            'annual' => 400,
+            'as needed', null => null,
+            default => 400,
+        };
     }
 
     /**

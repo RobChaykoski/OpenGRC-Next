@@ -10,6 +10,7 @@ use App\Filament\Pages\FrameworkMatrix;
 use App\Models\CanonicalControl;
 use App\Models\CanonicalFramework;
 use App\Models\Control;
+use App\Models\ControlValidation;
 use App\Models\EvidenceJob;
 use App\Models\EvidenceSource;
 use App\Models\User;
@@ -115,6 +116,34 @@ class FrameworkMatrixTest extends TestCase
     }
 
     #[Test]
+    public function status_distinguishes_stale_evidence_from_a_failing_validation(): void
+    {
+        $stale = $this->outcome('CTRL-VULN-001', 'Security awareness');
+        $stale->update(['frequency' => 'weekly']);
+
+        $failing = $this->outcome('CTRL-ACCESS-001', 'Least-privilege access control');
+
+        $this->framework('aaa_framework', 'A Framework', [$stale, $failing]);
+
+        $staleControl = Control::factory()->create(['code' => 'V-1']);
+        $staleControl->canonicalOutcomes()->attach($stale->getKey());
+        $this->evidenceFor($staleControl, 'V-1', CarbonImmutable::now()->subDays(30));
+
+        $failingControl = Control::factory()->create(['code' => 'AC-2']);
+        $failingControl->canonicalOutcomes()->attach($failing->getKey());
+        ControlValidation::create([
+            'control_id' => $failingControl->getKey(),
+            'status' => ControlStatus::Failed,
+            'evaluated_at' => now(),
+        ]);
+
+        Livewire::actingAs(User::factory()->create(['role' => UserRole::Viewer]))
+            ->test(FrameworkMatrix::class)
+            ->assertSee(__('assurance.status.evidence_stale'))
+            ->assertSee(__('assurance.status.validation_failing'));
+    }
+
+    #[Test]
     public function without_a_catalogue_the_page_says_how_to_populate_it(): void
     {
         $this->actingAs(User::factory()->create(['role' => UserRole::Viewer]))
@@ -148,7 +177,7 @@ class FrameworkMatrixTest extends TestCase
         return $framework;
     }
 
-    private function evidenceFor(Control $control, string $controlIdentifier): void
+    private function evidenceFor(Control $control, string $controlIdentifier, ?CarbonImmutable $collectedAt = null): void
     {
         $source = EvidenceSource::create([
             'name' => 'Test source',
@@ -169,7 +198,7 @@ class FrameworkMatrixTest extends TestCase
                 externalId: 'host-1',
                 evidenceType: 'test',
                 status: ControlStatus::Effective,
-                collectedAt: CarbonImmutable::parse('2026-11-18T09:00:00Z'),
+                collectedAt: $collectedAt ?? CarbonImmutable::parse('2026-11-18T09:00:00Z'),
                 payload: ['ok' => true],
                 controlIdentifier: $controlIdentifier,
             ),

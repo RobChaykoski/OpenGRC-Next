@@ -51,6 +51,9 @@ class EvidenceRecord extends Model
         static::deleting(fn () => throw new LogicException('Evidence records are append-only.'));
     }
 
+    /**
+     * @return BelongsTo<EvidenceSource, $this>
+     */
     public function source(): BelongsTo
     {
         return $this->belongsTo(EvidenceSource::class, 'source_id');
@@ -61,6 +64,9 @@ class EvidenceRecord extends Model
         return $this->belongsTo(EvidenceJob::class, 'job_id');
     }
 
+    /**
+     * @return BelongsTo<Asset, $this>
+     */
     public function asset(): BelongsTo
     {
         return $this->belongsTo(Asset::class, 'asset_id');

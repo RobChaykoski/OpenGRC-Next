@@ -38,11 +38,13 @@ return [
         'covered' => 'Lié + preuve',
         'no_evidence' => 'Preuve manquante',
         'no_control' => 'Aucun contrôle revu',
+        'evidence_stale' => 'Preuve obsolète',
+        'validation_failing' => 'Validation en échec',
     ],
     'filters' => [
         'gaps' => 'Écarts uniquement',
         'only_gaps' => 'Seulement les résultats à revoir',
-        'only_gaps_helper' => 'Affiche les résultats sans contrôle lié, ou avec un contrôle lié mais sans preuve.',
+        'only_gaps_helper' => 'Affiche les résultats sans contrôle lié, sans preuve, avec une preuve obsolète ou une validation en échec.',
     ],
     'score' => [
         'heading' => 'Score d\'assurance',

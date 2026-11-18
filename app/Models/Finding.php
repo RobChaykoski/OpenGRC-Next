@@ -49,11 +49,17 @@ class Finding extends Model
         'resolved_at' => 'datetime',
     ];
 
+    /**
+     * @return BelongsTo<Control, $this>
+     */
     public function control(): BelongsTo
     {
         return $this->belongsTo(Control::class, 'control_id');
     }
 
+    /**
+     * @return BelongsTo<Asset, $this>
+     */
     public function asset(): BelongsTo
     {
         return $this->belongsTo(Asset::class, 'asset_id');

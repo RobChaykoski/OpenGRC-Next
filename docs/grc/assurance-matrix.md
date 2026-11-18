@@ -22,6 +22,8 @@ every canonical outcome that framework requires, with:
 |---|---|
 | **Linked + evidenced** | At least one control is linked and at least one of those controls has evidence, or a validation result |
 | **Evidence missing** | A control is linked, but no evidence or validation exists |
+| **Evidence stale** | The latest evidence or validation is older than the outcome's frequency allows |
+| **Validation failing** | The latest validation result for a linked control failed |
 | **No reviewed control** | Nobody has linked a control to this outcome yet |
 
 None of these states says the organisation is compliant. "Linked + evidenced"
@@ -74,8 +76,9 @@ two snapshots exist; before that it says so instead of inventing history.
 ## Gaps filter
 
 **Gaps only → Only outcomes needing review** keeps outcomes with no linked
-control, or with a linked control but no evidence. This is the working list for a
-GRC programme: it is expected to be non-empty, especially on first use.
+control, no evidence, stale evidence, or a failing validation. This is the
+working list for a GRC programme: it is expected to be non-empty, especially on
+first use.
 
 Do not clear it by guessing links. A guessed link makes the row look green and
 hides a real gap. See [control-catalogue-linking.md](control-catalogue-linking.md).

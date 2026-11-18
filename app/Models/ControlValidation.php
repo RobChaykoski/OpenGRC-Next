@@ -32,6 +32,9 @@ class ControlValidation extends Model
         'evaluated_at' => 'datetime',
     ];
 
+    /**
+     * @return BelongsTo<Control, $this>
+     */
     public function control(): BelongsTo
     {
         return $this->belongsTo(Control::class, 'control_id');

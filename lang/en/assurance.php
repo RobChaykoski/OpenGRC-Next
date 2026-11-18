@@ -38,11 +38,13 @@ return [
         'covered' => 'Linked + evidenced',
         'no_evidence' => 'Evidence missing',
         'no_control' => 'No reviewed control',
+        'evidence_stale' => 'Evidence stale',
+        'validation_failing' => 'Validation failing',
     ],
     'filters' => [
         'gaps' => 'Gaps only',
         'only_gaps' => 'Only outcomes needing review',
-        'only_gaps_helper' => 'Shows outcomes with no linked control, or with a linked control but no evidence.',
+        'only_gaps_helper' => 'Shows outcomes with no linked control, no evidence, stale evidence, or a failing validation.',
     ],
     'score' => [
         'heading' => 'Assurance score',

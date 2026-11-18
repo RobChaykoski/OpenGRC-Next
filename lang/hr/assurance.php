@@ -38,11 +38,13 @@ return [
         'covered' => 'Povezano + s dokazima',
         'no_evidence' => 'Nedostaju dokazi',
         'no_control' => 'Nema pregledane kontrole',
+        'evidence_stale' => 'Dokazi su zastarjeli',
+        'validation_failing' => 'Validacija nije prošla',
     ],
     'filters' => [
         'gaps' => 'Samo nedostaci',
         'only_gaps' => 'Samo ishodi koje treba pregledati',
-        'only_gaps_helper' => 'Prikazuje ishode bez povezane kontrole ili s povezanom kontrolom bez dokaza.',
+        'only_gaps_helper' => 'Prikazuje ishode bez povezane kontrole, bez dokaza, sa zastarjelim dokazima ili s neuspjelom validacijom.',
     ],
     'score' => [
         'heading' => 'Ocjena pokrivenosti',

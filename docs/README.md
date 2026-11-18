@@ -39,6 +39,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/framework-scoping.md](grc/framework-scoping.md) | Profile → framework/control/evidence scoping |
 | [grc/control-catalogue-linking.md](grc/control-catalogue-linking.md) | What a control-to-outcome link means, and why unlinked is a valid state |
 | [grc/assurance-matrix.md](grc/assurance-matrix.md) | The framework matrix: statuses, gaps filter, and what the counts exclude |
+| [grc/audit-readiness.md](grc/audit-readiness.md) | Evidence packs, gap reports, and what exports deliberately exclude |
 | [grc/risk-methodology.md](grc/risk-methodology.md) | 5×5 scoring, treatment, appetite, cadence |
 | [grc/evidence-standard.md](grc/evidence-standard.md) | What counts as evidence and how to store it |
 | [grc/audit-playbook.md](grc/audit-playbook.md) | Audit lifecycle, findings, closure |

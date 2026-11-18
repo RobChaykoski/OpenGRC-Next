@@ -38,11 +38,13 @@ return [
         'covered' => 'Vinculado + con evidencia',
         'no_evidence' => 'Falta evidencia',
         'no_control' => 'Sin control revisado',
+        'evidence_stale' => 'Evidencia desactualizada',
+        'validation_failing' => 'Validación fallida',
     ],
     'filters' => [
         'gaps' => 'Solo brechas',
         'only_gaps' => 'Solo resultados que requieren revisión',
-        'only_gaps_helper' => 'Muestra resultados sin control vinculado, o con control vinculado pero sin evidencia.',
+        'only_gaps_helper' => 'Muestra resultados sin control vinculado, sin evidencia, con evidencia desactualizada o con una validación fallida.',
     ],
     'score' => [
         'heading' => 'Puntuación de aseguramiento',

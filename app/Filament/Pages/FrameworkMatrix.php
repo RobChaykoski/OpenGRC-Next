@@ -5,6 +5,7 @@ namespace App\Filament\Pages;
 use App\Models\AssuranceSnapshot;
 use App\Models\CanonicalControl;
 use App\Models\CanonicalFramework;
+use App\Services\Assurance\FrameworkGapReport;
 use App\Services\Scoping\AssuranceScore;
 use App\Services\Scoping\CanonicalOutcomeCoverage;
 use Filament\Forms\Components\Toggle;
@@ -198,6 +199,7 @@ class FrameworkMatrix extends Page implements HasTable
                     ->color(fn (string $state): string => match ($state) {
                         'covered' => 'success',
                         'no_evidence' => 'warning',
+                        'evidence_stale' => 'warning',
                         default => 'danger',
                     }),
             ])
@@ -219,11 +221,12 @@ class FrameworkMatrix extends Page implements HasTable
                             ->helperText(__('assurance.filters.only_gaps_helper')),
                     ])
                     ->query(fn (Builder $query, array $data): Builder => ($data['only_gaps'] ?? false)
-                        ? $query->where(function (Builder $query): void {
-                            $query
-                                ->whereDoesntHave('controls')
-                                ->orWhereDoesntHave('controls', fn (Builder $controls) => $controls->whereHas('evidenceRecords'));
-                        })
+                        ? $query->whereIn(
+                            'code',
+                            collect(app(FrameworkGapReport::class)->condensed((string) $this->framework))
+                                ->pluck('code')
+                                ->all()
+                        )
                         : $query),
             ])
             ->emptyStateHeading(__('assurance.empty.heading'))
@@ -243,7 +246,17 @@ class FrameworkMatrix extends Page implements HasTable
             'controls' => 0,
             'policies' => 0,
             'evidence' => 0,
+            'validations' => 0,
             'latest_evidence_at' => null,
+            'latest_validation_at' => null,
+            'latest_validation_status' => null,
+            'has_evidence' => false,
+            'stale' => false,
+            'expected_interval_days' => null,
+            'monitored' => false,
+            'automated' => false,
+            'best_confidence' => 0,
+            'confidence_basis' => 'none',
         ];
     }
 
@@ -255,7 +268,15 @@ class FrameworkMatrix extends Page implements HasTable
             return 'no_control';
         }
 
-        return $row['has_evidence'] ? 'covered' : 'no_evidence';
+        if ($row['latest_validation_status'] === 'failed') {
+            return 'validation_failing';
+        }
+
+        if (! $row['has_evidence']) {
+            return 'no_evidence';
+        }
+
+        return $row['stale'] ? 'evidence_stale' : 'covered';
     }
 
     private function matrixQuery(): Builder
