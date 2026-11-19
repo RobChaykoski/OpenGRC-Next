@@ -78,6 +78,15 @@ if [ "$DB_READY" = "0" ]; then
 fi
 
 # ---------------------------------------------------------------------------
+# Canonical catalogue.
+#
+# The catalogue is derived from config/framework_scoping.php. Sync is
+# idempotent, so a restart brings a new or upgraded container in line without
+# touching evidence or user links.
+# ---------------------------------------------------------------------------
+php artisan opengrc:catalog:sync --no-interaction
+
+# ---------------------------------------------------------------------------
 # OAuth keys. Without them the API and MCP guards throw "Invalid key supplied"
 # at request time, which looks like an application bug.
 # ---------------------------------------------------------------------------

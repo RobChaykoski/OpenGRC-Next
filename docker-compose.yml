@@ -71,8 +71,11 @@ services:
       DB_USERNAME: ${MYSQL_USER:-opengrc_user}
       DB_PASSWORD: ${MYSQL_PASSWORD:-opengrc_password}
 
-      ADMIN_EMAIL: admin@opengrc.local
-      ADMIN_PASSWORD: admin123
+      # The first start creates the admin account. Set OPENGRC_ADMIN_PASSWORD
+      # for anything reachable by others; the fallback exists only for a local
+      # throwaway stack.
+      ADMIN_EMAIL: ${OPENGRC_ADMIN_EMAIL:-admin@opengrc.local}
+      ADMIN_PASSWORD: ${OPENGRC_ADMIN_PASSWORD:-admin123}
 
       CACHE_DRIVER: file
       SESSION_DRIVER: file

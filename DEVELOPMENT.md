@@ -94,6 +94,8 @@ What happens on first start:
 
 - migrations run, defaults are seeded, and the admin account is created from
   `ADMIN_EMAIL` / `ADMIN_PASSWORD`
+- the canonical control catalogue is synced from `config/framework_scoping.php`
+  (idempotent, safe on every start)
 - an application key is generated and persisted in `storage/app/.app-key`; pass
   `APP_KEY` explicitly if you manage secrets elsewhere
 - Passport keys are generated, so the API guard works
@@ -119,10 +121,12 @@ run the worker as its own service instead of sharing a container with Apache.
 MySQL via the bundled Compose file:
 
 ```bash
-docker compose up -d --build
+OPENGRC_ADMIN_PASSWORD='choose-a-strong-password' docker compose up -d --build
 ```
 
-The application is then on http://localhost:8080.
+The application is then on http://localhost:8080. Set
+`OPENGRC_ADMIN_PASSWORD` before the first start; it is ignored once the admin
+account exists, and the `admin123` fallback is only for a throwaway local stack.
 
 If 8080 is already in use, pick a host port:
 
