@@ -122,6 +122,8 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | OpenBao secret metadata | `docs/integrations/openbao.md` |
 | SBOM and OSV supply-chain evidence | `docs/integrations/sbom-osv.md` |
 | SARIF scanner import | `docs/integrations/assessment-sarif.md` |
+| deps.dev and Scorecard enrichment | `docs/integrations/deps-dev.md` |
+| Observable enrichment boundary | `docs/integrations/observable-enrichment.md` |
 | Guidance and advisory register | `docs/grc/guidance-register.md` |
 | Evidence and integrity | `docs/grc/evidence-standard.md` |
 | Policy readiness register | `docs/grc/policy-readiness.md` |

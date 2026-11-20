@@ -41,6 +41,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0034-exercise-register.md](decisions/0034-exercise-register.md) | Exercises are a register, not a training transcript |
 | [decisions/0035-sarif-assessment-import.md](decisions/0035-sarif-assessment-import.md) | Scanner output is findings evidence, not a scanner |
 | [decisions/0036-deps-dev-scorecard-enrichment.md](decisions/0036-deps-dev-scorecard-enrichment.md) | deps.dev and Scorecard enrich components; they do not decide compliance |
+| [decisions/0037-observable-enrichment-cortex.md](decisions/0037-observable-enrichment-cortex.md) | Observable enrichment is opt-in and privacy-gated |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -60,6 +61,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/openbao.md](integrations/openbao.md) | Read-only OpenBao metadata sync for credential rotation dates |
 | [integrations/assessment-sarif.md](integrations/assessment-sarif.md) | Import SARIF scanner reports as deduplicated findings |
 | [integrations/deps-dev.md](integrations/deps-dev.md) | Optional deps.dev license and OpenSSF Scorecard enrichment |
+| [integrations/observable-enrichment.md](integrations/observable-enrichment.md) | Cortex/TheHive boundary: opt-in, privacy-gated observable enrichment |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice
