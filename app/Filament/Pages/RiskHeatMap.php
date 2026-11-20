@@ -47,6 +47,8 @@ class RiskHeatMap extends Page
             ->where('is_active', true)
             ->get(['inherent_likelihood', 'inherent_impact', 'residual_likelihood', 'residual_impact']);
 
+        $threshold = max(1, min(25, (int) setting('risk.appetite_threshold', 13)));
+
         return [
             'levels' => [5, 4, 3, 2, 1],
             'inherent' => $this->matrix($active, 'inherent_likelihood', 'inherent_impact'),
@@ -56,6 +58,12 @@ class RiskHeatMap extends Page
                 fn (Risk $risk): bool => ((int) $risk->getAttribute('inherent_likelihood'))
                     * ((int) $risk->getAttribute('inherent_impact')) >= 18
             )->count(),
+            'aboveAppetite' => $active->filter(
+                fn (Risk $risk): bool => ((int) $risk->getAttribute('inherent_likelihood'))
+                    * ((int) $risk->getAttribute('inherent_impact')) >= $threshold
+            )->count(),
+            'threshold' => $threshold,
+            'thresholdLabel' => RiskLevel::fromScore($threshold)->getLabel(),
             'colors' => $this->colors(),
         ];
     }

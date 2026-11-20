@@ -74,9 +74,11 @@ an audit.
 4. **Crosswalks are manual.** Two standards can both be imported, but there is no
    mapping object between their controls, so coverage across frameworks is a
    spreadsheet exercise.
-5. **No appetite thresholds in the product.** The 5×5 model produces a level;
-   whether that level is acceptable is a programme decision recorded in documents,
-   not enforced by a setting.
+5. **Appetite is a display threshold, not an enforcement rule.** An admin can set
+   a global score threshold under **Settings → Risk settings**; the heat map
+   outlines risks at or above it. It does not block a risk, assign treatment, or
+   support per-category appetite. Record the real appetite in the risk treatment
+   and acceptance fields.
 6. **No attestation workflow for control owners.** Owners are recorded; a periodic
    "I confirm this is still true" event is not.
 7. **No regulatory change feed.** Requirements are imported when you choose to

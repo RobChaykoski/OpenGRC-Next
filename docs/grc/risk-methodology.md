@@ -33,6 +33,9 @@ filtered risk list.
 
 - The colour is the score band, not an appetite decision. Whether a Very High risk
   is tolerable is recorded in the risk treatment and acceptance fields.
+- An admin can set a global appetite threshold under **Settings → Risk settings**.
+  Cells at or above it are outlined. The outline is a visual prompt; it does not
+  block the risk or replace a per-category appetite statement.
 - Inherent is the score before the controls you have recorded; residual is after.
   A small movement between the two matrices is a prompt to check whether the
   treatment is real.

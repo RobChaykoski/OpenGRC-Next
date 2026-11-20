@@ -12,12 +12,19 @@
                             residual score after the controls you have recorded. A cell links to the filtered risk
                             list. The colour shows the score band, not whether the risk is within appetite.
                         </p>
+                        <p class="mt-2 text-sm font-medium text-gray-700 dark:text-gray-200">
+                            Appetite threshold: {{ $thresholdLabel }} ({{ $threshold }}). {{ $aboveAppetite }} active risk{{ $aboveAppetite === 1 ? '' : 's' }} at or above it {{ $aboveAppetite === 1 ? 'is' : 'are' }} outlined.
+                        </p>
                     </div>
 
-                    <dl class="grid grid-cols-2 gap-4 text-sm">
+                    <dl class="grid grid-cols-3 gap-4 text-sm">
                         <div class="rounded-lg bg-gray-50 px-4 py-3 dark:bg-white/5">
                             <dt class="text-gray-500 dark:text-gray-400">Active risks</dt>
                             <dd class="mt-1 text-xl font-semibold text-gray-950 dark:text-white">{{ $total }}</dd>
+                        </div>
+                        <div class="rounded-lg bg-gray-50 px-4 py-3 dark:bg-white/5">
+                            <dt class="text-gray-500 dark:text-gray-400">Above appetite</dt>
+                            <dd class="mt-1 text-xl font-semibold text-gray-950 dark:text-white">{{ $aboveAppetite }}</dd>
                         </div>
                         <div class="rounded-lg bg-gray-50 px-4 py-3 dark:bg-white/5">
                             <dt class="text-gray-500 dark:text-gray-400">Inherent very high</dt>
@@ -75,7 +82,7 @@
                                                     ]);
                                                 @endphp
 
-                                                <td class="border border-gray-200 p-0 align-middle dark:border-white/10" style="background-color: {{ $colors[$score] }}; color: #111827;">
+                                                <td class="border border-gray-200 p-0 align-middle dark:border-white/10" style="background-color: {{ $colors[$score] }}; color: #111827; @if ($score >= $threshold) box-shadow: inset 0 0 0 2px #111827; @endif">
                                                     @if ($count > 0)
                                                         <a
                                                             href="{{ $url }}"
