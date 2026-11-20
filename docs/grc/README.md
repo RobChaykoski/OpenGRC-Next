@@ -30,7 +30,7 @@ important controls and 2 for the rest.
 | Assurance and attestations | Yes: SOC/ISO/PCI/CMMC report register, outcome, period, expiry and review | 3 | `docs/grc/assurance-reports.md` |
 | Privacy requests | Yes: GDPR/CCPA/PIPEDA/FERPA register, regime clock, verification, extension, overdue enforcement | 4 | `docs/grc/privacy-requests.md` |
 | Non-human identities | Yes: service accounts/tokens/certificates, owner, scope, rotation, expiry, review; optional OpenBao metadata sync | 4 | `docs/grc/non-human-identities.md` |
-| Software supply chain | Yes: CycloneDX SBOM import, OSV vulnerability findings, fixed versions and due dates | 3 | `docs/integrations/sbom-osv.md` |
+| Software supply chain | Yes: CycloneDX SBOM import, OSV vulnerability findings, optional deps.dev/Scorecard enrichment | 3 | `docs/integrations/sbom-osv.md`, `docs/integrations/deps-dev.md` |
 | Guidance and advisories | Yes: publisher/reference/version, adoption status, owner, review and control mapping | 4 | `docs/grc/guidance-register.md` |
 | Evidence management | Partial: attachments on audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |

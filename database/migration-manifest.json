@@ -568,6 +568,10 @@
         {
             "name": "2026_11_20_200000_create_assessment_reports_table",
             "sha256": "51d21482168e4ae8a54259eb88028374c951de297e285dab1ce878d2c09e53ef"
+        },
+        {
+            "name": "2026_11_20_210000_add_scorecard_to_software_components",
+            "sha256": "6ef96cc6c0a44ee89911f8a83696d07d76ab8f554053d0e2ba91a7f82b2781cc"
         }
     ]
 }

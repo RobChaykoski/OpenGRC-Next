@@ -5295,6 +5295,16 @@
             "nullable": true
         },
         {
+            "name": "deps_dev_checked_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deps_dev_system",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
             "name": "ecosystem",
             "type": "varchar",
             "nullable": true
@@ -5332,6 +5342,16 @@
         {
             "name": "scope",
             "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "scorecard_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "scorecard_score",
+            "type": "float",
             "nullable": true
         },
         {

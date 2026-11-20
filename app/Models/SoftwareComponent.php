@@ -29,10 +29,17 @@ class SoftwareComponent extends Model
         'scope',
         'type',
         'metadata',
+        'scorecard_score',
+        'scorecard_date',
+        'deps_dev_system',
+        'deps_dev_checked_at',
     ];
 
     protected $casts = [
         'metadata' => 'array',
+        'scorecard_score' => 'float',
+        'scorecard_date' => 'date',
+        'deps_dev_checked_at' => 'datetime',
     ];
 
     /**

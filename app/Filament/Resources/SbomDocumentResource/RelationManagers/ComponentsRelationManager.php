@@ -62,6 +62,25 @@ class ComponentsRelationManager extends RelationManager
                     ->label('Supplier')
                     ->placeholder('—')
                     ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('scorecard_score')
+                    ->label('Scorecard')
+                    ->numeric(decimalPlaces: 1)
+                    ->placeholder('—')
+                    ->badge()
+                    ->color(fn (?float $state): string => match (true) {
+                        $state === null => 'gray',
+                        $state >= 8.0 => 'success',
+                        $state >= 5.0 => 'warning',
+                        default => 'danger',
+                    })
+                    ->toggleable(),
+
+                TextColumn::make('scorecard_date')
+                    ->label('Scorecard date')
+                    ->date()
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->defaultSort('name')
             ->paginated([25, 50, 100]);

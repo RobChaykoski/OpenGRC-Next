@@ -40,6 +40,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0033-access-review-campaign.md](decisions/0033-access-review-campaign.md) | Access review is a campaign snapshot, not a live role list |
 | [decisions/0034-exercise-register.md](decisions/0034-exercise-register.md) | Exercises are a register, not a training transcript |
 | [decisions/0035-sarif-assessment-import.md](decisions/0035-sarif-assessment-import.md) | Scanner output is findings evidence, not a scanner |
+| [decisions/0036-deps-dev-scorecard-enrichment.md](decisions/0036-deps-dev-scorecard-enrichment.md) | deps.dev and Scorecard enrich components; they do not decide compliance |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -58,6 +59,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/sbom-osv.md](integrations/sbom-osv.md) | CycloneDX SBOM import and OSV vulnerability evidence |
 | [integrations/openbao.md](integrations/openbao.md) | Read-only OpenBao metadata sync for credential rotation dates |
 | [integrations/assessment-sarif.md](integrations/assessment-sarif.md) | Import SARIF scanner reports as deduplicated findings |
+| [integrations/deps-dev.md](integrations/deps-dev.md) | Optional deps.dev license and OpenSSF Scorecard enrichment |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice

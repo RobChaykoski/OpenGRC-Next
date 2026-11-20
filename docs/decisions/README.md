@@ -57,3 +57,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0033](0033-access-review-campaign.md) | Access review is a campaign snapshot, not a live role list | accepted |
 | [0034](0034-exercise-register.md) | Exercises are a register, not a training transcript | accepted |
 | [0035](0035-sarif-assessment-import.md) | Scanner output is findings evidence, not a scanner | accepted |
+| [0036](0036-deps-dev-scorecard-enrichment.md) | deps.dev and Scorecard enrich components; they do not decide compliance | accepted |

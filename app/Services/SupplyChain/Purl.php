@@ -39,6 +39,38 @@ class Purl
         return $type === null ? null : (self::ECOSYSTEMS[$type] ?? null);
     }
 
+    public static function depsDevSystem(?string $purl): ?string
+    {
+        return match (self::type($purl)) {
+            'npm' => 'NPM',
+            'pypi' => 'PYPI',
+            'maven' => 'MAVEN',
+            'nuget' => 'NUGET',
+            'cargo' => 'CARGO',
+            'golang' => 'GO',
+            'gem' => 'RUBYGEMS',
+            default => null,
+        };
+    }
+
+    public static function depsDevName(SoftwareComponent $component): ?string
+    {
+        $parsed = self::parse($component->purl);
+
+        if ($parsed === null) {
+            return null;
+        }
+
+        $namespace = $parsed['namespace'];
+        $name = $parsed['name'];
+
+        if ($namespace === null || ! in_array($parsed['type'], self::NAMESPACE_TYPES, true)) {
+            return $name;
+        }
+
+        return $parsed['type'] === 'maven' ? $namespace.':'.$name : $namespace.'/'.$name;
+    }
+
     /**
      * @return array{package: array{name: string, ecosystem: string}, version: string}|null
      */
