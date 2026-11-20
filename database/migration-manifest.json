@@ -552,6 +552,10 @@
         {
             "name": "2026_11_20_160000_add_acceptance_to_risks_table",
             "sha256": "760d89553bfb59029c007293bbf17c6f018ae6a49391b39b61592246bf7609fb"
+        },
+        {
+            "name": "2026_11_20_170000_create_policy_acknowledgements_table",
+            "sha256": "1c0fbb436007dc5dd0c6447fddc6ae796d2262845fab6d29b773ccc46ed7954c"
         }
     ]
 }

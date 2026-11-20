@@ -25,7 +25,7 @@ important controls and 2 for the rest.
 | Framework and control library | Yes: 20 registered standards, provenance register, NIST generated from OSCAL | 3 | `docs/grc/framework-catalog.md` |
 | Control implementation and ownership | Yes: status, effectiveness, owner, test procedure, last/next test dates | 4 | `Implementation` model |
 | Risk register | Yes: inherent + residual 1–5 scoring, owner, category, treatment, mitigations, dated acceptance with expiry | 4 | `docs/grc/risk-methodology.md`, `docs/grc/risk-acceptance.md` |
-| Policies and exceptions | Yes: lifecycle, acknowledgements, scoped exceptions with expiry, global register and daily expiry enforcement | 4 | `Policy`, `PolicyException`, `docs/grc/exception-management.md` |
+| Policies and exceptions | Yes: lifecycle, versioned acknowledgements, scoped exceptions with expiry, global register and daily expiry enforcement | 4 | `Policy`, `PolicyException`, `docs/grc/policy-acknowledgements.md`, `docs/grc/exception-management.md` |
 | Audits and testing | Yes: audits, items, effectiveness, notes, attachments, findings | 3 | `docs/grc/audit-playbook.md` |
 | Assurance and attestations | Yes: SOC/ISO/PCI/CMMC report register, outcome, period, expiry and review | 3 | `docs/grc/assurance-reports.md` |
 | Privacy requests | Yes: GDPR/CCPA/PIPEDA/FERPA register, regime clock, verification, extension, overdue enforcement | 4 | `docs/grc/privacy-requests.md` |
@@ -122,6 +122,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Evidence and integrity | `docs/grc/evidence-standard.md` |
 | Policy readiness register | `docs/grc/policy-readiness.md` |
 | Exception lifecycle and register | `docs/grc/exception-management.md` |
+| Policy acknowledgement and coverage | `docs/grc/policy-acknowledgements.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

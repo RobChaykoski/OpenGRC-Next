@@ -185,6 +185,31 @@ class Policy extends Model implements EvidenceSubject
     }
 
     /**
+     * @return HasMany<PolicyAcknowledgement, $this>
+     */
+    public function acknowledgements(): HasMany
+    {
+        return $this->hasMany(PolicyAcknowledgement::class);
+    }
+
+    public function currentRevision(): string
+    {
+        return PolicyAcknowledgement::revisionFor($this);
+    }
+
+    public function isActive(): bool
+    {
+        $effective = $this->effective_date;
+        $retired = $this->retired_date;
+
+        if ($effective !== null && $effective->gt(today())) {
+            return false;
+        }
+
+        return $retired === null || $retired->gte(today());
+    }
+
+    /**
      * Get the scope name accessor.
      */
     public function getScopeNameAttribute(): ?string

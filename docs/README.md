@@ -36,6 +36,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0029-openbao-secret-metadata.md](decisions/0029-openbao-secret-metadata.md) | OpenBao owns the secret; OpenGRC owns the identity register |
 | [decisions/0030-guidance-register.md](decisions/0030-guidance-register.md) | Guidance is a register, not a framework |
 | [decisions/0031-risk-acceptance.md](decisions/0031-risk-acceptance.md) | Risk acceptance is a dated decision, not a mitigation note |
+| [decisions/0032-policy-acknowledgement.md](decisions/0032-policy-acknowledgement.md) | Policy acknowledgement is a versioned attestation, not a click |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -77,6 +78,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/non-human-identities.md](grc/non-human-identities.md) | Service accounts, tokens and certificates: ownership, scope, rotation |
 | [grc/guidance-register.md](grc/guidance-register.md) | Guidance and advisories: reference, adoption, control mapping, review |
 | [grc/risk-acceptance.md](grc/risk-acceptance.md) | Accepting residual risk: acceptor, rationale, expiry and review |
+| [grc/policy-acknowledgements.md](grc/policy-acknowledgements.md) | Versioned policy acknowledgement and coverage |
 
 ## Security
 

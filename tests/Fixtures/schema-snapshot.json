@@ -4135,6 +4135,58 @@
             "nullable": true
         }
     ],
+    "policy_acknowledgements": [
+        {
+            "name": "acknowledged_at",
+            "type": "datetime",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "method",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "policy_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "policy_revision",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "policy_updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "user_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
     "policy_canonical_outcome": [
         {
             "name": "canonical_control_id",

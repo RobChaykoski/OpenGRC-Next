@@ -53,3 +53,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0029](0029-openbao-secret-metadata.md) | OpenBao owns the secret; OpenGRC owns the identity register | accepted |
 | [0030](0030-guidance-register.md) | Guidance is a register, not a framework | accepted |
 | [0031](0031-risk-acceptance.md) | Risk acceptance is a dated decision, not a mitigation note | accepted |
+| [0032](0032-policy-acknowledgement.md) | Policy acknowledgement is a versioned attestation, not a click | accepted |
