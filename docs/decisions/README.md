@@ -49,3 +49,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0025](0025-assurance-report-register.md) | Assurance reports are a register, not a control catalogue | accepted |
 | [0026](0026-privacy-request-register.md) | Privacy requests are regime-aware register entries, not audit requests | accepted |
 | [0027](0027-non-human-identity-register.md) | Non-human identities are a register, not a secret store | accepted |
+| [0028](0028-sbom-and-osv-supply-chain-evidence.md) | SBOM and OSV are supply-chain evidence, not a scanner | accepted |

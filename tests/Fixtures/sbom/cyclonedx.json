@@ -1,0 +1,80 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.6",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-11-20T08:00:00Z",
+    "component": {
+      "type": "application",
+      "name": "customer-portal",
+      "version": "1.4.0"
+    },
+    "tools": [
+      {
+        "vendor": "Example",
+        "name": "sbom-generator",
+        "version": "2.0"
+      }
+    ]
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "laravel/framework",
+      "version": "11.0.0",
+      "purl": "pkg:composer/laravel/framework@11.0.0",
+      "supplier": {
+        "name": "Laravel"
+      },
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "scope": "required"
+    },
+    {
+      "type": "library",
+      "name": "core",
+      "group": "@angular",
+      "version": "17.0.0",
+      "purl": "pkg:npm/%40angular/core@17.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "scope": "required"
+    },
+    {
+      "type": "library",
+      "name": "django",
+      "version": "4.2.0",
+      "purl": "pkg:pypi/django@4.2.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "BSD-3-Clause"
+          }
+        }
+      ],
+      "scope": "required"
+    },
+    {
+      "type": "library",
+      "name": "internal-helper",
+      "version": "1.0.0",
+      "purl": "pkg:generic/internal-helper@1.0.0",
+      "scope": "required"
+    },
+    {
+      "type": "library",
+      "name": "unversioned-tool",
+      "version": null
+    }
+  ]
+}

@@ -32,6 +32,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0025-assurance-report-register.md](decisions/0025-assurance-report-register.md) | Assurance reports are a register, not a control catalogue |
 | [decisions/0026-privacy-request-register.md](decisions/0026-privacy-request-register.md) | Privacy requests are regime-aware register entries, not audit requests |
 | [decisions/0027-non-human-identity-register.md](decisions/0027-non-human-identity-register.md) | Non-human identities are a register, not a secret store |
+| [decisions/0028-sbom-and-osv-supply-chain-evidence.md](decisions/0028-sbom-and-osv-supply-chain-evidence.md) | SBOM and OSV are supply-chain evidence, not a scanner |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -47,6 +48,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/detection-coverage.md](integrations/detection-coverage.md) | YARA/Sigma coverage and validation evidence from a detection platform |
 | [integrations/adversary-emulation.md](integrations/adversary-emulation.md) | Completed range operations as adversary-emulation evidence |
 | [integrations/security-testing.md](integrations/security-testing.md) | WSTG test coverage and results without copying the guide |
+| [integrations/sbom-osv.md](integrations/sbom-osv.md) | CycloneDX SBOM import and OSV vulnerability evidence |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice

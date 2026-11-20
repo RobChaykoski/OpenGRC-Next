@@ -204,6 +204,18 @@ as `WSTG-v42-ATHN-01`, and record the application version and environment so a
 later release is not treated as tested. See
 `docs/integrations/security-testing.md` and ADR 0023.
 
+### Software supply chain source
+
+A CycloneDX SBOM is imported as a point-in-time document with its hash, format,
+spec version and component coordinates. OSV is queried in batches by purl
+ecosystem and version; advisory details are read by id. A vulnerable component
+creates a finding with a stable dedupe key, severity, fixed version and due date.
+
+No source, container layer or build artifact is stored. The batch query is the
+only POST, through the read-query guard. A re-scan updates the same finding; a
+resolved finding reopens if the component is still vulnerable. See
+`docs/integrations/sbom-osv.md` and ADR 0028.
+
 ### Continuous verification
 
 A rule is data, not code. It names the evidence type it applies to and a list of

@@ -60,6 +60,27 @@ final class ReadOnlyHttp
                     static fn (RequestInterface $request): RequestInterface => ReadOnlyHttp::guardAuthentication($request, $path)
                 );
         });
+
+        /*
+         * Some read-only APIs use POST for a query (for example an OSV
+         * querybatch). Permit POST to the single query path the caller names,
+         * and keep GET/HEAD available for follow-up reads.
+         */
+        Http::macro('grcReadQuery', function (string $baseUrl, string $path, ?string $caBundle = null): PendingRequest {
+            if (! str_starts_with($path, '/')) {
+                throw new InvalidArgumentException('The query path must start with "/".');
+            }
+
+            return Http::baseUrl($baseUrl)
+                ->withOptions([
+                    'allow_redirects' => false,
+                    'verify' => $caBundle ?? true,
+                ])
+                ->acceptJson()
+                ->withRequestMiddleware(
+                    static fn (RequestInterface $request): RequestInterface => ReadOnlyHttp::guardReadQuery($request, $path)
+                );
+        });
     }
 
     public static function guard(RequestInterface $request): RequestInterface
@@ -95,6 +116,31 @@ final class ReadOnlyHttp
         if (! str_ends_with($requestPath, $path)) {
             throw new RuntimeException(
                 "The evidence authentication client only permits POST to {$path}; {$requestPath} was blocked."
+            );
+        }
+
+        return $request;
+    }
+
+    /**
+     * Permit a POST query to the named path, and GET/HEAD for follow-up reads.
+     *
+     * The path comes from service code, never from a source configuration, so a
+     * query API cannot become a general write client.
+     */
+    public static function guardReadQuery(RequestInterface $request, string $path): RequestInterface
+    {
+        $method = strtoupper($request->getMethod());
+
+        if (in_array($method, self::ALLOWED_METHODS, true)) {
+            return $request;
+        }
+
+        $requestPath = $request->getUri()->getPath();
+
+        if ($method !== 'POST' || ! str_ends_with($requestPath, $path)) {
+            throw new RuntimeException(
+                "The read-query client only permits POST to {$path}; {$method} {$requestPath} was blocked."
             );
         }
 

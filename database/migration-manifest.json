@@ -536,6 +536,10 @@
         {
             "name": "2026_11_20_120000_create_non_human_identities_table",
             "sha256": "9ee0f071c4ef17e4c24e807621551eb96d786349e3cd6d150f3bdb3cc4405d82"
+        },
+        {
+            "name": "2026_11_20_130000_create_supply_chain_tables",
+            "sha256": "93a16e2b5e30e0d96300ee116469515cf5cdbf586f7047125a4a12f76064d9a6"
         }
     ]
 }

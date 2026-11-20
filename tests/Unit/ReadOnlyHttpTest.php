@@ -108,4 +108,39 @@ class ReadOnlyHttpTest extends TestCase
 
         Http::grcAuthenticate('https://example.test', '/security/user/authenticate')->get('/security/user/authenticate');
     }
+
+    #[Test]
+    public function the_read_query_macro_permits_a_post_to_the_named_path(): void
+    {
+        ReadOnlyHttp::register();
+        Http::fake(['*' => Http::response(['results' => []], 200)]);
+
+        $response = Http::grcReadQuery('https://api.osv.dev', '/v1/querybatch')
+            ->post('/v1/querybatch', ['queries' => []]);
+
+        $this->assertTrue($response->successful());
+    }
+
+    #[Test]
+    public function the_read_query_macro_blocks_a_post_to_another_path(): void
+    {
+        ReadOnlyHttp::register();
+        Http::fake();
+
+        $this->expectException(RuntimeException::class);
+
+        Http::grcReadQuery('https://api.osv.dev', '/v1/querybatch')->post('/v1/write');
+    }
+
+    #[Test]
+    public function the_read_query_macro_permits_a_get_for_follow_up_reads(): void
+    {
+        ReadOnlyHttp::register();
+        Http::fake(['*' => Http::response([], 200)]);
+
+        $response = Http::grcReadQuery('https://api.osv.dev', '/v1/querybatch')
+            ->get('/v1/vulns/GHSA-0000');
+
+        $this->assertTrue($response->successful());
+    }
 }
