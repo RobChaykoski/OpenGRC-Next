@@ -89,6 +89,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/policy-acknowledgements.md](grc/policy-acknowledgements.md) | Versioned policy acknowledgement and coverage |
 | [grc/access-reviews.md](grc/access-reviews.md) | User access review campaigns, attestation and revocation decisions |
 | [grc/exercises.md](grc/exercises.md) | Tabletop, simulation and red-team exercise register |
+| [grc/control-testing.md](grc/control-testing.md) | Control test cadence and the due/overdue report |
 
 ## Security
 

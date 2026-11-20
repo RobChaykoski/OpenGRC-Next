@@ -209,6 +209,8 @@ class Implementation extends Model
 
     /**
      * Get the owner of the implementation.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function implementationOwner(): BelongsTo
     {

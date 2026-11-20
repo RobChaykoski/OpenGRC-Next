@@ -40,7 +40,7 @@ important controls and 2 for the rest.
 | Asset and application inventory | Yes: assets, applications, taxonomy, risk links | 3 | `Asset`, `Application` |
 | Findings and remediation | Yes: triage queue, severity, owner, due date, status; automated from validation | 3 | `Finding` |
 | Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
-| Control testing cadence | Yes: last/next test dates, overdue filter; no automatic reminders | 3 | Gap 1 |
+| Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
 | Metrics and reporting | Partial: widgets, exports, AI summaries; no heat map or scorecard builder | 2 | Gap 3 |
 | Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
 | Regulatory change monitoring | Not built: no feed of new or amended requirements | 1 | Gap 7 |
@@ -55,9 +55,10 @@ an audit.
 
 1. **Testing cadence is recorded, not enforced.** Implementations have
    `last_tested_at` and `next_test_at`, and the list can filter overdue controls.
-   Nothing sends a reminder, and completing an audit item does not stamp the
-   dates; someone must update them. Recommended next step: a scheduled command
-   that reports overdue tests and, optionally, a notification channel.
+   `php artisan opengrc:controls:testing` reports due and overdue tests, but
+   nothing sends a reminder, and completing an audit item does not stamp the
+   dates; someone must update them. Recommended next step: connect the report to
+   the notification channel the programme already watches.
 2. **Findings are first-class; remediation is lightweight.** A finding has
    severity, owner, due date, status, and resolution notes, with a triage screen
    and automated raising from validation. There is no separate remediation plan
@@ -131,6 +132,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Policy acknowledgement and coverage | `docs/grc/policy-acknowledgements.md` |
 | Access review campaigns | `docs/grc/access-reviews.md` |
 | Exercises and tabletops | `docs/grc/exercises.md` |
+| Control test cadence and reporting | `docs/grc/control-testing.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |
