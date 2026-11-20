@@ -62,9 +62,11 @@ Current exceptions, and why:
 
 Separately deployed services are not dependencies. OpenDiscoveryEngine is
 GPL-3.0-only and runs as its own deployment; OpenGRC calls its HTTP API and links
-or copies no engine code, which is the same boundary as ClamAV. `nmap` and NAPALM
-are likewise executed as processes. See ADR 0018. Vendoring or linking GPL code
-into this repository would need an ADR and a license review before it merged.
+or copies no engine code, which is the same boundary as ClamAV. OpenMetadata is
+Apache-2.0 and is also read over HTTP as a separate deployment. `nmap` and NAPALM
+are likewise executed as processes. See ADRs 0018 and 0020. Vendoring or linking
+code from either service into this repository would need an ADR and a license
+review before it merged.
 
 `composer licenses` and `license-checker` run in CI against an allowlist. A
 dependency that is not on the list fails the build rather than being discovered

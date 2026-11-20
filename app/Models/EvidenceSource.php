@@ -78,8 +78,10 @@ class EvidenceSource extends Model
      */
     public static function mergeConfiguration(array $existing, array $submitted): array
     {
-        if (blank($submitted['password'] ?? null)) {
-            $submitted['password'] = $existing['password'] ?? null;
+        foreach (['password', 'token'] as $secret) {
+            if (blank($submitted[$secret] ?? null)) {
+                $submitted[$secret] = $existing[$secret] ?? null;
+            }
         }
 
         return array_merge($existing, $submitted);

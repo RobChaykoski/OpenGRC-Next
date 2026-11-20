@@ -24,6 +24,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0017-connector-authentication-requests.md](decisions/0017-connector-authentication-requests.md) | The one POST exception for connector authentication |
 | [decisions/0018-single-console-discovery-integration.md](decisions/0018-single-console-discovery-integration.md) | OpenGRC fronts the discovery engine; no code merge |
 | [decisions/0019-forensic-evidence-handling.md](decisions/0019-forensic-evidence-handling.md) | Authorized, append-only forensic evidence handling |
+| [decisions/0020-openmetadata-metadata-source.md](decisions/0020-openmetadata-metadata-source.md) | OpenMetadata as a read-only catalog source, not a second console |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -35,6 +36,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/open-discovery-console.md](integrations/open-discovery-console.md) | Read-only OpenDiscoveryEngine mirror in the OpenGRC console |
 | [integrations/wazuh-evidence.md](integrations/wazuh-evidence.md) | Wazuh SCA connector, RBAC, TLS, live testing, screenshots |
 | [integrations/agent-coverage.md](integrations/agent-coverage.md) | Missed assets, coverage gaps, and agent deployment |
+| [integrations/openmetadata.md](integrations/openmetadata.md) | Read-only catalog governance evidence from OpenMetadata |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice

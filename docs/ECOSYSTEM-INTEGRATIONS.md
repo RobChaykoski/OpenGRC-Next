@@ -11,6 +11,7 @@ operational data.
 | OpenCyberRange | NICE work-role/task/KSK mappings, course completion, training-to-control evidence | Signed CSV/JSON export or API, keyed by lab slug and framework version |
 | OpenDetectionEngine / OpenDLP | Discovery console: scan and finding state, coverage, classification labels, control links | Read-only console API (`/api/v1/console/scans`, `/findings`); findings and metadata only, no raw content |
 | OpenDetectionEngine / OpenDLP | Data classification results, discovery coverage, DLP policy evidence | Hash-verified evidence snapshots; aggregate counts and classification labels; no raw content |
+| OpenMetadata | Data catalog: dataset inventory, owners, classification tags, lineage context | Read-only catalog API; metadata only, no sample data |
 | OpenEMR | PHI access, retention, and clinical control evidence | Aggregate control evidence with hashes |
 | Ralph | Asset inventory and ownership | Asset IDs, owner, criticality, lifecycle state |
 | Fleet | Endpoint posture and compliance | Device counts, OS/package state, policy status |
@@ -29,6 +30,11 @@ OpenDiscoveryEngine stays headless and GPL-3.0-only; OpenGRC pulls a read-only
 mirror of scans and findings, links them to controls, and keeps the review state.
 No engine code is linked or copied into OpenGRC. See
 `docs/integrations/open-discovery-console.md` and ADR 0018.
+
+OpenMetadata supplies the data-catalog context DSPM needs: which datasets exist,
+who owns them, and how they are classified. It is a separately deployed
+Apache-2.0 service; OpenGRC reads aggregate metadata and never requests sample
+data or writes tags back. See `docs/integrations/openmetadata.md` and ADR 0020.
 
 ## Rules
 

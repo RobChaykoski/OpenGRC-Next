@@ -147,6 +147,23 @@ with a matching SAN. TLS verification is never disabled. The full runbook,
 including the certificate and RBAC commands, is
 `docs/integrations/wazuh-evidence.md`.
 
+### OpenMetadata source
+
+The OpenMetadata connector reads `GET /v1/tables` with a read-only bot token and
+aggregates catalog governance per database service: tables, columns, owned
+tables, classified tables, coverage percentages and classification tag counts.
+It requests metadata fields only; sample data, profiling values and table rows
+are never fetched. One record is stored per service, so a re-run measures the
+same service over time.
+
+A table counts as classified when the table or any column carries a tag in a
+configured classification namespace (default `PII`). A curated tag map turns a
+full tag FQN into an OpenGRC data-classification code; unknown tags are counted
+but not guessed. A table without an owner or a classification makes the service
+Failed; an empty catalog is Unknown; a truncated or unreachable catalog fails
+the collection. The runbook is `docs/integrations/openmetadata.md`, and the
+boundary is ADR 0020.
+
 ### Continuous verification
 
 A rule is data, not code. It names the evidence type it applies to and a list of

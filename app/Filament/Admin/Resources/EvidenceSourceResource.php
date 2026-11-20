@@ -101,15 +101,18 @@ class EvidenceSourceResource extends Resource
                     ->schema([
                         TextInput::make('configuration.base_url')
                             ->label(__('evidence.source.form.base_url'))
-                            ->helperText(fn (Get $get): string => self::isWazuh($get)
-                                ? __('evidence.source.form.base_url_help_wazuh')
-                                : __('evidence.source.form.base_url_help'))
+                            ->helperText(fn (Get $get): string => match (true) {
+                                self::isWazuh($get) => __('evidence.source.form.base_url_help_wazuh'),
+                                self::isOpenMetadata($get) => __('evidence.source.form.base_url_help_openmetadata'),
+                                default => __('evidence.source.form.base_url_help'),
+                            })
                             ->required(fn (Get $get): bool => self::hasConnectionFields($get))
                             ->url(),
 
                         TextInput::make('configuration.username')
                             ->label(__('evidence.source.form.username'))
-                            ->required(fn (Get $get): bool => self::hasConnectionFields($get))
+                            ->visible(fn (Get $get): bool => self::usesUsernamePassword($get))
+                            ->required(fn (Get $get): bool => self::usesUsernamePassword($get))
                             ->maxLength(255),
 
                         TextInput::make('configuration.password')
@@ -117,12 +120,27 @@ class EvidenceSourceResource extends Resource
                             ->helperText(__('evidence.source.form.password_help'))
                             ->password()
                             ->revealable()
-                            ->required(fn (string $operation, Get $get): bool => $operation === 'create' && self::hasConnectionFields($get))
+                            ->visible(fn (Get $get): bool => self::usesUsernamePassword($get))
+                            ->required(fn (string $operation, Get $get): bool => $operation === 'create' && self::usesUsernamePassword($get))
                             ->dehydrated(fn ($state): bool => filled($state))
                             ->afterStateHydrated(function (TextInput $component): void {
                                 // Never send the stored credential to the browser.
                                 $component->state(null);
                             }),
+
+                        TextInput::make('configuration.token')
+                            ->label(__('evidence.source.form.token'))
+                            ->helperText(__('evidence.source.form.token_help'))
+                            ->password()
+                            ->revealable()
+                            ->visible(fn (Get $get): bool => self::isOpenMetadata($get))
+                            ->required(fn (string $operation, Get $get): bool => $operation === 'create' && self::isOpenMetadata($get))
+                            ->dehydrated(fn ($state): bool => filled($state))
+                            ->afterStateHydrated(function (TextInput $component): void {
+                                // Never send the stored bot token to the browser.
+                                $component->state(null);
+                            })
+                            ->columnSpanFull(),
 
                         TextInput::make('configuration.ca_bundle')
                             ->label(__('evidence.source.form.ca_bundle'))
@@ -274,6 +292,7 @@ class EvidenceSourceResource extends Resource
                     ->visible(fn (EvidenceSource $record): bool => in_array($record->type, [
                         EvidenceSourceType::Patchmon,
                         EvidenceSourceType::Wazuh,
+                        EvidenceSourceType::OpenMetadata,
                     ], true))
                     ->schema([
                         TextEntry::make('configuration.base_url')
@@ -282,6 +301,7 @@ class EvidenceSourceResource extends Resource
 
                         TextEntry::make('configuration.username')
                             ->label(__('evidence.source.form.username'))
+                            ->visible(fn (EvidenceSource $record): bool => $record->type !== EvidenceSourceType::OpenMetadata)
                             ->placeholder('—'),
 
                         TextEntry::make('configuration.ca_bundle')
@@ -306,6 +326,7 @@ class EvidenceSourceResource extends Resource
                         TextEntry::make('credential')
                             ->label(__('evidence.source.infolist.credential'))
                             ->state(fn (EvidenceSource $record): string => filled($record->configuration['password'] ?? null)
+                                || filled($record->configuration['token'] ?? null)
                                 ? __('evidence.source.infolist.configured')
                                 : __('evidence.source.infolist.not_set'))
                             ->badge()
@@ -354,11 +375,24 @@ class EvidenceSourceResource extends Resource
         return self::isType($get, EvidenceSourceType::Wazuh);
     }
 
+    protected static function isOpenMetadata(Get $get): bool
+    {
+        return self::isType($get, EvidenceSourceType::OpenMetadata);
+    }
+
     /**
-     * Connectors that authenticate with a base URL and a credential share the
-     * same fields; the help text explains the difference.
+     * Connectors that authenticate with a base URL and a shared secret.
      */
     protected static function hasConnectionFields(Get $get): bool
+    {
+        return self::isPatchmon($get) || self::isWazuh($get) || self::isOpenMetadata($get);
+    }
+
+    /**
+     * PatchMon and Wazuh use a username/password pair; OpenMetadata uses a bot
+     * token. The token is a secret too, so it is never hydrated into the form.
+     */
+    protected static function usesUsernamePassword(Get $get): bool
     {
         return self::isPatchmon($get) || self::isWazuh($get);
     }

@@ -41,3 +41,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0017](0017-connector-authentication-requests.md) | Authentication requests for evidence connectors | accepted |
 | [0018](0018-single-console-discovery-integration.md) | OpenGRC is the single console; the discovery engine stays a headless GPL service | accepted |
 | [0019](0019-forensic-evidence-handling.md) | Forensic collection is authorized, scoped and append-only; raw content stays in a collector | accepted |
+| [0020](0020-openmetadata-metadata-source.md) | OpenMetadata is a read-only catalog source; OpenGRC keeps the compliance console | accepted |

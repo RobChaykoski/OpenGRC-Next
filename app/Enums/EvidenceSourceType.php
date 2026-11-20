@@ -14,6 +14,7 @@ enum EvidenceSourceType: string implements HasLabel
 {
     case Patchmon = 'patchmon';
     case Wazuh = 'wazuh';
+    case OpenMetadata = 'openmetadata';
     case MicrosoftGraph = 'microsoft_graph';
     case Defender = 'defender';
     case Nessus = 'nessus';
@@ -25,6 +26,7 @@ enum EvidenceSourceType: string implements HasLabel
         return match ($this) {
             self::Patchmon => 'PatchMon',
             self::Wazuh => 'Wazuh',
+            self::OpenMetadata => 'OpenMetadata',
             self::MicrosoftGraph => 'Microsoft Graph',
             self::Defender => 'Microsoft Defender',
             self::Nessus => 'Tenable Nessus',

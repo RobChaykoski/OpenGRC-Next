@@ -87,6 +87,42 @@ class EvidenceSourceUiTest extends TestCase
     }
 
     #[Test]
+    public function the_edit_form_does_not_leak_the_stored_token(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+        $source = $this->openMetadataSource();
+
+        $this->actingAs($admin)
+            ->get(EvidenceSourceResource::getUrl('edit', ['record' => $source]))
+            ->assertOk()
+            ->assertDontSee('super-secret-token')
+            ->assertSee(__('evidence.source.form.token_help'));
+    }
+
+    #[Test]
+    public function merging_a_blank_token_preserves_the_stored_one(): void
+    {
+        $existing = ['token' => 'old-token', 'base_url' => 'https://old.test'];
+        $submitted = ['base_url' => 'https://new.test'];
+
+        $merged = EvidenceSource::mergeConfiguration($existing, $submitted);
+
+        $this->assertSame('old-token', $merged['token']);
+        $this->assertSame('https://new.test', $merged['base_url']);
+    }
+
+    #[Test]
+    public function a_new_token_replaces_the_stored_one(): void
+    {
+        $merged = EvidenceSource::mergeConfiguration(
+            ['token' => 'old-token'],
+            ['token' => 'new-token']
+        );
+
+        $this->assertSame('new-token', $merged['token']);
+    }
+
+    #[Test]
     public function only_admins_pass_the_source_policy(): void
     {
         $source = $this->source();
@@ -116,6 +152,19 @@ class EvidenceSourceUiTest extends TestCase
                 'base_url' => 'https://patchmon.test/api',
                 'username' => 'opengrc',
                 'password' => 'super-secret-password',
+            ],
+        ]);
+    }
+
+    protected function openMetadataSource(): EvidenceSource
+    {
+        return EvidenceSource::create([
+            'name' => 'OpenMetadata',
+            'type' => EvidenceSourceType::OpenMetadata,
+            'enabled' => true,
+            'configuration' => [
+                'base_url' => 'https://openmetadata.test/api',
+                'token' => 'super-secret-token',
             ],
         ]);
     }

@@ -34,7 +34,7 @@ different jobs.
 | Endpoint compliance | Fleet | Endpoint compliance report | Control evidence | Collector posture | Clinical device posture |
 | Containers/Kubernetes | Docker, Kubernetes, Cilium, Calico, Istio | PLAT01/PLAT02/PLAT06/PLAT07/PLAT08 labs | SDLC and platform control evidence | Collector deployment | Clinical service platform evidence |
 | CI/CD and code quality | GitHub Actions, GitLab CI, SonarQube, OWASP Dependency-Check, ScanCode | PLAT03 lab | Build/release control evidence | Build pipeline evidence | Build pipeline and vendor evidence |
-| Data classification/DLP | OpenDLP | Privacy labels and export classification | Privacy/control evidence and the discovery console | Core classification and DLP | PHI classification and DLP evidence |
+| Data classification/DLP | OpenDLP, OpenMetadata | Privacy labels, export classification and catalog ownership/classification coverage | Privacy/control evidence, the discovery console and catalog governance | Core classification and DLP | PHI classification and DLP evidence |
 | Privacy and reporting | Shared role model | Privacy office and auditor dashboards | Evidence requests and audit packs | Classification and discovery reports | PHI access and retention evidence |
 
 ## Identity architecture
