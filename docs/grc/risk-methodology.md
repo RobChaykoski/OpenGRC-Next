@@ -93,6 +93,12 @@ Put that statement in your governance documentation and reference it from the ri
 register's front page. When a score crosses a threshold, the acceptance must be
 traceable to a person.
 
+The register records that decision as an **acceptance** on the risk: status,
+accepted by, accepted on, expiry and rationale. Acceptance is separate from a
+mitigation strategy. `opengrc:risks:acceptance` expires an acceptance when its
+date passes; re-acceptance is a new decision. See
+`docs/grc/risk-acceptance.md`.
+
 ## Ownership and category
 
 Every risk beyond triage needs an **owner**: the person accountable for the

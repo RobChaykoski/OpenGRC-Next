@@ -24,7 +24,7 @@ important controls and 2 for the rest.
 |---|---|---|---|
 | Framework and control library | Yes: 20 registered standards, provenance register, NIST generated from OSCAL | 3 | `docs/grc/framework-catalog.md` |
 | Control implementation and ownership | Yes: status, effectiveness, owner, test procedure, last/next test dates | 4 | `Implementation` model |
-| Risk register | Yes: inherent + residual 1–5 scoring, owner, category, treatment, mitigations | 4 | `docs/grc/risk-methodology.md` |
+| Risk register | Yes: inherent + residual 1–5 scoring, owner, category, treatment, mitigations, dated acceptance with expiry | 4 | `docs/grc/risk-methodology.md`, `docs/grc/risk-acceptance.md` |
 | Policies and exceptions | Yes: lifecycle, acknowledgements, scoped exceptions with expiry, global register and daily expiry enforcement | 4 | `Policy`, `PolicyException`, `docs/grc/exception-management.md` |
 | Audits and testing | Yes: audits, items, effectiveness, notes, attachments, findings | 3 | `docs/grc/audit-playbook.md` |
 | Assurance and attestations | Yes: SOC/ISO/PCI/CMMC report register, outcome, period, expiry and review | 3 | `docs/grc/assurance-reports.md` |
@@ -111,6 +111,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 |---|---|
 | Control mapping across frameworks | `docs/grc/framework-catalog.md`, `docs/grc/framework-scoping.md`, `docs/grc/control-catalogue-linking.md` |
 | Risk scoring | `docs/grc/risk-methodology.md` |
+| Risk acceptance and expiry | `docs/grc/risk-acceptance.md` |
 | Audit and testing | `docs/grc/audit-playbook.md` |
 | Assurance reports and attestations | `docs/grc/assurance-reports.md` |
 | Privacy requests and clocks | `docs/grc/privacy-requests.md` |

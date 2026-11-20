@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Enums\MitigationType;
+use App\Enums\RiskAcceptanceStatus;
 use App\Enums\RiskLevel;
 use App\Enums\RiskStatus;
 use App\Filament\Columns\TaxonomyColumn;
@@ -24,6 +25,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ExportAction;
 use Filament\Actions\ExportBulkAction;
 use Filament\Actions\ViewAction;
+use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -31,6 +33,7 @@ use Filament\Forms\Components\Toggle;
 use Filament\Forms\Components\ToggleButtons;
 use Filament\Resources\Resource;
 use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Schema;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -126,6 +129,40 @@ class RiskResource extends Resource
                     ->label('Active')
                     ->default(true)
                     ->helperText('Inactive risks are excluded from reports and dashboards'),
+
+                Section::make('Risk acceptance')
+                    ->columns(2)
+                    ->schema([
+                        Select::make('acceptance_status')
+                            ->label('Acceptance')
+                            ->options(RiskAcceptanceStatus::class)
+                            ->default(RiskAcceptanceStatus::None)
+                            ->required(),
+
+                        Select::make('accepted_by')
+                            ->label('Accepted by')
+                            ->relationship('acceptedBy', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->required(fn (Get $get): bool => self::isAcceptanceAccepted($get))
+                            ->helperText('The person accountable for accepting the residual risk.'),
+
+                        DatePicker::make('accepted_at')
+                            ->label('Accepted on')
+                            ->default(fn (Get $get) => self::isAcceptanceAccepted($get) ? today() : null),
+
+                        DatePicker::make('acceptance_expires_at')
+                            ->label('Acceptance expires')
+                            ->required(fn (Get $get): bool => self::isAcceptanceAccepted($get))
+                            ->helperText('An acceptance needs an end date. Re-acceptance is a new decision.'),
+
+                        Textarea::make('acceptance_rationale')
+                            ->label('Acceptance rationale')
+                            ->required(fn (Get $get): bool => self::isAcceptanceAccepted($get))
+                            ->rows(3)
+                            ->columnSpanFull(),
+                    ]),
+
                 self::taxonomySelect('Department', 'department')
                     ->nullable()
                     ->columnSpan(1),
@@ -186,6 +223,20 @@ class RiskResource extends Resource
                     ->badge()
                     ->sortable()
                     ->searchable(),
+                TextColumn::make('acceptance_status')
+                    ->label('Acceptance')
+                    ->badge()
+                    ->sortable(),
+                TextColumn::make('acceptance_expires_at')
+                    ->label('Acceptance expires')
+                    ->date()
+                    ->sortable()
+                    ->placeholder('—')
+                    ->color(fn (Risk $record): string => $record->isAcceptanceExpired() ? 'danger' : 'gray'),
+                TextColumn::make('acceptedBy.name')
+                    ->label('Accepted by')
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('owner.name')
                     ->label('Owner')
                     ->placeholder('Unassigned')
@@ -222,6 +273,27 @@ class RiskResource extends Resource
                     ->default('1'),
                 SelectFilter::make('status')
                     ->options(RiskStatus::class),
+                SelectFilter::make('acceptance_status')
+                    ->label('Acceptance')
+                    ->options(RiskAcceptanceStatus::class),
+                SelectFilter::make('acceptance')
+                    ->label('Acceptance expiry')
+                    ->options([
+                        'expiring' => 'Expiring in 30 days',
+                        'expired' => 'Expired',
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        return match ($data['value'] ?? null) {
+                            'expiring' => $query->where('acceptance_status', RiskAcceptanceStatus::Accepted->value)
+                                ->whereNotNull('acceptance_expires_at')
+                                ->whereDate('acceptance_expires_at', '>=', today())
+                                ->whereDate('acceptance_expires_at', '<=', today()->addDays(30)),
+                            'expired' => $query->where('acceptance_status', RiskAcceptanceStatus::Accepted->value)
+                                ->whereNotNull('acceptance_expires_at')
+                                ->whereDate('acceptance_expires_at', '<', today()),
+                            default => $query,
+                        };
+                    }),
                 SelectFilter::make('owner_id')
                     ->label('Owner')
                     ->relationship('owner', 'name')
@@ -273,6 +345,14 @@ class RiskResource extends Resource
             'view' => ViewRisk::route('/{record}'),
             'activities' => ListRiskActivities::route('/{record}/activities'),
         ];
+    }
+
+    protected static function isAcceptanceAccepted(Get $get): bool
+    {
+        $status = $get('acceptance_status');
+
+        return $status === RiskAcceptanceStatus::Accepted
+            || $status === RiskAcceptanceStatus::Accepted->value;
     }
 
     /**

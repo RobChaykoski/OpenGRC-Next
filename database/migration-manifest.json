@@ -548,6 +548,10 @@
         {
             "name": "2026_11_20_150000_create_guidance_notes_tables",
             "sha256": "92c7552ea82b9483f538fdad69e057a5753f7c5b6651c6a915b8b8b69a63e88f"
+        },
+        {
+            "name": "2026_11_20_160000_add_acceptance_to_risks_table",
+            "sha256": "760d89553bfb59029c007293bbf17c6f018ae6a49391b39b61592246bf7609fb"
         }
     ]
 }

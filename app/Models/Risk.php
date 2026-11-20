@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Aliziodev\LaravelTaxonomy\Traits\HasTaxonomy;
 use App\Enums\MitigationType;
+use App\Enums\RiskAcceptanceStatus;
 use App\Enums\RiskStatus;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -21,6 +23,9 @@ class Risk extends Model
         'id' => 'integer',
         'action' => MitigationType::class,
         'status' => RiskStatus::class,
+        'acceptance_status' => RiskAcceptanceStatus::class,
+        'accepted_at' => 'date',
+        'acceptance_expires_at' => 'date',
         'is_active' => 'boolean',
     ];
 
@@ -36,12 +41,46 @@ class Risk extends Model
         'residual_likelihood',
         'residual_impact',
         'residual_risk',
+        'acceptance_status',
+        'accepted_by',
+        'accepted_at',
+        'acceptance_expires_at',
+        'acceptance_rationale',
         'is_active',
     ];
 
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function acceptedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'accepted_by');
+    }
+
+    public function isAcceptanceActive(): bool
+    {
+        return $this->acceptance_status === RiskAcceptanceStatus::Accepted
+            && ! $this->isAcceptanceExpired();
+    }
+
+    public function isAcceptanceExpired(): bool
+    {
+        return $this->acceptance_expires_at !== null
+            && $this->acceptance_expires_at->lt(today());
+    }
+
+    public function daysUntilAcceptanceExpiry(): ?int
+    {
+        if ($this->acceptance_expires_at === null) {
+            return null;
+        }
+
+        return (int) today()->diffInDays($this->acceptance_expires_at, false);
     }
 
     public function implementations(): BelongsToMany
@@ -97,6 +136,29 @@ class Risk extends Model
         return static::max('id') + 1;
     }
 
+    /**
+     * @param  Builder<Risk>  $query
+     * @return Builder<Risk>
+     */
+    public function scopeAcceptanceExpired(Builder $query): Builder
+    {
+        return $query->where('acceptance_status', RiskAcceptanceStatus::Accepted)
+            ->whereNotNull('acceptance_expires_at')
+            ->whereDate('acceptance_expires_at', '<', today());
+    }
+
+    /**
+     * @param  Builder<Risk>  $query
+     * @return Builder<Risk>
+     */
+    public function scopeAcceptanceExpiring(Builder $query, int $days = 30): Builder
+    {
+        return $query->where('acceptance_status', RiskAcceptanceStatus::Accepted)
+            ->whereNotNull('acceptance_expires_at')
+            ->whereDate('acceptance_expires_at', '>=', today())
+            ->whereDate('acceptance_expires_at', '<=', today()->addDays($days));
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
@@ -111,6 +173,10 @@ class Risk extends Model
                 'residual_impact',
                 'residual_risk',
                 'status',
+                'acceptance_status',
+                'accepted_by',
+                'accepted_at',
+                'acceptance_expires_at',
                 'is_active',
             ])
             ->logOnlyDirty()

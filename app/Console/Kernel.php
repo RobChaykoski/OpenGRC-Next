@@ -37,6 +37,9 @@ class Kernel extends ConsoleKernel
         // Machine credentials: surface expiry and rotation without touching the
         // secret store. Rotation stays a human action.
         $schedule->command('opengrc:identities:review')->dailyAt('00:25');
+
+        // A risk acceptance is a dated decision, not a permanent state.
+        $schedule->command('opengrc:risks:acceptance')->dailyAt('00:30');
     }
 
     /**
