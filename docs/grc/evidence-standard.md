@@ -164,6 +164,19 @@ Failed; an empty catalog is Unknown; a truncated or unreachable catalog fails
 the collection. The runbook is `docs/integrations/openmetadata.md`, and the
 boundary is ADR 0020.
 
+### Detection coverage source
+
+YARA and Sigma are not connectors; they are formats executed by a detection
+platform. The platform pushes a hash-verified `detection-coverage` snapshot to
+`POST /api/v1/evidence` with counts for active Sigma and YARA rules, failing
+rules, ATT&CK techniques covered and validation age. Rule bodies, samples and
+log lines are never sent.
+
+The record status is Unknown. A validation rule decides the control, for example
+`failingRules = 0` and `lastValidatedAgeDays <= 7`. A failed delivery leaves the
+previous snapshot in place and visible as stale. See
+`docs/integrations/detection-coverage.md` and ADR 0021.
+
 ### Continuous verification
 
 A rule is data, not code. It names the evidence type it applies to and a list of

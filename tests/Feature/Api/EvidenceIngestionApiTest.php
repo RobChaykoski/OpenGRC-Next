@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Api;
 
+use App\Models\Control;
 use App\Models\EvidenceRecord;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -30,7 +31,57 @@ class EvidenceIngestionApiTest extends TestCase
             ->assertJsonPath('status', 'accepted');
 
         $this->assertSame(1, EvidenceRecord::query()->count());
-        $this->assertDatabaseHas('evidence_records', ['client_id' => 'acme', 'external_id' => 'evidence-1']);
+        $this->assertDatabaseHas('evidence_records', [
+            'client_id' => 'acme',
+            'external_id' => 'evidence-1',
+            'evidence_type' => 'data-discovery',
+        ]);
+        $this->assertDatabaseHas('evidence_sources', ['name' => 'Discovery: acme']);
+    }
+
+    #[Test]
+    public function it_accepts_detection_coverage_evidence_and_links_a_control(): void
+    {
+        $control = Control::factory()->create(['code' => 'SI-4']);
+        $evidence = $this->detectionEvidence();
+
+        $this->withToken($this->token())
+            ->postJson('/api/v1/evidence', [
+                'id' => 'detection-1',
+                'sha256' => $this->digest($evidence),
+                'evidenceType' => 'detection-coverage',
+                'capturedAt' => '2026-11-20T10:00:00Z',
+                'controlIdentifier' => 'SI-4',
+                'evidence' => $evidence,
+            ])
+            ->assertCreated()
+            ->assertJsonPath('status', 'accepted');
+
+        $this->assertDatabaseHas('evidence_records', [
+            'client_id' => 'acme',
+            'external_id' => 'detection-1',
+            'evidence_type' => 'detection-coverage',
+            'control_id' => $control->getKey(),
+            'asset_id' => null,
+            'status' => 'unknown',
+        ]);
+        $this->assertDatabaseHas('evidence_sources', ['name' => 'Detection: acme']);
+    }
+
+    #[Test]
+    public function it_rejects_an_unknown_evidence_type(): void
+    {
+        $this->withToken($this->token())
+            ->postJson('/api/v1/evidence', [
+                'id' => 'detection-2',
+                'sha256' => str_repeat('a', 64),
+                'evidenceType' => 'malware-sample',
+                'evidence' => ['schema' => 'unknown'],
+            ])
+            ->assertStatus(422)
+            ->assertJsonValidationErrors('evidenceType');
+
+        $this->assertSame(0, EvidenceRecord::query()->count());
     }
 
     #[Test]
@@ -139,6 +190,22 @@ class EvidenceIngestionApiTest extends TestCase
             'schema' => 'opendiscovery.evidence/v1',
             'scan' => ['id' => 'scan-1', 'findingsCount' => 1],
             'findings' => [['detector' => 'ca_sin', 'preview' => '04****86']],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function detectionEvidence(): array
+    {
+        return [
+            'schema' => 'opengrc.detection-coverage/v1',
+            'platform' => 'opendetectionengine',
+            'sigmaRules' => 42,
+            'yaraRules' => 18,
+            'failingRules' => 1,
+            'attackTechniquesCovered' => 37,
+            'lastValidatedAgeDays' => 0,
         ];
     }
 

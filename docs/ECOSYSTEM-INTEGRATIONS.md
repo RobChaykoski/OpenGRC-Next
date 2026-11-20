@@ -17,6 +17,7 @@ operational data.
 | Fleet | Endpoint posture and compliance | Device counts, OS/package state, policy status |
 | OpenVAS / Nessus / Nikto / ZAP | Vulnerability and remediation evidence | Finding counts, severities, exception state, patch evidence |
 | Wazuh / Suricata / Zeek / Sysmon / Security Onion | Detection and monitoring evidence | Control-linked alert and coverage summaries |
+| OpenDetectionEngine / SIEM / endpoint engine | Detection rule coverage: YARA/Sigma counts, failing rules, ATT&CK coverage, validation age | Hash-verified `detection-coverage` snapshots; no rule bodies, samples or log lines |
 | Authentik | SSO and group/application access | OIDC claims and group membership |
 | OpenIAM | Access reviews, certification, segregation of duties | Campaign results and exception records |
 | GitLab / GitHub / SonarQube / Dependency-Check / ScanCode | SDLC, code quality, dependency, and licence evidence | CI artifacts or signed manifests |
@@ -35,6 +36,11 @@ OpenMetadata supplies the data-catalog context DSPM needs: which datasets exist,
 who owns them, and how they are classified. It is a separately deployed
 Apache-2.0 service; OpenGRC reads aggregate metadata and never requests sample
 data or writes tags back. See `docs/integrations/openmetadata.md` and ADR 0020.
+
+YARA and Sigma are detection formats, not services. OpenDetectionEngine or the
+SIEM owns the rule catalogue and execution; OpenGRC accepts hash-verified
+detection-coverage snapshots and lets validation rules decide the control state.
+See `docs/integrations/detection-coverage.md` and ADR 0021.
 
 ## Rules
 

@@ -64,6 +64,12 @@ Accept: application/json
   match stores null rather than guessing.
 - `externalReferences` is accepted but not persisted yet; it is reserved for the
   data graph.
+- `evidenceType` is optional and defaults to `data-discovery`. The endpoint also
+  accepts `detection-coverage`; see `docs/integrations/detection-coverage.md`.
+- `controlIdentifier` is optional and links the snapshot to a control by code.
+  A missing code stores null rather than guessing.
+- The record status is always `unknown`. A validation rule decides whether a
+  control passed; an external producer cannot set the verdict.
 
 ## Responses
 

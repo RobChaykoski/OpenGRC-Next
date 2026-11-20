@@ -15,18 +15,37 @@ use Carbon\CarbonImmutable;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Accept a discovery evidence snapshot from OpenDLP-NG.
+ * Accept an external, hash-verified evidence snapshot.
  *
- * The payload is verified against the supplied SHA-256 before it reaches the
- * append-only evidence ledger. Tokens are scoped (evidence.write) and bound to a
- * client, so an external_id is unique per client and a replay returns the
+ * Producers send discovery, detection-coverage or other approved evidence
+ * types. The payload is verified against the supplied SHA-256 before it reaches
+ * the append-only evidence ledger. Tokens are scoped (evidence.write) and bound
+ * to a client, so an external_id is unique per client and a replay returns the
  * original record instead of writing a second one.
+ *
+ * The record status is always Unknown: an external producer may describe what
+ * it observed, but only a validation rule decides whether a control passed.
  */
 class EvidenceIngestionController extends Controller
 {
+    /**
+     * Evidence types an external producer may submit. Keep this list explicit:
+     * a free-text type would let a producer invent a control vocabulary.
+     */
+    public const EVIDENCE_TYPES = [
+        'data-discovery',
+        'detection-coverage',
+    ];
+
+    /**
+     * Evidence types that come from discovery sources, for the source label.
+     */
+    private const DISCOVERY_TYPES = ['data-discovery'];
+
     public function store(Request $request, EvidenceIngestor $ingestor): JsonResponse
     {
         $clientId = (string) $request->user()->currentAccessToken()->client_id;
@@ -35,9 +54,13 @@ class EvidenceIngestionController extends Controller
             'id' => ['required', 'string', 'max:191'],
             'sha256' => ['required', 'string', 'size:64'],
             'evidence' => ['required', 'array'],
+            'evidenceType' => ['nullable', 'string', Rule::in(self::EVIDENCE_TYPES)],
             'capturedAt' => ['nullable', 'date'],
             'assetIdentifier' => ['nullable', 'string', 'max:255'],
+            'controlIdentifier' => ['nullable', 'string', 'max:255'],
         ]);
+
+        $evidenceType = $validated['evidenceType'] ?? 'data-discovery';
 
         $canonical = $this->canonical($validated['evidence']);
         $digest = hash('sha256', $canonical);
@@ -58,7 +81,7 @@ class EvidenceIngestionController extends Controller
         }
 
         $source = EvidenceSource::firstOrCreate(
-            ['name' => "Discovery: {$clientId}"],
+            ['name' => $this->sourceName($clientId, $evidenceType)],
             ['type' => EvidenceSourceType::Other, 'enabled' => true],
         );
 
@@ -76,12 +99,13 @@ class EvidenceIngestionController extends Controller
         try {
             $record = $ingestor->ingest($source, $job, new NormalisedEvidence(
                 externalId: $validated['id'],
-                evidenceType: 'data-discovery',
+                evidenceType: $evidenceType,
                 status: ControlStatus::Unknown,
                 collectedAt: $collectedAt,
                 payload: $validated['evidence'],
                 clientId: $clientId,
                 assetIdentifier: $validated['assetIdentifier'] ?? null,
+                controlIdentifier: $validated['controlIdentifier'] ?? null,
             ));
         } catch (QueryException $exception) {
             // Two dispatcher retries can race. The unique index is the
@@ -99,6 +123,13 @@ class EvidenceIngestionController extends Controller
         }
 
         return $this->accepted($record, 201);
+    }
+
+    private function sourceName(string $clientId, string $evidenceType): string
+    {
+        return in_array($evidenceType, self::DISCOVERY_TYPES, true)
+            ? "Discovery: {$clientId}"
+            : "Detection: {$clientId}";
     }
 
     private function accepted(EvidenceRecord $record, int $status): JsonResponse
