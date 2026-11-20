@@ -18,7 +18,7 @@ operational data.
 | OpenVAS / Nessus / Nikto / ZAP | Vulnerability and remediation evidence | Finding counts, severities, exception state, patch evidence |
 | Wazuh / Suricata / Zeek / Sysmon / Security Onion | Detection and monitoring evidence | Control-linked alert and coverage summaries |
 | OpenDetectionEngine / SIEM / endpoint engine | Detection rule coverage: YARA/Sigma counts, failing rules, ATT&CK coverage, validation age | Hash-verified `detection-coverage` snapshots; no rule bodies, samples or log lines |
-| OpenCyberRange / Apache Caldera | Adversary emulation: techniques attempted, detected, prevented and missed | Completed-operation summary over the hash-verified evidence API; no commands, payloads or raw logs |
+| OpenCyberRange / Apache Caldera / Atomic Red Team | Adversary emulation: techniques attempted, detected, prevented and missed; test counts and IDs | Completed-operation summary over the hash-verified evidence API; no commands, payloads or raw logs |
 | Authentik | SSO and group/application access | OIDC claims and group membership |
 | OpenIAM | Access reviews, certification, segregation of duties | Campaign results and exception records |
 | GitLab / GitHub / SonarQube / Dependency-Check / ScanCode | SDLC, code quality, dependency, and licence evidence | CI artifacts or signed manifests |

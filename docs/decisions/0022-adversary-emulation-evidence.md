@@ -10,6 +10,10 @@ against real hosts. They hold agent payloads, credentials and command-and-contro
 channels, and their operation logs can contain command output, file paths and
 target detail. A GRC web application is the wrong place for any of that.
 
+Atomic Red Team is a library of technique tests rather than a service. It is
+executed by `Invoke-AtomicRedTeam`, an executor, or Caldera's Atomic plugin. The
+same boundary applies: the range runs the tests; the summary crosses to OpenGRC.
+
 Yet purple-team results are exactly the evidence a control-testing programme
 needs: which ATT&CK techniques were attempted, which succeeded, which were
 detected, and which were prevented. That is evidence about a control, not a
@@ -32,7 +36,8 @@ runtime; OpenGRC owns the compliance record.
    `evidenceType: adversary-emulation`, with a client-bound `evidence.write`
    token.
 4. **Aggregates only.** The summary carries technique counts, coverage
-   percentages, the range and operation identifiers, the adversary profile and
+   percentages, the range and operation identifiers, the adversary profile,
+   the test library and version, test IDs where the library reports tests, and
    asset IDs. It never carries commands, payloads, credentials, agent tokens,
    raw logs, file contents or target hostnames.
 5. **The producer cannot set the control verdict.** The record is stored as

@@ -44,6 +44,8 @@ Accept: application/json
     "operationId": "op-123",
     "adversary": "APT29",
     "planner": "atomic",
+    "library": "atomic-red-team",
+    "libraryVersion": "2026.11",
     "startedAt": "2026-11-20T08:00:00Z",
     "finishedAt": "2026-11-20T09:15:00Z",
     "techniquesAttempted": 12,
@@ -52,6 +54,10 @@ Accept: application/json
     "techniquesPrevented": 7,
     "undetectedTechniques": 3,
     "unpreventedTechniques": 5,
+    "testsExecuted": 14,
+    "testsSucceeded": 9,
+    "testsFailed": 5,
+    "testIds": ["T1059.001-1", "T1053.005-2"],
     "detectionCoveragePercent": 75.0,
     "preventionCoveragePercent": 58.3,
     "assetIds": ["asset-42", "asset-77"],
@@ -70,6 +76,8 @@ external evidence types.
 | `operationId` | yes | The engine's operation id; the reproducibility key |
 | `adversary` | no | Adversary profile name, not a person |
 | `planner` | no | Planner that chose the technique order |
+| `library` | no | Test library: `atomic-red-team`, `caldera`, `custom` |
+| `libraryVersion` | no | Library release, for reproducibility |
 | `startedAt`, `finishedAt` | no | Operation window in UTC |
 | `techniquesAttempted` | yes | Distinct ATT&CK techniques attempted |
 | `techniquesSucceeded` | yes | Techniques that executed successfully |
@@ -77,6 +85,10 @@ external evidence types.
 | `techniquesPrevented` | yes | Techniques blocked before execution |
 | `undetectedTechniques` | yes | Succeeded minus detected; producer-computed |
 | `unpreventedTechniques` | yes | Succeeded minus prevented; producer-computed |
+| `testsExecuted` | no | Atomic tests run, when the library reports tests rather than techniques |
+| `testsSucceeded` | no | Atomic tests that executed successfully |
+| `testsFailed` | no | Atomic tests that failed to execute |
+| `testIds` | no | Test identifiers such as `T1059.001-1`; never the test body |
 | `detectionCoveragePercent` | no | Producer-computed, for simple rules |
 | `preventionCoveragePercent` | no | Producer-computed, for simple rules |
 | `assetIds` | no | OpenGRC asset ids or range-neutral identifiers |
@@ -85,6 +97,18 @@ external evidence types.
 Producer-computed counts are deliberate: the validation-rule language compares a
 path to a constant, not two paths to each other. Compute the gap in the range
 where the raw facts are available.
+
+## Atomic Red Team is a library, not a service
+
+Atomic Red Team is a library of tests mapped to ATT&CK techniques, executed by
+`Invoke-AtomicRedTeam`, by the Atomic Red Team executor, or through Caldera's
+Atomic plugin. It has no service to connect to. The range runs the tests and
+reports `library: atomic-red-team`, the library version, test IDs and counts;
+OpenGRC never stores the test body or the command.
+
+If the range measures techniques rather than individual tests, leave the test
+fields out. Both granularities are valid as long as the summary says which one it
+used and does not mix them.
 
 ## Status and validation
 
@@ -100,6 +124,10 @@ detection objective:
   ]
 }
 ```
+
+For an Atomic Red Team run, `testsFailed` is usually the execution-health check:
+a test that cannot run says nothing about detection. Add
+`{ "path": "testsFailed", "op": "eq", "value": 0 }` when the summary reports tests.
 
 For a prevention objective, use `unpreventedTechniques`. A softer programme can
 assert a percentage threshold instead. A missing value is Unknown, never a pass.

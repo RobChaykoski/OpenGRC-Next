@@ -93,6 +93,12 @@ class EvidenceIngestionApiTest extends TestCase
             'status' => 'unknown',
         ]);
         $this->assertDatabaseHas('evidence_sources', ['name' => 'Range: acme']);
+
+        $record = EvidenceRecord::query()->where('external_id', 'emulation-1')->firstOrFail();
+
+        $this->assertSame('atomic-red-team', $record->payload['library']);
+        $this->assertSame(14, $record->payload['testsExecuted']);
+        $this->assertSame(['T1059.001-1', 'T1053.005-2'], $record->payload['testIds']);
     }
 
     #[Test]
@@ -247,12 +253,18 @@ class EvidenceIngestionApiTest extends TestCase
             'operationId' => 'op-123',
             'adversary' => 'APT29',
             'planner' => 'atomic',
+            'library' => 'atomic-red-team',
+            'libraryVersion' => '2026.11',
             'techniquesAttempted' => 12,
             'techniquesSucceeded' => 5,
             'techniquesDetected' => 9,
             'techniquesPrevented' => 7,
             'undetectedTechniques' => 3,
             'unpreventedTechniques' => 5,
+            'testsExecuted' => 14,
+            'testsSucceeded' => 9,
+            'testsFailed' => 5,
+            'testIds' => ['T1059.001-1', 'T1053.005-2'],
             'detectionCoveragePercent' => 75.0,
             'preventionCoveragePercent' => 58.3,
             'assetIds' => ['asset-42'],
