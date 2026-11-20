@@ -21,6 +21,9 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0002-training-integration-boundary.md](decisions/0002-training-integration-boundary.md) | OpenGRC and OpenCyberRange: system of record vs lab runtime |
 | [decisions/0008-evidence-ledger-and-migration-integrity.md](decisions/0008-evidence-ledger-and-migration-integrity.md) | Append-only evidence chain of custody and migration checksums |
 | [decisions/0009-continuous-control-monitoring.md](decisions/0009-continuous-control-monitoring.md) | Vendor-neutral evidence connectors and validation rules |
+| [decisions/0017-connector-authentication-requests.md](decisions/0017-connector-authentication-requests.md) | The one POST exception for connector authentication |
+| [decisions/0018-single-console-discovery-integration.md](decisions/0018-single-console-discovery-integration.md) | OpenGRC fronts the discovery engine; no code merge |
+| [decisions/0019-forensic-evidence-handling.md](decisions/0019-forensic-evidence-handling.md) | Authorized, append-only forensic evidence handling |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -29,6 +32,10 @@ architecture, integrations, and the decisions behind them.
 |---|---|
 | [integrations/opencyberrange-grc-training.md](integrations/opencyberrange-grc-training.md) | Hands-on GRC training design and phased roadmap |
 | [integrations/discovery-evidence.md](integrations/discovery-evidence.md) | OpenDLP-NG evidence ingestion: token, payload, replay, retries |
+| [integrations/open-discovery-console.md](integrations/open-discovery-console.md) | Read-only OpenDiscoveryEngine mirror in the OpenGRC console |
+| [integrations/wazuh-evidence.md](integrations/wazuh-evidence.md) | Wazuh SCA connector, RBAC, TLS, live testing, screenshots |
+| [integrations/agent-coverage.md](integrations/agent-coverage.md) | Missed assets, coverage gaps, and agent deployment |
+| [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice
 
@@ -45,6 +52,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/audit-playbook.md](grc/audit-playbook.md) | Audit lifecycle, findings, closure |
 | [grc/program-playbook.md](grc/program-playbook.md) | Roles, cadence, metrics, onboarding |
 | [grc/data-dictionary.md](grc/data-dictionary.md) | Objects, fields, relations, invariants |
+| [grc/data-posture.md](grc/data-posture.md) | DLP/DSPM dashboard: coverage, classification, exposure, aging, DLP operations |
 
 ## Security
 
@@ -52,6 +60,8 @@ architecture, integrations, and the decisions behind them.
 |---|---|
 | [security/container-hardening.md](security/container-hardening.md) | Read-only filesystem, capabilities, WAF, and what is not hardened yet |
 | [security/tenant-and-access-roadmap.md](security/tenant-and-access-roadmap.md) | Tenancy, RBAC/ABAC, audit trail, and security analytics sequencing |
+| [security/forensics.md](security/forensics.md) | Authorized forensic lifecycle, custody, integrity, retention, and gaps |
+| [security/forensic-compliance-mapping.md](security/forensic-compliance-mapping.md) | Forensic controls mapped to the framework catalogue |
 | [OSS-POLICY.md](OSS-POLICY.md) | License, dependency allowlist, contribution model |
 | [../SECURITY.md](../SECURITY.md) | Vulnerability disclosure |
 

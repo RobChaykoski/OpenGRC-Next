@@ -95,3 +95,15 @@ coverage gap to review, not a failure. See
   licence rules in `docs/OSS-POLICY.md`.
 - CCM connectors (ADR 0009) consume the evidence register; they do not decide
   applicability.
+
+## In the console
+
+**Foundations → Organization scope** runs this service from a form: choose the
+industry, country or region, subdivision, size, revenue band, and the sensitive
+data the organisation handles. The page shows the recommended frameworks,
+controls, documents, and profile gaps. It is read-only: it does not import a
+framework or change the register. Import the framework and link controls
+separately, then record the scope decision.
+
+The page also uses the country-qualified subdivision (`CA-ON`, `US-CA`) so a US
+state code cannot accidentally match a Canadian privacy framework by region.
