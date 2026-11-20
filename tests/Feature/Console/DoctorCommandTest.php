@@ -26,6 +26,22 @@ class DoctorCommandTest extends TestCase
     }
 
     #[Test]
+    public function it_warns_when_the_discovery_console_is_configured_but_never_synced(): void
+    {
+        config([
+            'services.discovery' => [
+                'base_url' => 'https://discovery.test',
+                'token' => 'console-token',
+                'tenant' => 'acme',
+            ],
+        ]);
+
+        $this->artisan('opengrc:doctor', ['--json' => true, '--skip-queue' => true])
+            ->expectsOutputToContain('configured but never synced')
+            ->assertExitCode(0);
+    }
+
+    #[Test]
     public function it_fails_when_strict_and_warnings_exist(): void
     {
         // The asset manifest is absent in a fresh checkout until `npm run build`

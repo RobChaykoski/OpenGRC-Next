@@ -520,6 +520,10 @@
         {
             "name": "2026_11_18_080000_create_assurance_snapshots_table",
             "sha256": "a8181c5bf05cdf82221e38eca4c129edb294242d7660c869a9a95ef200ff8325"
+        },
+        {
+            "name": "2026_11_20_090000_create_discovery_console_tables",
+            "sha256": "03bda598f9b495d000c2391cf9c044337bda0796b0bb2d016fcde4dc3558f17d"
         }
     ]
 }

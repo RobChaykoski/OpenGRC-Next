@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\EvidenceSourceType;
+use App\Models\DiscoveryScan;
 use App\Models\DocumentTemplate;
 use App\Models\EvidenceSource;
 use App\Models\User;
@@ -11,6 +12,7 @@ use App\Services\Evidence\EvidenceLedger;
 use App\Support\DatabasePath;
 use App\Support\InstanceMode;
 use App\Support\MigrationManifest;
+use Carbon\CarbonImmutable;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -58,6 +60,7 @@ class Doctor extends Command
         $this->checkMigrationIntegrity();
         $this->checkEvidenceIntegrity();
         $this->checkEvidencePipeline();
+        $this->checkDiscoveryConsole();
         $this->checkOauthKeys();
         $this->checkPrivilegedMfa();
         $this->checkVersion();
@@ -544,6 +547,72 @@ class Doctor extends Command
             );
         } catch (Throwable $exception) {
             $this->record('Evidence pipeline', 'warn', 'could not inspect: '.$exception->getMessage());
+        }
+    }
+
+    /**
+     * The discovery mirror must be configured deliberately and must not look
+     * empty when the last sync failed. Doctor reports configuration and the age
+     * of the newest synced row; it never calls the engine, so an engine outage
+     * cannot hang a health check.
+     */
+    protected function checkDiscoveryConsole(): void
+    {
+        try {
+            $config = config('services.discovery');
+            $configured = is_array($config)
+                && filled($config['base_url'] ?? null)
+                && filled($config['token'] ?? null)
+                && filled($config['tenant'] ?? null);
+
+            if (! $configured) {
+                $this->record('Discovery console', 'pass', 'not configured; optional');
+
+                return;
+            }
+
+            if (! Schema::hasTable('discovery_scans')) {
+                $this->record(
+                    'Discovery console',
+                    'warn',
+                    'configured but the mirror tables are missing; run migrations'
+                );
+
+                return;
+            }
+
+            $lastSync = DiscoveryScan::query()->max('synced_at');
+
+            if (! is_string($lastSync) || $lastSync === '') {
+                $this->record(
+                    'Discovery console',
+                    'warn',
+                    'configured but never synced; run php artisan opengrc:discovery:sync'
+                );
+
+                return;
+            }
+
+            $lastSyncAt = CarbonImmutable::parse($lastSync);
+            $staleAfter = max(1, (int) ($config['stale_after_days'] ?? 2));
+
+            if ($lastSyncAt->lt(now()->subDays($staleAfter))) {
+                $this->record(
+                    'Discovery console',
+                    'warn',
+                    'mirror is stale; last synced '.$lastSyncAt->diffForHumans()
+                );
+
+                return;
+            }
+
+            $this->record(
+                'Discovery console',
+                'pass',
+                'mirror synced '.$lastSyncAt->diffForHumans()
+            );
+        } catch (Throwable $exception) {
+            $this->record('Discovery console', 'warn', 'could not inspect: '.$exception->getMessage());
         }
     }
 

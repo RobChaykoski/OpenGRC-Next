@@ -1941,6 +1941,200 @@
             "nullable": true
         }
     ],
+    "discovery_findings": [
+        {
+            "name": "asset_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "asset_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "category",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "classification",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "confidence",
+            "type": "float",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "detector_key",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "discovery_scan_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "match_preview",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "match_sha256",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "path",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "remote_created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "remote_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "remote_scan_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "severity",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "synced_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "tenant",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "discovery_scans": [
+        {
+            "name": "asset_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "asset_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "error",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "files_scanned",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "files_seen",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "findings_count",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "finished_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "profile_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "profile_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "remote_created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "remote_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "started_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "synced_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "tenant",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "dlp_findings": [
         {
             "name": "action",

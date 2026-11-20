@@ -31,4 +31,16 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    /*
+    | Read-only console mirror. The token is a scoped reader credential for the
+    | OpenDiscoveryEngine console API; it is never sent anywhere else.
+    */
+    'discovery' => [
+        'base_url' => env('DISCOVERY_CONSOLE_URL'),
+        'token' => env('DISCOVERY_CONSOLE_TOKEN'),
+        'tenant' => env('DISCOVERY_CONSOLE_TENANT'),
+        'timeout' => (int) env('DISCOVERY_CONSOLE_TIMEOUT', 15),
+        'stale_after_days' => (int) env('DISCOVERY_CONSOLE_STALE_AFTER_DAYS', 2),
+    ],
+
 ];
