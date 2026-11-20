@@ -77,6 +77,24 @@ presented as coverage. A control with no mapping is a review gap, not a failure.
 The report is a view over the crosswalk register. It does not create mappings,
 approve them or change the assurance matrix.
 
+## Export
+
+Use **Export CSV** on the report, or run:
+
+```bash
+php artisan opengrc:crosswalk:export CSCv8 NIST-CSF-2.0
+php artisan opengrc:crosswalk:export 1 2 --path=storage/app/exports/crosswalk.csv
+php artisan opengrc:crosswalk:export CSCv8 NIST-CSF-2.0 --include-drafts
+```
+
+The default export contains approved mappings only. `--include-drafts` adds drafts
+and rejected mappings with their status. The CSV includes both frameworks, both
+control codes and titles, confidence, status, rationale, reviewer and review date.
+
+Cells beginning with `=`, `+`, `-` or `@` are prefixed with an apostrophe so a
+rationale cannot become a spreadsheet formula. The export is a review aid, not a
+compliance report and not evidence.
+
 ## Relationship to canonical outcomes
 
 The preferred model is:

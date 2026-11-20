@@ -6,9 +6,13 @@ use App\Enums\CrosswalkStatus;
 use App\Models\Control;
 use App\Models\ControlCrosswalk;
 use App\Models\Standard;
+use App\Services\Controls\CrosswalkExporter;
+use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Url;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Approved crosswalks between two imported frameworks.
@@ -42,6 +46,42 @@ class CrosswalkReport extends Page
     public function getTitle(): string
     {
         return 'Framework crosswalk report';
+    }
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            Action::make('export')
+                ->label('Export CSV')
+                ->icon('heroicon-o-arrow-down-tray')
+                ->visible(fn (): bool => is_numeric($this->source)
+                    && is_numeric($this->target)
+                    && $this->source !== $this->target)
+                ->action(fn () => $this->export()),
+        ];
+    }
+
+    public function export(): ?StreamedResponse
+    {
+        $source = is_numeric($this->source) ? Standard::query()->find((int) $this->source) : null;
+        $target = is_numeric($this->target) ? Standard::query()->find((int) $this->target) : null;
+
+        if (! $source instanceof Standard || ! $target instanceof Standard || $source->is($target)) {
+            Notification::make()
+                ->title('Choose two different frameworks first.')
+                ->warning()
+                ->send();
+
+            return null;
+        }
+
+        $csv = app(CrosswalkExporter::class)->csv($source, $target);
+
+        return response()->streamDownload(
+            fn () => print $csv,
+            "crosswalk-{$source->code}-{$target->code}.csv",
+            ['Content-Type' => 'text/csv'],
+        );
     }
 
     public function mount(): void

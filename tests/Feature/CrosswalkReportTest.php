@@ -77,6 +77,7 @@ class CrosswalkReportTest extends TestCase
             ->assertSee('High')
             ->assertSee('Approved mappings')
             ->assertSee('Draft mappings')
+            ->assertSee('Export CSV')
             ->assertDontSee('CSC-8')
             ->assertDontSee('DE.AE-03');
     }
