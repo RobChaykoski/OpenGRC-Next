@@ -2,14 +2,19 @@
 
 namespace Tests\Feature\Discovery;
 
+use App\Enums\ControlStatus;
+use App\Enums\EvidenceSourceType;
 use App\Enums\UserRole;
 use App\Filament\Pages\DataPosture;
 use App\Http\Middleware\RequireTwoFactorAuthentication;
 use App\Models\DiscoveryFinding;
 use App\Models\DiscoveryScan;
+use App\Models\EvidenceRecord;
+use App\Models\EvidenceSource;
 use App\Models\User;
 use Filament\Facades\Filament;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -37,7 +42,9 @@ class DspmDashboardTest extends TestCase
             ->assertSee('DLP')
             ->assertSee('DSPM')
             ->assertSee(__('dspm.metrics.coverage'))
-            ->assertSee(__('dspm.metrics.freshness'));
+            ->assertSee(__('dspm.metrics.freshness'))
+            ->assertSee(__('dspm.catalog.heading'))
+            ->assertSee(__('dspm.catalog.not_configured'));
     }
 
     #[Test]
@@ -92,5 +99,55 @@ class DspmDashboardTest extends TestCase
             ->assertSee('billing-01')
             ->assertDontSee('/srv/finance/customers.csv')
             ->assertDontSee('04****86');
+    }
+
+    #[Test]
+    public function the_catalog_widget_shows_aggregate_coverage_without_table_names(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+
+        $source = EvidenceSource::create([
+            'name' => 'OpenMetadata',
+            'type' => EvidenceSourceType::Other,
+            'enabled' => true,
+            'configuration' => [],
+        ]);
+
+        $payload = [
+            'source' => 'openmetadata',
+            'service' => ['name' => 'analytics', 'type' => 'databaseService'],
+            'tableCount' => 4,
+            'columnCount' => 12,
+            'ownedTableCount' => 3,
+            'classifiedTableCount' => 2,
+            'unownedTableCount' => 1,
+            'unclassifiedTableCount' => 2,
+            'ownerCoveragePercent' => 75.0,
+            'classificationCoveragePercent' => 50.0,
+            'classificationTags' => ['PII.Sensitive' => 2],
+            'mappedClassifications' => ['personal_information' => 2],
+        ];
+
+        EvidenceRecord::create([
+            'source_id' => $source->getKey(),
+            'external_id' => 'openmetadata:catalog:analytics',
+            'evidence_type' => 'catalog-governance',
+            'status' => ControlStatus::Unknown,
+            'collected_at' => now(),
+            'payload' => $payload,
+            'payload_sha256' => hash('sha256', json_encode($payload) ?: ''),
+            'idempotency_key' => Str::uuid()->toString(),
+            'ingested_at' => now(),
+            'created_at' => now(),
+        ]);
+
+        $this->actingAs($admin)
+            ->get(DataPosture::getUrl())
+            ->assertOk()
+            ->assertSee(__('dspm.catalog.heading'))
+            ->assertSee('75%')
+            ->assertSee('50%')
+            ->assertSee(__('dspm.catalog.owners_detail', ['owned' => '3', 'total' => '4']))
+            ->assertDontSee('analytics.customers');
     }
 }

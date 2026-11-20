@@ -14,6 +14,7 @@ dashboard for two related but different jobs:
 | Section | Question it answers |
 |---|---|
 | Posture cards | How many sensitive findings are open, how much of the estate is classified, and how fresh is the mirror? |
+| Catalog governance | Are the datasets in the catalog owned and classified? (OpenMetadata evidence) |
 | Category chart | Where sensitive data is concentrated: PII, PHI, cardholder data, secrets, credentials |
 | Aging chart | Are open findings getting older? Aging is the programme problem, not a detector problem |
 | Exposed assets | Which assets concentrate the most open findings |
@@ -25,6 +26,8 @@ dashboard for two related but different jobs:
 - OpenDiscoveryEngine scan and finding mirror (`discovery_scans`,
   `discovery_findings`) for DSPM.
 - OpenGRC `DlpFinding` rows for AI and upload DLP.
+- OpenMetadata `catalog-governance` evidence for dataset ownership and
+  classification coverage.
 - The OpenGRC asset count as the coverage denominator.
 
 Only aggregates are rendered. File paths, match previews, and hashes stay on the

@@ -33,4 +33,6 @@ return [
     'page_size' => (int) env('OPENMETADATA_PAGE_SIZE', 100),
 
     'max_pages' => (int) env('OPENMETADATA_MAX_PAGES', 50),
+
+    'stale_after_days' => (int) env('OPENMETADATA_STALE_AFTER_DAYS', 7),
 ];

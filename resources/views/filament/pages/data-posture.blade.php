@@ -38,6 +38,10 @@
 
         @livewire(\App\Filament\Widgets\DspmPostureWidget::class)
 
+        <x-filament::section :heading="__('dspm.catalog.heading')" :description="__('dspm.catalog.description')">
+            @livewire(\App\Filament\Widgets\CatalogGovernanceWidget::class)
+        </x-filament::section>
+
         <div class="grid gap-6 lg:grid-cols-2">
             @livewire(\App\Filament\Widgets\DspmCategoryChart::class)
             @livewire(\App\Filament\Widgets\DspmAgingChart::class)

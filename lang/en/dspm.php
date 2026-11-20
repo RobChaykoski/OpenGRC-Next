@@ -71,6 +71,21 @@ return [
         'empty_description' => 'A clean table here is only meaningful when the discovery mirror is fresh and coverage is complete.',
     ],
 
+    'catalog' => [
+        'heading' => 'Data catalog governance',
+        'description' => 'Ownership and classification coverage from OpenMetadata. Aggregates only; no table names or rows.',
+        'services' => 'Catalog services',
+        'services_detail' => ':tables table(s) catalogued',
+        'owners' => 'Owner coverage',
+        'owners_detail' => ':owned of :total tables have an owner',
+        'classification' => 'Classification coverage',
+        'classification_detail' => ':classified of :total tables are classified',
+        'freshness' => 'Catalog freshness',
+        'last_collected' => 'Last collected :date',
+        'never' => 'Never collected',
+        'not_configured' => 'No catalog evidence yet. Configure an OpenMetadata source and run collection.',
+    ],
+
     'dlp' => [
         'blocked' => 'Blocked (7 days)',
         'blocked_description' => 'Policy stopped the action',

@@ -42,6 +42,11 @@ The evidence type is `catalog-governance`. The external id is
 `openmetadata:catalog:<service>`, so a re-run updates the same measurement
 identity for the same collection time.
 
+The **Data posture** page shows the latest aggregate per service as ownership
+and classification coverage cards, plus the age of the oldest collection. It
+reads evidence, not the live API, so the numbers stay honest when collection
+stops.
+
 ### Status mapping
 
 | Situation | Status |
