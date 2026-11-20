@@ -38,3 +38,6 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0014](0014-policy-and-evidence-coverage.md) | Policies link directly to outcomes; evidence inherits through its control | accepted |
 | [0015](0015-assurance-score-and-confidence.md) | Assurance score is component-visible and confidence is derived | accepted |
 | [0016](0016-evidence-pack-boundary.md) | Evidence packs index evidence; they do not export payloads | accepted |
+| [0017](0017-connector-authentication-requests.md) | Authentication requests for evidence connectors | accepted |
+| [0018](0018-single-console-discovery-integration.md) | OpenGRC is the single console; the discovery engine stays a headless GPL service | accepted |
+| [0019](0019-forensic-evidence-handling.md) | Forensic collection is authorized, scoped and append-only; raw content stays in a collector | accepted |
