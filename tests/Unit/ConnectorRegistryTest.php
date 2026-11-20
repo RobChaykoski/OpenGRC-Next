@@ -29,7 +29,7 @@ class ConnectorRegistryTest extends TestCase
     {
         $this->expectException(RuntimeException::class);
 
-        (new ConnectorRegistry)->for(new EvidenceSource(['type' => EvidenceSourceType::Wazuh]));
+        (new ConnectorRegistry)->for(new EvidenceSource(['type' => EvidenceSourceType::Nessus]));
     }
 
     #[Test]
@@ -47,7 +47,7 @@ class ConnectorRegistryTest extends TestCase
         $registry->register(EvidenceSourceType::Nessus, FakeEvidenceConnector::class);
 
         $this->assertTrue($registry->has(EvidenceSourceType::Nessus));
-        $this->assertFalse($registry->has(EvidenceSourceType::Wazuh));
+        $this->assertFalse($registry->has(EvidenceSourceType::MicrosoftGraph));
         $this->assertArrayHasKey('nessus', $registry->all());
     }
 }

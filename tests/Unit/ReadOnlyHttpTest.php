@@ -62,4 +62,50 @@ class ReadOnlyHttpTest extends TestCase
         $this->assertFalse($options['allow_redirects']);
         $this->assertTrue($options['verify']);
     }
+
+    #[Test]
+    public function a_ca_bundle_replaces_the_trust_store_without_disabling_verification(): void
+    {
+        ReadOnlyHttp::register();
+
+        $path = tempnam(sys_get_temp_dir(), 'opengrc-ca-');
+        file_put_contents($path, 'test-ca');
+
+        try {
+            $read = Http::grcReadOnly('https://example.test', null, [], $path);
+            $auth = Http::grcAuthenticate('https://example.test', '/security/user/authenticate', $path);
+
+            $readOptions = (new \ReflectionProperty($read, 'options'))->getValue($read);
+            $authOptions = (new \ReflectionProperty($auth, 'options'))->getValue($auth);
+
+            $this->assertSame($path, $readOptions['verify']);
+            $this->assertSame($path, $authOptions['verify']);
+            $this->assertFalse($readOptions['allow_redirects']);
+            $this->assertFalse($authOptions['allow_redirects']);
+        } finally {
+            @unlink($path);
+        }
+    }
+
+    #[Test]
+    public function the_authentication_macro_only_permits_the_named_path(): void
+    {
+        ReadOnlyHttp::register();
+        Http::fake();
+
+        $this->expectException(RuntimeException::class);
+
+        Http::grcAuthenticate('https://example.test', '/security/user/authenticate')->post('/agents');
+    }
+
+    #[Test]
+    public function the_authentication_macro_blocks_a_get_request(): void
+    {
+        ReadOnlyHttp::register();
+        Http::fake();
+
+        $this->expectException(RuntimeException::class);
+
+        Http::grcAuthenticate('https://example.test', '/security/user/authenticate')->get('/security/user/authenticate');
+    }
 }

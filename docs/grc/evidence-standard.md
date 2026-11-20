@@ -106,9 +106,10 @@ that point at the record they replace.
 - Credentials live encrypted on `evidence_sources` and are never written into a
   payload.
 - Collection is read-only: `Http::grcReadOnly()` refuses anything but GET/HEAD
-  and does not follow redirects.
-- Validation rules, findings, the evidence browser, and the PatchMon connector
-  are built; scheduled collection is not.
+  and does not follow redirects. The one exception is a token-minting POST to a
+  path fixed by connector code (ADR 0017).
+- Validation rules, findings, the evidence browser, and the PatchMon and Wazuh
+  connectors are built; scheduled collection is not.
 
 ### PatchMon source
 
@@ -130,6 +131,21 @@ discard the rest of the fleet.
 The **Run collection** action queues `CollectEvidenceJob`; the worker writes the
 records. `php artisan opengrc:evidence:collect --source=ID` runs the same path
 synchronously for operators.
+
+### Wazuh source
+
+The Wazuh connector reads the manager API on port 55000, not the indexer. It
+lists agents with `GET /agents` and reads one SCA summary per agent with
+`GET /sca/{agent_id}`. One record is stored per agent, with every policy's
+`pass`/`fail`/`invalid` counts in the payload. A disconnected agent or an
+incomplete scan is Unknown; a policy failure is Failed.
+
+Configure it with a read-only Wazuh user that has `agent:read` and `sca:read` on
+`agent:id:*`. Wazuh's default API certificate is self-signed for `localhost`, so
+the source needs a CA bundle (a PEM path on the OpenGRC host) and a certificate
+with a matching SAN. TLS verification is never disabled. The full runbook,
+including the certificate and RBAC commands, is
+`docs/integrations/wazuh-evidence.md`.
 
 ### Continuous verification
 

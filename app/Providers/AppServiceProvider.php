@@ -36,6 +36,7 @@ use App\Policies\VendorDocumentPolicy;
 use App\Policies\VendorUserPolicy;
 use App\Services\Evidence\ConnectorRegistry;
 use App\Services\Evidence\Connectors\PatchMonConnector;
+use App\Services\Evidence\Connectors\WazuhConnector;
 use App\Services\HtmlSanitizerService;
 use App\Support\Http\ReadOnlyHttp;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
@@ -348,6 +349,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(ConnectorRegistry::class, function (): ConnectorRegistry {
             $registry = new ConnectorRegistry;
             $registry->register(EvidenceSourceType::Patchmon, PatchMonConnector::class);
+            $registry->register(EvidenceSourceType::Wazuh, WazuhConnector::class);
 
             return $registry;
         });

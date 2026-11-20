@@ -6,6 +6,7 @@ use App\Contracts\EvidenceConnector;
 use App\Enums\ControlStatus;
 use App\Enums\EvidenceJobStatus;
 use App\Enums\EvidenceSourceType;
+use App\Models\EvidenceJob;
 use App\Models\EvidenceRecord;
 use App\Models\EvidenceSource;
 use App\Services\Evidence\CollectionRunner;
@@ -115,6 +116,96 @@ class CollectionRunnerTest extends TestCase
     {
         $this->artisan('opengrc:evidence:collect', ['--source' => 999999])
             ->assertFailed();
+    }
+
+    #[Test]
+    public function the_collect_command_can_dry_run_without_writing_evidence(): void
+    {
+        FakeCollectingConnector::$evidence = [$this->evidence('host-1')];
+
+        $source = $this->source();
+
+        $this->artisan('opengrc:evidence:collect', [
+            '--source' => $source->getKey(),
+            '--dry-run' => true,
+        ])
+            ->expectsOutputToContain('Dry run')
+            ->assertSuccessful();
+
+        $this->assertDatabaseCount('evidence_jobs', 0);
+        $this->assertDatabaseCount('evidence_records', 0);
+    }
+
+    #[Test]
+    public function the_collect_command_dry_run_fails_when_the_connector_fails(): void
+    {
+        FakeCollectingConnector::$throw = 'Vendor API unavailable';
+
+        $source = $this->source();
+
+        $this->artisan('opengrc:evidence:collect', [
+            '--source' => $source->getKey(),
+            '--dry-run' => true,
+        ])
+            ->expectsOutputToContain('Vendor API unavailable')
+            ->assertFailed();
+
+        $this->assertDatabaseCount('evidence_jobs', 0);
+    }
+
+    #[Test]
+    public function the_dry_run_reports_measurements_without_writing_anything(): void
+    {
+        FakeCollectingConnector::$evidence = [
+            $this->evidence('host-1'),
+            $this->evidence('host-2'),
+        ];
+
+        $source = $this->source();
+
+        $this->artisan('opengrc:evidence:collect', [
+            '--source' => $source->getKey(),
+            '--dry-run' => true,
+        ])
+            ->expectsOutputToContain('Dry run: nothing was written.')
+            ->assertSuccessful();
+
+        $this->assertSame(0, EvidenceRecord::query()->count());
+        $this->assertSame(0, EvidenceJob::query()->count());
+        $this->assertNull($source->fresh()?->last_run_at);
+    }
+
+    #[Test]
+    public function the_dry_run_fails_when_the_connector_throws(): void
+    {
+        FakeCollectingConnector::$throw = 'Vendor API unavailable';
+
+        $source = $this->source();
+
+        $this->artisan('opengrc:evidence:collect', [
+            '--source' => $source->getKey(),
+            '--dry-run' => true,
+        ])
+            ->expectsOutputToContain('Vendor API unavailable')
+            ->assertFailed();
+
+        $this->assertSame(0, EvidenceRecord::query()->count());
+        $this->assertSame(0, EvidenceJob::query()->count());
+    }
+
+    #[Test]
+    public function the_dry_run_refuses_a_disabled_source(): void
+    {
+        $source = $this->source(['enabled' => false]);
+
+        $this->artisan('opengrc:evidence:collect', [
+            '--source' => $source->getKey(),
+            '--dry-run' => true,
+        ])
+            ->expectsOutputToContain('disabled')
+            ->assertFailed();
+
+        $this->assertSame(0, EvidenceRecord::query()->count());
     }
 
     protected function source(array $overrides = []): EvidenceSource

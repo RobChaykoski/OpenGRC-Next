@@ -97,17 +97,19 @@ class EvidenceSourceResource extends Resource
 
                 Section::make(__('evidence.source.sections.connection'))
                     ->columns(2)
-                    ->visible(fn (Get $get): bool => self::isPatchmon($get))
+                    ->visible(fn (Get $get): bool => self::hasConnectionFields($get))
                     ->schema([
                         TextInput::make('configuration.base_url')
                             ->label(__('evidence.source.form.base_url'))
-                            ->helperText(__('evidence.source.form.base_url_help'))
-                            ->required(fn (Get $get): bool => self::isPatchmon($get))
+                            ->helperText(fn (Get $get): string => self::isWazuh($get)
+                                ? __('evidence.source.form.base_url_help_wazuh')
+                                : __('evidence.source.form.base_url_help'))
+                            ->required(fn (Get $get): bool => self::hasConnectionFields($get))
                             ->url(),
 
                         TextInput::make('configuration.username')
                             ->label(__('evidence.source.form.username'))
-                            ->required(fn (Get $get): bool => self::isPatchmon($get))
+                            ->required(fn (Get $get): bool => self::hasConnectionFields($get))
                             ->maxLength(255),
 
                         TextInput::make('configuration.password')
@@ -115,12 +117,18 @@ class EvidenceSourceResource extends Resource
                             ->helperText(__('evidence.source.form.password_help'))
                             ->password()
                             ->revealable()
-                            ->required(fn (string $operation, Get $get): bool => $operation === 'create' && self::isPatchmon($get))
+                            ->required(fn (string $operation, Get $get): bool => $operation === 'create' && self::hasConnectionFields($get))
                             ->dehydrated(fn ($state): bool => filled($state))
                             ->afterStateHydrated(function (TextInput $component): void {
                                 // Never send the stored credential to the browser.
                                 $component->state(null);
                             }),
+
+                        TextInput::make('configuration.ca_bundle')
+                            ->label(__('evidence.source.form.ca_bundle'))
+                            ->helperText(__('evidence.source.form.ca_bundle_help'))
+                            ->maxLength(1024)
+                            ->columnSpanFull(),
 
                         TextInput::make('configuration.control_identifier')
                             ->label(__('evidence.source.form.control_identifier'))
@@ -133,10 +141,27 @@ class EvidenceSourceResource extends Resource
                             ->minValue(1)
                             ->maxValue(120)
                             ->default(15),
+
+                        TextInput::make('configuration.agent_group')
+                            ->label(__('evidence.source.form.agent_group'))
+                            ->helperText(__('evidence.source.form.agent_group_help'))
+                            ->maxLength(255)
+                            ->visible(fn (Get $get): bool => self::isWazuh($get))
+                            ->dehydrated(fn (Get $get): bool => self::isWazuh($get)),
+
+                        TextInput::make('configuration.max_agents')
+                            ->label(__('evidence.source.form.max_agents'))
+                            ->helperText(__('evidence.source.form.max_agents_help'))
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(50000)
+                            ->default(10000)
+                            ->visible(fn (Get $get): bool => self::isWazuh($get))
+                            ->dehydrated(fn (Get $get): bool => self::isWazuh($get)),
                     ]),
 
                 Section::make(__('evidence.source.sections.connection'))
-                    ->visible(fn (Get $get): bool => ! self::isPatchmon($get))
+                    ->visible(fn (Get $get): bool => ! self::hasConnectionFields($get))
                     ->schema([
                         Placeholder::make('no_connector')
                             ->label('')
@@ -246,7 +271,10 @@ class EvidenceSourceResource extends Resource
 
                 Section::make(__('evidence.source.sections.connection'))
                     ->columns(3)
-                    ->visible(fn (EvidenceSource $record): bool => $record->type === EvidenceSourceType::Patchmon)
+                    ->visible(fn (EvidenceSource $record): bool => in_array($record->type, [
+                        EvidenceSourceType::Patchmon,
+                        EvidenceSourceType::Wazuh,
+                    ], true))
                     ->schema([
                         TextEntry::make('configuration.base_url')
                             ->label(__('evidence.source.form.base_url'))
@@ -256,9 +284,24 @@ class EvidenceSourceResource extends Resource
                             ->label(__('evidence.source.form.username'))
                             ->placeholder('—'),
 
+                        TextEntry::make('configuration.ca_bundle')
+                            ->label(__('evidence.source.form.ca_bundle'))
+                            ->placeholder(__('evidence.source.form.ca_bundle_help'))
+                            ->columnSpanFull(),
+
                         TextEntry::make('configuration.control_identifier')
                             ->label(__('evidence.source.form.control_identifier'))
                             ->placeholder('—'),
+
+                        TextEntry::make('configuration.agent_group')
+                            ->label(__('evidence.source.form.agent_group'))
+                            ->placeholder(__('evidence.source.form.agent_group_none'))
+                            ->visible(fn (EvidenceSource $record): bool => $record->type === EvidenceSourceType::Wazuh),
+
+                        TextEntry::make('configuration.max_agents')
+                            ->label(__('evidence.source.form.max_agents'))
+                            ->placeholder('10,000')
+                            ->visible(fn (EvidenceSource $record): bool => $record->type === EvidenceSourceType::Wazuh),
 
                         TextEntry::make('credential')
                             ->label(__('evidence.source.infolist.credential'))
@@ -303,10 +346,29 @@ class EvidenceSourceResource extends Resource
 
     protected static function isPatchmon(Get $get): bool
     {
-        $type = $get('type');
+        return self::isType($get, EvidenceSourceType::Patchmon);
+    }
 
-        return $type instanceof EvidenceSourceType
-            ? $type === EvidenceSourceType::Patchmon
-            : $type === EvidenceSourceType::Patchmon->value;
+    protected static function isWazuh(Get $get): bool
+    {
+        return self::isType($get, EvidenceSourceType::Wazuh);
+    }
+
+    /**
+     * Connectors that authenticate with a base URL and a credential share the
+     * same fields; the help text explains the difference.
+     */
+    protected static function hasConnectionFields(Get $get): bool
+    {
+        return self::isPatchmon($get) || self::isWazuh($get);
+    }
+
+    protected static function isType(Get $get, EvidenceSourceType $type): bool
+    {
+        $value = $get('type');
+
+        return $value instanceof EvidenceSourceType
+            ? $value === $type
+            : $value === $type->value;
     }
 }
