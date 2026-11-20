@@ -63,3 +63,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0039](0039-regulatory-change-register.md) | Regulatory change is a human register, not a feed | accepted |
 | [0040](0040-dlp-quality-targets.md) | DLP false-positive targets are programme targets, not a universal benchmark | accepted |
 | [0041](0041-control-attestation.md) | Control owner attestation is a dated statement, not a control test | accepted |
+| [0042](0042-control-crosswalk.md) | A control crosswalk is a reviewed mapping, not equivalence | accepted |

@@ -46,6 +46,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0039-regulatory-change-register.md](decisions/0039-regulatory-change-register.md) | Regulatory change is a human register, not a feed |
 | [decisions/0040-dlp-quality-targets.md](decisions/0040-dlp-quality-targets.md) | DLP false-positive targets are programme targets, not a universal benchmark |
 | [decisions/0041-control-attestation.md](decisions/0041-control-attestation.md) | Control owner attestation is a dated statement, not a control test |
+| [decisions/0042-control-crosswalk.md](decisions/0042-control-crosswalk.md) | A control crosswalk is a reviewed mapping, not equivalence |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -99,6 +100,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/vendor-subcontractors.md](grc/vendor-subcontractors.md) | Fourth-party subcontractor register on a vendor |
 | [grc/regulatory-changes.md](grc/regulatory-changes.md) | Regulatory and standard change register with impact assessment |
 | [grc/control-attestations.md](grc/control-attestations.md) | Owner attestation requests, statements, declines and expiry |
+| [grc/control-crosswalks.md](grc/control-crosswalks.md) | Reviewed control-to-control mappings across frameworks |
 
 ## Security
 

@@ -44,7 +44,7 @@ important controls and 2 for the rest.
 | Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
 | Control owner attestations | Yes: per-implementation request, owner statement, decline and expiry; no campaign engine | 3 | `docs/grc/control-attestations.md` |
 | Metrics and reporting | Partial: widgets, exports, AI summaries and a risk heat map; no scorecard builder | 2 | `docs/grc/risk-methodology.md` |
-| Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
+| Regulatory mapping | Partial: canonical outcome links, plus a reviewed control-to-control crosswalk register; no automatic matching | 3 | `docs/grc/control-crosswalks.md` |
 | Regulatory change monitoring | Partial: a human-maintained change register with impact assessment and affected frameworks; no feed or diff | 3 | `docs/grc/regulatory-changes.md` |
 | Collaboration and workflow | Partial: three roles, assignments, comments, exports; no approval engine | 2 | Gap 8 |
 | Access review campaigns | Yes: account snapshot, reviewer attest/revoke, completion rule, evidence | 4 | `docs/grc/access-reviews.md` |
@@ -72,9 +72,11 @@ an audit.
    data request responses remain separate paths for fieldwork evidence. There is
    no per-file expiry or retention rule beyond the ledger; the programme still
    decides freshness.
-4. **Crosswalks are manual.** Two standards can both be imported, but there is no
-   mapping object between their controls, so coverage across frameworks is a
-   spreadsheet exercise.
+4. **Crosswalks are reviewed, not automatic.** Two standards can both be
+   imported; canonical outcomes link their controls, and a reviewed
+   control-to-control crosswalk record exists for pairs where the outcome is too
+   coarse. Nothing matches controls by title or similarity, and a crosswalk does
+   not close a coverage gap or prove equivalence.
 5. **Appetite is a display threshold, not an enforcement rule.** An admin can set
    a global score threshold under **Settings → Risk settings**; the heat map
    outlines risks at or above it. It does not block a risk, assign treatment, or
@@ -146,6 +148,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Exercises and tabletops | `docs/grc/exercises.md` |
 | Control test cadence and reporting | `docs/grc/control-testing.md` |
 | Control owner attestations | `docs/grc/control-attestations.md` |
+| Control crosswalks | `docs/grc/control-crosswalks.md` |
 | Findings, risk links and remediation | `docs/grc/findings-and-remediation.md` |
 | Vendor subcontractors (fourth parties) | `docs/grc/vendor-subcontractors.md` |
 | Regulatory and standard changes | `docs/grc/regulatory-changes.md` |

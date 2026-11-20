@@ -596,6 +596,10 @@
         {
             "name": "2026_11_20_270000_create_control_attestations_table",
             "sha256": "0289e0a2d2f311abd21191d9caaca484619f936b9ffc093905295e2ce589f082"
+        },
+        {
+            "name": "2026_11_20_280000_create_control_crosswalks_table",
+            "sha256": "036fca2a96fb27fa73557029d8b133ba20fc5f7adf7c4784e606fe56be85eb5b"
         }
     ]
 }

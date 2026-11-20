@@ -1841,6 +1841,68 @@
             "nullable": true
         }
     ],
+    "control_crosswalks": [
+        {
+            "name": "confidence",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "rationale",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "review_note",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "reviewed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "reviewed_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "source_control_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "target_control_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "control_guidance_note": [
         {
             "name": "control_id",

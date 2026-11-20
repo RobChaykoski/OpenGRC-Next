@@ -125,3 +125,7 @@ The read-only [assurance matrix](assurance-matrix.md) now shows, for one
 framework, which canonical outcomes are required, which internal controls are
 linked, and whether evidence exists. Unlinked controls remain visible there as
 review work, not as zeros that can be improved by clicking.
+
+When a canonical outcome is too coarse for a pair of controls, use the reviewed
+[crosswalk register](control-crosswalks.md). It records a rationale, confidence
+and approver, and it does not change coverage totals.
