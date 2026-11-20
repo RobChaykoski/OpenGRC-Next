@@ -61,6 +61,22 @@ create a new record after review; do not rewrite history.
 
 Filters include status, confidence and source/target framework.
 
+## Framework crosswalk report
+
+Open **Entities → Crosswalk report** and choose two imported frameworks. The
+report shows:
+
+- approved mappings between the two frameworks;
+- the number of draft mappings;
+- how many controls in each framework have no approved mapping;
+- the reviewer and review date for each approved pair.
+
+Only approved mappings appear in the pair table. Drafts are counted but not
+presented as coverage. A control with no mapping is a review gap, not a failure.
+
+The report is a view over the crosswalk register. It does not create mappings,
+approve them or change the assurance matrix.
+
 ## Relationship to canonical outcomes
 
 The preferred model is:
