@@ -27,6 +27,7 @@ class DlpService
     public function __construct(
         protected RegexDlpScanner $regex,
         protected PresidioDlpScanner $presidio,
+        protected DlpIdentifierCatalog $catalog,
     ) {}
 
     public function scan(string $text): DlpScanResult
@@ -134,6 +135,7 @@ class DlpService
             'user_id' => auth()->id(),
             'severity' => $result->highestSeverity(),
             'match_types' => $result->labels(),
+            'identifier_types' => $this->catalog->codesForLabels($result->labels()),
             'action' => $action,
             'content_sha256' => hash('sha256', $text),
         ]);

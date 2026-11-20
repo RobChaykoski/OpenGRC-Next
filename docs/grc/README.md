@@ -148,3 +148,4 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |
+| DLP false-positive quality and targets | `docs/security/dlp-quality.md` |

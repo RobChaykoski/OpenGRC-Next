@@ -44,6 +44,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0037-observable-enrichment-cortex.md](decisions/0037-observable-enrichment-cortex.md) | Observable enrichment is opt-in and privacy-gated |
 | [decisions/0038-cset-assessment-import.md](decisions/0038-cset-assessment-import.md) | CSET is an external assessment; import the scrubbed export only |
 | [decisions/0039-regulatory-change-register.md](decisions/0039-regulatory-change-register.md) | Regulatory change is a human register, not a feed |
+| [decisions/0040-dlp-quality-targets.md](decisions/0040-dlp-quality-targets.md) | DLP false-positive targets are programme targets, not a universal benchmark |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -105,6 +106,8 @@ architecture, integrations, and the decisions behind them.
 | [security/tenant-and-access-roadmap.md](security/tenant-and-access-roadmap.md) | Tenancy, RBAC/ABAC, audit trail, and security analytics sequencing |
 | [security/forensics.md](security/forensics.md) | Authorized forensic lifecycle, custody, integrity, retention, and gaps |
 | [security/forensic-compliance-mapping.md](security/forensic-compliance-mapping.md) | Forensic controls mapped to the framework catalogue |
+| [security/data-loss-prevention.md](security/data-loss-prevention.md) | DLP boundaries, recognisers, review and quality measurement |
+| [security/dlp-quality.md](security/dlp-quality.md) | False-positive rates, targets and review loop by identifier type |
 | [OSS-POLICY.md](OSS-POLICY.md) | License, dependency allowlist, contribution model |
 | [../SECURITY.md](../SECURITY.md) | Vulnerability disclosure |
 

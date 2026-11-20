@@ -588,6 +588,10 @@
         {
             "name": "2026_11_20_250000_create_regulatory_changes_table",
             "sha256": "4e20c67eda2ed57ccc79ba4ba9c55cac3d9d3a81a4cfb0aaea9e398d9e8feda9"
+        },
+        {
+            "name": "2026_11_20_260000_add_review_to_dlp_findings",
+            "sha256": "e8fe54253c49928b189501d244159cf861fd51f84a80f5040db04b2f203f6740"
         }
     ]
 }

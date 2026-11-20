@@ -7,7 +7,7 @@ use App\Models\User;
 
 /**
  * DLP findings can reveal who attempted to send sensitive content where. Only
- * admins review them; there is no write path.
+ * admins review them; the only write is the review disposition and notes.
  */
 class DlpFindingPolicy
 {
@@ -28,7 +28,9 @@ class DlpFindingPolicy
 
     public function update(User $user, DlpFinding $finding): bool
     {
-        return false;
+        // Admins may record a review disposition. The finding content and the
+        // detection metadata stay immutable.
+        return $user->isAdmin();
     }
 
     public function delete(User $user, DlpFinding $finding): bool

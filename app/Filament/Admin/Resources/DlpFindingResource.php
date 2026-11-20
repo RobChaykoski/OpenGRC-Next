@@ -2,8 +2,15 @@
 
 namespace App\Filament\Admin\Resources;
 
+use App\Enums\DlpDisposition;
 use App\Filament\Admin\Resources\DlpFindingResource\Pages\ListDlpFindings;
 use App\Models\DlpFinding;
+use App\Services\Dlp\DlpFindingReview;
+use App\Services\Dlp\DlpIdentifierCatalog;
+use Filament\Actions\Action;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -53,7 +60,7 @@ class DlpFindingResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(['user']))
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['user', 'reviewer']))
             ->columns([
                 TextColumn::make('created_at')
                     ->label('When')
@@ -88,6 +95,25 @@ class DlpFindingResource extends Resource
                     ->label('Detected')
                     ->formatStateUsing(fn ($state): string => implode(', ', (array) $state))
                     ->wrap(),
+
+                TextColumn::make('disposition')
+                    ->label('Review')
+                    ->badge()
+                    ->placeholder('Unreviewed')
+                    ->formatStateUsing(fn (?DlpDisposition $state): ?string => $state?->getLabel())
+                    ->color(fn (?DlpDisposition $state): string|array|null => $state?->getColor())
+                    ->sortable(),
+
+                TextColumn::make('reviewer.name')
+                    ->label('Reviewed by')
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('reviewed_at')
+                    ->label('Reviewed')
+                    ->dateTime('M j, Y H:i')
+                    ->placeholder('—')
+                    ->sortable(),
 
                 TextColumn::make('user.email')
                     ->label('Actor')
@@ -126,8 +152,84 @@ class DlpFindingResource extends Resource
                         'blocked' => 'Blocked',
                         'flagged' => 'Flagged',
                     ]),
+
+                SelectFilter::make('disposition')
+                    ->label('Review')
+                    ->options(array_merge(
+                        collect(DlpDisposition::cases())
+                            ->mapWithKeys(fn (DlpDisposition $case): array => [$case->value => $case->getLabel()])
+                            ->all(),
+                        ['unreviewed' => 'Unreviewed'],
+                    ))
+                    ->query(function (Builder $query, array $data): Builder {
+                        $value = $data['value'] ?? null;
+
+                        if ($value === 'unreviewed') {
+                            return $query->whereNull('disposition');
+                        }
+
+                        return is_string($value) && $value !== ''
+                            ? $query->where('disposition', $value)
+                            : $query;
+                    }),
+
+                SelectFilter::make('identifier_type')
+                    ->label('Identifier type')
+                    ->options(fn (): array => app(DlpIdentifierCatalog::class)->options())
+                    ->query(function (Builder $query, array $data): Builder {
+                        $value = $data['value'] ?? null;
+
+                        if (! is_string($value) || $value === '') {
+                            return $query;
+                        }
+
+                        $labels = app(DlpIdentifierCatalog::class)->labelsFor($value);
+
+                        return $query->where(function (Builder $query) use ($value, $labels): void {
+                            $query->whereJsonContains('identifier_types', $value);
+
+                            foreach ($labels as $label) {
+                                $query->orWhereJsonContains('match_types', $label);
+                            }
+                        });
+                    }),
             ])
             ->defaultSort('created_at', 'desc')
+            ->recordActions([
+                Action::make('review')
+                    ->label('Review')
+                    ->icon('heroicon-o-check-badge')
+                    ->color('primary')
+                    ->authorize(fn (DlpFinding $record): bool => auth()->user()?->can('update', $record) ?? false)
+                    ->schema([
+                        Select::make('disposition')
+                            ->label('Outcome')
+                            ->options(DlpDisposition::class)
+                            ->required(),
+                        Textarea::make('review_notes')
+                            ->label('Review notes')
+                            ->helperText('Why the detector was right or wrong. Do not paste the sensitive value.')
+                            ->rows(3),
+                    ])
+                    ->fillForm(fn (DlpFinding $record): array => [
+                        'disposition' => $record->disposition?->value,
+                        'review_notes' => $record->review_notes,
+                    ])
+                    ->action(function (DlpFinding $record, array $data): void {
+                        app(DlpFindingReview::class)->record(
+                            $record,
+                            DlpDisposition::from((string) $data['disposition']),
+                            $data['review_notes'] ?? null,
+                        );
+
+                        Notification::make()
+                            ->title('DLP finding reviewed')
+                            ->success()
+                            ->send();
+                    })
+                    ->modalHeading('Review DLP finding')
+                    ->modalDescription('Record whether the detector was right. The content is not shown; use the source record and the hash if you need to inspect it.'),
+            ])
             ->emptyStateHeading('No DLP findings')
             ->emptyStateDescription('Blocked and flagged AI prompts and uploads will appear here.');
     }

@@ -61,3 +61,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0037](0037-observable-enrichment-cortex.md) | Observable enrichment is opt-in and privacy-gated | accepted |
 | [0038](0038-cset-assessment-import.md) | CSET is an external assessment; import the scrubbed export only | accepted |
 | [0039](0039-regulatory-change-register.md) | Regulatory change is a human register, not a feed | accepted |
+| [0040](0040-dlp-quality-targets.md) | DLP false-positive targets are programme targets, not a universal benchmark | accepted |

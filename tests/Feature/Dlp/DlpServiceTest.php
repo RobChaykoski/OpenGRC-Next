@@ -31,6 +31,8 @@ class DlpServiceTest extends TestCase
 
         $this->assertSame('ai', $finding->source);
         $this->assertSame('blocked', $finding->action);
+        $this->assertContains('hr_personnel', $finding->identifier_types);
+        $this->assertContains('criminal_background', $finding->identifier_types);
         $this->assertSame(64, mb_strlen($finding->content_sha256));
         $this->assertStringNotContainsString('Jane Doe', json_encode($finding->getAttributes()));
         $this->assertStringNotContainsString('background check', strtolower(json_encode($finding->getAttributes())));

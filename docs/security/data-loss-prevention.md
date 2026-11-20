@@ -31,7 +31,16 @@ content, the actor, and an optional morph context.
 
 `dlp_findings` is the review queue. It does not contain the content. A finding
 for an upload can be correlated to the stored record by the context morph and
-the content hash. Review findings before allowing an exception.
+the content hash.
+
+Admins review a finding and record one disposition: true positive, false positive,
+benign/accepted or undetermined. The detection metadata is immutable; only the
+disposition, reviewer, review time and notes change. The finding is then counted
+in the false-positive quality page by identifier type.
+
+See `docs/security/dlp-quality.md` for the rates, targets, minimum sample and
+review loop. The target is a programme target with a reference; there is no
+universal industry false-positive percentage (ADR 0040).
 
 ## AI behaviour
 
@@ -76,7 +85,10 @@ PRESIDIO_TIMEOUT=5
 DLP_MAX_SCAN_BYTES=2097152
 ```
 
-`config/dlp.php` holds the blocked types for AI and uploads.
+`config/dlp.php` holds the blocked types for AI and uploads, and the identifier
+types with their false-positive targets and minimum sample. The quality page is
+under **Discovery → DLP quality**; the review queue is **Admin → System → DLP
+findings**.
 
 ## Verification
 
