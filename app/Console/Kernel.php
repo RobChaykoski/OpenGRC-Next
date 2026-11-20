@@ -12,6 +12,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        // Bound growth of personal data in the activity log. The retention
+        // window is delete_records_older_than_days in config/activitylog.php.
+        $schedule->command('activitylog:clean')->daily();
+
         // Generate recurring checklists daily at 6:00 AM
         $schedule->command('checklists:generate-recurring')->dailyAt('06:00');
 
