@@ -44,6 +44,7 @@ important controls and 2 for the rest.
 | Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
 | Regulatory change monitoring | Not built: no feed of new or amended requirements | 1 | Gap 7 |
 | Collaboration and workflow | Partial: three roles, assignments, comments, exports; no approval engine | 2 | Gap 8 |
+| Access review campaigns | Yes: account snapshot, reviewer attest/revoke, completion rule, evidence | 4 | `docs/grc/access-reviews.md` |
 
 ## Gaps, stated plainly
 
@@ -123,6 +124,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Policy readiness register | `docs/grc/policy-readiness.md` |
 | Exception lifecycle and register | `docs/grc/exception-management.md` |
 | Policy acknowledgement and coverage | `docs/grc/policy-acknowledgements.md` |
+| Access review campaigns | `docs/grc/access-reviews.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

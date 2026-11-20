@@ -556,6 +556,10 @@
         {
             "name": "2026_11_20_170000_create_policy_acknowledgements_table",
             "sha256": "1c0fbb436007dc5dd0c6447fddc6ae796d2262845fab6d29b773ccc46ed7954c"
+        },
+        {
+            "name": "2026_11_20_180000_create_access_reviews_tables",
+            "sha256": "32ccac4edb7c19a9dd17a2680592d6d00bbb820c89bd50c37979baccac635ee5"
         }
     ]
 }
