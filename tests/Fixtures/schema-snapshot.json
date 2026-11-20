@@ -3316,6 +3316,11 @@
             "nullable": true
         },
         {
+            "name": "risk_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
             "name": "rule_id",
             "type": "integer",
             "nullable": true

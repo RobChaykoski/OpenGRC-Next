@@ -25,6 +25,7 @@ class Finding extends Model
         'status',
         'source',
         'control_id',
+        'risk_id',
         'asset_id',
         'evidence_source_id',
         'rule_id',
@@ -56,6 +57,16 @@ class Finding extends Model
     public function control(): BelongsTo
     {
         return $this->belongsTo(Control::class, 'control_id');
+    }
+
+    /**
+     * The risk this finding contributes to, if one has been raised.
+     *
+     * @return BelongsTo<Risk, $this>
+     */
+    public function risk(): BelongsTo
+    {
+        return $this->belongsTo(Risk::class, 'risk_id');
     }
 
     /**

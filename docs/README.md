@@ -92,6 +92,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/access-reviews.md](grc/access-reviews.md) | User access review campaigns, attestation and revocation decisions |
 | [grc/exercises.md](grc/exercises.md) | Tabletop, simulation and red-team exercise register |
 | [grc/control-testing.md](grc/control-testing.md) | Control test cadence and the due/overdue report |
+| [grc/findings-and-remediation.md](grc/findings-and-remediation.md) | Finding lifecycle, risk links and remediation limits |
 
 ## Security
 

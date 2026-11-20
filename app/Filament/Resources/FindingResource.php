@@ -101,6 +101,12 @@ class FindingResource extends Resource
                             ->relationship('control', 'code')
                             ->searchable(),
 
+                        Select::make('risk_id')
+                            ->label(__('finding.form.risk'))
+                            ->helperText(__('finding.form.risk_help'))
+                            ->relationship('risk', 'name')
+                            ->searchable(),
+
                         Select::make('asset_id')
                             ->label(__('finding.form.asset'))
                             ->relationship('asset', 'name')
@@ -137,7 +143,7 @@ class FindingResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(['control', 'asset', 'owner']))
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['control', 'risk', 'asset', 'owner']))
             ->columns([
                 TextColumn::make('id')
                     ->label(__('finding.entries.reference'))
@@ -175,6 +181,13 @@ class FindingResource extends Resource
                     ->placeholder('—')
                     ->searchable()
                     ->sortable(),
+
+                TextColumn::make('risk.name')
+                    ->label(__('finding.table.risk'))
+                    ->placeholder('—')
+                    ->searchable()
+                    ->sortable()
+                    ->toggleable(),
 
                 TextColumn::make('asset.name')
                     ->label(__('finding.table.asset'))
@@ -333,6 +346,13 @@ class FindingResource extends Resource
                             ->placeholder('—')
                             ->url(fn (Finding $record): ?string => $record->control
                                 ? ControlResource::getUrl('view', ['record' => $record->control])
+                                : null),
+
+                        TextEntry::make('risk.name')
+                            ->label(__('finding.form.risk'))
+                            ->placeholder('No risk linked')
+                            ->url(fn (Finding $record): ?string => $record->risk
+                                ? RiskResource::getUrl('view', ['record' => $record->risk])
                                 : null),
 
                         TextEntry::make('asset.name')

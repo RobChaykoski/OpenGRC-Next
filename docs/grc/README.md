@@ -38,7 +38,7 @@ important controls and 2 for the rest.
 | Policy readiness | Yes: readiness register with separate design/operating/evidence status | 3 | `docs/grc/policy-readiness.md` |
 | Vendor risk (TPRM) | Yes: inventory, questionnaires, scoring, documents; no nth-party graph | 3 | `Vendor`, `Survey*` |
 | Asset and application inventory | Yes: assets, applications, taxonomy, risk links | 3 | `Asset`, `Application` |
-| Findings and remediation | Yes: triage queue, severity, owner, due date, status; automated from validation | 3 | `Finding` |
+| Findings and remediation | Yes: triage queue, severity, owner, due date, status, risk link; automated from validation | 3 | `docs/grc/findings-and-remediation.md` |
 | Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
 | CSET assessment import | Yes: PCII-scrubbed JSON, counts, observations as findings; no CSET score or question bank | 3 | `docs/integrations/cset.md` |
 | Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
@@ -60,11 +60,12 @@ an audit.
    nothing sends a reminder, and completing an audit item does not stamp the
    dates; someone must update them. Recommended next step: connect the report to
    the notification channel the programme already watches.
-2. **Findings are first-class; remediation is lightweight.** A finding has
-   severity, owner, due date, status, and resolution notes, with a triage screen
-   and automated raising from validation. There is no separate remediation plan
-   with tasks, milestones, or a link to a risk treatment. Use the notes field and
-   a linked risk until that lands.
+2. **Findings link to a risk; remediation is otherwise lightweight.** A finding
+   has severity, owner, due date, status and resolution notes, with a triage
+   screen and automated raising from validation. It can be linked to the risk it
+   contributes to. There is still no separate remediation plan with tasks,
+   milestones or dependencies. Use the due date, notes and linked risk until that
+   lands, or keep the plan in an external tracker and record the ticket id.
 3. **Human evidence is scoped to audits and data requests.** Machine evidence can
    reference a control directly, but a person cannot attach a file to an
    implementation. Until that exists, upload human evidence to an audit item and
@@ -135,6 +136,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Access review campaigns | `docs/grc/access-reviews.md` |
 | Exercises and tabletops | `docs/grc/exercises.md` |
 | Control test cadence and reporting | `docs/grc/control-testing.md` |
+| Findings, risk links and remediation | `docs/grc/findings-and-remediation.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |
