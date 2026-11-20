@@ -84,15 +84,21 @@ in a checklist or review calendar until it does.
 
 Today, evidence attaches to:
 
-- **Audit items** — the primary path. A completed item with an attachment and a
-  recorded effectiveness is level 3–4.
+- **Implementations** — the direct path for human evidence. A file on the
+  implementation is hashed, private and append-only in production. Use it when
+  the artifact shows the control operating, not when it belongs to an audit item.
+- **Audit items** — the primary path for a test result. A completed item with an
+  attachment and a recorded effectiveness is level 3–4.
 - **Data request responses** — evidence supplied by the auditee during fieldwork.
 - **Audit records** — overall reports and summary artifacts.
 
-Evidence does **not** attach directly to an implementation yet. The workaround is
-to place implementation evidence on the audit item that tests it, and reference
-the item in the implementation's notes. Record the workaround in your own
-documentation so an auditor is not surprised.
+Implementation evidence survives beyond an audit. It is the right place for a
+standing screenshot or export that shows the control is operating on a date. The
+audit item remains the right place for the test that examined it.
+
+All three file paths use the same private disk, content checks and evidence
+ledger. A file is not a substitute for the date, scope, source and verification
+note described above.
 
 ## Machine-collected evidence
 

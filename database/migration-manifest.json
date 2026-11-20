@@ -580,6 +580,10 @@
         {
             "name": "2026_11_20_230000_create_vendor_subcontractors_table",
             "sha256": "fdbf611f41eeb5f250f2d9d15c62417b554df6ac2716ca563683a944a594c58f"
+        },
+        {
+            "name": "2026_11_20_240000_add_implementation_to_file_attachments",
+            "sha256": "1dbba80172b1e848847d727b3946c901f8d2433ec35332d0f205f8c49168f954"
         }
     ]
 }

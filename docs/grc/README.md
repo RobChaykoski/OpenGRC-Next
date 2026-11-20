@@ -32,7 +32,7 @@ important controls and 2 for the rest.
 | Non-human identities | Yes: service accounts/tokens/certificates, owner, scope, rotation, expiry, review; optional OpenBao metadata sync | 4 | `docs/grc/non-human-identities.md` |
 | Software supply chain | Yes: CycloneDX SBOM import, OSV vulnerability findings, optional deps.dev/Scorecard enrichment | 3 | `docs/integrations/sbom-osv.md`, `docs/integrations/deps-dev.md` |
 | Guidance and advisories | Yes: publisher/reference/version, adoption status, owner, review and control mapping | 4 | `docs/grc/guidance-register.md` |
-| Evidence management | Partial: attachments on audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
+| Evidence management | Yes: human evidence on implementations, audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Document templates | Yes: private originals, encrypted extracted text, classification access | 2 | `docs/grc/document-templates.md` |
 | Policy readiness | Yes: readiness register with separate design/operating/evidence status | 3 | `docs/grc/policy-readiness.md` |
@@ -66,10 +66,11 @@ an audit.
    contributes to. There is still no separate remediation plan with tasks,
    milestones or dependencies. Use the due date, notes and linked risk until that
    lands, or keep the plan in an external tracker and record the ticket id.
-3. **Human evidence is scoped to audits and data requests.** Machine evidence can
-   reference a control directly, but a person cannot attach a file to an
-   implementation. Until that exists, upload human evidence to an audit item and
-   record machine evidence through a connector.
+3. **Human evidence is direct on implementations.** A file can be attached to an
+   implementation, hashed by the evidence ledger and kept private. Audit items and
+   data request responses remain separate paths for fieldwork evidence. There is
+   no per-file expiry or retention rule beyond the ledger; the programme still
+   decides freshness.
 4. **Crosswalks are manual.** Two standards can both be imported, but there is no
    mapping object between their controls, so coverage across frameworks is a
    spreadsheet exercise.

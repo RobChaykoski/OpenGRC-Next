@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -88,6 +89,16 @@ class Implementation extends Model
     {
         return $this->belongsToMany(Control::class)
             ->withTimestamps();
+    }
+
+    /**
+     * Human evidence attached directly to the implementation.
+     *
+     * @return HasMany<FileAttachment, $this>
+     */
+    public function attachments(): HasMany
+    {
+        return $this->hasMany(FileAttachment::class);
     }
 
     /**

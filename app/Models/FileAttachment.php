@@ -9,7 +9,6 @@ use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Support\Carbon;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
 use Spatie\Activitylog\Support\LogOptions;
 
@@ -20,10 +19,10 @@ use Spatie\Activitylog\Support\LogOptions;
  * @property string $file_name
  * @property string $file_path
  * @property int $file_size
- * @property Carbon $uploaded_at
  * @property int $uploaded_by
  * @property int $data_request_id
  * @property int $audit_id
+ * @property int|null $implementation_id
  * @property int $data_request_response_id
  * @property-read DataRequest $dataRequest
  *
@@ -33,7 +32,6 @@ use Spatie\Activitylog\Support\LogOptions;
  * @method static Builder|FileAttachment whereFileName($value)
  * @method static Builder|FileAttachment whereFilePath($value)
  * @method static Builder|FileAttachment whereFileSize($value)
- * @method static Builder|FileAttachment whereUploadedAt($value)
  * @method static Builder|FileAttachment whereUploadedBy($value)
  * @method static Builder|FileAttachment whereDataRequestId($value)
  * @method static Builder|FileAttachment whereAuditId($value)
@@ -68,10 +66,10 @@ class FileAttachment extends Model implements EvidenceSubject
         'file_path',
         'file_size',
         'description',
-        'uploaded_at',
         'uploaded_by',
         'data_request_id',
         'audit_id',
+        'implementation_id',
         'data_request_response_id',
     ];
 
@@ -96,6 +94,24 @@ class FileAttachment extends Model implements EvidenceSubject
     public function audit(): BelongsTo
     {
         return $this->belongsTo(Audit::class);
+    }
+
+    /**
+     * Human evidence attached directly to a control implementation.
+     *
+     * @return BelongsTo<Implementation, $this>
+     */
+    public function implementation(): BelongsTo
+    {
+        return $this->belongsTo(Implementation::class);
+    }
+
+    /**
+     * @return BelongsTo<User, $this>
+     */
+    public function uploader(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'uploaded_by');
     }
 
     public function getActivitylogOptions(): LogOptions

@@ -3186,7 +3186,7 @@
         {
             "name": "audit_id",
             "type": "integer",
-            "nullable": false
+            "nullable": true
         },
         {
             "name": "created_at",
@@ -3227,6 +3227,11 @@
             "name": "id",
             "type": "integer",
             "nullable": false
+        },
+        {
+            "name": "implementation_id",
+            "type": "integer",
+            "nullable": true
         },
         {
             "name": "updated_at",

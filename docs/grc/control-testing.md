@@ -64,6 +64,8 @@ nobody reads is worse than no report.
 3. Set **next test** to the next agreed date.
 4. If the test found a gap, raise a finding and link it to the implementation.
 5. If the result changes the control's effectiveness, record that too.
+6. Attach the screenshot, export or report that shows the control operating to the
+   implementation's **Evidence** tab; put the test record on the audit item.
 
 Completing an audit item does not stamp the implementation dates. Someone must
 update them; that is deliberate, because the audit item and the control test are
