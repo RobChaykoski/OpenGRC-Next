@@ -34,6 +34,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0027-non-human-identity-register.md](decisions/0027-non-human-identity-register.md) | Non-human identities are a register, not a secret store |
 | [decisions/0028-sbom-and-osv-supply-chain-evidence.md](decisions/0028-sbom-and-osv-supply-chain-evidence.md) | SBOM and OSV are supply-chain evidence, not a scanner |
 | [decisions/0029-openbao-secret-metadata.md](decisions/0029-openbao-secret-metadata.md) | OpenBao owns the secret; OpenGRC owns the identity register |
+| [decisions/0030-guidance-register.md](decisions/0030-guidance-register.md) | Guidance is a register, not a framework |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -73,6 +74,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/assurance-reports.md](grc/assurance-reports.md) | SOC/ISO/PCI/CMMC reports as an inspectable assurance register |
 | [grc/privacy-requests.md](grc/privacy-requests.md) | GDPR/CCPA/PIPEDA/FERPA requests, clocks, verification and evidence |
 | [grc/non-human-identities.md](grc/non-human-identities.md) | Service accounts, tokens and certificates: ownership, scope, rotation |
+| [grc/guidance-register.md](grc/guidance-register.md) | Guidance and advisories: reference, adoption, control mapping, review |
 
 ## Security
 

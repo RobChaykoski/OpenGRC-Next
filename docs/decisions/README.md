@@ -51,3 +51,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0027](0027-non-human-identity-register.md) | Non-human identities are a register, not a secret store | accepted |
 | [0028](0028-sbom-and-osv-supply-chain-evidence.md) | SBOM and OSV are supply-chain evidence, not a scanner | accepted |
 | [0029](0029-openbao-secret-metadata.md) | OpenBao owns the secret; OpenGRC owns the identity register | accepted |
+| [0030](0030-guidance-register.md) | Guidance is a register, not a framework | accepted |

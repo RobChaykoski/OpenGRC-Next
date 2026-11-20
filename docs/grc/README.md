@@ -31,6 +31,7 @@ important controls and 2 for the rest.
 | Privacy requests | Yes: GDPR/CCPA/PIPEDA/FERPA register, regime clock, verification, extension, overdue enforcement | 4 | `docs/grc/privacy-requests.md` |
 | Non-human identities | Yes: service accounts/tokens/certificates, owner, scope, rotation, expiry, review; optional OpenBao metadata sync | 4 | `docs/grc/non-human-identities.md` |
 | Software supply chain | Yes: CycloneDX SBOM import, OSV vulnerability findings, fixed versions and due dates | 3 | `docs/integrations/sbom-osv.md` |
+| Guidance and advisories | Yes: publisher/reference/version, adoption status, owner, review and control mapping | 4 | `docs/grc/guidance-register.md` |
 | Evidence management | Partial: attachments on audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Document templates | Yes: private originals, encrypted extracted text, classification access | 2 | `docs/grc/document-templates.md` |
@@ -116,6 +117,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Non-human identities | `docs/grc/non-human-identities.md` |
 | OpenBao secret metadata | `docs/integrations/openbao.md` |
 | SBOM and OSV supply-chain evidence | `docs/integrations/sbom-osv.md` |
+| Guidance and advisory register | `docs/grc/guidance-register.md` |
 | Evidence and integrity | `docs/grc/evidence-standard.md` |
 | Policy readiness register | `docs/grc/policy-readiness.md` |
 | Exception lifecycle and register | `docs/grc/exception-management.md` |

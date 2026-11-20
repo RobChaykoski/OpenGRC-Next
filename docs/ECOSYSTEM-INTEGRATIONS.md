@@ -22,6 +22,7 @@ operational data.
 | OWASP WSTG / ASVS | Web application test coverage, failed test IDs and security requirements | Tester summary over the hash-verified evidence API; no scanner execution, request bodies or copied guide text |
 | OSV.dev / deps.dev / OpenSSF Scorecard | Vulnerable dependencies, licenses, project health | CycloneDX SBOM import and OSV queries; package coordinates only, no source or build artifacts |
 | OpenBao | Secret metadata: current KV version and rotation date | Read-only KV v2 metadata; no secret values, leases or writes |
+| Cyber Centre / CISA / DoD CIO / NCSC | Guidance, advisories and reference architecture | Guidance register: reference, version, adoption, control mapping; link only |
 | Authentik | SSO and group/application access | OIDC claims and group membership |
 | OpenIAM | Access reviews, certification, segregation of duties | Campaign results and exception records |
 | GitLab / GitHub / SonarQube / Dependency-Check / ScanCode | SDLC, code quality, dependency, and licence evidence | CI artifacts or signed manifests |
@@ -60,6 +61,11 @@ Supply-chain risk follows the same evidence pattern. A CycloneDX SBOM is importe
 as a snapshot; OSV queries turn a vulnerable component into a finding. OpenGRC
 does not run a scanner or store source. See `docs/integrations/sbom-osv.md` and
 ADR 0028.
+
+Guidance and advisories are a register, not a framework. One row per publication
+records the reference, version, adoption decision, owner, review date and mapped
+controls. Link and attribute; do not copy the text. See
+`docs/grc/guidance-register.md` and ADR 0030.
 
 ## Rules
 
