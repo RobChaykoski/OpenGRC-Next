@@ -45,6 +45,7 @@ important controls and 2 for the rest.
 | Regulatory change monitoring | Not built: no feed of new or amended requirements | 1 | Gap 7 |
 | Collaboration and workflow | Partial: three roles, assignments, comments, exports; no approval engine | 2 | Gap 8 |
 | Access review campaigns | Yes: account snapshot, reviewer attest/revoke, completion rule, evidence | 4 | `docs/grc/access-reviews.md` |
+| Exercises and tabletops | Yes: type, source, objectives, participants, findings, actions, evidence | 3 | `docs/grc/exercises.md` |
 
 ## Gaps, stated plainly
 
@@ -125,6 +126,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Exception lifecycle and register | `docs/grc/exception-management.md` |
 | Policy acknowledgement and coverage | `docs/grc/policy-acknowledgements.md` |
 | Access review campaigns | `docs/grc/access-reviews.md` |
+| Exercises and tabletops | `docs/grc/exercises.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

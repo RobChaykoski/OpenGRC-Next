@@ -38,6 +38,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0031-risk-acceptance.md](decisions/0031-risk-acceptance.md) | Risk acceptance is a dated decision, not a mitigation note |
 | [decisions/0032-policy-acknowledgement.md](decisions/0032-policy-acknowledgement.md) | Policy acknowledgement is a versioned attestation, not a click |
 | [decisions/0033-access-review-campaign.md](decisions/0033-access-review-campaign.md) | Access review is a campaign snapshot, not a live role list |
+| [decisions/0034-exercise-register.md](decisions/0034-exercise-register.md) | Exercises are a register, not a training transcript |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -81,6 +82,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/risk-acceptance.md](grc/risk-acceptance.md) | Accepting residual risk: acceptor, rationale, expiry and review |
 | [grc/policy-acknowledgements.md](grc/policy-acknowledgements.md) | Versioned policy acknowledgement and coverage |
 | [grc/access-reviews.md](grc/access-reviews.md) | User access review campaigns, attestation and revocation decisions |
+| [grc/exercises.md](grc/exercises.md) | Tabletop, simulation and red-team exercise register |
 
 ## Security
 

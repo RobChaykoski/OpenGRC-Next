@@ -560,6 +560,10 @@
         {
             "name": "2026_11_20_180000_create_access_reviews_tables",
             "sha256": "32ccac4edb7c19a9dd17a2680592d6d00bbb820c89bd50c37979baccac635ee5"
+        },
+        {
+            "name": "2026_11_20_190000_create_exercises_table",
+            "sha256": "16e1f32d3a9c6e1066e2c29416ad755bd9050d0eecf9662c123584ef54565816"
         }
     ]
 }

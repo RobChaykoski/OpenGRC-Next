@@ -55,3 +55,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0031](0031-risk-acceptance.md) | Risk acceptance is a dated decision, not a mitigation note | accepted |
 | [0032](0032-policy-acknowledgement.md) | Policy acknowledgement is a versioned attestation, not a click | accepted |
 | [0033](0033-access-review-campaign.md) | Access review is a campaign snapshot, not a live role list | accepted |
+| [0034](0034-exercise-register.md) | Exercises are a register, not a training transcript | accepted |
