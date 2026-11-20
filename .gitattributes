@@ -1,0 +1,15 @@
+# Keep text files on LF everywhere. The migration manifest hashes raw file
+# bytes, so a CRLF checkout would invalidate every checksum and make
+# opengrc:doctor and opengrc:migrations:verify report false failures.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.woff binary
+*.woff2 binary
+*.ttf binary

@@ -1406,9 +1406,9 @@ parameters:
 
 		-
 			message: """
-				#^PHPDoc tag @if has invalid value \\(\\(\\$var\\) \\.\\.\\. @else \\.\\.\\. @endif\r
-				\r
-				Anything else, including expressions or function calls, is left in the output as literal text\\.\\)\\: Unexpected token "\\$var", expected type at offset 551 on line 12$#
+				#^PHPDoc tag @if has invalid value \\(\\(\\$var\\) \\.\\.\\. @else \\.\\.\\. @endif
+
+				Anything else, including expressions or function calls, is left in the output as literal text\\.\\)\\: Unexpected token "\\$var", expected type at offset 540 on line 12$#
 			"""
 			identifier: phpDoc.parseError
 			count: 1
