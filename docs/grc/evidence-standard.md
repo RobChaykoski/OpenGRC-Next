@@ -177,6 +177,19 @@ The record status is Unknown. A validation rule decides the control, for example
 previous snapshot in place and visible as stale. See
 `docs/integrations/detection-coverage.md` and ADR 0021.
 
+### Adversary emulation source
+
+Apache Caldera and similar engines run in OpenCyberRange, not in OpenGRC. After
+an operation, the range pushes a hash-verified `adversary-emulation` summary with
+techniques attempted, succeeded, detected, prevented and missed. It contains no
+commands, payloads, credentials, agent tokens, raw logs or target hostnames.
+
+The record status is Unknown; a validation rule decides the detection or
+prevention objective. `techniquesAttempted`, `undetectedTechniques` and
+`unpreventedTechniques` are producer-computed because the rule language compares
+a path to a constant, not two paths. See
+`docs/integrations/adversary-emulation.md` and ADR 0022.
+
 ### Continuous verification
 
 A rule is data, not code. It names the evidence type it applies to and a list of

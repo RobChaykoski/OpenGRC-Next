@@ -30,6 +30,7 @@ different jobs.
 | Endpoint detection | Wazuh, Sysmon, Fail2Ban, Lynis | SOC01/SOC04/SOC07 labs | Endpoint control evidence | Collector host hardening | Clinical endpoint compliance |
 | Network detection | Suricata, Zeek, Security Onion | SOC02/SOC03/SOC08 labs | Detection-control evidence | Sensor detection evidence | Clinical network monitoring evidence |
 | Web/VM scanning | OpenVAS, Nessus, Nikto, OWASP ZAP | VM02/VM03/VM05 labs | Vulnerability-management control evidence | Web service exposure evidence | Clinical web app vulnerability evidence |
+| Adversary emulation | Apache Caldera | SOC/VM purple-team labs | Control-testing evidence from completed range operations | Detection-validation lab engine | Clinical control-testing evidence |
 | Asset ownership | Ralph, NetBox | Asset ownership report | Asset/control scope | Data-source ownership | Clinical asset ownership |
 | Endpoint compliance | Fleet | Endpoint compliance report | Control evidence | Collector posture | Clinical device posture |
 | Containers/Kubernetes | Docker, Kubernetes, Cilium, Calico, Istio | PLAT01/PLAT02/PLAT06/PLAT07/PLAT08 labs | SDLC and platform control evidence | Collector deployment | Clinical service platform evidence |

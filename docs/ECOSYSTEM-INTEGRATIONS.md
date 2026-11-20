@@ -18,6 +18,7 @@ operational data.
 | OpenVAS / Nessus / Nikto / ZAP | Vulnerability and remediation evidence | Finding counts, severities, exception state, patch evidence |
 | Wazuh / Suricata / Zeek / Sysmon / Security Onion | Detection and monitoring evidence | Control-linked alert and coverage summaries |
 | OpenDetectionEngine / SIEM / endpoint engine | Detection rule coverage: YARA/Sigma counts, failing rules, ATT&CK coverage, validation age | Hash-verified `detection-coverage` snapshots; no rule bodies, samples or log lines |
+| OpenCyberRange / Apache Caldera | Adversary emulation: techniques attempted, detected, prevented and missed | Completed-operation summary over the hash-verified evidence API; no commands, payloads or raw logs |
 | Authentik | SSO and group/application access | OIDC claims and group membership |
 | OpenIAM | Access reviews, certification, segregation of duties | Campaign results and exception records |
 | GitLab / GitHub / SonarQube / Dependency-Check / ScanCode | SDLC, code quality, dependency, and licence evidence | CI artifacts or signed manifests |
@@ -41,6 +42,12 @@ YARA and Sigma are detection formats, not services. OpenDetectionEngine or the
 SIEM owns the rule catalogue and execution; OpenGRC accepts hash-verified
 detection-coverage snapshots and lets validation rules decide the control state.
 See `docs/integrations/detection-coverage.md` and ADR 0021.
+
+Adversary emulation follows the same rule. Apache Caldera runs in OpenCyberRange,
+where the agents, payloads and raw output belong. OpenGRC never holds attack
+credentials or starts an operation; it accepts a completed-operation summary and
+links the result to a control. See `docs/integrations/adversary-emulation.md` and
+ADR 0022.
 
 ## Rules
 

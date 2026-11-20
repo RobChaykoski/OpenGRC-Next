@@ -39,12 +39,8 @@ class EvidenceIngestionController extends Controller
     public const EVIDENCE_TYPES = [
         'data-discovery',
         'detection-coverage',
+        'adversary-emulation',
     ];
-
-    /**
-     * Evidence types that come from discovery sources, for the source label.
-     */
-    private const DISCOVERY_TYPES = ['data-discovery'];
 
     public function store(Request $request, EvidenceIngestor $ingestor): JsonResponse
     {
@@ -127,9 +123,12 @@ class EvidenceIngestionController extends Controller
 
     private function sourceName(string $clientId, string $evidenceType): string
     {
-        return in_array($evidenceType, self::DISCOVERY_TYPES, true)
-            ? "Discovery: {$clientId}"
-            : "Detection: {$clientId}";
+        return match ($evidenceType) {
+            'data-discovery' => "Discovery: {$clientId}",
+            'detection-coverage' => "Detection: {$clientId}",
+            'adversary-emulation' => "Range: {$clientId}",
+            default => "External: {$clientId}",
+        };
     }
 
     private function accepted(EvidenceRecord $record, int $status): JsonResponse

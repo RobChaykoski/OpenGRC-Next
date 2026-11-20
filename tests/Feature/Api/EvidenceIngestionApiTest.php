@@ -69,6 +69,33 @@ class EvidenceIngestionApiTest extends TestCase
     }
 
     #[Test]
+    public function it_accepts_an_adversary_emulation_summary_from_the_range(): void
+    {
+        $control = Control::factory()->create(['code' => 'CA-8']);
+        $evidence = $this->emulationEvidence();
+
+        $this->withToken($this->token())
+            ->postJson('/api/v1/evidence', [
+                'id' => 'emulation-1',
+                'sha256' => $this->digest($evidence),
+                'evidenceType' => 'adversary-emulation',
+                'capturedAt' => '2026-11-20T10:00:00Z',
+                'controlIdentifier' => 'CA-8',
+                'evidence' => $evidence,
+            ])
+            ->assertCreated();
+
+        $this->assertDatabaseHas('evidence_records', [
+            'client_id' => 'acme',
+            'external_id' => 'emulation-1',
+            'evidence_type' => 'adversary-emulation',
+            'control_id' => $control->getKey(),
+            'status' => 'unknown',
+        ]);
+        $this->assertDatabaseHas('evidence_sources', ['name' => 'Range: acme']);
+    }
+
+    #[Test]
     public function it_rejects_an_unknown_evidence_type(): void
     {
         $this->withToken($this->token())
@@ -206,6 +233,29 @@ class EvidenceIngestionApiTest extends TestCase
             'failingRules' => 1,
             'attackTechniquesCovered' => 37,
             'lastValidatedAgeDays' => 0,
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function emulationEvidence(): array
+    {
+        return [
+            'schema' => 'opengrc.adversary-emulation/v1',
+            'range' => 'ocr-lab-1',
+            'operationId' => 'op-123',
+            'adversary' => 'APT29',
+            'planner' => 'atomic',
+            'techniquesAttempted' => 12,
+            'techniquesSucceeded' => 5,
+            'techniquesDetected' => 9,
+            'techniquesPrevented' => 7,
+            'undetectedTechniques' => 3,
+            'unpreventedTechniques' => 5,
+            'detectionCoveragePercent' => 75.0,
+            'preventionCoveragePercent' => 58.3,
+            'assetIds' => ['asset-42'],
         ];
     }
 
