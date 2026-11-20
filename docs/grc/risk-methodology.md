@@ -25,6 +25,21 @@ Score = likelihood × impact. Levels:
 | 13–17 | High | Treatment plan with a date; escalate to the programme lead |
 | 18–25 | Very High | Stop-and-fix. Escalate immediately, document interim controls |
 
+## Reading the heat map
+
+The **Risk heat map** page shows two 5×5 matrices for active risks: inherent and
+residual. A cell counts the risks at that likelihood and impact and links to the
+filtered risk list.
+
+- The colour is the score band, not an appetite decision. Whether a Very High risk
+  is tolerable is recorded in the risk treatment and acceptance fields.
+- Inherent is the score before the controls you have recorded; residual is after.
+  A small movement between the two matrices is a prompt to check whether the
+  treatment is real.
+- Inactive risks are excluded. A closed risk should not keep colouring the map.
+- The page is a view, not a stored report. It reads the live register each time it
+  is opened.
+
 ## Likelihood definitions
 
 Score the likelihood of the event occurring **in the next 12 months**, given

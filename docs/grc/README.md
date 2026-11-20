@@ -42,7 +42,7 @@ important controls and 2 for the rest.
 | Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
 | CSET assessment import | Yes: PCII-scrubbed JSON, counts, observations as findings; no CSET score or question bank | 3 | `docs/integrations/cset.md` |
 | Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
-| Metrics and reporting | Partial: widgets, exports, AI summaries; no heat map or scorecard builder | 2 | Gap 3 |
+| Metrics and reporting | Partial: widgets, exports, AI summaries and a risk heat map; no scorecard builder | 2 | `docs/grc/risk-methodology.md` |
 | Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
 | Regulatory change monitoring | Not built: no feed of new or amended requirements | 1 | Gap 7 |
 | Collaboration and workflow | Partial: three roles, assignments, comments, exports; no approval engine | 2 | Gap 8 |
