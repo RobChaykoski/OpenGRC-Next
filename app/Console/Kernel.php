@@ -33,6 +33,10 @@ class Kernel extends ConsoleKernel
         // Privacy response clocks. A request that goes overdue is a compliance
         // event, not a quiet date change.
         $schedule->command('opengrc:privacy:deadlines')->dailyAt('00:20');
+
+        // Machine credentials: surface expiry and rotation without touching the
+        // secret store. Rotation stays a human action.
+        $schedule->command('opengrc:identities:review')->dailyAt('00:25');
     }
 
     /**

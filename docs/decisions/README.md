@@ -48,3 +48,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0024](0024-exception-scope-and-expiry.md) | Exceptions are scoped, approved and expire by default | accepted |
 | [0025](0025-assurance-report-register.md) | Assurance reports are a register, not a control catalogue | accepted |
 | [0026](0026-privacy-request-register.md) | Privacy requests are regime-aware register entries, not audit requests | accepted |
+| [0027](0027-non-human-identity-register.md) | Non-human identities are a register, not a secret store | accepted |

@@ -31,6 +31,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0024-exception-scope-and-expiry.md](decisions/0024-exception-scope-and-expiry.md) | Exceptions are scoped, approved and expire by default |
 | [decisions/0025-assurance-report-register.md](decisions/0025-assurance-report-register.md) | Assurance reports are a register, not a control catalogue |
 | [decisions/0026-privacy-request-register.md](decisions/0026-privacy-request-register.md) | Privacy requests are regime-aware register entries, not audit requests |
+| [decisions/0027-non-human-identity-register.md](decisions/0027-non-human-identity-register.md) | Non-human identities are a register, not a secret store |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -67,6 +68,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/exception-management.md](grc/exception-management.md) | Exception lifecycle, approval, expiry and the global register |
 | [grc/assurance-reports.md](grc/assurance-reports.md) | SOC/ISO/PCI/CMMC reports as an inspectable assurance register |
 | [grc/privacy-requests.md](grc/privacy-requests.md) | GDPR/CCPA/PIPEDA/FERPA requests, clocks, verification and evidence |
+| [grc/non-human-identities.md](grc/non-human-identities.md) | Service accounts, tokens and certificates: ownership, scope, rotation |
 
 ## Security
 

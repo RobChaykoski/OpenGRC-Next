@@ -532,6 +532,10 @@
         {
             "name": "2026_11_20_110000_create_privacy_requests_table",
             "sha256": "3885ac69c29210708b9b8c5cfd2bb36691d5220b230c9220fdf6bedc508fd942"
+        },
+        {
+            "name": "2026_11_20_120000_create_non_human_identities_table",
+            "sha256": "9ee0f071c4ef17e4c24e807621551eb96d786349e3cd6d150f3bdb3cc4405d82"
         }
     ]
 }

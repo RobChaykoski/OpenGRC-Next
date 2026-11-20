@@ -3496,6 +3496,123 @@
             "nullable": true
         }
     ],
+    "non_human_identities": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "environment",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "expires_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "last_rotated_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "last_used_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "next_review_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "next_rotation_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "purpose",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "reviewed_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "revocation_reason",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "revoked_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "rotation_days",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "scope",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "secret_reference",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "system",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "notifications": [
         {
             "name": "created_at",
