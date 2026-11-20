@@ -47,6 +47,7 @@ class ExceptionsRelationManager extends RelationManager
                         Textarea::make('justification')
                             ->label('Business Justification')
                             ->helperText('Explain why this exception is necessary')
+                            ->required()
                             ->rows(3)
                             ->columnSpanFull(),
                     ])
@@ -57,11 +58,13 @@ class ExceptionsRelationManager extends RelationManager
                         Textarea::make('risk_assessment')
                             ->label('Risk Assessment')
                             ->helperText('Describe the risks associated with granting this exception')
+                            ->required()
                             ->rows(3)
                             ->columnSpanFull(),
                         Textarea::make('compensating_controls')
                             ->label('Compensating Controls')
                             ->helperText('Describe any mitigating controls in place')
+                            ->required(fn (Get $get): bool => self::isApproved($get))
                             ->rows(3)
                             ->columnSpanFull(),
                     ]),
@@ -76,16 +79,17 @@ class ExceptionsRelationManager extends RelationManager
                             ->label('Requested By')
                             ->relationship('requester', 'name')
                             ->searchable()
-                            ->preload(),
+                            ->preload()
+                            ->required(),
                         Select::make('approved_by')
                             ->label('Approved By')
                             ->relationship('approver', 'name')
                             ->searchable()
                             ->preload()
-                            ->visible(fn (Get $get) => in_array($get('status'), [
-                                PolicyExceptionStatus::Approved->value,
-                                PolicyExceptionStatus::Approved,
-                            ])),
+                            ->required(fn (Get $get): bool => self::isApproved($get))
+                            ->rules(['different:requested_by'])
+                            ->helperText('The approver must be a different person from the requester.')
+                            ->visible(fn (Get $get) => self::isApproved($get)),
                         DatePicker::make('requested_date')
                             ->label('Requested Date')
                             ->default(now()),
@@ -93,10 +97,19 @@ class ExceptionsRelationManager extends RelationManager
                             ->label('Effective Date'),
                         DatePicker::make('expiration_date')
                             ->label('Expiration Date')
-                            ->helperText('Leave blank for no expiration'),
+                            ->required(fn (Get $get): bool => self::isApproved($get))
+                            ->helperText('Required before approval. Use a dated review or expiry, not an open-ended exception.'),
                     ])
                     ->columns(2),
             ]);
+    }
+
+    protected static function isApproved(Get $get): bool
+    {
+        $status = $get('status');
+
+        return $status === PolicyExceptionStatus::Approved
+            || $status === PolicyExceptionStatus::Approved->value;
     }
 
     public function table(Table $table): Table

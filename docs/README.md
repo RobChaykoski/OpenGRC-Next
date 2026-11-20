@@ -28,6 +28,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0021-detection-rules-as-evidence.md](decisions/0021-detection-rules-as-evidence.md) | YARA and Sigma are detection evidence, not code in the console |
 | [decisions/0022-adversary-emulation-evidence.md](decisions/0022-adversary-emulation-evidence.md) | Adversary emulation runs in the range; OpenGRC consumes the summary |
 | [decisions/0023-wstg-security-testing-evidence.md](decisions/0023-wstg-security-testing-evidence.md) | WSTG is a test methodology; reference IDs, do not copy the guide |
+| [decisions/0024-exception-scope-and-expiry.md](decisions/0024-exception-scope-and-expiry.md) | Exceptions are scoped, approved and expire by default |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -61,6 +62,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/program-playbook.md](grc/program-playbook.md) | Roles, cadence, metrics, onboarding |
 | [grc/data-dictionary.md](grc/data-dictionary.md) | Objects, fields, relations, invariants |
 | [grc/data-posture.md](grc/data-posture.md) | DLP/DSPM dashboard: coverage, classification, exposure, aging, DLP operations |
+| [grc/exception-management.md](grc/exception-management.md) | Exception lifecycle, approval, expiry and the global register |
 
 ## Security
 

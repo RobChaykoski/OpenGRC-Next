@@ -45,3 +45,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0021](0021-detection-rules-as-evidence.md) | YARA and Sigma are detection evidence; the console does not execute rules | accepted |
 | [0022](0022-adversary-emulation-evidence.md) | Adversary emulation runs in the range; OpenGRC consumes the summary | accepted |
 | [0023](0023-wstg-security-testing-evidence.md) | WSTG is a test methodology; reference IDs, do not copy the guide | accepted |
+| [0024](0024-exception-scope-and-expiry.md) | Exceptions are scoped, approved and expire by default | accepted |

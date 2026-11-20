@@ -25,7 +25,7 @@ important controls and 2 for the rest.
 | Framework and control library | Yes: 20 registered standards, provenance register, NIST generated from OSCAL | 3 | `docs/grc/framework-catalog.md` |
 | Control implementation and ownership | Yes: status, effectiveness, owner, test procedure, last/next test dates | 4 | `Implementation` model |
 | Risk register | Yes: inherent + residual 1–5 scoring, owner, category, treatment, mitigations | 4 | `docs/grc/risk-methodology.md` |
-| Policies and exceptions | Yes: lifecycle, acknowledgements, exceptions with expiry | 4 | `Policy`, `PolicyException` |
+| Policies and exceptions | Yes: lifecycle, acknowledgements, scoped exceptions with expiry, global register and daily expiry enforcement | 4 | `Policy`, `PolicyException`, `docs/grc/exception-management.md` |
 | Audits and testing | Yes: audits, items, effectiveness, notes, attachments, findings | 3 | `docs/grc/audit-playbook.md` |
 | Evidence management | Partial: attachments on audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
@@ -109,6 +109,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Audit and testing | `docs/grc/audit-playbook.md` |
 | Evidence and integrity | `docs/grc/evidence-standard.md` |
 | Policy readiness register | `docs/grc/policy-readiness.md` |
+| Exception lifecycle and register | `docs/grc/exception-management.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

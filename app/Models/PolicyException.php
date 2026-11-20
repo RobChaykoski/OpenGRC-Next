@@ -75,6 +75,8 @@ class PolicyException extends Model
 
     /**
      * Get the policy that this exception belongs to.
+     *
+     * @return BelongsTo<Policy, $this>
      */
     public function policy(): BelongsTo
     {
@@ -83,6 +85,8 @@ class PolicyException extends Model
 
     /**
      * Get the user who requested this exception.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function requester(): BelongsTo
     {
@@ -91,6 +95,8 @@ class PolicyException extends Model
 
     /**
      * Get the user who approved this exception.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function approver(): BelongsTo
     {
@@ -99,6 +105,8 @@ class PolicyException extends Model
 
     /**
      * Get the user who created this exception.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function creator(): BelongsTo
     {
@@ -107,6 +115,8 @@ class PolicyException extends Model
 
     /**
      * Get the user who last updated this exception.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function updater(): BelongsTo
     {

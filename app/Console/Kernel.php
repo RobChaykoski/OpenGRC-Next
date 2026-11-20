@@ -22,6 +22,10 @@ class Kernel extends ConsoleKernel
         // Record one assurance snapshot per framework per day so the score has
         // a trend; re-running the command updates the same day's row.
         $schedule->command('opengrc:assurance:snapshot')->dailyAt('06:15');
+
+        // An approved exception past its expiry is no longer valid. Do this
+        // before the working day so the register and policy views are honest.
+        $schedule->command('opengrc:exceptions:expire')->dailyAt('00:10');
     }
 
     /**
