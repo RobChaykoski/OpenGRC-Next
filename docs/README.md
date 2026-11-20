@@ -27,6 +27,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0020-openmetadata-metadata-source.md](decisions/0020-openmetadata-metadata-source.md) | OpenMetadata as a read-only catalog source, not a second console |
 | [decisions/0021-detection-rules-as-evidence.md](decisions/0021-detection-rules-as-evidence.md) | YARA and Sigma are detection evidence, not code in the console |
 | [decisions/0022-adversary-emulation-evidence.md](decisions/0022-adversary-emulation-evidence.md) | Adversary emulation runs in the range; OpenGRC consumes the summary |
+| [decisions/0023-wstg-security-testing-evidence.md](decisions/0023-wstg-security-testing-evidence.md) | WSTG is a test methodology; reference IDs, do not copy the guide |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -41,6 +42,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/openmetadata.md](integrations/openmetadata.md) | Read-only catalog governance evidence from OpenMetadata |
 | [integrations/detection-coverage.md](integrations/detection-coverage.md) | YARA/Sigma coverage and validation evidence from a detection platform |
 | [integrations/adversary-emulation.md](integrations/adversary-emulation.md) | Completed range operations as adversary-emulation evidence |
+| [integrations/security-testing.md](integrations/security-testing.md) | WSTG test coverage and results without copying the guide |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice

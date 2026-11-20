@@ -102,6 +102,39 @@ class EvidenceIngestionApiTest extends TestCase
     }
 
     #[Test]
+    public function it_accepts_a_wstg_security_testing_summary(): void
+    {
+        $control = Control::factory()->create(['code' => 'SA-11']);
+        $evidence = $this->securityTestingEvidence();
+
+        $this->withToken($this->token())
+            ->postJson('/api/v1/evidence', [
+                'id' => 'security-testing-1',
+                'sha256' => $this->digest($evidence),
+                'evidenceType' => 'security-testing',
+                'capturedAt' => '2026-11-20T10:00:00Z',
+                'controlIdentifier' => 'SA-11',
+                'evidence' => $evidence,
+            ])
+            ->assertCreated();
+
+        $this->assertDatabaseHas('evidence_records', [
+            'client_id' => 'acme',
+            'external_id' => 'security-testing-1',
+            'evidence_type' => 'security-testing',
+            'control_id' => $control->getKey(),
+            'status' => 'unknown',
+        ]);
+        $this->assertDatabaseHas('evidence_sources', ['name' => 'AppSec: acme']);
+
+        $record = EvidenceRecord::query()->where('external_id', 'security-testing-1')->firstOrFail();
+
+        $this->assertSame('owasp-wstg', $record->payload['methodology']);
+        $this->assertSame('v42', $record->payload['methodologyVersion']);
+        $this->assertSame(['WSTG-ATHN-01'], $record->payload['failedTestIds']);
+    }
+
+    #[Test]
     public function it_rejects_an_unknown_evidence_type(): void
     {
         $this->withToken($this->token())
@@ -268,6 +301,30 @@ class EvidenceIngestionApiTest extends TestCase
             'detectionCoveragePercent' => 75.0,
             'preventionCoveragePercent' => 58.3,
             'assetIds' => ['asset-42'],
+        ];
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function securityTestingEvidence(): array
+    {
+        return [
+            'schema' => 'opengrc.security-testing/v1',
+            'methodology' => 'owasp-wstg',
+            'methodologyVersion' => 'v42',
+            'applicationId' => 'app-42',
+            'environment' => 'staging',
+            'testsPlanned' => 90,
+            'testsExecuted' => 88,
+            'testsPassed' => 80,
+            'testsFailed' => 8,
+            'testsNotApplicable' => 2,
+            'coveragePercent' => 97.8,
+            'failedTestIds' => ['WSTG-ATHN-01'],
+            'categories' => [
+                'ATHN' => ['planned' => 10, 'executed' => 10, 'failed' => 1],
+            ],
         ];
     }
 

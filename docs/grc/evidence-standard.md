@@ -190,6 +190,20 @@ prevention objective. `techniquesAttempted`, `undetectedTechniques` and
 a path to a constant, not two paths. See
 `docs/integrations/adversary-emulation.md` and ADR 0022.
 
+### Web security testing source
+
+OWASP WSTG is a manual test methodology, not a scanner. A tester or assessment
+platform pushes a hash-verified `security-testing` summary: methodology and
+version, application, environment, tests planned/executed/passed/failed and the
+failed test IDs. It contains no request or response bodies, tokens or personal
+data, and OpenGRC does not copy the guide.
+
+The record status is Unknown; a validation rule decides the control, for example
+`coveragePercent >= 90` and `testsFailed = 0`. Prefer version-qualified IDs such
+as `WSTG-v42-ATHN-01`, and record the application version and environment so a
+later release is not treated as tested. See
+`docs/integrations/security-testing.md` and ADR 0023.
+
 ### Continuous verification
 
 A rule is data, not code. It names the evidence type it applies to and a list of

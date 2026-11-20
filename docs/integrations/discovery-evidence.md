@@ -65,9 +65,10 @@ Accept: application/json
 - `externalReferences` is accepted but not persisted yet; it is reserved for the
   data graph.
 - `evidenceType` is optional and defaults to `data-discovery`. The endpoint also
-  accepts `detection-coverage` and `adversary-emulation`; see
-  `docs/integrations/detection-coverage.md` and
-  `docs/integrations/adversary-emulation.md`.
+  accepts `detection-coverage`, `adversary-emulation` and `security-testing`; see
+  `docs/integrations/detection-coverage.md`,
+  `docs/integrations/adversary-emulation.md` and
+  `docs/integrations/security-testing.md`.
 - `controlIdentifier` is optional and links the snapshot to a control by code.
   A missing code stores null rather than guessing.
 - The record status is always `unknown`. A validation rule decides whether a

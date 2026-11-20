@@ -40,6 +40,7 @@ class EvidenceIngestionController extends Controller
         'data-discovery',
         'detection-coverage',
         'adversary-emulation',
+        'security-testing',
     ];
 
     public function store(Request $request, EvidenceIngestor $ingestor): JsonResponse
@@ -127,6 +128,7 @@ class EvidenceIngestionController extends Controller
             'data-discovery' => "Discovery: {$clientId}",
             'detection-coverage' => "Detection: {$clientId}",
             'adversary-emulation' => "Range: {$clientId}",
+            'security-testing' => "AppSec: {$clientId}",
             default => "External: {$clientId}",
         };
     }

@@ -44,3 +44,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0020](0020-openmetadata-metadata-source.md) | OpenMetadata is a read-only catalog source; OpenGRC keeps the compliance console | accepted |
 | [0021](0021-detection-rules-as-evidence.md) | YARA and Sigma are detection evidence; the console does not execute rules | accepted |
 | [0022](0022-adversary-emulation-evidence.md) | Adversary emulation runs in the range; OpenGRC consumes the summary | accepted |
+| [0023](0023-wstg-security-testing-evidence.md) | WSTG is a test methodology; reference IDs, do not copy the guide | accepted |

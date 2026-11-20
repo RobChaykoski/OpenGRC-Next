@@ -19,6 +19,7 @@ operational data.
 | Wazuh / Suricata / Zeek / Sysmon / Security Onion | Detection and monitoring evidence | Control-linked alert and coverage summaries |
 | OpenDetectionEngine / SIEM / endpoint engine | Detection rule coverage: YARA/Sigma counts, failing rules, ATT&CK coverage, validation age | Hash-verified `detection-coverage` snapshots; no rule bodies, samples or log lines |
 | OpenCyberRange / Apache Caldera / Atomic Red Team | Adversary emulation: techniques attempted, detected, prevented and missed; test counts and IDs | Completed-operation summary over the hash-verified evidence API; no commands, payloads or raw logs |
+| OWASP WSTG / ASVS | Web application test coverage, failed test IDs and security requirements | Tester summary over the hash-verified evidence API; no scanner execution, request bodies or copied guide text |
 | Authentik | SSO and group/application access | OIDC claims and group membership |
 | OpenIAM | Access reviews, certification, segregation of duties | Campaign results and exception records |
 | GitLab / GitHub / SonarQube / Dependency-Check / ScanCode | SDLC, code quality, dependency, and licence evidence | CI artifacts or signed manifests |
@@ -48,6 +49,10 @@ where the agents, payloads and raw output belong. OpenGRC never holds attack
 credentials or starts an operation; it accepts a completed-operation summary and
 links the result to a control. See `docs/integrations/adversary-emulation.md` and
 ADR 0022.
+
+WSTG is a test methodology, not a product. Testers use their own tools; OpenGRC
+accepts a versioned coverage summary and never copies the guide or stores request
+and response content. See `docs/integrations/security-testing.md` and ADR 0023.
 
 ## Rules
 
