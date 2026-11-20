@@ -30,6 +30,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0023-wstg-security-testing-evidence.md](decisions/0023-wstg-security-testing-evidence.md) | WSTG is a test methodology; reference IDs, do not copy the guide |
 | [decisions/0024-exception-scope-and-expiry.md](decisions/0024-exception-scope-and-expiry.md) | Exceptions are scoped, approved and expire by default |
 | [decisions/0025-assurance-report-register.md](decisions/0025-assurance-report-register.md) | Assurance reports are a register, not a control catalogue |
+| [decisions/0026-privacy-request-register.md](decisions/0026-privacy-request-register.md) | Privacy requests are regime-aware register entries, not audit requests |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -65,6 +66,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/data-posture.md](grc/data-posture.md) | DLP/DSPM dashboard: coverage, classification, exposure, aging, DLP operations |
 | [grc/exception-management.md](grc/exception-management.md) | Exception lifecycle, approval, expiry and the global register |
 | [grc/assurance-reports.md](grc/assurance-reports.md) | SOC/ISO/PCI/CMMC reports as an inspectable assurance register |
+| [grc/privacy-requests.md](grc/privacy-requests.md) | GDPR/CCPA/PIPEDA/FERPA requests, clocks, verification and evidence |
 
 ## Security
 

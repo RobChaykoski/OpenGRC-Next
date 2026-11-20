@@ -4209,6 +4209,128 @@
             "nullable": true
         }
     ],
+    "privacy_requests": [
+        {
+            "name": "completed_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "contact_reference",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "denial_reason",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "due_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "evidence_reference",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "evidence_sha256",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "extended_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "extension_reason",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "identity_verified",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "received_at",
+            "type": "date",
+            "nullable": false
+        },
+        {
+            "name": "reference",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "regime",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "request_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "requester_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "response_summary",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "verification_method",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "verified_at",
+            "type": "date",
+            "nullable": true
+        }
+    ],
     "program_risk": [
         {
             "name": "created_at",

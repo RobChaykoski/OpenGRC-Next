@@ -29,6 +29,10 @@ class Kernel extends ConsoleKernel
 
         // Explicit report expiry, separate from a report's covered period.
         $schedule->command('opengrc:attestations:expire')->dailyAt('00:15');
+
+        // Privacy response clocks. A request that goes overdue is a compliance
+        // event, not a quiet date change.
+        $schedule->command('opengrc:privacy:deadlines')->dailyAt('00:20');
     }
 
     /**

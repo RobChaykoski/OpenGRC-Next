@@ -528,6 +528,10 @@
         {
             "name": "2026_11_20_100000_create_attestation_reports_table",
             "sha256": "125a91cfc0b4fd9d64b74c15f7e5ac829319b99efc747de1d6a99eacbbf18e5d"
+        },
+        {
+            "name": "2026_11_20_110000_create_privacy_requests_table",
+            "sha256": "3885ac69c29210708b9b8c5cfd2bb36691d5220b230c9220fdf6bedc508fd942"
         }
     ]
 }

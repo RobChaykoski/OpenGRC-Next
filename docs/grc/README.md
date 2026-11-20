@@ -28,6 +28,7 @@ important controls and 2 for the rest.
 | Policies and exceptions | Yes: lifecycle, acknowledgements, scoped exceptions with expiry, global register and daily expiry enforcement | 4 | `Policy`, `PolicyException`, `docs/grc/exception-management.md` |
 | Audits and testing | Yes: audits, items, effectiveness, notes, attachments, findings | 3 | `docs/grc/audit-playbook.md` |
 | Assurance and attestations | Yes: SOC/ISO/PCI/CMMC report register, outcome, period, expiry and review | 3 | `docs/grc/assurance-reports.md` |
+| Privacy requests | Yes: GDPR/CCPA/PIPEDA/FERPA register, regime clock, verification, extension, overdue enforcement | 4 | `docs/grc/privacy-requests.md` |
 | Evidence management | Partial: attachments on audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Document templates | Yes: private originals, encrypted extracted text, classification access | 2 | `docs/grc/document-templates.md` |
@@ -109,6 +110,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Risk scoring | `docs/grc/risk-methodology.md` |
 | Audit and testing | `docs/grc/audit-playbook.md` |
 | Assurance reports and attestations | `docs/grc/assurance-reports.md` |
+| Privacy requests and clocks | `docs/grc/privacy-requests.md` |
 | Evidence and integrity | `docs/grc/evidence-standard.md` |
 | Policy readiness register | `docs/grc/policy-readiness.md` |
 | Exception lifecycle and register | `docs/grc/exception-management.md` |
