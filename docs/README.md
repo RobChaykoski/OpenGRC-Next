@@ -42,6 +42,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0035-sarif-assessment-import.md](decisions/0035-sarif-assessment-import.md) | Scanner output is findings evidence, not a scanner |
 | [decisions/0036-deps-dev-scorecard-enrichment.md](decisions/0036-deps-dev-scorecard-enrichment.md) | deps.dev and Scorecard enrich components; they do not decide compliance |
 | [decisions/0037-observable-enrichment-cortex.md](decisions/0037-observable-enrichment-cortex.md) | Observable enrichment is opt-in and privacy-gated |
+| [decisions/0038-cset-assessment-import.md](decisions/0038-cset-assessment-import.md) | CSET is an external assessment; import the scrubbed export only |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -62,6 +63,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/assessment-sarif.md](integrations/assessment-sarif.md) | Import SARIF scanner reports as deduplicated findings |
 | [integrations/deps-dev.md](integrations/deps-dev.md) | Optional deps.dev license and OpenSSF Scorecard enrichment |
 | [integrations/observable-enrichment.md](integrations/observable-enrichment.md) | Cortex/TheHive boundary: opt-in, privacy-gated observable enrichment |
+| [integrations/cset.md](integrations/cset.md) | Import a PCII-scrubbed CSET JSON assessment as findings |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice

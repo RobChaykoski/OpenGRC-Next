@@ -1,0 +1,130 @@
+{
+  "assessment": {
+    "assessmentGuid": "6f2b1c1e-8a3d-4c2b-9f10-2f7d5c1a9b44",
+    "id": 42,
+    "name": "Water utility tabletop assessment",
+    "assessmentDate": "2026-10-15T00:00:00",
+    "selfAssessment": true,
+    "facilitatorName": "Jordan Lee",
+    "organizationInfo": {
+      "organizationName": "Sensitive Utility Co",
+      "cityOrSiteName": "Secret City",
+      "facilityName": "Secret Plant"
+    },
+    "sal": {
+      "methodology": "Simple",
+      "overallLevel": "Moderate",
+      "confidentiality": "Moderate",
+      "integrity": "Moderate",
+      "availability": "High"
+    },
+    "observations": [
+      {
+        "observationId": 101,
+        "importance": "High",
+        "title": "Offline backup was never restored",
+        "summary": "The team had no evidence that the offline backup can be restored.",
+        "issue": "The restore procedure has not been exercised.",
+        "recommendations": "Run a restore test and record the result."
+      },
+      {
+        "observationId": 102,
+        "importance": "Low",
+        "title": "Policy review date is stale",
+        "summary": "The incident-response policy shows no review in the last two years."
+      }
+    ]
+  },
+  "contacts": [
+    {
+      "firstName": "Sensitive",
+      "lastName": "Person",
+      "email": "secret@example.com",
+      "phone": "555-0100"
+    }
+  ],
+  "standards": {
+    "mode": "Requirements",
+    "standards": [
+      {
+        "setName": "NIST_CSF",
+        "requirements": [
+          {
+            "requirementId": 1,
+            "requirementText": "Sensitive requirement text",
+            "title": "Backup",
+            "answerText": "N",
+            "comment": "PCII comment that must not be stored",
+            "feedback": "Sensitive feedback",
+            "observations": [
+              {
+                "observationId": 101,
+                "importance": "High",
+                "title": "Offline backup was never restored",
+                "summary": "The team had no evidence that the offline backup can be restored.",
+                "issue": "The restore procedure has not been exercised.",
+                "recommendations": "Run a restore test and record the result."
+              },
+              {
+                "observationId": 103,
+                "importance": "Critical",
+                "title": "Restore test never run",
+                "issue": "No restore test exists for the primary database.",
+                "recommendations": "Add a quarterly restore test."
+              }
+            ]
+          },
+          {
+            "requirementId": 2,
+            "requirementText": "Sensitive requirement text",
+            "title": "Logging",
+            "answerText": "Y",
+            "comment": "Sensitive comment",
+            "feedback": "Sensitive feedback",
+            "observations": []
+          }
+        ]
+      }
+    ]
+  },
+  "cisDemographics": {
+    "organizationDemographics": {
+      "organizationName": "Sensitive Utility Co",
+      "siteName": "Secret Site"
+    }
+  },
+  "maturityModels": [
+    {
+      "modelId": 1,
+      "modelName": "CIS_CSF",
+      "modelTitle": "CIS Controls",
+      "level": [],
+      "groupings": [
+        {
+          "groupingId": 1,
+          "title": "Identity",
+          "groupings": [],
+          "questions": [
+            {
+              "questionId": 11,
+              "title": "11",
+              "questionText": "Sensitive question text",
+              "answerText": "N",
+              "comment": "Sensitive comment",
+              "feedback": "Sensitive feedback",
+              "observations": [
+                {
+                  "observationId": 104,
+                  "importance": "Medium",
+                  "title": "MFA is not enforced for remote access",
+                  "summary": "Remote access uses a password only.",
+                  "recommendations": "Enforce MFA for every remote access path."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -40,6 +40,7 @@ important controls and 2 for the rest.
 | Asset and application inventory | Yes: assets, applications, taxonomy, risk links | 3 | `Asset`, `Application` |
 | Findings and remediation | Yes: triage queue, severity, owner, due date, status; automated from validation | 3 | `Finding` |
 | Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
+| CSET assessment import | Yes: PCII-scrubbed JSON, counts, observations as findings; no CSET score or question bank | 3 | `docs/integrations/cset.md` |
 | Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
 | Metrics and reporting | Partial: widgets, exports, AI summaries; no heat map or scorecard builder | 2 | Gap 3 |
 | Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
@@ -125,6 +126,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | SARIF scanner import | `docs/integrations/assessment-sarif.md` |
 | deps.dev and Scorecard enrichment | `docs/integrations/deps-dev.md` |
 | Observable enrichment boundary | `docs/integrations/observable-enrichment.md` |
+| CSET assessment import | `docs/integrations/cset.md` |
 | Guidance and advisory register | `docs/grc/guidance-register.md` |
 | Evidence and integrity | `docs/grc/evidence-standard.md` |
 | Policy readiness register | `docs/grc/policy-readiness.md` |
