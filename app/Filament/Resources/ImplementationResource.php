@@ -14,6 +14,7 @@ use App\Filament\Resources\ImplementationResource\Pages\ListImplementations;
 use App\Filament\Resources\ImplementationResource\Pages\ViewImplementations;
 use App\Filament\Resources\ImplementationResource\RelationManagers\ApplicationsRelationManager;
 use App\Filament\Resources\ImplementationResource\RelationManagers\AssetsRelationManager;
+use App\Filament\Resources\ImplementationResource\RelationManagers\AttestationsRelationManager;
 use App\Filament\Resources\ImplementationResource\RelationManagers\AuditItemRelationManager;
 use App\Filament\Resources\ImplementationResource\RelationManagers\ControlsRelationManager;
 use App\Filament\Resources\ImplementationResource\RelationManagers\EvidenceRelationManager;
@@ -381,6 +382,7 @@ class ImplementationResource extends Resource
         return [
             ControlsRelationManager::class,
             EvidenceRelationManager::class,
+            AttestationsRelationManager::class,
             AuditItemRelationManager::class,
             RisksRelationManager::class,
             AssetsRelationManager::class,

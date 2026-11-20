@@ -45,6 +45,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0038-cset-assessment-import.md](decisions/0038-cset-assessment-import.md) | CSET is an external assessment; import the scrubbed export only |
 | [decisions/0039-regulatory-change-register.md](decisions/0039-regulatory-change-register.md) | Regulatory change is a human register, not a feed |
 | [decisions/0040-dlp-quality-targets.md](decisions/0040-dlp-quality-targets.md) | DLP false-positive targets are programme targets, not a universal benchmark |
+| [decisions/0041-control-attestation.md](decisions/0041-control-attestation.md) | Control owner attestation is a dated statement, not a control test |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -97,6 +98,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/findings-and-remediation.md](grc/findings-and-remediation.md) | Finding lifecycle, risk links and remediation limits |
 | [grc/vendor-subcontractors.md](grc/vendor-subcontractors.md) | Fourth-party subcontractor register on a vendor |
 | [grc/regulatory-changes.md](grc/regulatory-changes.md) | Regulatory and standard change register with impact assessment |
+| [grc/control-attestations.md](grc/control-attestations.md) | Owner attestation requests, statements, declines and expiry |
 
 ## Security
 

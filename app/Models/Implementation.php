@@ -102,6 +102,14 @@ class Implementation extends Model
     }
 
     /**
+     * @return HasMany<ControlAttestation, $this>
+     */
+    public function attestations(): HasMany
+    {
+        return $this->hasMany(ControlAttestation::class);
+    }
+
+    /**
      * The policies that belong to the implementation.
      */
     public function policies(): BelongsToMany

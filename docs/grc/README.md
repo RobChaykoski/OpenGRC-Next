@@ -42,6 +42,7 @@ important controls and 2 for the rest.
 | Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
 | CSET assessment import | Yes: PCII-scrubbed JSON, counts, observations as findings; no CSET score or question bank | 3 | `docs/integrations/cset.md` |
 | Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
+| Control owner attestations | Yes: per-implementation request, owner statement, decline and expiry; no campaign engine | 3 | `docs/grc/control-attestations.md` |
 | Metrics and reporting | Partial: widgets, exports, AI summaries and a risk heat map; no scorecard builder | 2 | `docs/grc/risk-methodology.md` |
 | Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
 | Regulatory change monitoring | Partial: a human-maintained change register with impact assessment and affected frameworks; no feed or diff | 3 | `docs/grc/regulatory-changes.md` |
@@ -79,8 +80,10 @@ an audit.
    outlines risks at or above it. It does not block a risk, assign treatment, or
    support per-category appetite. Record the real appetite in the risk treatment
    and acceptance fields.
-6. **No attestation workflow for control owners.** Owners are recorded; a periodic
-   "I confirm this is still true" event is not.
+6. **Attestations are per implementation, not a campaign.** An owner can be asked
+   to confirm an implementation and can attest or decline, with a statement and
+   expiry. There is no batch launch, sampling, reminder or escalation workflow;
+   the programme requests attestations one implementation at a time.
 7. **No regulatory change feed.** Requirements and changes are recorded when a
    person finds them. The change register captures the source, impact and affected
    frameworks, but there is no subscription that tells you a standard was revised
@@ -142,6 +145,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Access review campaigns | `docs/grc/access-reviews.md` |
 | Exercises and tabletops | `docs/grc/exercises.md` |
 | Control test cadence and reporting | `docs/grc/control-testing.md` |
+| Control owner attestations | `docs/grc/control-attestations.md` |
 | Findings, risk links and remediation | `docs/grc/findings-and-remediation.md` |
 | Vendor subcontractors (fourth parties) | `docs/grc/vendor-subcontractors.md` |
 | Regulatory and standard changes | `docs/grc/regulatory-changes.md` |

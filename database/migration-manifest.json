@@ -592,6 +592,10 @@
         {
             "name": "2026_11_20_260000_add_review_to_dlp_findings",
             "sha256": "e8fe54253c49928b189501d244159cf861fd51f84a80f5040db04b2f203f6740"
+        },
+        {
+            "name": "2026_11_20_270000_create_control_attestations_table",
+            "sha256": "0289e0a2d2f311abd21191d9caaca484619f936b9ffc093905295e2ce589f082"
         }
     ]
 }

@@ -7,6 +7,7 @@ use App\Enums\AccessReviewStatus;
 use App\Enums\NonHumanIdentityStatus;
 use App\Enums\PolicyExceptionStatus;
 use App\Enums\PrivacyRequestStatus;
+use App\Filament\Pages\MyAttestations;
 use App\Filament\Pages\MyPolicies;
 use App\Filament\Resources\AccessReviewResource;
 use App\Filament\Resources\ImplementationResource;
@@ -17,6 +18,7 @@ use App\Filament\Resources\RiskResource;
 use App\Filament\Resources\SbomDocumentResource;
 use App\Models\AccessReview;
 use App\Models\AccessReviewDecision as AccessDecision;
+use App\Models\ControlAttestation;
 use App\Models\Implementation;
 use App\Models\NonHumanIdentity;
 use App\Models\Policy;
@@ -45,6 +47,7 @@ class ComplianceOperationsWidget extends BaseWidget
         $user = auth()->user();
 
         $policyOutstanding = 0;
+        $attestationsDue = 0;
 
         if ($user !== null) {
             $policies = Policy::query()
@@ -69,6 +72,11 @@ class ComplianceOperationsWidget extends BaseWidget
                 return $acknowledgement === null
                     || $acknowledgement->policy_revision !== $policy->currentRevision();
             })->count();
+
+            $attestationsDue = ControlAttestation::query()
+                ->pending()
+                ->whereHas('implementation', fn ($query) => $query->where('implementation_owner_id', $user->getKey()))
+                ->count();
         }
 
         $openAdvisories = SoftwareVulnerability::query()
@@ -111,6 +119,12 @@ class ComplianceOperationsWidget extends BaseWidget
                 ->descriptionIcon('heroicon-m-document-check')
                 ->color($policyOutstanding > 0 ? 'warning' : 'success')
                 ->url(MyPolicies::getUrl()),
+
+            Stat::make('Control attestations', $attestationsDue)
+                ->description('Waiting for you')
+                ->descriptionIcon('heroicon-m-check-badge')
+                ->color($attestationsDue > 0 ? 'warning' : 'success')
+                ->url(MyAttestations::getUrl()),
 
             Stat::make('Open SBOM advisories', $openAdvisories)
                 ->description('Vulnerable components')

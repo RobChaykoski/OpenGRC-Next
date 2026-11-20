@@ -40,6 +40,10 @@ class Kernel extends ConsoleKernel
 
         // A risk acceptance is a dated decision, not a permanent state.
         $schedule->command('opengrc:risks:acceptance')->dailyAt('00:30');
+
+        // A pending control attestation past its due date is no longer a valid
+        // confirmation; mark it expired without changing the owner's statement.
+        $schedule->command('opengrc:controls:attestations:expire')->dailyAt('00:35');
     }
 
     /**
