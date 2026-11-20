@@ -96,14 +96,23 @@ and asset updates the components instead of creating a second inventory.
 - No auto-resolution: an advisory disappearing from a scan does not close a
   finding. A person verifies the upgrade and resolves it.
 
+## In the console
+
+**Entities → Software inventory** lists imported SBOMs with their application or
+asset, component count, open advisories and age. Open a document to see its
+components and the OSV advisories against them; each advisory links to the
+finding that carries the owner, due date and resolution.
+
+The register is read-only. Import and re-scan from the CLI so a page load cannot
+start a scan or change the inventory.
+
 ## Limits
 
 - CycloneDX JSON only in this slice. SPDX and CycloneDX XML are later.
 - No source, container or runtime scan; import a scanner's SBOM or report.
 - No deps.dev or OpenSSF Scorecard enrichment yet.
 - No automatic upgrade or pull request.
-- No per-application inventory UI yet; findings appear in the existing queue and
-  the raw records are queryable.
+- The inventory is read-only; import and re-scan with the CLI.
 - The SBOM is a snapshot. A stale document is visible by its import time, not by
   a live "clean" status.
 

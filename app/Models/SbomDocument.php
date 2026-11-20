@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 /**
  * A point-in-time software bill of materials.
@@ -67,6 +68,14 @@ class SbomDocument extends Model
     public function components(): HasMany
     {
         return $this->hasMany(SoftwareComponent::class);
+    }
+
+    /**
+     * @return HasManyThrough<SoftwareVulnerability, SoftwareComponent, $this>
+     */
+    public function vulnerabilities(): HasManyThrough
+    {
+        return $this->hasManyThrough(SoftwareVulnerability::class, SoftwareComponent::class);
     }
 
     public function reference(): string
