@@ -111,10 +111,31 @@ To add a framework:
 
 ## Bundles
 
-Bundles are metadata records pointing at a source document (`filename`,
-`source_url`). The documents themselves are not distributed with OpenGRC, which
-keeps copyrighted standards out of the repository. Users supply their own
-licensed copies and upload them if they want them attached.
+Bundles are provenance metadata for standards OpenGRC does **not** ship. Each
+entry records the authority, licence, redistributable status, provenance URL and
+a note. There is no `data` file and no seeder: the text is not ours to
+redistribute. Users obtain a licensed copy and import it locally if they want it
+in the database.
+
+| Bundle | Authority | Licence position | What to do |
+|---|---|---|---|
+| `ISO-27001` | ISO/IEC | Commercial, purchase required | Buy ISO/IEC 27001:2022; map your controls or import a licensed copy |
+| `ISO-27002` | ISO/IEC | Commercial, purchase required | Reference the guidance; do not copy the control text |
+| `ISO-27701` | ISO/IEC | Commercial, purchase required | Privacy extension; purchase required |
+| `ISO-42001` | ISO/IEC | Commercial, purchase required | AI management system; pair with your AI policy |
+| `PCI-DSS` | PCI SSC | Free download, redistribution restricted | Download v4.0.1; import a licensed copy locally |
+| `CSA-CCM` | Cloud Security Alliance | Free download with registration, redistribution restricted | Download CCM v4.0.1; use the CSA mapping, do not bundle the text |
+| `CMMC-2-L1` | US DoD | Derived from FAR 52.204-21 | Fifteen practices; already present in the CMMC Level 2 CSV |
+| `CMMC-2-L3` | US DoD | Derived from NIST SP 800-172 | Selected enhanced requirements; the assessment guide is DoD material |
+| `SOC2-Type2` | AICPA | AICPA copyright | The report is client-confidential; the criteria are not redistributable |
+
+Some bundle keys (`CSCv8`, `800-171`, `800-53-Low`, `HIPAA-Security`) also exist
+as importable standards. They remain in the bundle register so a programme can
+reference the source document without implying that a second copy is shipped.
+
+A bundle is not an importable framework. If a future change adds a data file and
+a seeder, it belongs under `standards`, not `bundles`, and the licence must be
+reviewed first.
 
 ## Provenance for auditors
 

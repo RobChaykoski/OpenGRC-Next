@@ -278,15 +278,102 @@ return [
      * Bundles reference source documents by filename. OpenGRC does not ship the
      * documents themselves, which keeps copyrighted standards out of the repo.
      * Users supply their own licensed copies.
+     *
+     * A bundle is provenance metadata only. It is not an importable framework:
+     * there is no `data` key and no seeder, because the text is not ours to ship.
      */
     'bundles' => [
-        'ISO-27001' => ['authority' => 'ISO/IEC', 'licence' => 'Commercial - purchase required', 'redistributable' => 'no'],
-        'PCI-DSS' => ['authority' => 'PCI SSC', 'licence' => 'Free download, redistribution restricted', 'redistributable' => 'conditional'],
-        '800-171' => ['authority' => 'NIST', 'licence' => 'Public domain (US Government work)', 'redistributable' => 'yes'],
-        '800-53-Low' => ['authority' => 'NIST', 'licence' => 'Public domain (US Government work)', 'redistributable' => 'yes'],
-        'HIPAA-Security' => ['authority' => 'HHS', 'licence' => 'Public domain (US regulation)', 'redistributable' => 'yes'],
-        'CSCv8' => ['authority' => 'CIS', 'licence' => 'CIS Terms of Use', 'redistributable' => 'conditional'],
-        'SOC2-Type2' => ['authority' => 'AICPA', 'licence' => 'AICPA copyright', 'redistributable' => 'no'],
+        'ISO-27001' => [
+            'authority' => 'ISO/IEC',
+            'licence' => 'Commercial - purchase required',
+            'redistributable' => 'no',
+            'provenance' => 'https://www.iso.org/standard/27001',
+            'note' => 'ISO/IEC 27001:2022. Purchase from ISO or a national member body. Not bundled.',
+        ],
+        'ISO-27002' => [
+            'authority' => 'ISO/IEC',
+            'licence' => 'Commercial - purchase required',
+            'redistributable' => 'no',
+            'provenance' => 'https://www.iso.org/standard/75652.html',
+            'note' => 'ISO/IEC 27002:2022 implementation guidance. Reference it; do not copy the control text.',
+        ],
+        'ISO-27701' => [
+            'authority' => 'ISO/IEC',
+            'licence' => 'Commercial - purchase required',
+            'redistributable' => 'no',
+            'provenance' => 'https://www.iso.org/standard/85818.html',
+            'note' => 'Privacy information management extension to 27001/27002. Purchase required.',
+        ],
+        'ISO-42001' => [
+            'authority' => 'ISO/IEC',
+            'licence' => 'Commercial - purchase required',
+            'redistributable' => 'no',
+            'provenance' => 'https://www.iso.org/standard/81230.html',
+            'note' => 'AI management system. Pair with your own AI policy and NIST AI RMF; do not bundle the text.',
+        ],
+        'PCI-DSS' => [
+            'authority' => 'PCI SSC',
+            'licence' => 'Free download, redistribution restricted',
+            'redistributable' => 'conditional',
+            'provenance' => 'https://www.pcisecuritystandards.org/document_library/',
+            'note' => 'PCI DSS v4.0.1. The standard is free to download but the PCI SSC licence restricts redistribution. Import a licensed copy locally.',
+        ],
+        'CSA-CCM' => [
+            'authority' => 'Cloud Security Alliance',
+            'licence' => 'Free download with registration; redistribution restricted',
+            'redistributable' => 'conditional',
+            'provenance' => 'https://cloudsecurityalliance.org/artifacts/cloud-controls-matrix-v4',
+            'note' => 'CCM v4.0.1. Use the CSA mapping to ISO/IEC 27001 and STAR; do not bundle the matrix text.',
+        ],
+        'CMMC-2-L1' => [
+            'authority' => 'US Department of Defense',
+            'licence' => 'Derived from FAR 52.204-21 (US Government work)',
+            'redistributable' => 'conditional',
+            'provenance' => 'https://www.acq.osd.mil/cmmc/',
+            'note' => 'Fifteen Level 1 practices. They are already present in the CMMC Level 2 bundle; no separate import is needed.',
+        ],
+        'CMMC-2-L3' => [
+            'authority' => 'US Department of Defense',
+            'licence' => 'Derived from NIST SP 800-172 (US Government work)',
+            'redistributable' => 'conditional',
+            'provenance' => 'https://www.acq.osd.mil/cmmc/',
+            'note' => 'Selected enhanced requirements from SP 800-172 Rev. 3. The assessment guide is DoD material; do not bundle it.',
+        ],
+        'SOC2-Type2' => [
+            'authority' => 'AICPA',
+            'licence' => 'AICPA copyright',
+            'redistributable' => 'no',
+            'provenance' => 'https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2',
+            'note' => 'Report content is client-specific and confidential; the criteria are AICPA copyright.',
+        ],
+        '800-171' => [
+            'authority' => 'NIST',
+            'licence' => 'Public domain (US Government work)',
+            'redistributable' => 'yes',
+            'provenance' => 'https://csrc.nist.gov/pubs/sp/800/171/r3/final',
+            'note' => 'Already shipped as 800-171r3; this bundle entry exists for programme references.',
+        ],
+        '800-53-Low' => [
+            'authority' => 'NIST',
+            'licence' => 'Public domain (US Government work)',
+            'redistributable' => 'yes',
+            'provenance' => 'https://csrc.nist.gov/pubs/sp/800/53b/final',
+            'note' => 'Already shipped as NIST-800-53B-Low; this bundle entry exists for programme references.',
+        ],
+        'HIPAA-Security' => [
+            'authority' => 'HHS',
+            'licence' => 'Public domain (US regulation)',
+            'redistributable' => 'yes',
+            'provenance' => 'https://www.hhs.gov/hipaa/for-professionals/security/',
+            'note' => 'Already shipped as HIPAA-Security.',
+        ],
+        'CSCv8' => [
+            'authority' => 'CIS',
+            'licence' => 'CIS Terms of Use',
+            'redistributable' => 'conditional',
+            'provenance' => 'https://www.cisecurity.org/controls/v8',
+            'note' => 'Already shipped as CSCv8. The CIS terms restrict redistribution.',
+        ],
     ],
 
 ];

@@ -78,6 +78,22 @@ class FrameworkAuditCommandTest extends TestCase
         }
     }
 
+    #[Test]
+    public function every_bundle_has_licence_provenance_and_no_data(): void
+    {
+        foreach (config('framework_catalog.bundles') as $code => $bundle) {
+            $this->assertNotEmpty($bundle['authority'] ?? null, "{$code} is missing an authority");
+            $this->assertNotEmpty($bundle['licence'] ?? null, "{$code} is missing a licence");
+            $this->assertNotEmpty($bundle['provenance'] ?? null, "{$code} is missing provenance");
+            $this->assertArrayNotHasKey('data', $bundle, "{$code} is a bundle but ships data");
+            $this->assertContains(
+                $bundle['redistributable'] ?? null,
+                ['yes', 'no', 'conditional', 'review'],
+                "{$code} has an unknown redistributable status"
+            );
+        }
+    }
+
     protected function createStandard(string $code): int
     {
         return DB::table('standards')->insertGetId([
