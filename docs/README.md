@@ -48,6 +48,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0041-control-attestation.md](decisions/0041-control-attestation.md) | Control owner attestation is a dated statement, not a control test |
 | [decisions/0042-control-crosswalk.md](decisions/0042-control-crosswalk.md) | A control crosswalk is a reviewed mapping, not equivalence |
 | [decisions/0043-approval-workflow.md](decisions/0043-approval-workflow.md) | Approval requests are an ordered chain, not a workflow engine |
+| [decisions/0044-remediation-tasks.md](decisions/0044-remediation-tasks.md) | Remediation tasks are work records, not a project plan |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -103,6 +104,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/control-attestations.md](grc/control-attestations.md) | Owner attestation requests, statements, declines and expiry |
 | [grc/control-crosswalks.md](grc/control-crosswalks.md) | Reviewed control-to-control mappings across frameworks |
 | [grc/approval-workflows.md](grc/approval-workflows.md) | Ordered multi-step approval requests and the approver queue |
+| [grc/remediation-tasks.md](grc/remediation-tasks.md) | Work records that link findings, risks and controls to an owner and date |
 
 ## Security
 

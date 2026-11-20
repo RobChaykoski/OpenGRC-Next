@@ -65,3 +65,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0041](0041-control-attestation.md) | Control owner attestation is a dated statement, not a control test | accepted |
 | [0042](0042-control-crosswalk.md) | A control crosswalk is a reviewed mapping, not equivalence | accepted |
 | [0043](0043-approval-workflow.md) | Approval requests are an ordered chain, not a workflow engine | accepted |
+| [0044](0044-remediation-tasks.md) | Remediation tasks are work records, not a project plan | accepted |

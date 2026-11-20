@@ -8,6 +8,7 @@ use App\Enums\FindingStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * A gap that needs an owner and a date.
@@ -67,6 +68,14 @@ class Finding extends Model
     public function risk(): BelongsTo
     {
         return $this->belongsTo(Risk::class, 'risk_id');
+    }
+
+    /**
+     * @return HasMany<RemediationTask, $this>
+     */
+    public function remediationTasks(): HasMany
+    {
+        return $this->hasMany(RemediationTask::class);
     }
 
     /**

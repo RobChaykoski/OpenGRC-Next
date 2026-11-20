@@ -5385,6 +5385,73 @@
             "nullable": true
         }
     ],
+    "remediation_tasks": [
+        {
+            "name": "completed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "control_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "due_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "finding_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "risk_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "title",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "risks": [
         {
             "name": "acceptance_expires_at",

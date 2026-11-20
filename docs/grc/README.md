@@ -38,7 +38,7 @@ important controls and 2 for the rest.
 | Policy readiness | Yes: readiness register with separate design/operating/evidence status | 3 | `docs/grc/policy-readiness.md` |
 | Vendor risk (TPRM) | Yes: inventory, questionnaires, scoring, documents, subcontractor register; no nth-party graph | 3 | `Vendor`, `docs/grc/vendor-subcontractors.md` |
 | Asset and application inventory | Yes: assets, applications, taxonomy, risk links | 3 | `Asset`, `Application` |
-| Findings and remediation | Yes: triage queue, severity, owner, due date, status, risk link; automated from validation | 3 | `docs/grc/findings-and-remediation.md` |
+| Findings and remediation | Yes: triage queue, severity, owner, due date, status, risk link and linked remediation tasks; automated from validation | 3 | `docs/grc/findings-and-remediation.md`, `docs/grc/remediation-tasks.md` |
 | Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
 | CSET assessment import | Yes: PCII-scrubbed JSON, counts, observations as findings; no CSET score or question bank | 3 | `docs/integrations/cset.md` |
 | Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
@@ -61,12 +61,12 @@ an audit.
    nothing sends a reminder, and completing an audit item does not stamp the
    dates; someone must update them. Recommended next step: connect the report to
    the notification channel the programme already watches.
-2. **Findings link to a risk; remediation is otherwise lightweight.** A finding
-   has severity, owner, due date, status and resolution notes, with a triage
-   screen and automated raising from validation. It can be linked to the risk it
-   contributes to. There is still no separate remediation plan with tasks,
-   milestones or dependencies. Use the due date, notes and linked risk until that
-   lands, or keep the plan in an external tracker and record the ticket id.
+2. **Findings link to a risk and to remediation tasks.** A finding has severity,
+   owner, due date, status and resolution notes, with a triage screen and automated
+   raising from validation. It can link to the risk it contributes to and to one
+   or more remediation tasks with their own owner and date. There is no project
+   plan with dependencies or milestones; use an external tracker for that and put
+   the ticket id in the task notes.
 3. **Human evidence is direct on implementations.** A file can be attached to an
    implementation, hashed by the evidence ledger and kept private. Audit items and
    data request responses remain separate paths for fieldwork evidence. There is
@@ -151,6 +151,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Control owner attestations | `docs/grc/control-attestations.md` |
 | Control crosswalks | `docs/grc/control-crosswalks.md` |
 | Multi-step approvals | `docs/grc/approval-workflows.md` |
+| Remediation tasks | `docs/grc/remediation-tasks.md` |
 | Findings, risk links and remediation | `docs/grc/findings-and-remediation.md` |
 | Vendor subcontractors (fourth parties) | `docs/grc/vendor-subcontractors.md` |
 | Regulatory and standard changes | `docs/grc/regulatory-changes.md` |

@@ -604,6 +604,10 @@
         {
             "name": "2026_11_20_290000_create_approval_requests_table",
             "sha256": "1bb8f7ff75cb96f532f9a7450ec3958dc3d1008b625f29d226c5876a36926f9a"
+        },
+        {
+            "name": "2026_11_20_300000_create_remediation_tasks_table",
+            "sha256": "2091f0f298acf9b50a6cbd0a2d7a83cabfb85428a763725d9658c597e01c7147"
         }
     ]
 }
