@@ -5028,6 +5028,115 @@
             "nullable": true
         }
     ],
+    "regulatory_change_standard": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "regulatory_change_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "standard_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "regulatory_changes": [
+        {
+            "name": "assessed_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "due_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "effective_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "impact",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "impact_assessment",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "published_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "reference_url",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "regulator",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "summary",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "title",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "risks": [
         {
             "name": "acceptance_expires_at",

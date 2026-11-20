@@ -584,6 +584,10 @@
         {
             "name": "2026_11_20_240000_add_implementation_to_file_attachments",
             "sha256": "1dbba80172b1e848847d727b3946c901f8d2433ec35332d0f205f8c49168f954"
+        },
+        {
+            "name": "2026_11_20_250000_create_regulatory_changes_table",
+            "sha256": "4e20c67eda2ed57ccc79ba4ba9c55cac3d9d3a81a4cfb0aaea9e398d9e8feda9"
         }
     ]
 }

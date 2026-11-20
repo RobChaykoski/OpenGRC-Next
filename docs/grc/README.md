@@ -44,7 +44,7 @@ important controls and 2 for the rest.
 | Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
 | Metrics and reporting | Partial: widgets, exports, AI summaries and a risk heat map; no scorecard builder | 2 | `docs/grc/risk-methodology.md` |
 | Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
-| Regulatory change monitoring | Not built: no feed of new or amended requirements | 1 | Gap 7 |
+| Regulatory change monitoring | Partial: a human-maintained change register with impact assessment and affected frameworks; no feed or diff | 3 | `docs/grc/regulatory-changes.md` |
 | Collaboration and workflow | Partial: three roles, assignments, comments, exports; no approval engine | 2 | Gap 8 |
 | Access review campaigns | Yes: account snapshot, reviewer attest/revoke, completion rule, evidence | 4 | `docs/grc/access-reviews.md` |
 | Exercises and tabletops | Yes: type, source, objectives, participants, findings, actions, evidence | 3 | `docs/grc/exercises.md` |
@@ -81,8 +81,9 @@ an audit.
    and acceptance fields.
 6. **No attestation workflow for control owners.** Owners are recorded; a periodic
    "I confirm this is still true" event is not.
-7. **No regulatory change feed.** Requirements are imported when you choose to
-   import them. There is no subscription that tells you a standard was revised,
+7. **No regulatory change feed.** Requirements and changes are recorded when a
+   person finds them. The change register captures the source, impact and affected
+   frameworks, but there is no subscription that tells you a standard was revised
    and no diff against the version you assessed against.
 8. **Approvals are per record, not a workflow engine.** Resources have approve,
    edit, and delete actions with role checks. There is no multi-step approval
@@ -143,6 +144,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Control test cadence and reporting | `docs/grc/control-testing.md` |
 | Findings, risk links and remediation | `docs/grc/findings-and-remediation.md` |
 | Vendor subcontractors (fourth parties) | `docs/grc/vendor-subcontractors.md` |
+| Regulatory and standard changes | `docs/grc/regulatory-changes.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

@@ -43,6 +43,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0036-deps-dev-scorecard-enrichment.md](decisions/0036-deps-dev-scorecard-enrichment.md) | deps.dev and Scorecard enrich components; they do not decide compliance |
 | [decisions/0037-observable-enrichment-cortex.md](decisions/0037-observable-enrichment-cortex.md) | Observable enrichment is opt-in and privacy-gated |
 | [decisions/0038-cset-assessment-import.md](decisions/0038-cset-assessment-import.md) | CSET is an external assessment; import the scrubbed export only |
+| [decisions/0039-regulatory-change-register.md](decisions/0039-regulatory-change-register.md) | Regulatory change is a human register, not a feed |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -94,6 +95,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/control-testing.md](grc/control-testing.md) | Control test cadence and the due/overdue report |
 | [grc/findings-and-remediation.md](grc/findings-and-remediation.md) | Finding lifecycle, risk links and remediation limits |
 | [grc/vendor-subcontractors.md](grc/vendor-subcontractors.md) | Fourth-party subcontractor register on a vendor |
+| [grc/regulatory-changes.md](grc/regulatory-changes.md) | Regulatory and standard change register with impact assessment |
 
 ## Security
 

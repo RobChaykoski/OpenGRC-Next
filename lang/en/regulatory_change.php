@@ -1,0 +1,57 @@
+<?php
+
+return [
+    'navigation' => [
+        'label' => 'Regulatory changes',
+    ],
+    'model' => [
+        'label' => 'Regulatory change',
+        'plural_label' => 'Regulatory changes',
+    ],
+    'form' => [
+        'title' => 'Title',
+        'title_help' => 'A short statement of what changed, not the text of the change.',
+        'regulator' => 'Regulator or publisher',
+        'reference_url' => 'Source link',
+        'reference_url_help' => 'Link to the published change. Do not paste the text into this record.',
+        'published_at' => 'Published',
+        'effective_at' => 'Effective',
+        'status' => 'Status',
+        'impact' => 'Impact',
+        'summary' => 'Summary',
+        'summary_help' => 'A short summary in your own words. The source stays upstream.',
+        'impact_assessment' => 'Impact assessment',
+        'impact_assessment_help' => 'What it means for our controls, policies, evidence and contracts.',
+        'owner' => 'Owner',
+        'assessed_at' => 'Assessed',
+        'due_at' => 'Assessment due',
+        'notes' => 'Internal notes',
+        'standards' => 'Affected frameworks',
+        'standards_help' => 'Which imported standards or control libraries this change touches.',
+    ],
+    'table' => [
+        'reference' => 'Reference',
+        'title' => 'Change',
+        'regulator' => 'Regulator',
+        'status' => 'Status',
+        'impact' => 'Impact',
+        'published_at' => 'Published',
+        'effective_at' => 'Effective',
+        'due_at' => 'Due',
+        'owner' => 'Owner',
+        'standards' => 'Frameworks',
+        'empty_heading' => 'No regulatory changes',
+        'empty_description' => 'Record a new or amended requirement, link the source and assess the impact on your controls.',
+    ],
+    'filters' => [
+        'status' => 'Status',
+        'impact' => 'Impact',
+        'owner' => 'Owner',
+        'overdue' => 'Assessment overdue',
+    ],
+    'sections' => [
+        'change' => 'Change',
+        'assessment' => 'Assessment',
+        'mapping' => 'Affected frameworks',
+    ],
+];

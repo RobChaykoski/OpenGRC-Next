@@ -60,3 +60,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0036](0036-deps-dev-scorecard-enrichment.md) | deps.dev and Scorecard enrich components; they do not decide compliance | accepted |
 | [0037](0037-observable-enrichment-cortex.md) | Observable enrichment is opt-in and privacy-gated | accepted |
 | [0038](0038-cset-assessment-import.md) | CSET is an external assessment; import the scrubbed export only | accepted |
+| [0039](0039-regulatory-change-register.md) | Regulatory change is a human register, not a feed | accepted |
