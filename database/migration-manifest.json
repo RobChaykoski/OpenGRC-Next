@@ -600,6 +600,10 @@
         {
             "name": "2026_11_20_280000_create_control_crosswalks_table",
             "sha256": "036fca2a96fb27fa73557029d8b133ba20fc5f7adf7c4784e606fe56be85eb5b"
+        },
+        {
+            "name": "2026_11_20_290000_create_approval_requests_table",
+            "sha256": "1bb8f7ff75cb96f532f9a7450ec3958dc3d1008b625f29d226c5876a36926f9a"
         }
     ]
 }

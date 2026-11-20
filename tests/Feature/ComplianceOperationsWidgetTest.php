@@ -39,6 +39,7 @@ class ComplianceOperationsWidgetTest extends TestCase
             ->assertOk()
             ->assertSee('Policies to acknowledge')
             ->assertSee('Control attestations')
+            ->assertSee('Approvals')
             ->assertSee('Open SBOM advisories')
             ->assertSee('Access reviews')
             ->assertSee('Machine credentials')

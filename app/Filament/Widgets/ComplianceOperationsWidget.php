@@ -7,6 +7,7 @@ use App\Enums\AccessReviewStatus;
 use App\Enums\NonHumanIdentityStatus;
 use App\Enums\PolicyExceptionStatus;
 use App\Enums\PrivacyRequestStatus;
+use App\Filament\Pages\MyApprovals;
 use App\Filament\Pages\MyAttestations;
 use App\Filament\Pages\MyPolicies;
 use App\Filament\Resources\AccessReviewResource;
@@ -18,6 +19,7 @@ use App\Filament\Resources\RiskResource;
 use App\Filament\Resources\SbomDocumentResource;
 use App\Models\AccessReview;
 use App\Models\AccessReviewDecision as AccessDecision;
+use App\Models\ApprovalRequestStep;
 use App\Models\ControlAttestation;
 use App\Models\Implementation;
 use App\Models\NonHumanIdentity;
@@ -48,6 +50,7 @@ class ComplianceOperationsWidget extends BaseWidget
 
         $policyOutstanding = 0;
         $attestationsDue = 0;
+        $approvalsDue = 0;
 
         if ($user !== null) {
             $policies = Policy::query()
@@ -76,6 +79,14 @@ class ComplianceOperationsWidget extends BaseWidget
             $attestationsDue = ControlAttestation::query()
                 ->pending()
                 ->whereHas('implementation', fn ($query) => $query->where('implementation_owner_id', $user->getKey()))
+                ->count();
+
+            $approvalsDue = ApprovalRequestStep::query()
+                ->pending()
+                ->where('approver_id', $user->getKey())
+                ->whereHas('request', fn ($query) => $query->where('status', 'pending'))
+                ->get()
+                ->filter(fn (ApprovalRequestStep $step): bool => $step->isCurrent())
                 ->count();
         }
 
@@ -125,6 +136,12 @@ class ComplianceOperationsWidget extends BaseWidget
                 ->descriptionIcon('heroicon-m-check-badge')
                 ->color($attestationsDue > 0 ? 'warning' : 'success')
                 ->url(MyAttestations::getUrl()),
+
+            Stat::make('Approvals', $approvalsDue)
+                ->description('Waiting for you')
+                ->descriptionIcon('heroicon-m-clipboard-document-check')
+                ->color($approvalsDue > 0 ? 'warning' : 'success')
+                ->url(MyApprovals::getUrl()),
 
             Stat::make('Open SBOM advisories', $openAdvisories)
                 ->description('Vulnerable components')
