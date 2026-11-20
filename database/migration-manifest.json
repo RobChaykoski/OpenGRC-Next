@@ -564,6 +564,10 @@
         {
             "name": "2026_11_20_190000_create_exercises_table",
             "sha256": "16e1f32d3a9c6e1066e2c29416ad755bd9050d0eecf9662c123584ef54565816"
+        },
+        {
+            "name": "2026_11_20_200000_create_assessment_reports_table",
+            "sha256": "51d21482168e4ae8a54259eb88028374c951de297e285dab1ce878d2c09e53ef"
         }
     ]
 }

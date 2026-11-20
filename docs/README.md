@@ -39,6 +39,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0032-policy-acknowledgement.md](decisions/0032-policy-acknowledgement.md) | Policy acknowledgement is a versioned attestation, not a click |
 | [decisions/0033-access-review-campaign.md](decisions/0033-access-review-campaign.md) | Access review is a campaign snapshot, not a live role list |
 | [decisions/0034-exercise-register.md](decisions/0034-exercise-register.md) | Exercises are a register, not a training transcript |
+| [decisions/0035-sarif-assessment-import.md](decisions/0035-sarif-assessment-import.md) | Scanner output is findings evidence, not a scanner |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -56,6 +57,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/security-testing.md](integrations/security-testing.md) | WSTG test coverage and results without copying the guide |
 | [integrations/sbom-osv.md](integrations/sbom-osv.md) | CycloneDX SBOM import and OSV vulnerability evidence |
 | [integrations/openbao.md](integrations/openbao.md) | Read-only OpenBao metadata sync for credential rotation dates |
+| [integrations/assessment-sarif.md](integrations/assessment-sarif.md) | Import SARIF scanner reports as deduplicated findings |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice

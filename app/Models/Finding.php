@@ -28,6 +28,7 @@ class Finding extends Model
         'asset_id',
         'evidence_source_id',
         'rule_id',
+        'assessment_report_id',
         'owner_id',
         'dedupe_key',
         'occurrences',
@@ -73,6 +74,14 @@ class Finding extends Model
     public function rule(): BelongsTo
     {
         return $this->belongsTo(ControlValidationRule::class, 'rule_id');
+    }
+
+    /**
+     * @return BelongsTo<AssessmentReport, $this>
+     */
+    public function assessmentReport(): BelongsTo
+    {
+        return $this->belongsTo(AssessmentReport::class, 'assessment_report_id');
     }
 
     public function owner(): BelongsTo

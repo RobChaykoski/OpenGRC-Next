@@ -39,6 +39,7 @@ important controls and 2 for the rest.
 | Vendor risk (TPRM) | Yes: inventory, questionnaires, scoring, documents; no nth-party graph | 3 | `Vendor`, `Survey*` |
 | Asset and application inventory | Yes: assets, applications, taxonomy, risk links | 3 | `Asset`, `Application` |
 | Findings and remediation | Yes: triage queue, severity, owner, due date, status; automated from validation | 3 | `Finding` |
+| Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
 | Control testing cadence | Yes: last/next test dates, overdue filter; no automatic reminders | 3 | Gap 1 |
 | Metrics and reporting | Partial: widgets, exports, AI summaries; no heat map or scorecard builder | 2 | Gap 3 |
 | Regulatory mapping | Partial: cross-framework mapping is manual | 2 | Gap 4 |
@@ -120,6 +121,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Non-human identities | `docs/grc/non-human-identities.md` |
 | OpenBao secret metadata | `docs/integrations/openbao.md` |
 | SBOM and OSV supply-chain evidence | `docs/integrations/sbom-osv.md` |
+| SARIF scanner import | `docs/integrations/assessment-sarif.md` |
 | Guidance and advisory register | `docs/grc/guidance-register.md` |
 | Evidence and integrity | `docs/grc/evidence-standard.md` |
 | Policy readiness register | `docs/grc/policy-readiness.md` |
