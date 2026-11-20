@@ -122,12 +122,34 @@ class Control extends Model
      *
      * A link is a reviewed judgement, not a generated match. An empty set is a
      * valid state and appears as a coverage gap until someone reviews it.
+     *
+     * @return BelongsToMany<CanonicalControl, $this>
      */
     public function canonicalOutcomes(): BelongsToMany
     {
         return $this->belongsToMany(CanonicalControl::class, 'control_canonical_outcome')
             ->withPivot('source')
             ->withTimestamps();
+    }
+
+    /**
+     * Crosswalks where this control is the source.
+     *
+     * @return HasMany<ControlCrosswalk, $this>
+     */
+    public function outgoingCrosswalks(): HasMany
+    {
+        return $this->hasMany(ControlCrosswalk::class, 'source_control_id');
+    }
+
+    /**
+     * Crosswalks where this control is the target.
+     *
+     * @return HasMany<ControlCrosswalk, $this>
+     */
+    public function incomingCrosswalks(): HasMany
+    {
+        return $this->hasMany(ControlCrosswalk::class, 'target_control_id');
     }
 
     /**

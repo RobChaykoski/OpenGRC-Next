@@ -6,6 +6,7 @@ use App\Enums\CrosswalkConfidence;
 use App\Enums\CrosswalkStatus;
 use App\Enums\UserRole;
 use App\Filament\Resources\ControlCrosswalkResource;
+use App\Filament\Resources\ControlResource;
 use App\Http\Middleware\RequireTwoFactorAuthentication;
 use App\Models\Control;
 use App\Models\ControlCrosswalk;
@@ -140,10 +141,11 @@ class ControlCrosswalkTest extends TestCase
         $admin = User::factory()->create(['role' => UserRole::Admin]);
         $viewer = User::factory()->create(['role' => UserRole::Viewer]);
 
-        $crosswalk = ControlCrosswalk::factory()->create([
+        $crosswalk = ControlCrosswalk::factory()->approved()->create([
             'source_control_id' => $source->getKey(),
             'target_control_id' => $target->getKey(),
             'rationale' => 'Both require a vulnerability management programme.',
+            'reviewed_by' => $admin->getKey(),
         ]);
 
         $this->actingAs($admin)
@@ -159,6 +161,13 @@ class ControlCrosswalkTest extends TestCase
             ->get(ControlCrosswalkResource::getUrl('view', ['record' => $crosswalk]))
             ->assertOk()
             ->assertSee('Both require a vulnerability management programme.');
+
+        $this->actingAs($viewer)
+            ->get(ControlResource::getUrl('view', ['record' => $source]))
+            ->assertOk()
+            ->assertSee('Crosswalks')
+            ->assertSee('ID.RA-01')
+            ->assertSee('Approved');
 
         $this->actingAs($viewer)
             ->get(ControlCrosswalkResource::getUrl('create'))

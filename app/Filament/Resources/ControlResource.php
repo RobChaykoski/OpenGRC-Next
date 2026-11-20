@@ -378,6 +378,41 @@ class ControlResource extends Resource
                             ->hidden(fn (Control $record) => ! $record->test)
                             ->html(),
                     ])->columns(4),
+
+                Section::make('Crosswalks')
+                    ->columnSpanFull()
+                    ->collapsible()
+                    ->schema([
+                        TextEntry::make('crosswalks')
+                            ->label('Reviewed mappings')
+                            ->state(function (Control $record): array {
+                                $outgoing = $record->outgoingCrosswalks()
+                                    ->with('targetControl.standard')
+                                    ->get()
+                                    ->map(fn ($crosswalk): string => sprintf(
+                                        '→ (%s) %s [%s]',
+                                        $crosswalk->targetControl?->standard?->code ?? '—',
+                                        $crosswalk->targetControl?->code ?? '—',
+                                        $crosswalk->status?->getLabel() ?? '—',
+                                    ));
+
+                                $incoming = $record->incomingCrosswalks()
+                                    ->with('sourceControl.standard')
+                                    ->get()
+                                    ->map(fn ($crosswalk): string => sprintf(
+                                        '← (%s) %s [%s]',
+                                        $crosswalk->sourceControl?->standard?->code ?? '—',
+                                        $crosswalk->sourceControl?->code ?? '—',
+                                        $crosswalk->status?->getLabel() ?? '—',
+                                    ));
+
+                                $rows = $outgoing->merge($incoming)->unique()->values()->all();
+
+                                return $rows === [] ? ['No crosswalks'] : $rows;
+                            })
+                            ->listWithLineBreaks()
+                            ->columnSpanFull(),
+                    ]),
             ]);
     }
 

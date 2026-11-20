@@ -77,6 +77,18 @@ presented as coverage. A control with no mapping is a review gap, not a failure.
 The report is a view over the crosswalk register. It does not create mappings,
 approve them or change the assurance matrix.
 
+## On a control record
+
+A control's view page has a **Crosswalks** section listing both directions:
+
+```text
+→ (NIST-CSF-2.0) ID.RA-01 [Approved]
+← (ISO-27001) A.8.8 [Draft]
+```
+
+Use it to see how a control is mapped before approving a new pair. The section is
+a view; create and review mappings in the crosswalk register.
+
 ## Export
 
 Use **Export CSV** on the report, or run:
