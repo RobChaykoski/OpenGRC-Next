@@ -41,6 +41,7 @@ class ComplianceOperationsWidgetTest extends TestCase
             ->assertSee('Open SBOM advisories')
             ->assertSee('Access reviews')
             ->assertSee('Machine credentials')
+            ->assertSee('Control tests overdue')
             ->assertSee('Privacy requests overdue');
     }
 }

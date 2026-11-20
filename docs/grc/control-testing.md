@@ -42,6 +42,9 @@ The table shows the implementation code and title, owner, next test date, days
 overdue and the linked control identifiers. An implementation with no next test
 date is not listed; it is unscheduled, not overdue.
 
+The dashboard's **Control tests overdue** tile uses the same overdue rule, so the
+queue is visible without opening the command output.
+
 ## Running it
 
 There is no mail sender and no notification channel. Run the command where the

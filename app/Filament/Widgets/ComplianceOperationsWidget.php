@@ -9,6 +9,7 @@ use App\Enums\PolicyExceptionStatus;
 use App\Enums\PrivacyRequestStatus;
 use App\Filament\Pages\MyPolicies;
 use App\Filament\Resources\AccessReviewResource;
+use App\Filament\Resources\ImplementationResource;
 use App\Filament\Resources\NonHumanIdentityResource;
 use App\Filament\Resources\PolicyExceptionResource;
 use App\Filament\Resources\PrivacyRequestResource;
@@ -16,6 +17,7 @@ use App\Filament\Resources\RiskResource;
 use App\Filament\Resources\SbomDocumentResource;
 use App\Models\AccessReview;
 use App\Models\AccessReviewDecision as AccessDecision;
+use App\Models\Implementation;
 use App\Models\NonHumanIdentity;
 use App\Models\Policy;
 use App\Models\PolicyAcknowledgement;
@@ -101,6 +103,8 @@ class ComplianceOperationsWidget extends BaseWidget
             ->where('status', PrivacyRequestStatus::Overdue->value)
             ->count();
 
+        $testsOverdue = Implementation::query()->testOverdue()->count();
+
         return [
             Stat::make('Policies to acknowledge', $policyOutstanding)
                 ->description('Assigned to you')
@@ -131,6 +135,12 @@ class ComplianceOperationsWidget extends BaseWidget
                 ->descriptionIcon('heroicon-m-check-badge')
                 ->color($acceptanceExpiring > 0 ? 'warning' : 'gray')
                 ->url(RiskResource::getUrl()),
+
+            Stat::make('Control tests overdue', $testsOverdue)
+                ->description('Past the agreed date')
+                ->descriptionIcon('heroicon-m-beaker')
+                ->color($testsOverdue > 0 ? 'danger' : 'success')
+                ->url(ImplementationResource::getUrl()),
 
             Stat::make('Exceptions expiring', $exceptionsExpiring)
                 ->description('Within 30 days')
