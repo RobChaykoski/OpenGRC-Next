@@ -65,6 +65,16 @@ php artisan opengrc:identities:review
 The command marks active identities expired or rotation due and reports those due
 within 14 days. It does not rotate or revoke anything.
 
+If the secret lives in OpenBao, refresh the rotation date from KV metadata:
+
+```bash
+php artisan opengrc:openbao:sync --dry-run
+php artisan opengrc:openbao:sync
+```
+
+The sync reads only metadata (`current_version` and its `created_time`). It never
+reads the secret value. See `docs/integrations/openbao.md`.
+
 Rotation is a human action in the secret store and the owning system:
 
 1. Create the replacement credential with the same or narrower scope.

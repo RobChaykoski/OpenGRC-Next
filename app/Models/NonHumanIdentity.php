@@ -44,6 +44,7 @@ class NonHumanIdentity extends Model
         'next_review_at',
         'revoked_at',
         'revocation_reason',
+        'secret_synced_at',
         'notes',
     ];
 
@@ -58,6 +59,7 @@ class NonHumanIdentity extends Model
         'reviewed_at' => 'date',
         'next_review_at' => 'date',
         'revoked_at' => 'date',
+        'secret_synced_at' => 'datetime',
     ];
 
     protected static function booted(): void

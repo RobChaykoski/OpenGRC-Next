@@ -21,6 +21,7 @@ operational data.
 | OpenCyberRange / Apache Caldera / Atomic Red Team | Adversary emulation: techniques attempted, detected, prevented and missed; test counts and IDs | Completed-operation summary over the hash-verified evidence API; no commands, payloads or raw logs |
 | OWASP WSTG / ASVS | Web application test coverage, failed test IDs and security requirements | Tester summary over the hash-verified evidence API; no scanner execution, request bodies or copied guide text |
 | OSV.dev / deps.dev / OpenSSF Scorecard | Vulnerable dependencies, licenses, project health | CycloneDX SBOM import and OSV queries; package coordinates only, no source or build artifacts |
+| OpenBao | Secret metadata: current KV version and rotation date | Read-only KV v2 metadata; no secret values, leases or writes |
 | Authentik | SSO and group/application access | OIDC claims and group membership |
 | OpenIAM | Access reviews, certification, segregation of duties | Campaign results and exception records |
 | GitLab / GitHub / SonarQube / Dependency-Check / ScanCode | SDLC, code quality, dependency, and licence evidence | CI artifacts or signed manifests |

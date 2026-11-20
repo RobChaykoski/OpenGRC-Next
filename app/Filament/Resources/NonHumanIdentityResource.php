@@ -344,6 +344,11 @@ class NonHumanIdentityResource extends Resource
                             ->label('Next review')
                             ->date()
                             ->placeholder('—'),
+
+                        TextEntry::make('secret_synced_at')
+                            ->label('Secret metadata synced')
+                            ->dateTime()
+                            ->placeholder('Never'),
                     ]),
 
                 Section::make('Revocation and notes')

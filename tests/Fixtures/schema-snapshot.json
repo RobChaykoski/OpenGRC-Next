@@ -3593,6 +3593,11 @@
             "nullable": true
         },
         {
+            "name": "secret_synced_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
             "name": "status",
             "type": "varchar",
             "nullable": false

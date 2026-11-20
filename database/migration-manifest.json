@@ -540,6 +540,10 @@
         {
             "name": "2026_11_20_130000_create_supply_chain_tables",
             "sha256": "93a16e2b5e30e0d96300ee116469515cf5cdbf586f7047125a4a12f76064d9a6"
+        },
+        {
+            "name": "2026_11_20_140000_add_secret_synced_at_to_non_human_identities",
+            "sha256": "e059f8a2548fb7cd45cc8e0565c49c81c78b09b3f6a3196642ac950de964d34d"
         }
     ]
 }

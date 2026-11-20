@@ -33,6 +33,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0026-privacy-request-register.md](decisions/0026-privacy-request-register.md) | Privacy requests are regime-aware register entries, not audit requests |
 | [decisions/0027-non-human-identity-register.md](decisions/0027-non-human-identity-register.md) | Non-human identities are a register, not a secret store |
 | [decisions/0028-sbom-and-osv-supply-chain-evidence.md](decisions/0028-sbom-and-osv-supply-chain-evidence.md) | SBOM and OSV are supply-chain evidence, not a scanner |
+| [decisions/0029-openbao-secret-metadata.md](decisions/0029-openbao-secret-metadata.md) | OpenBao owns the secret; OpenGRC owns the identity register |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -49,6 +50,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/adversary-emulation.md](integrations/adversary-emulation.md) | Completed range operations as adversary-emulation evidence |
 | [integrations/security-testing.md](integrations/security-testing.md) | WSTG test coverage and results without copying the guide |
 | [integrations/sbom-osv.md](integrations/sbom-osv.md) | CycloneDX SBOM import and OSV vulnerability evidence |
+| [integrations/openbao.md](integrations/openbao.md) | Read-only OpenBao metadata sync for credential rotation dates |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 
 ## GRC practice

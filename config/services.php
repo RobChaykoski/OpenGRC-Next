@@ -43,4 +43,15 @@ return [
         'stale_after_days' => (int) env('DISCOVERY_CONSOLE_STALE_AFTER_DAYS', 2),
     ],
 
+    /*
+    | OpenBao secret-store metadata. The token is a read-only metadata reader,
+    | never a root token, and the KV mount is where the NHI references point.
+    */
+    'openbao' => [
+        'base_url' => env('OPENBAO_URL'),
+        'token' => env('OPENBAO_TOKEN'),
+        'kv_mount' => env('OPENBAO_KV_MOUNT', 'secret'),
+        'timeout' => (int) env('OPENBAO_TIMEOUT', 15),
+    ],
+
 ];
