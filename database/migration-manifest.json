@@ -524,6 +524,10 @@
         {
             "name": "2026_11_20_090000_create_discovery_console_tables",
             "sha256": "03bda598f9b495d000c2391cf9c044337bda0796b0bb2d016fcde4dc3558f17d"
+        },
+        {
+            "name": "2026_11_20_100000_create_attestation_reports_table",
+            "sha256": "125a91cfc0b4fd9d64b74c15f7e5ac829319b99efc747de1d6a99eacbbf18e5d"
         }
     ]
 }

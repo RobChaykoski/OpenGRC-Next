@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
         // An approved exception past its expiry is no longer valid. Do this
         // before the working day so the register and policy views are honest.
         $schedule->command('opengrc:exceptions:expire')->dailyAt('00:10');
+
+        // Explicit report expiry, separate from a report's covered period.
+        $schedule->command('opengrc:attestations:expire')->dailyAt('00:15');
     }
 
     /**

@@ -752,6 +752,123 @@
             "nullable": true
         }
     ],
+    "attestation_reports": [
+        {
+            "name": "bridge_letter_date",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "document_reference",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "document_sha256",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "exceptions",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "expires_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "framework_code",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "issued_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "next_review_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "outcome",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "period_end",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "period_start",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "provider",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "subject",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "summary",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "vendor_id",
+            "type": "integer",
+            "nullable": true
+        }
+    ],
     "audit_item_data_request": [
         {
             "name": "audit_item_id",

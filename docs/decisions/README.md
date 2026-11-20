@@ -46,3 +46,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0022](0022-adversary-emulation-evidence.md) | Adversary emulation runs in the range; OpenGRC consumes the summary | accepted |
 | [0023](0023-wstg-security-testing-evidence.md) | WSTG is a test methodology; reference IDs, do not copy the guide | accepted |
 | [0024](0024-exception-scope-and-expiry.md) | Exceptions are scoped, approved and expire by default | accepted |
+| [0025](0025-assurance-report-register.md) | Assurance reports are a register, not a control catalogue | accepted |
