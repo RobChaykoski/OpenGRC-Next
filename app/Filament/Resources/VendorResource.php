@@ -12,6 +12,7 @@ use App\Filament\Resources\VendorResource\Pages\ListVendors;
 use App\Filament\Resources\VendorResource\Pages\ViewVendor;
 use App\Filament\Resources\VendorResource\RelationManagers\ApplicationsRelationManager;
 use App\Filament\Resources\VendorResource\RelationManagers\ImplementationsRelationManager;
+use App\Filament\Resources\VendorResource\RelationManagers\SubcontractorsRelationManager;
 use App\Filament\Resources\VendorResource\RelationManagers\SurveysRelationManager;
 use App\Filament\Resources\VendorResource\RelationManagers\VendorDocumentsRelationManager;
 use App\Filament\Resources\VendorResource\RelationManagers\VendorUsersRelationManager;
@@ -279,6 +280,12 @@ class VendorResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: false),
                 TextColumn::make('status')->label(__('Status'))->badge()->color(fn ($record) => $record->status->getColor()),
                 TextColumn::make('risk_rating')->label(__('Risk Rating'))->badge()->color(fn ($record) => $record->risk_rating->getColor()),
+                TextColumn::make('subcontractors_count')
+                    ->label(__('Subcontractors'))
+                    ->counts('subcontractors')
+                    ->badge()
+                    ->color(fn (int $state): string => $state > 0 ? 'info' : 'gray')
+                    ->toggleable(),
                 TextColumn::make('url')
                     ->label(__('URL'))
                     ->url(fn ($record) => $record->url, true)
@@ -385,6 +392,7 @@ class VendorResource extends Resource
         return [
             ApplicationsRelationManager::class,
             ImplementationsRelationManager::class,
+            SubcontractorsRelationManager::class,
             SurveysRelationManager::class,
             VendorUsersRelationManager::class,
             VendorDocumentsRelationManager::class,

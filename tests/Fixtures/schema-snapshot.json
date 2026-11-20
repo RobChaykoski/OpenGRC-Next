@@ -6373,6 +6373,63 @@
             "nullable": false
         }
     ],
+    "vendor_subcontractors": [
+        {
+            "name": "accesses_personal_data",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "country",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "last_reviewed_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "risk_rating",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "service",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "vendor_id",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
     "vendor_users": [
         {
             "name": "created_at",

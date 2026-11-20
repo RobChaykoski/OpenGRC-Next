@@ -93,6 +93,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/exercises.md](grc/exercises.md) | Tabletop, simulation and red-team exercise register |
 | [grc/control-testing.md](grc/control-testing.md) | Control test cadence and the due/overdue report |
 | [grc/findings-and-remediation.md](grc/findings-and-remediation.md) | Finding lifecycle, risk links and remediation limits |
+| [grc/vendor-subcontractors.md](grc/vendor-subcontractors.md) | Fourth-party subcontractor register on a vendor |
 
 ## Security
 

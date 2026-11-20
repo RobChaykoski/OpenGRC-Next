@@ -36,7 +36,7 @@ important controls and 2 for the rest.
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Document templates | Yes: private originals, encrypted extracted text, classification access | 2 | `docs/grc/document-templates.md` |
 | Policy readiness | Yes: readiness register with separate design/operating/evidence status | 3 | `docs/grc/policy-readiness.md` |
-| Vendor risk (TPRM) | Yes: inventory, questionnaires, scoring, documents; no nth-party graph | 3 | `Vendor`, `Survey*` |
+| Vendor risk (TPRM) | Yes: inventory, questionnaires, scoring, documents, subcontractor register; no nth-party graph | 3 | `Vendor`, `docs/grc/vendor-subcontractors.md` |
 | Asset and application inventory | Yes: assets, applications, taxonomy, risk links | 3 | `Asset`, `Application` |
 | Findings and remediation | Yes: triage queue, severity, owner, due date, status, risk link; automated from validation | 3 | `docs/grc/findings-and-remediation.md` |
 | Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
@@ -85,9 +85,11 @@ an audit.
    edit, and delete actions with role checks. There is no multi-step approval
    chain, delegation, or notification on assignment, and no per-field conditional
    routing. Use the audit trail and comments for accountability.
-9. **Nth-party risk is not modelled.** A vendor's own subcontractors are not a
-   first-class relationship. Record them in the vendor record or as separate
-   vendors with a parent note until a supply-chain graph exists.
+9. **Nth-party risk is a flat register, not a graph.** A vendor records its
+   subcontractors, their service, country, personal-data access, risk rating and
+   last review. There is no recursive supplier graph, no inherited score and no
+   automatic review schedule. Add a fourth party as a separate vendor when you
+   manage it directly; otherwise use the subcontractor register.
 10. **Monitoring is scheduled, not streaming.** Connectors run on a schedule and
     write evidence after the fact. There is no event stream, and no near-real-time
     detection path; see ADR 0009 for the current contract.
@@ -137,6 +139,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Exercises and tabletops | `docs/grc/exercises.md` |
 | Control test cadence and reporting | `docs/grc/control-testing.md` |
 | Findings, risk links and remediation | `docs/grc/findings-and-remediation.md` |
+| Vendor subcontractors (fourth parties) | `docs/grc/vendor-subcontractors.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

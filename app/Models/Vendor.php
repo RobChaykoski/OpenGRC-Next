@@ -67,6 +67,14 @@ class Vendor extends Model
         return $this->hasMany(VendorDocument::class);
     }
 
+    /**
+     * @return HasMany<VendorSubcontractor, $this>
+     */
+    public function subcontractors(): HasMany
+    {
+        return $this->hasMany(VendorSubcontractor::class);
+    }
+
     public function implementations(): BelongsToMany
     {
         return $this->belongsToMany(Implementation::class)

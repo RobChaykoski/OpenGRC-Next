@@ -576,6 +576,10 @@
         {
             "name": "2026_11_20_220000_add_risk_to_findings",
             "sha256": "7a2e283505d822bb0629940d603f859b6a19723e7820f0fc3242ce6f5ff806ee"
+        },
+        {
+            "name": "2026_11_20_230000_create_vendor_subcontractors_table",
+            "sha256": "fdbf611f41eeb5f250f2d9d15c62417b554df6ac2716ca563683a944a594c58f"
         }
     ]
 }
