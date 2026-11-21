@@ -86,6 +86,21 @@ class SecurityHeadersTest extends TestCase
         $this->assertStringNotContainsString('fonts.bunny.net', $csp);
     }
 
+    #[Test]
+    public function it_keeps_a_stricter_referrer_policy_set_by_the_route(): void
+    {
+        $middleware = new SecurityHeaders;
+        $request = Request::create('https://grc.example.com/audit-portal/token', 'GET');
+        $response = new Response('<html></html>', 200, [
+            'Content-Type' => 'text/html',
+            'Referrer-Policy' => 'no-referrer',
+        ]);
+
+        $result = $middleware->handle($request, fn () => $response);
+
+        $this->assertSame('no-referrer', $result->headers->get('Referrer-Policy'));
+    }
+
     protected function handle(string $url, string $contentType = 'text/html'): Response
     {
         $middleware = new SecurityHeaders;

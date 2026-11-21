@@ -21,7 +21,11 @@ class SecurityHeaders
         // Security headers for all responses
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('X-Frame-Options', 'SAMEORIGIN');
-        $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        // A route that needs a stricter policy (for example the auditor portal,
+        // whose URL contains a capability token) keeps the value it set.
+        if (! $response->headers->has('Referrer-Policy')) {
+            $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
+        }
         $response->headers->set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
 
         // HSTS - only in production, and only over HTTPS. Sending it over plain

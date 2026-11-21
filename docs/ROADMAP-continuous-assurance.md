@@ -21,6 +21,7 @@ in. It is a plan, not a promise. Decisions with trade-offs belong in
 | Curated control-to-outcome links | Built | `control_canonical_outcome`, `opengrc:catalog:link` (ADR 0013) |
 | Policy and evidence coverage | Built | `policy_canonical_outcome`, `CanonicalOutcomeCoverage` (ADR 0014) |
 | Evidence confidence and assurance score | Built | `AssuranceScore`, `assurance_snapshots`, `opengrc:assurance:snapshot` (ADR 0015) |
+| Auditor portal | Built | `audit_portal_grants`, `audit_portal_views`, `/audit-portal/{token}` (ADR 0045) |
 | Control matrix UI | Built | Foundations → Assurance matrix (`FrameworkMatrix`) |
 | Evidence confidence | Missing | — |
 | Assurance score and history | Missing | — |
@@ -88,9 +89,14 @@ Milestone B is complete. Milestone C (audit readiness) is next.
 2. ~~Gap report: controls with no evidence, stale evidence, or failing
    validation.~~ Done: `opengrc:evidence:gaps`, plus the matrix statuses and
    gaps filter.
-3. Auditor portal scoped to an audit, read-only, with an access log.
+3. ~~Auditor portal scoped to an audit, read-only, with an access log.~~ Done:
+   `audit_portal_grants` and `audit_portal_views`, a revocable link shown once,
+   and the `/audit-portal/{token}` page (ADR 0045,
+   `docs/grc/audit-portal.md`).
 
-Milestone C.1 and C.2 are complete. C.3 (auditor portal) is next.
+Milestone C is complete. The portal reuses the evidence-pack boundary: metadata
+and hashes, never payloads or attachments. Milestone D (assisted reasoning) is
+next.
 
 ### Milestone D — assisted reasoning
 

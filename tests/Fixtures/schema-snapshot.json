@@ -1238,6 +1238,95 @@
             "nullable": true
         }
     ],
+    "audit_portal_grants": [
+        {
+            "name": "access_count",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "audit_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "created_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "expires_at",
+            "type": "datetime",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "label",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "last_accessed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "revoked_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "revoked_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "token_hash",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "audit_portal_views": [
+        {
+            "name": "audit_portal_grant_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "ip",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "user_agent",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "viewed_at",
+            "type": "datetime",
+            "nullable": false
+        }
+    ],
     "audit_user": [
         {
             "name": "audit_id",

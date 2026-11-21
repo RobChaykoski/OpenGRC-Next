@@ -98,6 +98,11 @@ A useful audit report has:
 Attach it to the audit record. The report is the artifact most likely to be asked
 for later.
 
+While fieldwork is open, the audit manager can issue a read-only auditor portal
+link scoped to this audit. It shows items, notes, evidence metadata and open
+findings, never payloads or files, and can be revoked or left to expire. See
+`docs/grc/audit-portal.md`.
+
 ## 8. Closure
 
 An audit closes when:

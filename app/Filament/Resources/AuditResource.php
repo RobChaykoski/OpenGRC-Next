@@ -15,6 +15,7 @@ use App\Filament\Resources\AuditResource\Pages\ViewAudit;
 use App\Filament\Resources\AuditResource\RelationManagers\AttachmentsRelationManager;
 use App\Filament\Resources\AuditResource\RelationManagers\AuditItemRelationManager;
 use App\Filament\Resources\AuditResource\RelationManagers\DataRequestsRelationManager;
+use App\Filament\Resources\AuditResource\RelationManagers\PortalAccessRelationManager;
 use App\Filament\Resources\AuditResource\Widgets\AuditStatsWidget;
 use App\Models\Audit;
 use App\Models\Control;
@@ -227,6 +228,7 @@ class AuditResource extends Resource
                 AuditItemRelationManager::class,
                 DataRequestsRelationManager::class,
                 AttachmentsRelationManager::class,
+                PortalAccessRelationManager::class,
             ];
         }
 

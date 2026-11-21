@@ -608,6 +608,10 @@
         {
             "name": "2026_11_20_300000_create_remediation_tasks_table",
             "sha256": "2091f0f298acf9b50a6cbd0a2d7a83cabfb85428a763725d9658c597e01c7147"
+        },
+        {
+            "name": "2026_11_20_310000_create_audit_portal_grants_table",
+            "sha256": "952cac877a010c397613f116d5c1b16130e98365ffdb36dc417f8ffe2a013b5b"
         }
     ]
 }

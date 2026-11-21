@@ -67,6 +67,9 @@ same report, so the page and the CLI cannot disagree.
 
 ## What comes next
 
-C.3 is the auditor portal: scoped to one audit, read-only, logged, and with no
-bulk export by default. It must reuse this boundary rather than becoming a second
-export path.
+The auditor portal is built: one audit per revocable link, read-only, logged, and
+with no bulk export. It reuses this boundary rather than becoming a second export
+path. See `docs/grc/audit-portal.md` and ADR 0045.
+
+Milestone C is complete. Milestone D is the internal assistant, which must stay
+server-side, permission-scoped and audited (the failure mode ADR 0006 rejected).

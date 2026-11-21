@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AttachmentDownloadController;
+use App\Http\Controllers\AuditPortalController;
 use App\Http\Controllers\DocumentTemplateDownloadController;
 use App\Http\Controllers\MediaProxyController;
 use App\Http\Controllers\PrivateStorageController;
@@ -94,6 +95,13 @@ Route::middleware(['auth:vendor'])->group(function () {
     Route::get('/portal/document/{vendorDocument}/download', [VendorDocumentController::class, 'download'])
         ->name('vendor.document.download');
 });
+
+// Auditor portal: one revocable link, read-only, scoped to a single audit.
+// The token is the capability; there is no account and no export action.
+Route::get('/audit-portal/{token}', [AuditPortalController::class, 'show'])
+    ->where('token', '[A-Za-z0-9]{64}')
+    ->middleware('throttle:60,1')
+    ->name('audit-portal.show');
 
 // Trust Center Routes (public)
 Route::prefix('trust')->group(function () {

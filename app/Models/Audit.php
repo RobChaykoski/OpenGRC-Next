@@ -121,6 +121,16 @@ class Audit extends Model
     }
 
     /**
+     * Read-only portal links scoped to this audit (ADR 0045).
+     *
+     * @return HasMany<AuditPortalGrant, $this>
+     */
+    public function portalGrants(): HasMany
+    {
+        return $this->hasMany(AuditPortalGrant::class);
+    }
+
+    /**
      * Get the standard that owns the audit.
      */
     public function standard(): BelongsTo

@@ -10,6 +10,7 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/trust-center.css',
                 'resources/js/trust-center.js',
+                'resources/css/audit-portal.css',
                 'resources/css/filament/app/theme.css',
             ],
             refresh: [

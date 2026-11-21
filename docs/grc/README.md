@@ -27,6 +27,7 @@ important controls and 2 for the rest.
 | Risk register | Yes: inherent + residual 1–5 scoring, owner, category, treatment, mitigations, dated acceptance with expiry | 4 | `docs/grc/risk-methodology.md`, `docs/grc/risk-acceptance.md` |
 | Policies and exceptions | Yes: lifecycle, versioned acknowledgements, scoped exceptions with expiry, global register and daily expiry enforcement | 4 | `Policy`, `PolicyException`, `docs/grc/policy-acknowledgements.md`, `docs/grc/exception-management.md` |
 | Audits and testing | Yes: audits, items, effectiveness, notes, attachments, findings | 3 | `docs/grc/audit-playbook.md` |
+| Auditor portal | Yes: revocable read-only link scoped to one audit, expiry, rotation and access log; no files or bulk export | 3 | `docs/grc/audit-portal.md` |
 | Assurance and attestations | Yes: SOC/ISO/PCI/CMMC report register, outcome, period, expiry and review | 3 | `docs/grc/assurance-reports.md` |
 | Privacy requests | Yes: GDPR/CCPA/PIPEDA/FERPA register, regime clock, verification, extension, overdue enforcement | 4 | `docs/grc/privacy-requests.md` |
 | Non-human identities | Yes: service accounts/tokens/certificates, owner, scope, rotation, expiry, review; optional OpenBao metadata sync | 4 | `docs/grc/non-human-identities.md` |
@@ -103,6 +104,11 @@ an audit.
 10. **Monitoring is scheduled, not streaming.** Connectors run on a schedule and
     write evidence after the fact. There is no event stream, and no near-real-time
     detection path; see ADR 0009 for the current contract.
+11. **The auditor portal is a bearer link, not an identity.** It is scoped to one
+    audit, read-only, expiring and logged, but anyone holding the URL can read it.
+    There is no invitation email, per-auditor account, download control or
+    watermark; the audit manager sends the link over the organisation's own
+    channel and revokes it when the engagement ends.
 
 Each gap has a documented workaround. Say so in your own programme documentation
 rather than pretending the tool covers it.
@@ -131,6 +137,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Risk scoring | `docs/grc/risk-methodology.md` |
 | Risk acceptance and expiry | `docs/grc/risk-acceptance.md` |
 | Audit and testing | `docs/grc/audit-playbook.md` |
+| Auditor portal and access log | `docs/grc/audit-portal.md` |
 | Assurance reports and attestations | `docs/grc/assurance-reports.md` |
 | Privacy requests and clocks | `docs/grc/privacy-requests.md` |
 | Non-human identities | `docs/grc/non-human-identities.md` |
