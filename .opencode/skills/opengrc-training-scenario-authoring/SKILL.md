@@ -92,6 +92,23 @@ is a fail, and saying so is part of the lesson.
   fictional or abstract.
 - **Hidden requirements.** If it is graded, it is stated.
 
+## Role lens
+
+Use the Canadian Centre for Cyber Security career guide's four families to keep a
+scenario's role honest:
+
+| Family | Typical scenario roles |
+|---|---|
+| Govern and support | Risk analyst, policy analyst, privacy officer, cyber legal advisor |
+| Protect and defend | Security analyst, vulnerability analyst, incident responder, penetration tester |
+| Design and develop | Security architect, security engineer, application/software developer |
+| Operate and maintain | Network security operator, system administrator, technical support specialist |
+
+It is a career guide (2022), not a competency framework. Use it to choose a
+believable role and authority level, then map the actual tasks to NICE work roles
+or the organisation's job architecture. Do not copy the guide's dated market
+statistics into training material.
+
 ## Debrief prompts
 
 End every scenario with questions that transfer:

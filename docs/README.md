@@ -116,6 +116,9 @@ architecture, integrations, and the decisions behind them.
 | [security/forensic-compliance-mapping.md](security/forensic-compliance-mapping.md) | Forensic controls mapped to the framework catalogue |
 | [security/data-loss-prevention.md](security/data-loss-prevention.md) | DLP boundaries, recognisers, review and quality measurement |
 | [security/dlp-quality.md](security/dlp-quality.md) | False-positive rates, targets and review loop by identifier type |
+| [security/network-access-rules.md](security/network-access-rules.md) | Platform-wide IP and email-domain allow/deny rules, enforcement and lockout recovery |
+| [security/architecture-view.md](security/architecture-view.md) | One-page current/future security architecture, NIST CSF 2.0 and zero-trust overlay |
+| [security/reference-register.md](security/reference-register.md) | External security and risk sources, their status, use and caveats |
 | [OSS-POLICY.md](OSS-POLICY.md) | License, dependency allowlist, contribution model |
 | [../SECURITY.md](../SECURITY.md) | Vulnerability disclosure |
 

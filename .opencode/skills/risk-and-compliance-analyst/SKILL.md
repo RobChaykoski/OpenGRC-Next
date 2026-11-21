@@ -340,6 +340,10 @@ some are licensed.
   reach is common; confirm with counsel.
 - **Sector:** PCI DSS for card data, HIPAA for PHI, FedRAMP for cloud services,
   CMMC for defence suppliers.
+- **AI:** Canada's AIDA companion document is archived; AIDA was proposed in
+  Bill C-27 and is not enacted law. Use NIST AI RMF and ISO/IEC 42001 as durable
+  references, and do not claim AIDA compliance. Verify current legislative status
+  with counsel.
 
 Compliance mapping is a crosswalk with identifiers and provenance, not copied
 standard text. Licensed standards stay upstream.

@@ -17,7 +17,8 @@ Read these before touching infrastructure or dependencies:
   with OpenCyberRange
 - `docs/grc/` — how the product is meant to be operated as a GRC programme; the
   capability map lists known gaps honestly
-- `docs/security/` — container hardening, WAF mode, and what is not hardened yet
+- `docs/security/` — container hardening, WAF mode, architecture and reference
+  guidance, and what is not hardened yet
 - `docs/OSS-POLICY.md` — license, dependency allowlist, contribution model
 - `config/framework_catalog.php` — framework provenance and licensing register
 

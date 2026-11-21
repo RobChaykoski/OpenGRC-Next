@@ -491,6 +491,20 @@ Unknown:    what evidence would change the answer
 Never fabricate a coverage number, a precision rate, or a regulatory obligation.
 Label illustrative figures. Distinguish "not measured" from "measured clean".
 
+## Reference standards
+
+- **NIST SP 1500-4r2** (Big Data Interoperability Framework, Vol. 4: Security and
+  Privacy, 2019) — data governance, provenance, access, encryption, privacy and
+  audit across large data estates. Operational guidance, not a control catalogue.
+- **NIST SP 800-207** (Zero Trust Architecture, 2020) — identity, device,
+  application/workload and data pillars; policy decision separated from
+  enforcement. Use it to avoid calling a VPN "zero trust".
+- **NIST AI RMF 1.0 and ISO/IEC 42001:2023** — AI governance and model risk.
+  Canada's AIDA companion document is archived and was proposed, not enacted;
+  use its obligation list as design input, never as a compliance claim.
+- **ISO/IEC 27001:2022, ISO/IEC 27005:2022, PCI DSS, HIPAA, GDPR/PIPEDA/PHIPA** —
+  obligations and control sets. Map identifiers; do not copy licensed text.
+
 ## OpenGRC baseline (20 November 2026)
 
 Verify against the code before relying on this; it is a starting map, not a

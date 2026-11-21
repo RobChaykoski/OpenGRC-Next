@@ -201,6 +201,27 @@ If a change weakens one of these, stop and write the ADR in `docs/decisions/`
 with the consequence stated plainly. "Temporarily" is how permanent regressions
 start.
 
+## Architecture communication
+
+A one-page current/future view is a security control, not a slide. Use
+`docs/security/architecture-view.md`:
+
+- Place controls by **location** (endpoints, on-prem, private cloud, public
+  cloud, SaaS, OT, remote) and group them by **NIST CSF 2.0 function**.
+- Show **current**, **target/roadmap** and **deliberately not implemented** with
+  the decision and owner. An unlabelled omission looks like an oversight.
+- Keep separate lanes for the Information Security Office and managed security
+  services; both cross every location.
+- Add a **zero-trust overlay** from NIST SP 800-207: policy decision vs
+  enforcement, subject and device authentication, least privilege, telemetry and
+  failure behaviour. A VPN is not zero trust by itself.
+- The product page **Foundations → Security architecture** reports the current
+  state only. Do not present it as a target state, a location map or a compliance
+  conclusion.
+- Cite the source and date. Managed Sentinel's 2019 diagram is useful structure,
+  but its CSF 1.1 control set is dated; AIDA is archived and was never enacted
+  law. See `docs/security/reference-register.md`.
+
 ## Verification
 
 ```bash

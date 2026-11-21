@@ -69,3 +69,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0045](0045-auditor-portal.md) | Auditor portal access is a revocable link scoped to one audit | accepted |
 | [0046](0046-assistant-read-only-catalogue.md) | The assistant is a fixed read-only catalogue, not an agent | accepted |
 | [0047](0047-access-rules.md) | Access rules are platform-wide IP and email-domain allow/deny lists | accepted |
+| [0048](0048-security-architecture-view.md) | The security architecture view is current-state and function-based | accepted |
