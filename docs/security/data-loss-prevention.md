@@ -48,6 +48,9 @@ universal industry false-positive percentage (ADR 0040).
   The UI shows a clear "AI request blocked" message and the attempt is recorded.
 - Clean prompts are still scanned and flagged if they contain personal data; the
   prompt is sent as before.
+- The GRC assistant sends only bounded facts (identifiers, statuses, dates and
+  counts) inside a delimited untrusted-data block; it never sends payloads,
+  attachments, document bodies or contact details. See `docs/grc/ai-assistant.md`.
 - A new AI integration must go through `AiService` or run the guard explicitly.
   Calling a provider directly bypasses the control; treat that as a defect.
 

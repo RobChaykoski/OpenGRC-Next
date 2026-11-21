@@ -45,6 +45,7 @@ important controls and 2 for the rest.
 | Control testing cadence | Yes: last/next test dates, overdue filter and `opengrc:controls:testing` report; no automatic reminders | 3 | `docs/grc/control-testing.md` |
 | Control owner attestations | Yes: per-implementation request, owner statement, decline and expiry; no campaign engine | 3 | `docs/grc/control-attestations.md` |
 | Metrics and reporting | Partial: widgets, exports, AI summaries and a risk heat map; no scorecard builder | 2 | `docs/grc/risk-methodology.md` |
+| Assisted querying | Yes: fixed read-only catalogue, deterministic routing, facts shown beside a labelled AI narrative, per-run audit trail; no writes or free-form tools | 3 | `docs/grc/ai-assistant.md` |
 | Regulatory mapping | Partial: canonical outcome links, plus a reviewed control-to-control crosswalk register; no automatic matching | 3 | `docs/grc/control-crosswalks.md` |
 | Regulatory change monitoring | Partial: a human-maintained change register with impact assessment and affected frameworks; no feed or diff | 3 | `docs/grc/regulatory-changes.md` |
 | Collaboration and workflow | Partial: three roles, assignments, comments, exports and ordered multi-step approval requests; no per-field routing or delegation | 3 | `docs/grc/approval-workflows.md` |
@@ -109,6 +110,11 @@ an audit.
     There is no invitation email, per-auditor account, download control or
     watermark; the audit manager sends the link over the organisation's own
     channel and revokes it when the engagement ends.
+12. **The assistant is a catalogue, not an agent.** It answers nine reviewed
+    read-only questions and refuses anything else. It cannot write, choose its
+    own queries, read payloads or run free-form SQL, and its narrative can still
+    be wrong: the facts are shown beside it for a reason. Adding a question is a
+    code change with a test, not a prompt edit.
 
 Each gap has a documented workaround. Say so in your own programme documentation
 rather than pretending the tool covers it.
@@ -138,6 +144,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Risk acceptance and expiry | `docs/grc/risk-acceptance.md` |
 | Audit and testing | `docs/grc/audit-playbook.md` |
 | Auditor portal and access log | `docs/grc/audit-portal.md` |
+| Read-only assistant and run log | `docs/grc/ai-assistant.md` |
 | Assurance reports and attestations | `docs/grc/assurance-reports.md` |
 | Privacy requests and clocks | `docs/grc/privacy-requests.md` |
 | Non-human identities | `docs/grc/non-human-identities.md` |

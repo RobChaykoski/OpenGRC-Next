@@ -22,6 +22,7 @@ in. It is a plan, not a promise. Decisions with trade-offs belong in
 | Policy and evidence coverage | Built | `policy_canonical_outcome`, `CanonicalOutcomeCoverage` (ADR 0014) |
 | Evidence confidence and assurance score | Built | `AssuranceScore`, `assurance_snapshots`, `opengrc:assurance:snapshot` (ADR 0015) |
 | Auditor portal | Built | `audit_portal_grants`, `audit_portal_views`, `/audit-portal/{token}` (ADR 0045) |
+| Read-only assistant | Built | `Assistant` page, fixed query catalogue, `ai_assistant_runs` (ADR 0046) |
 | Control matrix UI | Built | Foundations → Assurance matrix (`FrameworkMatrix`) |
 | Evidence confidence | Missing | — |
 | Assurance score and history | Missing | — |
@@ -100,13 +101,23 @@ next.
 
 ### Milestone D — assisted reasoning
 
-1. Internal assistant service (server-side, permission-scoped). Do not expose the
-   whole data model to a third-party client by default; that was the MCP failure
-   mode removed in ADR 0006.
-2. Read-only questions first ("which PHIPA controls lack evidence?"), then
-   suggestions with rationale, then human-approved writes.
-3. Prompt-injection controls: retrieved content is untrusted, tool output is not
-   instructions, every action is logged with actor and arguments.
+1. ~~Internal assistant service (server-side, permission-scoped).~~ Done:
+   `Assistant` page and `AssistantService`, with a fixed read-only query
+   catalogue (ADR 0046). No third-party client receives the data model.
+2. ~~Read-only questions first ("which PHIPA controls lack evidence?"), then
+   suggestions with rationale, then human-approved writes.~~ Done for questions
+   and rationale: the narrative is labelled interpretation and always shown next
+   to the deterministic facts. Human-approved writes are **not** built; adding
+   them is a new decision with an approval object, actor, diff and rollback.
+3. ~~Prompt-injection controls: retrieved content is untrusted, tool output is not
+   instructions, every action is logged with actor and arguments.~~ Done: the
+   model never selects a query, `FACTS` is delimited as untrusted data,
+   `PromptGuard` records override attempts, output is plain text, and every run
+   is stored in `ai_assistant_runs` with actor, intent, arguments, counts, hash
+   and model (ADR 0046).
+
+Milestone D is complete for read-only reasoning. Writes remain a separate
+decision.
 
 ## What not to do
 
