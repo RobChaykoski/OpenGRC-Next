@@ -33,4 +33,20 @@ return [
 
     'force_secure_cookies' => env('FORCE_SECURE_COOKIES', true),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Network and registration access rules
+    |--------------------------------------------------------------------------
+    |
+    | Platform-wide IP and email-domain allow/deny rules. Deny wins; an allow
+    | rule turns its dimension into an allowlist. The kill switch exists for
+    | lockout recovery only. It is an environment setting, not a UI toggle, and
+    | disabling it should be treated as a security exception.
+    |
+    */
+
+    'access_rules' => [
+        'enabled' => (bool) env('ACCESS_RULES_ENABLED', true),
+    ],
+
 ];

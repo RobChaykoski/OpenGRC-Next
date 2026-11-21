@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\EvidenceSourceType;
 use App\Livewire\CustomSessionGuard;
+use App\Models\AccessRule;
 use App\Models\AuditItem;
 use App\Models\ControlValidationRule;
 use App\Models\DataRequest;
@@ -18,6 +19,7 @@ use App\Models\Survey;
 use App\Models\User;
 use App\Models\VendorDocument;
 use App\Models\VendorUser;
+use App\Policies\AccessRulePolicy;
 use App\Policies\AppPolicy;
 use App\Policies\AuditItemPolicy;
 use App\Policies\ControlValidationRulePolicy;
@@ -283,6 +285,7 @@ class AppServiceProvider extends ServiceProvider
         // rules keep their own policy and are mapped here explicitly.
         Gate::guessPolicyNamesUsing(function (string $model): string {
             return match ($model) {
+                AccessRule::class => AccessRulePolicy::class,
                 AuditItem::class => AuditItemPolicy::class,
                 ControlValidationRule::class => ControlValidationRulePolicy::class,
                 DataRequest::class => DataRequestPolicy::class,

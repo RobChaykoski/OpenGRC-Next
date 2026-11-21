@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Enums\UserRole;
 use App\Models\User;
+use App\Services\Access\RegistrationGuard;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -53,6 +54,8 @@ class UserController extends BaseApiController
 
         $validatedData = $this->validateStore($request);
         $validatedData['role'] ??= UserRole::Viewer->value;
+
+        app(RegistrationGuard::class)->assertAllowed('email', (string) $validatedData['email'], $request->ip());
 
         $resource = $this->modelClass::create($validatedData);
 

@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckPasswordReset;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\EnforceAccessRules;
 use App\Http\Middleware\ForceJsonResponse;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -75,6 +76,7 @@ class Kernel extends HttpKernel
             ForceJsonResponse::class,
             ThrottleRequests::class.':api',
             SubstituteBindings::class,
+            EnforceAccessRules::class,
         ],
     ];
 
@@ -86,6 +88,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
+        'access.rules' => EnforceAccessRules::class,
         'auth' => Authenticate::class,
         'auth.basic' => AuthenticateWithBasicAuth::class,
         'auth.session' => AuthenticateSession::class,

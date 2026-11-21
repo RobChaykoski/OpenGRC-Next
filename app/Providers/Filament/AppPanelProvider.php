@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Auth\Login;
+use App\Http\Middleware\EnforceAccessRules;
 use App\Http\Middleware\RequireTwoFactorAuthentication;
 use DB;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
@@ -164,6 +165,7 @@ class AppPanelProvider extends PanelProvider
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
                 AuthenticateSession::class,
+                EnforceAccessRules::class,
                 ShareErrorsFromSession::class,
                 PreventRequestForgery::class,
                 SubstituteBindings::class,

@@ -11,6 +11,7 @@ use App\Models\TrustCenterContentBlock;
 use App\Models\TrustCenterDocument;
 use App\Models\User;
 use App\Notifications\DropdownNotification;
+use App\Services\Access\RegistrationGuard;
 use App\Services\AppLogger;
 use Exception;
 use Illuminate\Http\Request;
@@ -149,6 +150,17 @@ class TrustCenterController extends Controller
         if ($documents->isEmpty()) {
             return back()
                 ->with('error', __('No valid documents selected.'))
+                ->withInput();
+        }
+
+        $registration = app(RegistrationGuard::class);
+        $decision = $registration->decision($request->requester_email, $request->ip());
+
+        if (! $decision->allowed) {
+            $registration->logDenied($request->requester_email, $request->ip(), $decision);
+
+            return back()
+                ->withErrors(['requester_email' => __('access-rules.registration_denied')])
                 ->withInput();
         }
 

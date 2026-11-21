@@ -33,11 +33,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum', 'access.rules'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'access.rules'])->group(function () {
 
     // RESTful API Resources with full CRUD operations
     Route::apiResource('users', UserController::class);

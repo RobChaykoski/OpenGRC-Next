@@ -4,8 +4,10 @@ namespace App\Console\Commands;
 
 use App\Enums\UserRole;
 use App\Models\User;
+use App\Services\Access\RegistrationGuard;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\Console\Attribute\AsCommand;
 
 #[AsCommand(name: 'opengrc:create-user')]
@@ -31,10 +33,18 @@ class CreateUser extends Command
     /**
      * Execute the console command.
      */
-    public function handle(): void
+    public function handle(): int
     {
         $email = $this->argument('email');
         $password = $this->argument('password');
+
+        try {
+            app(RegistrationGuard::class)->assertAllowed('email', (string) $email);
+        } catch (ValidationException $exception) {
+            $this->error((string) collect($exception->errors())->flatten()->first());
+
+            return self::FAILURE;
+        }
 
         $roleOption = strtolower(trim((string) $this->option('role')));
 
@@ -49,7 +59,7 @@ class CreateUser extends Command
             if (! $role) {
                 $this->error('Role must be one of: admin, editor, viewer, auto.');
 
-                return;
+                return self::FAILURE;
             }
         }
 
@@ -62,5 +72,7 @@ class CreateUser extends Command
         ]);
 
         $this->components->info("User created with the [{$role->value}] role.");
+
+        return self::SUCCESS;
     }
 }

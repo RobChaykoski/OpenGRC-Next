@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Enums\EvidenceSourceType;
+use App\Models\AccessRule;
 use App\Models\DiscoveryScan;
 use App\Models\DocumentTemplate;
 use App\Models\EvidenceSource;
@@ -63,6 +64,7 @@ class Doctor extends Command
         $this->checkDiscoveryConsole();
         $this->checkOauthKeys();
         $this->checkPrivilegedMfa();
+        $this->checkAccessRules();
         $this->checkVersion();
 
         $failures = $this->countByStatus('fail');
@@ -665,6 +667,32 @@ class Doctor extends Command
                 ? $privileged->count().' privileged account(s) enrolled'
                 : $missing->count().' privileged account(s) without 2FA: '.$missing->pluck('email')->take(5)->implode(', ')
         );
+    }
+
+    /**
+     * A disabled kill switch is a security exception, not a deployment mode.
+     */
+    protected function checkAccessRules(): void
+    {
+        try {
+            if (! Schema::hasTable('access_rules')) {
+                $this->record('Access rules', 'warn', 'access_rules table is missing; run migrations');
+
+                return;
+            }
+
+            if (! (bool) config('security.access_rules.enabled', true)) {
+                $this->record('Access rules', 'warn', 'disabled by ACCESS_RULES_ENABLED; enable after recovery');
+
+                return;
+            }
+
+            $active = AccessRule::query()->active()->count();
+
+            $this->record('Access rules', 'pass', $active.' active rule(s)');
+        } catch (Throwable $exception) {
+            $this->record('Access rules', 'warn', 'could not inspect: '.$exception->getMessage());
+        }
     }
 
     /**

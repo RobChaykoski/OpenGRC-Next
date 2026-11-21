@@ -12,6 +12,7 @@ use App\Filament\Admin\Pages\Settings\StorageSettings;
 use App\Filament\Admin\Pages\Settings\TrustCenterSettings;
 use App\Filament\Admin\Pages\Settings\VendorPortalSettings;
 use App\Http\Middleware\AuthenticateAdminPanel;
+use App\Http\Middleware\EnforceAccessRules;
 use App\Http\Middleware\RequireTwoFactorAuthentication;
 use DB;
 use Exception;
@@ -83,6 +84,7 @@ class AdminPanelProvider extends PanelProvider
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
                 AuthenticateSession::class,
+                EnforceAccessRules::class,
                 ShareErrorsFromSession::class,
                 PreventRequestForgery::class,
                 SubstituteBindings::class,

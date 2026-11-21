@@ -4,6 +4,7 @@ namespace App\Providers\Filament;
 
 use App\Filament\Vendor\Pages\Auth\Login;
 use App\Filament\Vendor\Resources\SurveyResource;
+use App\Http\Middleware\EnforceAccessRules;
 use App\Http\Middleware\RequireVendorPassword;
 use DB;
 use Exception;
@@ -50,6 +51,7 @@ class VendorPanelProvider extends PanelProvider
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
                 AuthenticateSession::class,
+                EnforceAccessRules::class.':vendor',
                 ShareErrorsFromSession::class,
                 PreventRequestForgery::class,
                 SubstituteBindings::class,

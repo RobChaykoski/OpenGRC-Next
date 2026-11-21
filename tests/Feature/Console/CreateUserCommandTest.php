@@ -57,7 +57,7 @@ class CreateUserCommandTest extends TestCase
             'email' => 'nobody@example.com',
             'password' => 'password123',
             '--role' => 'superuser',
-        ])->assertExitCode(0);
+        ])->assertExitCode(1);
 
         $this->assertDatabaseMissing('users', ['email' => 'nobody@example.com']);
     }

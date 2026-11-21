@@ -612,6 +612,14 @@
         {
             "name": "2026_11_20_310000_create_audit_portal_grants_table",
             "sha256": "952cac877a010c397613f116d5c1b16130e98365ffdb36dc417f8ffe2a013b5b"
+        },
+        {
+            "name": "2026_11_20_320000_create_ai_assistant_runs_table",
+            "sha256": "2dbdc33daf17a53ea3330685dbe3b4ed475baff2846d0d6d3c98d21cb7d29a0c"
+        },
+        {
+            "name": "2026_11_20_330000_create_access_rules_table",
+            "sha256": "ff53279711836f0b8520d45e88fda95da55049390af435bd58a2c1c31c9096f4"
         }
     ]
 }
