@@ -108,6 +108,10 @@ docker compose -f docker/docker-compose.test.yml run --rm test   # suite in a co
 - [ ] `php artisan test` passes.
 - [ ] `./vendor/bin/pint` is clean.
 - [ ] `./vendor/bin/phpstan analyse` passes; do not add new baseline entries.
+- [ ] The security loop was run: threat model, negative-path tests, and no secret
+      or raw identifier in logs, storage, HTML or AI prompts.
+- [ ] New screens were checked for permission-denied, empty, error, expired/
+      revoked and dark/light states, and what was opened by hand is stated.
 - [ ] If the schema changed, the schema snapshot was regenerated deliberately.
 - [ ] `npm ci && npm run build` succeeds if front-end assets changed.
 - [ ] `php artisan opengrc:doctor` reports no failures on a fresh install.
@@ -122,9 +126,37 @@ docker compose -f docker/docker-compose.test.yml run --rm test   # suite in a co
 Reusable workflows live in `.opencode/skills/`. Load the one that matches the task:
 platform architecture, GRC domain model, framework mapping, training scenario
 authoring, OpenCyberRange integration, upgrade and compatibility, security,
-privacy, design, or user interface.
+privacy, design, user interface, risk and compliance analysis, or data loss
+prevention and DSPM.
 
 Security and privacy are review skills as much as build skills. Load them before
 changing authentication, uploads, private files, trust center disclosure, exports,
 AI prompts, or anything that touches personal data. Load design and user interface
-before adding or reshaping a screen.
+before adding or reshaping a screen. Load the risk and compliance analyst skill
+before changing risk scoring, appetite, the heat map, control assurance, or a risk
+report; it is where the actuarial and methodological sanity checks live. Load the
+DLP and DSPM skill before changing classification, identifier detection, data
+posture, SaaS/cloud connectors, or retention.
+
+## Security is continuous
+
+Security is a loop on every change, not a gate at the end. The full checklist is
+in `.opencode/skills/opengrc-security/SKILL.md`; the minimum is:
+
+1. **Before building:** write a five-line threat model — asset, actor, realistic
+   path, control, test. Public routes, tokens, uploads, AI prompts, exports and
+   access rules always need one.
+2. **While building:** default deny at every query; validate on the server;
+   escape at output; keep secrets and matched values out of logs and storage;
+   test the negative path (403/404/410/422), not only success.
+3. **Design:** include permission-denied, expired/revoked, blocked, empty, error
+   and long-content states; both themes; keyboard; no secret or raw identifier
+   in the HTML. A design review is a security review.
+4. **Before commit:** add or extend a security test for every control touched.
+   Run the targeted filters, the full suite, Pint, PHPStan, `opengrc:doctor`, and
+   the migration/evidence checks.
+5. **After a surprise:** turn the lesson into a test, a default, a skill line or
+   an ADR. Do not leave it in a chat.
+
+Do not claim a browser or design check that was not performed. State the role,
+the page, and the state that was opened by hand.

@@ -24,6 +24,61 @@ Read `docs/decisions/0005-security-defaults.md` before changing a default, and
 | The host | Remote attacker via an upload or dependency | Active content upload, malicious package |
 | Secrets | Anyone with log or settings access | Keys in `.env`, decrypted settings, debug pages |
 
+## Apply this continuously
+
+Security is not a review at the end of a feature. Run this loop on every change:
+
+1. **Before building — threat model in five lines.** Asset, actor, realistic
+   path, control, test. If you cannot name the test, the control is not designed.
+   Public routes, uploads, AI prompts, exports, tokens and access rules need this
+   every time.
+2. **While building — the default is deny.** Check authorization at every query,
+   validate at the server, escape at output, keep secrets out of logs, and test
+   the negative path (403/404/410/422), not only the happy path.
+3. **Design review — include the unsafe states.** Permission denied, expired,
+   revoked, blocked, empty, error, long content, dark/light, keyboard. A screen
+   that only looks right for a successful admin is not designed.
+4. **Before commit — security tests and the gates.** Add or extend a test for
+   every control touched. Run the targeted security filters, then the full suite,
+   Pint, PHPStan, `opengrc:doctor`, and the migration/evidence checks.
+5. **After an incident or a surprise — write it down.** Turn the lesson into a
+   test, a default, a skill line, or an ADR. A lesson that lives only in a chat
+   is repeated next quarter.
+
+Useful filters:
+
+```bash
+php artisan test --filter=Security
+php artisan test --filter=Authorization
+php artisan test --filter=AccessRule
+php artisan test --filter=Assistant
+php artisan test --filter=AuditPortal
+```
+
+## Design security testing
+
+Design is part of the attack surface. Check it in the component or browser test:
+
+- The page renders for the allowed role and returns 403 for the others.
+- Empty, loading, error, expired/revoked, and permission-denied states exist.
+- No secret, full token, full card number, full government ID, password, API key,
+  or raw matched value appears in HTML, a title, a tooltip, an error, or a URL
+  the page renders.
+- User-supplied HTML is escaped or sanitized; the model's answer is rendered as
+  text, not HTML.
+- A destructive action names the object, shows the consequence, and requires
+  confirmation; a safe default exists.
+- Forms have labels, help text, and field-level errors; success and failure are
+  announced, not only coloured.
+- Tables have headers and a caption or accessible name; status is not colour-only.
+- Both themes and a narrow viewport are checked for new screens.
+- A link or capability token is not sent in a referrer; responses set
+  `Referrer-Policy: no-referrer`, `X-Robots-Tag`, and `Cache-Control: no-store`
+  where the URL is a secret.
+
+Where Filament tests cannot express a visual check, state what was opened by hand
+and at which role. Do not claim a browser check that did not happen.
+
 ## Authentication
 
 - Three roles only: `admin`, `editor`, `viewer` (`app/Enums/UserRole.php`). Do not
@@ -153,6 +208,9 @@ php artisan test --filter=Security
 php artisan test --filter=PrivateFileAccess
 php artisan test --filter=Upload
 php artisan test --filter=Authorization
+php artisan test --filter=AccessRule
+php artisan test --filter=Assistant
+php artisan test --filter=AuditPortal
 php artisan opengrc:doctor --strict
 ```
 
@@ -160,6 +218,26 @@ Every control you touch should leave a test behind. The existing suite already
 covers security headers, upload content checks, private path traversal, signed
 downloads, panel isolation, and the role matrix; extend it rather than testing by
 hand.
+
+## Lessons learned
+
+These are the failures that cost the most time, not abstract principles.
+
+| Lesson | What to do |
+|---|---|
+| A capability URL is a secret in the path | Store only a hash; show once; set `Referrer-Policy: no-referrer`, `X-Robots-Tag` and `Cache-Control: no-store`; rate-limit; log reads; support revoke and expiry |
+| AI prompts are egress | Run DLP first; send bounded facts, never payloads or document bodies; treat retrieved data as untrusted; render the answer as text; label it as interpretation |
+| A blocked prompt must not be stored | Persist a redaction or hash, not the credential/HR content that triggered the block. Test that the secret is absent from the run row |
+| Allowlists invert the default | An allow rule turns its dimension into a deny-by-default list. Test the unmatched case, the deny-wins case, and the empty-list case |
+| Security settings can lock the operator out | Refuse a rule that denies the current session; provide an environment kill switch and a CLI disable path; test recovery |
+| Generic error pages are safer than detailed ones | A 403 should not enumerate rules, tokens or records. Put the useful explanation in the authenticated UI, not the error body |
+| Aggregate screens leak too | Every count, chart, export and AI query must respect record permissions and small-cell rules |
+| Hidden actions are not authorization | The policy must deny even when the button is invisible. Test the direct URL and the Livewire action |
+| The negative path is the product | Expired, revoked, blocked, forbidden, empty and partial states are the security behaviour; test them before the happy path |
+| A design check is a security check | A missing confirmation, a visible secret, colour-only status or an inaccessible control is a defect. Record what was opened by hand and in which role |
+
+Turn a new lesson into a test in the same change. A skill line without a test is
+a preference.
 
 ## Known gaps (state them, do not paper over them)
 
