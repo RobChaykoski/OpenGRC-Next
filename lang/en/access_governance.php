@@ -47,4 +47,13 @@ return [
         'decisions' => 'Access decisions',
     ],
 
+    'decision' => [
+        'unauthenticated' => 'Unauthenticated.',
+        'session_not_allowed' => 'This endpoint requires a scoped API token, not a browser session.',
+        'missing_scope' => 'The token is missing the access.decide scope.',
+        'no_client' => 'The token is not bound to a client.',
+        'idempotency_key' => 'The Idempotency-Key header must be 1 to 128 printable characters.',
+        'idempotency_conflict' => 'This Idempotency-Key was already used with a different request.',
+    ],
+
 ];

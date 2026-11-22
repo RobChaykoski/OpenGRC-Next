@@ -14,8 +14,9 @@ It has three parts, matching the menu:
 
 OpenGRC **governs** access. It does not enforce it: it does not sit in a query
 path, mint tokens or proxy a database. The enforcement point (an EHR, a gateway,
-OPA in front of a warehouse) submits the asserted context and honours the answer.
-This is deliberate — see ADR 0049.
+OPA in front of a warehouse) submits the asserted context over
+`POST /api/v1/access/decisions` and honours the answer. This is deliberate — see
+ADR 0049 and ADR 0051.
 
 ## Objects
 
@@ -57,10 +58,13 @@ window  = access_governance.exposure.window_minutes (60)
 review  = 25   step_up = 50   block = 100
 ```
 
-It is computed, never stored separately, so it cannot drift from the log. The
-number answers "is this much data in this window unusual", not "what did it
-cost". The decision snapshot carries the weight at decision time even if the
-configuration changes later.
+It is computed, never stored separately, so it cannot drift from the log. Only
+**permissive** decisions (`allow`, `allow_audited`, `time_boxed`) contribute
+weight: a denied, masked or filtered request read no data, and counting it would
+let a noisy enforcement point push an innocent subject into step-up. The number
+answers "is this much data in this window unusual", not "what did it cost". The
+decision snapshot carries the weight at decision time even if the configuration
+changes later.
 
 ## Worked scenario: emergency room break-the-glass
 
@@ -76,9 +80,10 @@ A physician opens an unassigned patient's record during a resuscitation.
    exposure weight is below the ceiling. A matching policy says masked access
    for standard profiles, but the emergency break-glass path applies: the answer
    is `time_boxed` with a 30-minute TTL, reason `break_glass`.
-4. **Grant**. The grant is recorded with the justification, the reason code and
-   a privacy review due in five days. The approver must be someone other than
-   the requester.
+4. **Grant**. The break-glass workflow (or the enforcement point, through it)
+   records the grant with the justification, the reason code and a privacy review
+   due in five days. The decision endpoint answers the request; it does not mint
+   the grant. The approver must be someone other than the requester.
 5. **Review**. The privacy officer records an outcome — justified, not justified
    or escalated — with notes. Overdue reviews are reported by the expiry
    command.
@@ -93,7 +98,11 @@ still needs a local answer. That answer is deny or mask.
 ## Integration contract
 
 ```
-POST  <decision endpoint>
+POST  /api/v1/access/decisions
+Authorization: Bearer <token with access.decide>
+Idempotency-Key: <optional, 1–128 printable characters>
+Content-Type: application/json
+
 {
   "subject":      {"type": "user", "label": "dr.example"},
   "resource":     {"ref": "clinical.records", "urn": "ehr://patient/1234"},
@@ -101,7 +110,9 @@ POST  <decision endpoint>
   "trust":        "high",
   "zone":         "ED_Zone_A",
   "purpose_code": "care",
-  "justification_present": true
+  "justification_present": true,
+  "managed_device": true,
+  "clinical_reason": "trauma"
 }
 
 200 OK
@@ -115,6 +126,74 @@ POST  <decision endpoint>
 }
 ```
 
+Authentication is a Sanctum token with the `access.decide` ability, bound to a
+client. The `client_id` is the enforcement point: it is recorded as `pep`, used
+to scope the idempotency key and to rate-limit the token. A browser session is
+refused.
+
+Create a dedicated service account and mint the token once:
+
+```bash
+php artisan opengrc:create-user ehr-gateway@example.com --role=viewer
+php artisan opengrc:token:create ehr-gateway@example.com \
+  --name=ehr-gateway \
+  --client=acme-ehr \
+  --ability=access.decide
+```
+
+The role does not grant or withhold a decision: the endpoint authorises the
+token's ability and client, not the user's panel role. Use the least privileged
+role anyway, and keep the service account's email domain inside the domain rules
+you have configured (ADR 0047).
+
+Rotate by minting a new token and deleting the old one
+(`$user->tokens()->where('name', 'ehr-gateway')->delete()`). One token per
+enforcement point: the `pep` record and the rate limit both depend on it.
+
+The platform access rules (ADR 0047) run before the endpoint. A denied IP or
+email domain is a `403`, and the enforcement point must treat it as deny.
+
+`resource.ref` matches `protected_resources.external_urn`. The human reference
+(`PR-00042`) is also accepted so an operator or a test can call the endpoint
+without inventing a URN. An unregistered reference is a recorded **deny** with
+reason `unknown_classification`, not a 404 — the coverage gap belongs in the
+decision log.
+
+The caller asserts the subject and context. It cannot assert the classification,
+the grant, the exposure weight or the answer: `exposure_weight` and
+`grant_active` in the body are ignored, and exposure is computed from the
+decision log for the rolling window.
+
+`resource.urn` is accepted for contract compatibility and deliberately **not
+stored**. It is a patient- or row-level identifier; the enforcement point keeps
+it beside the `correlation_id`.
+
+Response codes:
+
+| Code | Meaning |
+|---|---|
+| 200 | A decision, including `deny` |
+| 401 | No token |
+| 403 | Browser session, missing `access.decide`, or a token not bound to a client |
+| 422 | Invalid context, or an `Idempotency-Key` reused with a different request |
+| 429 | Per-token throttle exceeded |
+
+The response is `Cache-Control: no-store` and carries no policy name, policy text
+or classification. The per-token limit defaults to 600 requests/minute
+(`ACCESS_DECISION_RATE_LIMIT`), independent of the 60/minute shared API limit.
+
+## Idempotency and retries
+
+An enforcement point retries when it does not get an answer. Send the same
+`Idempotency-Key` on the retry:
+
+- the recorded decision is returned, with the same `correlation_id`;
+- no second decision is appended, so exposure is not consumed twice;
+- the same key with a different asserted request is rejected with `422`.
+
+The key is optional. Without one, every call is a new, individually attributable
+decision.
+
 Rules for the enforcement point:
 
 - **No decision means deny.** A timeout, a 5xx or an unparseable answer is not
@@ -123,6 +202,8 @@ Rules for the enforcement point:
 - Send a **zone or a coarse label**, not a raw IP address. Send a device posture
   boolean, not a device identifier.
 - Record the `correlation_id` on your side; that is how the two records join.
+- Do not put an email address in `subject.label`; use a display name or a service
+  identifier.
 
 ## Screens and roles
 
@@ -181,7 +262,17 @@ Avoid: total decisions, total grants, "blocked" counts without a denominator.
 
 ## Limits
 
-- No enforcement, no token issuance, no query rewriting.
+- No enforcement, no token issuance, no query rewriting. The endpoint serves the
+  decision; the enforcement point still enforces it, and a missing answer is
+  deny.
+- A break-glass decision does not create a grant, and therefore does not create
+  the privacy review obligation by itself. Raising the grant is a separate step.
+- Grants are matched by resource plus subject type and label. The contract has no
+  account id, so a label that drifts between the grant and the enforcement point
+  stops matching silently.
+- No batch evaluation. One request is one decision and one idempotency key.
+- No OPA/Trino adapter is shipped. The policy table and rule hash are the inputs;
+  the adapter is a separate service.
 - No exact-data-match or content fingerprinting: the decision is about a
   resource and a context, not a document.
 - No automated revocation from a clinical system; the enforcement point or an

@@ -636,6 +636,10 @@
         {
             "name": "2026_11_21_090300_create_access_decisions_table",
             "sha256": "0ddc03fc782b1020e6b67c0c46f4420127be609fa410d073fb0adccb9149c357"
+        },
+        {
+            "name": "2026_11_21_090400_add_decision_replay_columns_to_access_decisions_table",
+            "sha256": "8970997f2b04e2bea353343dc14409a9790e2662dca7169b3eca2ea2df3b22d8"
         }
     ]
 }

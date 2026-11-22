@@ -2,6 +2,7 @@
 
 namespace App\Services\Access;
 
+use App\Enums\AccessAction;
 use App\Enums\DocumentClassification;
 use App\Models\AccessDecision;
 use Carbon\CarbonInterface;
@@ -27,10 +28,18 @@ class ExposureService
     {
         $since ??= now()->subMinutes((int) config('access_governance.exposure.window_minutes', 60));
 
+        // Only access that returned data consumes exposure. A denied request read
+        // nothing, and counting it would let a noisy or misconfigured enforcement
+        // point push an innocent subject into step-up.
         return (int) AccessDecision::query()
             ->where('subject_type', $subjectType)
             ->where('subject_label', $subjectLabel)
             ->where('decided_at', '>=', $since)
+            ->whereIn('action', [
+                AccessAction::Allow->value,
+                AccessAction::AllowAudited->value,
+                AccessAction::TimeBoxed->value,
+            ])
             ->sum('risk_weight');
     }
 

@@ -60,4 +60,18 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Decision endpoint
+    |--------------------------------------------------------------------------
+    |
+    | The enforcement point sits in a request path, so the shared API throttle is
+    | too low for it. The limit is per token: one token is one enforcement point.
+    |
+    */
+
+    'decision' => [
+        'rate_limit_per_minute' => (int) env('ACCESS_DECISION_RATE_LIMIT', 600),
+    ],
+
 ];

@@ -25,7 +25,9 @@ class AccessDecisionFactory extends Factory
         return [
             'correlation_id' => (string) Str::uuid(),
             'subject_type' => 'user',
-            'subject_label' => 'analyst@example.test',
+            // A label is a display name or service id, not an email address
+            // (ADR 0049). Keep the factory honest so tests model the rule.
+            'subject_label' => 'analyst',
             'resource_ref' => 'clinical.records',
             'tier' => DocumentClassification::Restricted,
             'profile' => AccessorProfile::Standard,

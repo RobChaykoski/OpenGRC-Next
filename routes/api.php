@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AccessDecisionController;
 use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\AssetController;
 use App\Http\Controllers\API\AuditController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\API\RiskController;
 use App\Http\Controllers\API\StandardController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\VendorController;
+use App\Http\Middleware\EnsureAccessDecisionScope;
 use App\Http\Middleware\EnsureEvidenceWriteScope;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -61,6 +63,12 @@ Route::middleware(['auth:sanctum', 'access.rules'])->group(function () {
     // Discovery evidence from OpenDLP-NG (hash verified, append-only)
     Route::post('/v1/evidence', [EvidenceIngestionController::class, 'store'])
         ->middleware(EnsureEvidenceWriteScope::class);
+
+    // Runtime access decision for an enforcement point (ADR 0051). Scoped,
+    // client-bound token; the answer is honoured, and no answer means deny.
+    Route::post('/v1/access/decisions', [AccessDecisionController::class, 'store'])
+        ->middleware(EnsureAccessDecisionScope::class)
+        ->name('access.decisions.store');
 
     // Checklist approval
     Route::post('/checklists/{id}/approve', [ChecklistController::class, 'approve']);

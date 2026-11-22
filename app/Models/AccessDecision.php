@@ -45,6 +45,8 @@ class AccessDecision extends Model
         'ttl_seconds',
         'risk_weight',
         'pep',
+        'idempotency_key',
+        'request_hash',
         'latency_ms',
         'decided_at',
         'previous_hash',

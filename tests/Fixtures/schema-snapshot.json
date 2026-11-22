@@ -36,6 +36,11 @@
             "nullable": false
         },
         {
+            "name": "idempotency_key",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
             "name": "latency_ms",
             "type": "integer",
             "nullable": true
@@ -79,6 +84,11 @@
             "name": "reason",
             "type": "varchar",
             "nullable": false
+        },
+        {
+            "name": "request_hash",
+            "type": "varchar",
+            "nullable": true
         },
         {
             "name": "resource_ref",
