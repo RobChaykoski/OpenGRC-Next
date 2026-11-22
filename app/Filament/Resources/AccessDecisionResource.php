@@ -65,7 +65,7 @@ class AccessDecisionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn ($query) => $query->with('policy'))
+            ->modifyQueryUsing(fn ($query) => $query->with(['policy', 'grant']))
             ->defaultSort('decided_at', 'desc')
             ->columns([
                 TextColumn::make('decided_at')
@@ -112,6 +112,12 @@ class AccessDecisionResource extends Resource
                     ->label('Enforcement point')
                     ->placeholder('—')
                     ->toggleable(),
+
+                TextColumn::make('grant_reference')
+                    ->label('Grant')
+                    ->state(fn (AccessDecision $record): ?string => $record->grant?->reference())
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 SelectFilter::make('action')
@@ -184,6 +190,11 @@ class AccessDecisionResource extends Resource
                             ->label('Evaluation time')
                             ->suffix(' ms')
                             ->placeholder('—'),
+
+                        TextEntry::make('grant_reference')
+                            ->label('Break-glass grant')
+                            ->state(fn (AccessDecision $record): ?string => $record->grant?->reference())
+                            ->placeholder('No grant created'),
                     ]),
 
                 Section::make('Asserted context')

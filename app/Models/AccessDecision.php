@@ -40,6 +40,7 @@ class AccessDecision extends Model
         'matched_policy_id',
         'policy_version',
         'rules_hash',
+        'access_grant_id',
         'action',
         'reason',
         'ttl_seconds',
@@ -100,6 +101,16 @@ class AccessDecision extends Model
     public function policy(): BelongsTo
     {
         return $this->belongsTo(AccessPolicy::class, 'matched_policy_id');
+    }
+
+    /**
+     * The grant this decision created, if any. A break-glass answer mints one.
+     *
+     * @return BelongsTo<AccessGrant, $this>
+     */
+    public function grant(): BelongsTo
+    {
+        return $this->belongsTo(AccessGrant::class, 'access_grant_id');
     }
 
     /**

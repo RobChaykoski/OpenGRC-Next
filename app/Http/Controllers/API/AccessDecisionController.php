@@ -8,29 +8,38 @@ use App\Enums\AccessorProfile;
 use App\Enums\AccessReason;
 use App\Enums\ContextTrust;
 use App\Enums\DocumentClassification;
+use App\Exceptions\DuplicateAccessDecisionException;
 use App\Http\Controllers\Controller;
 use App\Models\AccessDecision;
 use App\Models\AccessGrant;
 use App\Models\ProtectedResource;
+use App\Models\User;
 use App\Services\Access\AccessDecisionRecorder;
 use App\Services\Access\AccessDecisionRequest;
 use App\Services\Access\AccessDecisionResult;
+use App\Services\Access\AccessGrantService;
 use App\Services\Access\AccessPolicyEvaluator;
 use App\Services\Access\AccessRequestContext;
 use App\Services\Access\ExposureService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Laravel\Sanctum\PersonalAccessToken;
 
 /**
- * A runtime access decision for an enforcement point (ADR 0051).
+ * A runtime access decision for an enforcement point (ADR 0051, ADR 0052).
  *
  * The caller asserts the subject, the resource and the context. OpenGRC decides
  * from its own classification, policies, grants and exposure log, appends the
  * decision, and returns the action to honour. It never accepts the exposure
  * weight, the grant state or the answer from the caller.
+ *
+ * A break-glass answer mints the grant and its privacy review in the same
+ * transaction as the decision; without a justification text it is a deny, not a
+ * time-boxed allow with an obligation nobody can complete.
  *
  * No decision means deny: a timeout, a 5xx or an unparseable answer is not
  * permission. An unknown resource is an audited deny, not a silent 404.
@@ -45,6 +54,7 @@ class AccessDecisionController extends Controller
         AccessPolicyEvaluator $evaluator,
         ExposureService $exposure,
         AccessDecisionRecorder $recorder,
+        AccessGrantService $grants,
     ): JsonResponse {
         $startedAt = hrtime(true);
         $pep = $this->clientId($request);
@@ -61,6 +71,9 @@ class AccessDecisionController extends Controller
             'zone' => ['nullable', 'string', 'max:64', self::NO_CONTROL_CHARACTERS],
             'purpose_code' => ['nullable', 'string', 'max:32', self::NO_CONTROL_CHARACTERS],
             'justification_present' => ['nullable', 'boolean'],
+            // The professional's reason for emergency access. Stored on the
+            // grant only; never in the decision context or a log.
+            'justification' => ['nullable', 'string', 'max:1000'],
             'managed_device' => ['nullable', 'boolean'],
             'clinical_reason' => ['nullable', 'string', 'max:32', self::NO_CONTROL_CHARACTERS],
         ]);
@@ -112,27 +125,93 @@ class AccessDecisionController extends Controller
                 riskWeight: $exposure->weightFor(DocumentClassification::Restricted),
             );
 
-        $decision = $recorder->record(
-            new AccessDecisionRequest(
-                subjectType: $subjectType,
-                subjectLabel: $subjectLabel,
-                resourceRef: $resourceRef,
-                resource: $resource,
-                context: $context,
-                idempotencyKey: $idempotencyKey,
-                requestHash: $requestHash,
-            ),
-            $result,
-            $pep,
-            max(0, (int) round((hrtime(true) - $startedAt) / 1_000_000)),
+        $justification = trim((string) ($validated['justification'] ?? ''));
+        $breakGlass = $resource instanceof ProtectedResource
+            && $result->action === AccessAction::TimeBoxed
+            && $result->reason === AccessReason::BreakGlass;
+
+        if ($breakGlass && $justification === '') {
+            // Break-glass without a written reason is not an entitlement. Fail
+            // closed and record why, rather than granting access whose review
+            // obligation nobody can complete.
+            $result = new AccessDecisionResult(
+                action: AccessAction::Deny,
+                reason: AccessReason::ContextInsufficient,
+                riskWeight: $result->riskWeight,
+            );
+            $breakGlass = false;
+        }
+
+        $decisionRequest = new AccessDecisionRequest(
+            subjectType: $subjectType,
+            subjectLabel: $subjectLabel,
+            resourceRef: $resourceRef,
+            resource: $resource,
+            context: $context,
+            idempotencyKey: $idempotencyKey,
+            requestHash: $requestHash,
         );
+
+        $correlationId = (string) Str::uuid();
+        $latencyMs = max(0, (int) round((hrtime(true) - $startedAt) / 1_000_000));
+        $requester = $request->user();
+
+        if (! $requester instanceof User) {
+            throw ValidationException::withMessages([
+                'client' => __('access_governance.decision.unauthenticated'),
+            ]);
+        }
+
+        try {
+            // Grant and decision commit together. A retry that loses the
+            // idempotency race rolls both back, so no orphan grant survives.
+            $decision = DB::transaction(function () use (
+                $breakGlass,
+                $decisionRequest,
+                $result,
+                $pep,
+                $latencyMs,
+                $correlationId,
+                $justification,
+                $requester,
+                $recorder,
+                $grants,
+            ): AccessDecision {
+                $grant = $breakGlass
+                    ? $grants->mintBreakGlass(
+                        $decisionRequest,
+                        $requester,
+                        $justification,
+                        $correlationId,
+                        (int) ($result->ttlSeconds ?? 0),
+                    )
+                    : null;
+
+                return $recorder->record(
+                    $decisionRequest,
+                    $result,
+                    $pep,
+                    $latencyMs,
+                    $correlationId,
+                    $grant,
+                );
+            });
+        } catch (DuplicateAccessDecisionException $duplicate) {
+            if (! hash_equals((string) $duplicate->decision->request_hash, $requestHash)) {
+                throw ValidationException::withMessages([
+                    'idempotency_key' => __('access_governance.decision.idempotency_conflict'),
+                ]);
+            }
+
+            return $this->answer($duplicate->decision);
+        }
 
         return $this->answer($decision);
     }
 
     /**
      * The response is deliberately narrow: what to do, why, for how long and the
-     * id that joins the two records. Policy text, tier and weights stay inside.
+     * ids that join the records. Policy text, tier and weights stay inside.
      */
     protected function answer(AccessDecision $decision): JsonResponse
     {
@@ -143,6 +222,7 @@ class AccessDecisionController extends Controller
             'correlation_id' => $decision->correlation_id,
             'policy_version' => $decision->policy_version,
             'rules_hash' => $decision->rules_hash,
+            'grant_reference' => $decision->grant?->reference(),
         ])->header('Cache-Control', 'no-store');
     }
 

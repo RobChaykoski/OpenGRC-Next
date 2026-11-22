@@ -82,6 +82,58 @@ class AccessGrantService
         ]);
     }
 
+    /**
+     * Record the entitlement a break-glass decision created (ADR 0052).
+     *
+     * There is no approver: break-glass is retrospective by design, and the
+     * privacy review is the check that follows. The justification is the
+     * professional's text and is the only free text this path stores; it never
+     * enters the decision context, a log or an export.
+     */
+    public function mintBreakGlass(
+        AccessDecisionRequest $request,
+        User $requester,
+        string $justification,
+        string $correlationId,
+        int $ttlSeconds,
+    ): AccessGrant {
+        $justification = trim($justification);
+
+        if ($justification === '') {
+            throw new InvalidArgumentException('A break-the-glass grant requires a justification.');
+        }
+
+        if (! $request->resource instanceof ProtectedResource) {
+            throw new InvalidArgumentException('A grant needs a registered protected resource.');
+        }
+
+        $cap = (int) config('access_governance.grants.break_glass_max_minutes', 30) * 60;
+        $ttlSeconds = max(60, min($ttlSeconds, $cap));
+        $now = now();
+
+        return AccessGrant::create([
+            'subject_type' => $request->subjectType,
+            'subject_id' => null,
+            'subject_label' => $request->subjectLabel,
+            'protected_resource_id' => $request->resource->getKey(),
+            'access_policy_id' => null,
+            'requested_by' => $requester->getKey(),
+            'approved_by' => null,
+            'purpose_code' => $request->context->purposeCode ?? 'care',
+            'justification' => $justification,
+            'is_break_glass' => true,
+            'clinical_reason' => $request->context->clinicalReason,
+            'state' => AccessGrantState::Active,
+            'correlation_id' => $correlationId,
+            'requested_at' => $now,
+            'starts_at' => $now,
+            'expires_at' => $now->copy()->addSeconds($ttlSeconds),
+            'review_required' => true,
+            'review_due_at' => today()->addDays((int) config('access_governance.grants.break_glass_review_days', 5)),
+            'review_outcome' => PrivacyReviewOutcome::Pending,
+        ]);
+    }
+
     public function approve(AccessGrant $grant, User $approver): AccessGrant
     {
         if ($grant->state !== AccessGrantState::Requested) {

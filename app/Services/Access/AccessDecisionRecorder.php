@@ -3,7 +3,9 @@
 namespace App\Services\Access;
 
 use App\Enums\DocumentClassification;
+use App\Exceptions\DuplicateAccessDecisionException;
 use App\Models\AccessDecision;
+use App\Models\AccessGrant;
 use Illuminate\Database\QueryException;
 
 /**
@@ -15,8 +17,9 @@ use Illuminate\Database\QueryException;
  * Nothing here is editable afterwards.
  *
  * A replayed request is not a new decision. The endpoint looks the key up before
- * evaluating; this class repeats the lookup when two retries race, because the
- * unique index is the authority and a duplicate must not consume exposure twice.
+ * evaluating; when two retries race, the unique index is the authority and this
+ * class raises DuplicateAccessDecisionException so the caller's transaction —
+ * including any break-glass grant — rolls back.
  */
 class AccessDecisionRecorder
 {
@@ -33,8 +36,11 @@ class AccessDecisionRecorder
         AccessDecisionResult $result,
         string $pep,
         ?int $latencyMs = null,
+        ?string $correlationId = null,
+        ?AccessGrant $grant = null,
     ): AccessDecision {
         $attributes = [
+            'correlation_id' => $correlationId,
             'pep' => $pep,
             'idempotency_key' => $request->idempotencyKey,
             'request_hash' => $request->requestHash,
@@ -54,6 +60,7 @@ class AccessDecisionRecorder
             'reason' => $result->reason,
             'ttl_seconds' => $result->ttlSeconds,
             'risk_weight' => $result->riskWeight,
+            'access_grant_id' => $grant?->getKey(),
             'latency_ms' => $latencyMs,
             'decided_at' => now(),
         ];
@@ -71,11 +78,7 @@ class AccessDecisionRecorder
                 throw $exception;
             }
 
-            if (! hash_equals((string) $existing->request_hash, (string) $request->requestHash)) {
-                throw $exception;
-            }
-
-            return $existing;
+            throw new DuplicateAccessDecisionException($existing);
         }
     }
 }

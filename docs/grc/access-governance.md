@@ -75,15 +75,16 @@ A physician opens an unassigned patient's record during a resuscitation.
    physician's list. It prompts for an emergency reason and receives `trauma`.
 2. **Request**. The gateway submits: subject, resource reference,
    profile `emergency`, trust `high`, zone `ED_Zone_A`, purpose `care`,
-   `has_justification: true`.
+   `justification_present: true`, and the clinician's written justification.
 3. **OpenGRC decides**. The resource is classified restricted and current. The
    exposure weight is below the ceiling. A matching policy says masked access
    for standard profiles, but the emergency break-glass path applies: the answer
    is `time_boxed` with a 30-minute TTL, reason `break_glass`.
-4. **Grant**. The break-glass workflow (or the enforcement point, through it)
-   records the grant with the justification, the reason code and a privacy review
-   due in five days. The decision endpoint answers the request; it does not mint
-   the grant. The approver must be someone other than the requester.
+4. **Grant**. In the same transaction as the decision, OpenGRC creates the
+   break-glass grant: active, no approver (the review is the check that
+   follows), the written justification, the reason code, and a privacy review
+   due in five days. The decision stores the grant link and returns its
+   reference.
 5. **Review**. The privacy officer records an outcome — justified, not justified
    or escalated — with notes. Overdue reviews are reported by the expiry
    command.
@@ -111,6 +112,7 @@ Content-Type: application/json
   "zone":         "ED_Zone_A",
   "purpose_code": "care",
   "justification_present": true,
+  "justification": "Unconscious patient, trauma call, no assigned clinician.",
   "managed_device": true,
   "clinical_reason": "trauma"
 }
@@ -122,7 +124,8 @@ Content-Type: application/json
   "ttl_seconds":  1800,
   "correlation_id": "…",
   "policy_version": null,
-  "rules_hash":   null
+  "rules_hash":   null,
+  "grant_reference": "AG-00042"
 }
 ```
 
@@ -167,6 +170,17 @@ decision log for the rolling window.
 `resource.urn` is accepted for contract compatibility and deliberately **not
 stored**. It is a patient- or row-level identifier; the enforcement point keeps
 it beside the `correlation_id`.
+
+`justification` is the professional's written reason. It is required for a
+break-glass grant: a `time_boxed` break-glass answer without it is recorded as a
+deny (`context_insufficient`) and no grant is created. The text is stored on the
+grant only — never in the decision context, a log, an export or an AI prompt —
+and is capped at 1,000 characters.
+
+A break-glass decision and its grant are written in one transaction. The
+decision records `access_grant_id`, both rows share the `correlation_id`, and the
+response carries `grant_reference`. A replayed request returns the original
+decision with the same grant reference and creates nothing new.
 
 Response codes:
 
@@ -265,8 +279,11 @@ Avoid: total decisions, total grants, "blocked" counts without a denominator.
 - No enforcement, no token issuance, no query rewriting. The endpoint serves the
   decision; the enforcement point still enforces it, and a missing answer is
   deny.
-- A break-glass decision does not create a grant, and therefore does not create
-  the privacy review obligation by itself. Raising the grant is a separate step.
+- A policy-driven `time_boxed` answer (`reason: policy_match`) does not mint a
+  grant; the PEP honours the TTL. Only break-glass creates the entitlement and
+  the review obligation. Unifying the two is deliberate future work.
+- A break-glass grant has no approver. It is retrospective by design: the
+  privacy review is the check, and an overdue review is reported.
 - Grants are matched by resource plus subject type and label. The contract has no
   account id, so a label that drifts between the grant and the enforcement point
   stops matching silently.

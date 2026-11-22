@@ -1,6 +1,11 @@
 {
     "access_decisions": [
         {
+            "name": "access_grant_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
             "name": "action",
             "type": "varchar",
             "nullable": false

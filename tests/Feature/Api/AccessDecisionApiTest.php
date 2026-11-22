@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Enums\AccessGrantState;
+use App\Enums\PrivacyReviewOutcome;
 use App\Models\AccessDecision;
 use App\Models\AccessGrant;
 use App\Models\AccessPolicy;
@@ -85,6 +86,7 @@ class AccessDecisionApiTest extends TestCase
         $this->ask([
             'profile' => 'emergency',
             'justification_present' => true,
+            'justification' => 'Unconscious patient in the emergency department.',
             'clinical_reason' => 'trauma',
         ])
             ->assertOk()
@@ -110,6 +112,87 @@ class AccessDecisionApiTest extends TestCase
             ->assertOk()
             ->assertJsonPath('action', 'deny')
             ->assertJsonPath('reason', 'context_insufficient');
+    }
+
+    #[Test]
+    public function break_glass_mints_the_grant_and_its_privacy_review(): void
+    {
+        $resource = $this->resource();
+
+        $response = $this->breakGlassAsk()
+            ->assertOk()
+            ->assertJsonPath('action', 'time_boxed')
+            ->assertJsonPath('reason', 'break_glass');
+
+        $decision = AccessDecision::query()->sole();
+        $grant = AccessGrant::query()->sole();
+
+        $this->assertSame($grant->getKey(), $decision->access_grant_id);
+        $this->assertSame($decision->correlation_id, $grant->correlation_id);
+        $this->assertSame($grant->reference(), $response->json('grant_reference'));
+
+        $this->assertSame(AccessGrantState::Active, $grant->state);
+        $this->assertTrue($grant->is_break_glass);
+        $this->assertTrue($grant->review_required);
+        $this->assertSame(PrivacyReviewOutcome::Pending, $grant->review_outcome);
+        $this->assertNotNull($grant->review_due_at);
+        $this->assertSame($resource->getKey(), $grant->protected_resource_id);
+        $this->assertSame('dr.example', $grant->subject_label);
+        $this->assertSame('trauma', $grant->clinical_reason);
+        $this->assertSame('Unconscious patient in the emergency department.', $grant->justification);
+        $this->assertEqualsWithDelta(
+            (int) config('access_governance.grants.break_glass_max_minutes'),
+            (int) now()->diffInMinutes($grant->expires_at),
+            1,
+        );
+    }
+
+    #[Test]
+    public function break_glass_without_a_justification_is_denied_and_mints_nothing(): void
+    {
+        $this->resource();
+
+        $this->ask([
+            'profile' => 'emergency',
+            'justification_present' => true,
+            'clinical_reason' => 'trauma',
+        ])
+            ->assertOk()
+            ->assertJsonPath('action', 'deny')
+            ->assertJsonPath('reason', 'context_insufficient')
+            ->assertJsonPath('grant_reference', null);
+
+        $this->assertSame(0, AccessGrant::query()->count());
+        $this->assertSame(1, AccessDecision::query()->count());
+    }
+
+    #[Test]
+    public function a_replayed_break_glass_request_creates_one_grant(): void
+    {
+        $this->resource();
+        $body = $this->breakGlassBody();
+
+        $first = $this->ask(body: $body, headers: ['Idempotency-Key' => 'bg-1']);
+        $second = $this->ask(body: $body, headers: ['Idempotency-Key' => 'bg-1']);
+
+        $this->assertSame($first->json('grant_reference'), $second->json('grant_reference'));
+        $this->assertSame(1, AccessGrant::query()->count());
+        $this->assertSame(1, AccessDecision::query()->count());
+    }
+
+    #[Test]
+    public function a_second_break_glass_request_uses_the_active_grant(): void
+    {
+        $this->resource();
+
+        $this->breakGlassAsk()->assertJsonPath('reason', 'break_glass');
+
+        $this->breakGlassAsk()
+            ->assertOk()
+            ->assertJsonPath('action', 'allow_audited')
+            ->assertJsonPath('reason', 'grant_active');
+
+        $this->assertSame(1, AccessGrant::query()->count());
     }
 
     #[Test]
@@ -347,6 +430,25 @@ class AccessDecisionApiTest extends TestCase
             ])
             ->assertStatus(422)
             ->assertJsonValidationErrors('resource.ref');
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function breakGlassBody(): array
+    {
+        return [
+            'profile' => 'emergency',
+            'trust' => 'high',
+            'justification_present' => true,
+            'justification' => 'Unconscious patient in the emergency department.',
+            'clinical_reason' => 'trauma',
+        ];
+    }
+
+    protected function breakGlassAsk(): TestResponse
+    {
+        return $this->ask($this->breakGlassBody());
     }
 
     protected function resource(bool $stale = false): ProtectedResource
