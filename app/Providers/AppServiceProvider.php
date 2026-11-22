@@ -36,6 +36,7 @@ use App\Policies\SurveyPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VendorDocumentPolicy;
 use App\Policies\VendorUserPolicy;
+use App\Services\Dlp\DlpSuppressionResolver;
 use App\Services\Evidence\ConnectorRegistry;
 use App\Services\Evidence\Connectors\GophishConnector;
 use App\Services\Evidence\Connectors\OpenMetadataConnector;
@@ -360,6 +361,10 @@ class AppServiceProvider extends ServiceProvider
 
             return $registry;
         });
+
+        // One in-force suppression query per request, shared by the finding list
+        // and the quality page. Scoped, so a queue worker does not keep stale rows.
+        $this->app->scoped(DlpSuppressionResolver::class);
 
         /*
          * Follow the scheme in APP_URL (must be in register, not boot).

@@ -15,10 +15,13 @@ use Illuminate\Support\Collection;
  */
 class DlpQualityMetrics
 {
-    public function __construct(protected DlpIdentifierCatalog $catalog) {}
+    public function __construct(
+        protected DlpIdentifierCatalog $catalog,
+        protected DlpSuppressionResolver $suppressions,
+    ) {}
 
     /**
-     * @return array{window_days: int, reviewed: int, false_positives: int, rate: float|null, targets_met: int, targets_missed: int, insufficient: int, rows: array<int, array{code: string, label: string, category: string, reviewed: int, false_positives: int, rate: float|null, target: float, minimum_sample: int, reference: string, status: string}>}
+     * @return array{window_days: int, reviewed: int, false_positives: int, suppressed: int, rate: float|null, targets_met: int, targets_missed: int, insufficient: int, rows: array<int, array{code: string, label: string, category: string, reviewed: int, false_positives: int, suppressed: int, rate: float|null, target: float, minimum_sample: int, reference: string, status: string}>}
      */
     public function summary(int $days = 90): array
     {
@@ -46,6 +49,7 @@ class DlpQualityMetrics
 
             $reviewed = $matching->count();
             $falsePositives = $matching->filter(fn (DlpFinding $finding): bool => $finding->isFalsePositive())->count();
+            $suppressed = $matching->filter(fn (DlpFinding $finding): bool => $this->suppressions->suppressionFor($finding) !== null)->count();
             $rate = $reviewed > 0 ? round($falsePositives / $reviewed * 100, 1) : null;
             $status = $this->status($reviewed, $rate, $definition);
 
@@ -62,6 +66,7 @@ class DlpQualityMetrics
                 'category' => $definition['category'],
                 'reviewed' => $reviewed,
                 'false_positives' => $falsePositives,
+                'suppressed' => $suppressed,
                 'rate' => $rate,
                 'target' => $definition['target_false_positive_rate'],
                 'minimum_sample' => $definition['minimum_sample'],
@@ -72,11 +77,13 @@ class DlpQualityMetrics
 
         $overallReviewed = $findings->count();
         $overallFalsePositives = $findings->filter(fn (DlpFinding $finding): bool => $finding->isFalsePositive())->count();
+        $overallSuppressed = $findings->filter(fn (DlpFinding $finding): bool => $this->suppressions->suppressionFor($finding) !== null)->count();
 
         return [
             'window_days' => $days,
             'reviewed' => $overallReviewed,
             'false_positives' => $overallFalsePositives,
+            'suppressed' => $overallSuppressed,
             'rate' => $overallReviewed > 0 ? round($overallFalsePositives / $overallReviewed * 100, 1) : null,
             'targets_met' => $targetsMet,
             'targets_missed' => $targetsMissed,

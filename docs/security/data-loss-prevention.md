@@ -72,6 +72,19 @@ with its suppression visible, so a reviewer can see that the acceptance was a
 decision rather than an absence of data. Continuing an acceptance after expiry
 is a new request with a new justification and approver.
 
+Where it surfaces:
+
+- **Finding queue.** An **Accepted by** badge shows the in-force suppression
+  reference. The **Suppress** action creates a request seeded from the finding's
+  policy, identifier type and match label; it needs a second approver like any
+  other suppression.
+- **DLP quality page.** An **Accepted** count (overall and per identifier type)
+  shows how much of the reviewed population is currently accepted. It does **not**
+  change the false-positive rate: a suppression is an acceptance, not a review
+  outcome, and the finding keeps its disposition.
+- The queue and the quality page read the same in-force set, so an expired or
+  revoked suppression disappears from both at the same moment.
+
 ## Risk and control linkage
 
 A finding can be linked to the policy that owns it, the risk it evidences and

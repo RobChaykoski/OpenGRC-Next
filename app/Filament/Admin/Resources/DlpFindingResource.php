@@ -5,11 +5,16 @@ namespace App\Filament\Admin\Resources;
 use App\Enums\DlpDisposition;
 use App\Filament\Admin\Resources\DlpFindingResource\Pages\ListDlpFindings;
 use App\Models\DlpFinding;
+use App\Models\User;
 use App\Services\Dlp\DlpFindingReview;
 use App\Services\Dlp\DlpIdentifierCatalog;
+use App\Services\Dlp\DlpSuppressionResolver;
+use App\Services\Dlp\DlpSuppressionService;
 use Filament\Actions\Action;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Resource;
 use Filament\Tables\Columns\TextColumn;
@@ -126,6 +131,15 @@ class DlpFindingResource extends Resource
                     ->limit(30)
                     ->toggleable(),
 
+                TextColumn::make('suppression')
+                    ->label('Accepted by')
+                    ->badge()
+                    ->color('info')
+                    ->state(fn (DlpFinding $record): ?string => app(DlpSuppressionResolver::class)
+                        ->suppressionFor($record)?->reference())
+                    ->placeholder('—')
+                    ->toggleable(),
+
                 TextColumn::make('risk.name')
                     ->label('Risk')
                     ->placeholder('—')
@@ -221,6 +235,61 @@ class DlpFindingResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->recordActions([
+                Action::make('suppress')
+                    ->label('Suppress')
+                    ->icon('heroicon-o-bell-slash')
+                    ->color('gray')
+                    ->visible(fn (DlpFinding $record): bool => $record->dlp_policy_id !== null
+                        && app(DlpSuppressionResolver::class)->suppressionFor($record) === null)
+                    ->authorize(fn (DlpFinding $record): bool => auth()->user()?->can('update', $record) ?? false)
+                    ->fillForm(fn (DlpFinding $record): array => [
+                        'identifier_type' => $record->identifier_types[0] ?? null,
+                        'match_type' => $record->match_types[0] ?? null,
+                        'expires_at' => now()->addDays(30),
+                    ])
+                    ->schema([
+                        Select::make('identifier_type')
+                            ->label('Identifier type')
+                            ->options(fn (): array => app(DlpIdentifierCatalog::class)->options())
+                            ->helperText('Defaults to the finding. Leave empty to cover every type in the policy.'),
+
+                        TextInput::make('match_type')
+                            ->label('Match label')
+                            ->maxLength(120)
+                            ->helperText('Defaults to the finding label. Empty covers every label.'),
+
+                        Textarea::make('justification')
+                            ->required()
+                            ->rows(3)
+                            ->helperText('Why this output is acceptable. No patient or customer data.'),
+
+                        DateTimePicker::make('expires_at')
+                            ->label('Expires')
+                            ->required()
+                            ->seconds(false)
+                            ->minDate(now())
+                            ->helperText('Required, capped at one year.'),
+                    ])
+                    ->action(function (DlpFinding $record, array $data): void {
+                        $user = auth()->user();
+                        $policy = $record->policy;
+
+                        if (! $user instanceof User || $policy === null) {
+                            return;
+                        }
+
+                        app(DlpSuppressionService::class)->request($policy, $data, $user);
+                        app(DlpSuppressionResolver::class)->forget();
+
+                        Notification::make()
+                            ->title('Suppression requested')
+                            ->body('It is not in force until another person approves it.')
+                            ->success()
+                            ->send();
+                    })
+                    ->modalHeading('Suppress this detector output')
+                    ->modalDescription('Creates a time-boxed request for the finding policy. It does not hide the finding, and it needs a second approver.'),
+
                 Action::make('link')
                     ->label('Link')
                     ->icon('heroicon-o-link')
