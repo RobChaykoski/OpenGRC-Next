@@ -135,6 +135,44 @@ class EvidenceIngestionApiTest extends TestCase
     }
 
     #[Test]
+    public function it_accepts_an_awareness_training_summary(): void
+    {
+        $evidence = [
+            'schema' => 'opengrc.awareness-training/v1',
+            'campaign' => [
+                'id' => 7,
+                'name' => 'Q4 finance awareness',
+                'status' => 'Completed',
+            ],
+            'stats' => [
+                'total' => 3,
+                'sent' => 3,
+                'opened' => 2,
+                'clicked' => 0,
+                'submittedData' => 0,
+                'emailReported' => 1,
+            ],
+        ];
+
+        $this->withToken($this->token())
+            ->postJson('/api/v1/evidence', [
+                'id' => 'awareness-1',
+                'sha256' => $this->digest($evidence),
+                'evidenceType' => 'awareness-training',
+                'capturedAt' => '2026-10-09T16:00:00Z',
+                'evidence' => $evidence,
+            ])
+            ->assertCreated();
+
+        $this->assertDatabaseHas('evidence_records', [
+            'client_id' => 'acme',
+            'external_id' => 'awareness-1',
+            'evidence_type' => 'awareness-training',
+            'status' => 'unknown',
+        ]);
+    }
+
+    #[Test]
     public function it_rejects_an_unknown_evidence_type(): void
     {
         $this->withToken($this->token())

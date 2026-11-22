@@ -112,6 +112,21 @@ class EvidenceSourceUiTest extends TestCase
     }
 
     #[Test]
+    public function the_gophish_form_shows_the_campaign_bounds_and_never_the_stored_key(): void
+    {
+        $admin = User::factory()->create(['role' => UserRole::Admin]);
+        $source = $this->gophishSource();
+
+        $this->actingAs($admin)
+            ->get(EvidenceSourceResource::getUrl('edit', ['record' => $source]))
+            ->assertOk()
+            ->assertDontSee('gophish-api-key')
+            ->assertSee(__('evidence.source.form.token_help_gophish'))
+            ->assertSee(__('evidence.source.form.lookback_days'))
+            ->assertSee(__('evidence.source.form.max_campaigns'));
+    }
+
+    #[Test]
     public function a_new_token_replaces_the_stored_one(): void
     {
         $merged = EvidenceSource::mergeConfiguration(
@@ -165,6 +180,21 @@ class EvidenceSourceUiTest extends TestCase
             'configuration' => [
                 'base_url' => 'https://openmetadata.test/api',
                 'token' => 'super-secret-token',
+            ],
+        ]);
+    }
+
+    protected function gophishSource(): EvidenceSource
+    {
+        return EvidenceSource::create([
+            'name' => 'Gophish',
+            'type' => EvidenceSourceType::Gophish,
+            'enabled' => true,
+            'configuration' => [
+                'base_url' => 'https://gophish.test',
+                'token' => 'gophish-api-key',
+                'lookback_days' => 90,
+                'max_campaigns' => 10,
             ],
         ]);
     }

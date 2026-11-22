@@ -37,6 +37,7 @@ use App\Policies\UserPolicy;
 use App\Policies\VendorDocumentPolicy;
 use App\Policies\VendorUserPolicy;
 use App\Services\Evidence\ConnectorRegistry;
+use App\Services\Evidence\Connectors\GophishConnector;
 use App\Services\Evidence\Connectors\OpenMetadataConnector;
 use App\Services\Evidence\Connectors\PatchMonConnector;
 use App\Services\Evidence\Connectors\WazuhConnector;
@@ -355,6 +356,7 @@ class AppServiceProvider extends ServiceProvider
             $registry->register(EvidenceSourceType::Patchmon, PatchMonConnector::class);
             $registry->register(EvidenceSourceType::Wazuh, WazuhConnector::class);
             $registry->register(EvidenceSourceType::OpenMetadata, OpenMetadataConnector::class);
+            $registry->register(EvidenceSourceType::Gophish, GophishConnector::class);
 
             return $registry;
         });

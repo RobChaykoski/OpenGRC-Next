@@ -41,6 +41,7 @@ class EvidenceIngestionController extends Controller
         'detection-coverage',
         'adversary-emulation',
         'security-testing',
+        'awareness-training',
     ];
 
     public function store(Request $request, EvidenceIngestor $ingestor): JsonResponse

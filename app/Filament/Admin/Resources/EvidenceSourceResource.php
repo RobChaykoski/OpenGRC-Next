@@ -10,6 +10,7 @@ use App\Filament\Admin\Resources\EvidenceSourceResource\Pages\ViewEvidenceSource
 use App\Jobs\CollectEvidenceJob;
 use App\Models\EvidenceSource;
 use App\Services\Evidence\ConnectorRegistry;
+use App\Services\Evidence\Connectors\GophishConnector;
 use Filament\Actions\Action;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -104,6 +105,7 @@ class EvidenceSourceResource extends Resource
                             ->helperText(fn (Get $get): string => match (true) {
                                 self::isWazuh($get) => __('evidence.source.form.base_url_help_wazuh'),
                                 self::isOpenMetadata($get) => __('evidence.source.form.base_url_help_openmetadata'),
+                                self::isGophish($get) => __('evidence.source.form.base_url_help_gophish'),
                                 default => __('evidence.source.form.base_url_help'),
                             })
                             ->required(fn (Get $get): bool => self::hasConnectionFields($get))
@@ -130,14 +132,16 @@ class EvidenceSourceResource extends Resource
 
                         TextInput::make('configuration.token')
                             ->label(__('evidence.source.form.token'))
-                            ->helperText(__('evidence.source.form.token_help'))
+                            ->helperText(fn (Get $get): string => self::isGophish($get)
+                                ? __('evidence.source.form.token_help_gophish')
+                                : __('evidence.source.form.token_help'))
                             ->password()
                             ->revealable()
-                            ->visible(fn (Get $get): bool => self::isOpenMetadata($get))
-                            ->required(fn (string $operation, Get $get): bool => $operation === 'create' && self::isOpenMetadata($get))
+                            ->visible(fn (Get $get): bool => self::usesToken($get))
+                            ->required(fn (string $operation, Get $get): bool => $operation === 'create' && self::usesToken($get))
                             ->dehydrated(fn ($state): bool => filled($state))
                             ->afterStateHydrated(function (TextInput $component): void {
-                                // Never send the stored bot token to the browser.
+                                // Never send the stored API token to the browser.
                                 $component->state(null);
                             })
                             ->columnSpanFull(),
@@ -176,6 +180,26 @@ class EvidenceSourceResource extends Resource
                             ->default(10000)
                             ->visible(fn (Get $get): bool => self::isWazuh($get))
                             ->dehydrated(fn (Get $get): bool => self::isWazuh($get)),
+
+                        TextInput::make('configuration.lookback_days')
+                            ->label(__('evidence.source.form.lookback_days'))
+                            ->helperText(__('evidence.source.form.lookback_days_help'))
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(3650)
+                            ->default(GophishConnector::DEFAULT_LOOKBACK_DAYS)
+                            ->visible(fn (Get $get): bool => self::isGophish($get))
+                            ->dehydrated(fn (Get $get): bool => self::isGophish($get)),
+
+                        TextInput::make('configuration.max_campaigns')
+                            ->label(__('evidence.source.form.max_campaigns'))
+                            ->helperText(__('evidence.source.form.max_campaigns_help'))
+                            ->numeric()
+                            ->minValue(1)
+                            ->maxValue(500)
+                            ->default(GophishConnector::DEFAULT_MAX_CAMPAIGNS)
+                            ->visible(fn (Get $get): bool => self::isGophish($get))
+                            ->dehydrated(fn (Get $get): bool => self::isGophish($get)),
                     ]),
 
                 Section::make(__('evidence.source.sections.connection'))
@@ -293,6 +317,7 @@ class EvidenceSourceResource extends Resource
                         EvidenceSourceType::Patchmon,
                         EvidenceSourceType::Wazuh,
                         EvidenceSourceType::OpenMetadata,
+                        EvidenceSourceType::Gophish,
                     ], true))
                     ->schema([
                         TextEntry::make('configuration.base_url')
@@ -301,7 +326,10 @@ class EvidenceSourceResource extends Resource
 
                         TextEntry::make('configuration.username')
                             ->label(__('evidence.source.form.username'))
-                            ->visible(fn (EvidenceSource $record): bool => $record->type !== EvidenceSourceType::OpenMetadata)
+                            ->visible(fn (EvidenceSource $record): bool => ! in_array($record->type, [
+                                EvidenceSourceType::OpenMetadata,
+                                EvidenceSourceType::Gophish,
+                            ], true))
                             ->placeholder('—'),
 
                         TextEntry::make('configuration.ca_bundle')
@@ -322,6 +350,16 @@ class EvidenceSourceResource extends Resource
                             ->label(__('evidence.source.form.max_agents'))
                             ->placeholder('10,000')
                             ->visible(fn (EvidenceSource $record): bool => $record->type === EvidenceSourceType::Wazuh),
+
+                        TextEntry::make('configuration.lookback_days')
+                            ->label(__('evidence.source.form.lookback_days'))
+                            ->placeholder((string) GophishConnector::DEFAULT_LOOKBACK_DAYS)
+                            ->visible(fn (EvidenceSource $record): bool => $record->type === EvidenceSourceType::Gophish),
+
+                        TextEntry::make('configuration.max_campaigns')
+                            ->label(__('evidence.source.form.max_campaigns'))
+                            ->placeholder((string) GophishConnector::DEFAULT_MAX_CAMPAIGNS)
+                            ->visible(fn (EvidenceSource $record): bool => $record->type === EvidenceSourceType::Gophish),
 
                         TextEntry::make('credential')
                             ->label(__('evidence.source.infolist.credential'))
@@ -380,21 +418,35 @@ class EvidenceSourceResource extends Resource
         return self::isType($get, EvidenceSourceType::OpenMetadata);
     }
 
+    protected static function isGophish(Get $get): bool
+    {
+        return self::isType($get, EvidenceSourceType::Gophish);
+    }
+
     /**
      * Connectors that authenticate with a base URL and a shared secret.
      */
     protected static function hasConnectionFields(Get $get): bool
     {
-        return self::isPatchmon($get) || self::isWazuh($get) || self::isOpenMetadata($get);
+        return self::isPatchmon($get)
+            || self::isWazuh($get)
+            || self::isOpenMetadata($get)
+            || self::isGophish($get);
     }
 
     /**
-     * PatchMon and Wazuh use a username/password pair; OpenMetadata uses a bot
-     * token. The token is a secret too, so it is never hydrated into the form.
+     * PatchMon and Wazuh use a username/password pair; OpenMetadata and Gophish
+     * use an API token. The token is a secret too, so it is never hydrated into
+     * the form.
      */
     protected static function usesUsernamePassword(Get $get): bool
     {
         return self::isPatchmon($get) || self::isWazuh($get);
+    }
+
+    protected static function usesToken(Get $get): bool
+    {
+        return self::isOpenMetadata($get) || self::isGophish($get);
     }
 
     protected static function isType(Get $get, EvidenceSourceType $type): bool
