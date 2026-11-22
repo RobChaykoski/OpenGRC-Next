@@ -17,6 +17,7 @@ operational data.
 | Fleet | Endpoint posture and compliance | Device counts, OS/package state, policy status |
 | OpenVAS / Nessus / Nikto / ZAP | Vulnerability and remediation evidence | Finding counts, severities, exception state, patch evidence |
 | Wazuh / Suricata / Zeek / Sysmon / Security Onion | Detection and monitoring evidence | Control-linked alert and coverage summaries |
+| Gophish | Phishing simulation: campaign aggregate counts, rates and dates against an awareness control | Read-only summary API; aggregate only, never target rows, event timelines or submitted data |
 | OpenDetectionEngine / SIEM / endpoint engine | Detection rule coverage: YARA/Sigma counts, failing rules, ATT&CK coverage, validation age | Hash-verified `detection-coverage` snapshots; no rule bodies, samples or log lines |
 | OpenCyberRange / Apache Caldera / Atomic Red Team | Adversary emulation: techniques attempted, detected, prevented and missed; test counts and IDs | Completed-operation summary over the hash-verified evidence API; no commands, payloads or raw logs |
 | OWASP WSTG / ASVS | Web application test coverage, failed test IDs and security requirements | Tester summary over the hash-verified evidence API; no scanner execution, request bodies or copied guide text |
@@ -56,6 +57,18 @@ ADR 0022.
 WSTG is a test methodology, not a product. Testers use their own tools; OpenGRC
 accepts a versioned coverage summary and never copies the guide or stores request
 and response content. See `docs/integrations/security-testing.md` and ADR 0023.
+
+Gophish runs phishing simulations for the awareness programme. OpenGRC reads one
+aggregate measurement per campaign from the summary endpoint and never stores a
+target row, an event timeline or a submitted value; whether a click rate passes is
+a validation rule against the programme's own target. See
+`docs/integrations/gophish-awareness.md` and ADR 0050.
+
+The digital forensics curriculum at `frankwxu/digital-forensics-lab` is reference
+material, not an integration: it has no API and its evidence images belong to
+third parties. OpenGRC links to a deck and a commit when a scenario uses it, and
+maps the case studies to governance records; it never copies decks, images or
+case narratives. See `docs/integrations/digital-forensics-lab.md` and ADR 0002.
 
 Supply-chain risk follows the same evidence pattern. A CycloneDX SBOM is imported
 as a snapshot; OSV queries turn a vulnerable component into a finding. OpenGRC

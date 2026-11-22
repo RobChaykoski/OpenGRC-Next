@@ -17,7 +17,9 @@ See ADR 0034 for the boundary. An exercise is not a training completion.
 | Other | A vendor or sector exercise |
 
 The **source** records `CISA CTEP`, `Internal`, `Vendor` or `Other`. The source
-reference is a package name or id; do not copy the package.
+reference is a package name or id; do not copy the package. An external
+curriculum is `Other`; `docs/integrations/digital-forensics-lab.md` is one we
+reference, with the licence limits on what may not be copied.
 
 ## Fields
 

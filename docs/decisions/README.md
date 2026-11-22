@@ -70,3 +70,6 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0046](0046-assistant-read-only-catalogue.md) | The assistant is a fixed read-only catalogue, not an agent | accepted |
 | [0047](0047-access-rules.md) | Access rules are platform-wide IP and email-domain allow/deny lists | accepted |
 | [0048](0048-security-architecture-view.md) | The security architecture view is current-state and function-based | accepted |
+| [0049](0049-access-governance.md) | Access governance: policy, decision and just-in-time grant | accepted |
+| [0050](0050-gophish-awareness-evidence.md) | Phishing simulation is aggregate evidence, not a target record | accepted |
+| [0051](0051-access-decision-endpoint.md) | The decision endpoint is scoped, idempotent and computes its own inputs | accepted |
