@@ -9,7 +9,7 @@ dashboards on top of it.
 |---|---|---|---|
 | Multi-tenancy | Single tenant; MSSP deployments use separate instances | ADR for tenant key, global scopes, storage isolation, and per-tenant settings | Do not fake isolation with a nullable `tenant_id` |
 | Strong RBAC/ABAC | Three roles (ADR 0007); per-record policies for six models | ADR to replace or extend the three roles with scoped roles and attribute rules | Keep policies explainable; a matrix nobody maintains is not security |
-| Immutable audit logs | Spatie activity log; editable table | Apply the evidence-ledger pattern (hash chain, append-only trigger) to audit events | Do not mix operational logs with the audit trail |
+| Immutable audit logs | Activity log plus an append-only, hash-chained audit ledger (ADR 0056); editable activity detail | Extend coverage to write paths that bypass activity logging, and add scheduled verification | Do not mix operational logs with the audit trail |
 | Evidence chain of custody | Implemented for audit attachments, survey attachments, vendor documents, policy documents | Extend to the remaining evidence surfaces; add scheduled verification | No delete; withdraw with a reason; supersede with new evidence |
 | Regulatory control mapping | Importable standards, provenance register, manual crosswalks | Add a first-class crosswalk object and coverage reporting | Do not copy licensed framework text |
 | Scenario injection engine | Not implemented | Define a scenario object (lab refs, required GRC state, acceptance checks) and inject state into a cohort instance | Labs run in OpenCyberRange; OpenGRC holds the governance state |

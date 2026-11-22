@@ -124,6 +124,7 @@ architecture, integrations, and the decisions behind them.
 | [security/network-access-rules.md](security/network-access-rules.md) | Platform-wide IP and email-domain allow/deny rules, enforcement and lockout recovery |
 | [security/architecture-view.md](security/architecture-view.md) | One-page current/future security architecture, NIST CSF 2.0 and zero-trust overlay |
 | [security/reference-register.md](security/reference-register.md) | External security and risk sources, their status, use and caveats |
+| [security/audit-ledger.md](security/audit-ledger.md) | Hash-chained mirror of activity events: what it proves, pruning, verification |
 | [OSS-POLICY.md](OSS-POLICY.md) | License, dependency allowlist, contribution model |
 | [../SECURITY.md](../SECURITY.md) | Vulnerability disclosure |
 

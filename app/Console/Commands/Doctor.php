@@ -8,6 +8,7 @@ use App\Models\DiscoveryScan;
 use App\Models\DocumentTemplate;
 use App\Models\EvidenceSource;
 use App\Models\User;
+use App\Services\Audit\AuditLedger;
 use App\Services\Evidence\ConnectorRegistry;
 use App\Services\Evidence\EvidenceLedger;
 use App\Support\DatabasePath;
@@ -60,6 +61,7 @@ class Doctor extends Command
         $this->checkDatabase();
         $this->checkMigrationIntegrity();
         $this->checkEvidenceIntegrity();
+        $this->checkAuditLedger();
         $this->checkEvidencePipeline();
         $this->checkDiscoveryConsole();
         $this->checkOauthKeys();
@@ -437,6 +439,47 @@ class Doctor extends Command
      * In production every file-bearing evidence record must have a ledger entry
      * and no withdrawal may be missing its reason.
      */
+    /**
+     * The audit ledger must verify. A broken chain or an altered activity row is
+     * a failure; a pruned activity row is expected and only counted.
+     */
+    protected function checkAuditLedger(): void
+    {
+        try {
+            if (! Schema::hasTable('audit_ledger_entries')) {
+                $this->record('Audit ledger', 'warn', 'audit_ledger_entries table is missing; run migrations');
+
+                return;
+            }
+
+            $report = app(AuditLedger::class)->verify();
+        } catch (Throwable) {
+            $this->record('Audit ledger', 'fail', 'could not verify the audit ledger');
+
+            return;
+        }
+
+        if ($report['broken'] !== null) {
+            $this->record('Audit ledger', 'fail', "chain broken at entry #{$report['broken']}");
+
+            return;
+        }
+
+        if ($report['altered'] > 0) {
+            $this->record('Audit ledger', 'fail', "{$report['altered']} activity row(s) differ from the ledger");
+
+            return;
+        }
+
+        $detail = $report['total'].' entries, chain intact';
+
+        if ($report['missing'] > 0) {
+            $detail .= ", {$report['missing']} pruned";
+        }
+
+        $this->record('Audit ledger', 'pass', $detail);
+    }
+
     protected function checkEvidenceIntegrity(): void
     {
         try {

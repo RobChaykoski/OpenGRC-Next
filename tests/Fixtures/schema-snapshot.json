@@ -1910,6 +1910,78 @@
             "nullable": true
         }
     ],
+    "audit_ledger_entries": [
+        {
+            "name": "activity_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "actor_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "actor_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "entry_hash",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "event",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "log_name",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "occurred_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "previous_hash",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "properties_sha256",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "subject_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "subject_type",
+            "type": "varchar",
+            "nullable": true
+        }
+    ],
     "audit_portal_grants": [
         {
             "name": "access_count",

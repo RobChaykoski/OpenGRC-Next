@@ -38,6 +38,7 @@ use App\Policies\SurveyPolicy;
 use App\Policies\UserPolicy;
 use App\Policies\VendorDocumentPolicy;
 use App\Policies\VendorUserPolicy;
+use App\Services\Audit\AuditLedger;
 use App\Services\Dlp\DlpSuppressionResolver;
 use App\Services\Evidence\ConnectorRegistry;
 use App\Services\Evidence\Connectors\GophishConnector;
@@ -64,6 +65,7 @@ use Laravel\Passport\Passport;
 use Livewire\Livewire;
 use Log;
 use MangoldSecurity\Settings\Services\Setting;
+use Spatie\Activitylog\Models\Activity;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -72,6 +74,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Mirror every activity event into the append-only audit ledger (ADR
+        // 0056). The table check is cached per process so an install that boots
+        // before migrations does not fail on the first log.
+        Activity::created(function (Activity $activity): void {
+            static $ready = null;
+            $ready ??= Schema::hasTable('audit_ledger_entries');
+
+            if ($ready) {
+                app(AuditLedger::class)->append($activity);
+            }
+        });
+
         // Force secure session cookies whenever the app is served over HTTPS in
         // production. .env is not enough: a copy/paste deploy can silently drop
         // the flag and send the session cookie over plain HTTP.
