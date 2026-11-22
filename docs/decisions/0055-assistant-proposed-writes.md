@@ -1,6 +1,6 @@
 # 0055 — The assistant proposes changes; a human applies a typed diff
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-11-21
 
 ## Context
@@ -44,8 +44,23 @@ work. The failure is not a bad sentence; it is a false attestation.
    number of operations; the whole proposal can be rejected with one click; a
    proposal that fails validation twice is dropped, not retried in a loop.
 
-## Consequences
+## Implementation
 
+`AssistantProposal` stores the normalised operations, the before/after values,
+the state and the human decisions. `AssistantOperations` is the catalogue and the
+security boundary; it resolves the target model, captures `before`, validates
+`after`, refuses a moved record, and computes the inverse.
+
+`AssistantProposalService` enforces the lifecycle and requires an editor or
+administrator for approve, reject, apply and rollback. `apply` runs in a
+transaction; a failure marks the proposal `failed` with the reason and leaves the
+records untouched. The queue is **Admin → System → Assistant proposals**.
+
+The assistant's question catalogue does **not** call the service yet. Wiring a
+producer is a reviewed use case with its own question, facts and tests; the
+catalogue is what makes that safe to add.
+
+## Consequences
 - The assistant can reduce toil without becoming an approver.
 - "The AI changed it" is never an explanation an auditor has to accept: a named
   human approved a specific diff, and the diff is in the record.

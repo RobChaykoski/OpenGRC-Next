@@ -91,9 +91,33 @@ php artisan opengrc:assistant:prune --days=90
 Questions and answers may contain programme detail. Keep the retention window
 aligned with your records policy; the default is 90 days.
 
+## Proposed writes
+
+The assistant still cannot write. A separate approval path now exists for the
+day it can, and it is deliberately mechanical (ADR 0055):
+
+- The model may only propose **typed operations** from a small catalogue
+  (`AssistantOperations`). Today that is an implementation's status and its next
+  test date. An operation outside the catalogue is refused before storage; there
+  is no SQL, no method name and no free-form tool.
+- A proposal stores the value captured at proposal time as `before`, the requested
+  `after`, a summary and a rationale. A `before` supplied by the model is ignored:
+  the record decides.
+- An editor or administrator approves it, a separate step applies it, and the
+  apply re-checks every `before`. If a record moved since the proposal, the whole
+  set fails and nothing is written.
+- Rollback is a compensating change with its own reason and actor. Append-only
+  records are not in the catalogue, so they cannot be proposed at all.
+
+The review queue is **Admin → System → Assistant proposals**. It is empty because
+the assistant's question catalogue does not invoke the proposal service yet:
+connecting a producer is a reviewed use case with its own question and tests, not
+a prompt edit.
+
 ## What it does not do
 
-- No writes, approvals, closures or acknowledgements.
+- No writes, approvals, closures or acknowledgements. A human applies an approved
+  proposal; the model never applies one.
 - No free-form SQL, similarity search or model-chosen tools.
 - No bulk export.
 - No answer without facts: every narrative is grounded in a deterministic query.

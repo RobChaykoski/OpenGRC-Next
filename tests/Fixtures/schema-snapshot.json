@@ -1570,6 +1570,103 @@
             "nullable": true
         }
     ],
+    "assistant_proposals": [
+        {
+            "name": "applied_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "applied_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "approved_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "approved_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "error",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "operations",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "rationale",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "rejected_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "rejected_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "rejected_reason",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "rollback_reason",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "rolled_back_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "rolled_back_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "run_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "state",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "summary",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "assurance_snapshots": [
         {
             "name": "components",
