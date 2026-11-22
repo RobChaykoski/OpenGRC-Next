@@ -10,6 +10,7 @@ architecture, integrations, and the decisions behind them.
 |---|---|
 | [SUPPORTED-VERSIONS.md](SUPPORTED-VERSIONS.md) | Supported baseline, upgrade tiers, known compatibility traps |
 | [UPGRADING.md](UPGRADING.md) | Upgrade, verification, and rollback runbook |
+| [operations/production-promotion.md](operations/production-promotion.md) | Promote a tagged build: backup, MFA, gate, smoke, rollback |
 | [../DEVELOPMENT.md](../DEVELOPMENT.md) | Local development setup, including Windows |
 
 ## Architecture and decisions
@@ -71,6 +72,8 @@ architecture, integrations, and the decisions behind them.
 | [integrations/observable-enrichment.md](integrations/observable-enrichment.md) | Cortex/TheHive boundary: opt-in, privacy-gated observable enrichment |
 | [integrations/cset.md](integrations/cset.md) | Import a PCII-scrubbed CSET JSON assessment as findings |
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
+| [integrations/gophish-awareness.md](integrations/gophish-awareness.md) | Aggregate phishing-simulation evidence for awareness controls |
+| [integrations/digital-forensics-lab.md](integrations/digital-forensics-lab.md) | External forensics curriculum: provenance, licence limits, scenario mapping |
 
 ## GRC practice
 

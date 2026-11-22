@@ -73,3 +73,7 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0049](0049-access-governance.md) | Access governance: policy, decision and just-in-time grant | accepted |
 | [0050](0050-gophish-awareness-evidence.md) | Phishing simulation is aggregate evidence, not a target record | accepted |
 | [0051](0051-access-decision-endpoint.md) | The decision endpoint is scoped, idempotent and computes its own inputs | accepted |
+| [0052](0052-break-glass-grant.md) | A break-glass decision mints the grant and its review | accepted |
+| [0053](0053-dlp-policy-and-suppression.md) | DLP policies and suppressions are governance records with an expiry | accepted |
+| [0054](0054-streaming-evidence-contract.md) | Streaming evidence is a push contract, not a broker inside OpenGRC | proposed |
+| [0055](0055-assistant-proposed-writes.md) | The assistant proposes changes; a human applies a typed diff | proposed |
