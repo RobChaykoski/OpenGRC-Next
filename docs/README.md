@@ -74,6 +74,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/forensic-collectors.md](integrations/forensic-collectors.md) | Linux/Windows native forensic collection matrix |
 | [integrations/gophish-awareness.md](integrations/gophish-awareness.md) | Aggregate phishing-simulation evidence for awareness controls |
 | [integrations/digital-forensics-lab.md](integrations/digital-forensics-lab.md) | External forensics curriculum: provenance, licence limits, scenario mapping |
+| [integrations/streaming-evidence.md](integrations/streaming-evidence.md) | Signed push for time-sensitive evidence: stream, cursor, HMAC, responses |
 
 ## GRC practice
 

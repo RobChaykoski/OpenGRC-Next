@@ -93,7 +93,7 @@ recursively, no whitespace), the same rule as the snapshot API.
 | 200 | Duplicate cursor; the original `evidenceId` is returned |
 | 401 | Missing token, or a signature/timestamp failure |
 | 403 | Unknown or inactive stream, or a token without `evidence.write` |
-| 404 | The endpoint is disabled |
+| 404 | The endpoint is disabled (checked after authentication) |
 | 409 | Cursor reused with a different payload |
 | 422 | Schema, hash, evidence type or event-time problem |
 
