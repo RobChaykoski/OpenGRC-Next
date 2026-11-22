@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * The work that closes a finding, risk or control gap.
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class RemediationTask extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'finding_id',
@@ -116,5 +118,13 @@ class RemediationTask extends Model
         return $query->open()
             ->whereNotNull('due_at')
             ->whereDate('due_at', '<', today());
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['status', 'due_at', 'owner_id', 'completed_at'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

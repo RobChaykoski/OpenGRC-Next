@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A time-boxed acceptance of a detector's output (ADR 0053).
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class DlpSuppression extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'dlp_policy_id',
@@ -150,5 +152,13 @@ class DlpSuppression extends Model
     public function reference(): string
     {
         return 'DS-'.str_pad((string) $this->getKey(), 4, '0', STR_PAD_LEFT);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['state', 'identifier_type', 'match_type', 'expires_at', 'approved_by'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

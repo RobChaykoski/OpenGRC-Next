@@ -6,6 +6,8 @@ use App\Enums\EvidenceSourceType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A read-only source of machine evidence (ADR 0009).
@@ -15,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class EvidenceSource extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'name',
         'type',
@@ -85,5 +89,13 @@ class EvidenceSource extends Model
         }
 
         return array_merge($existing, $submitted);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'type', 'enabled', 'schedule'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

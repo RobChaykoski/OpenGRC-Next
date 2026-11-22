@@ -82,3 +82,9 @@ into an append-only, hash-chained ledger.
 - ADR 0008 — evidence ledger, append-only records and migration integrity
 - `docs/security/audit-ledger.md` — what it proves, coverage and verification
 - `docs/FUTURE-ROADMAP.md` — the immutable audit-log pillar
+
+Addendum (2026-11-22): activity changes are stored in `attribute_changes`, not
+`properties`, so version 1 hashed an empty payload. The digest is versioned
+(`hash_version`): old entries verify with the old payload, new entries hash the
+attribute changes as well. The governance registers listed in the operating doc
+now log an explicit field set.

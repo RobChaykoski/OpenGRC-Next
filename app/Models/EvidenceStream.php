@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A named streaming producer inside a client (ADR 0054).
@@ -14,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EvidenceStream extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'client_id',
         'name',
@@ -61,5 +65,13 @@ class EvidenceStream extends Model
             'last_rejection_reason' => mb_substr($reason, 0, 255),
             'last_rejection_at' => now(),
         ])->save();
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['client_id', 'name', 'is_active'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

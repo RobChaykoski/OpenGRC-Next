@@ -28,6 +28,7 @@ class AuditLedgerEntry extends Model
         'actor_id',
         'description',
         'properties_sha256',
+        'hash_version',
         'previous_hash',
         'entry_hash',
         'occurred_at',
@@ -36,6 +37,7 @@ class AuditLedgerEntry extends Model
     protected $casts = [
         'occurred_at' => 'datetime',
         'created_at' => 'datetime',
+        'hash_version' => 'integer',
     ];
 
     protected static function booted(): void
@@ -75,6 +77,12 @@ class AuditLedgerEntry extends Model
             'occurred_at' => $this->occurred_at?->toIso8601ZuluString(),
             'previous_hash' => $previousHash,
         ];
+
+        // Version 1 hashed `properties`; version 2 also hashes `attribute_changes`.
+        // Appending the version keeps the old hashes verifiable.
+        if ((int) $this->hash_version >= 2) {
+            $payload['hash_version'] = (int) $this->hash_version;
+        }
 
         return hash('sha256', json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '');
     }

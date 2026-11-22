@@ -15,6 +15,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * Class Policy
@@ -24,7 +26,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Policy extends Model implements EvidenceSubject
 {
-    use HasEvidenceLedger, HasFactory, HasTaxonomy, SoftDeletes;
+    use HasEvidenceLedger, HasFactory, HasTaxonomy, LogsActivity, SoftDeletes;
 
     public function evidencePathColumn(): string
     {
@@ -260,5 +262,13 @@ class Policy extends Model implements EvidenceSubject
         return $query->whereHas('scope', function ($q) use ($scopeName) {
             $q->where('name', $scopeName);
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['code', 'name', 'status_id', 'owner_id', 'retired_date'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

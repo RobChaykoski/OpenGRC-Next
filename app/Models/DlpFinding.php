@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A DLP event: content was blocked or flagged. The content itself is not
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class DlpFinding extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'source',
@@ -118,5 +120,13 @@ class DlpFinding extends Model
     public function isFalsePositive(): bool
     {
         return $this->disposition === DlpDisposition::FalsePositive;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['severity', 'action', 'disposition', 'dlp_policy_id', 'risk_id', 'control_id'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

@@ -6,6 +6,8 @@ use App\Enums\VendorRiskRating;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A vendor's subcontractor, recorded without creating a second vendor record.
@@ -15,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class VendorSubcontractor extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'vendor_id',
@@ -46,5 +48,13 @@ class VendorSubcontractor extends Model
     {
         return $this->last_reviewed_at === null
             || $this->last_reviewed_at->lt(today()->subMonths($months));
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'country', 'accesses_personal_data', 'risk_rating'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

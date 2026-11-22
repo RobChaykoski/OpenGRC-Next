@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * Class PolicyException
@@ -20,6 +22,8 @@ class PolicyException extends Model
 {
     /** @use HasFactory<PolicyExceptionFactory> */
     use HasFactory, SoftDeletes;
+
+    use LogsActivity;
 
     protected $fillable = [
         'policy_id',
@@ -198,5 +202,13 @@ class PolicyException extends Model
         return $query->where('status', PolicyExceptionStatus::Approved)
             ->whereNotNull('expiration_date')
             ->where('expiration_date', '<', now());
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['status', 'expiration_date', 'approved_by'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

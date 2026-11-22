@@ -6,6 +6,8 @@ use App\Enums\ApprovalStepStatus;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * One ordered approval step.
@@ -15,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ApprovalRequestStep extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'approval_request_id',
         'sequence',
@@ -80,5 +84,13 @@ class ApprovalRequestStep extends Model
     public function scopePending(Builder $query): Builder
     {
         return $query->where('status', ApprovalStepStatus::Pending->value);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['status', 'approver_id', 'decided_by', 'decided_at'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

@@ -6,6 +6,8 @@ use App\Enums\EvidenceSeverity;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A deterministic rule that turns a measurement into a control state.
@@ -15,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class ControlValidationRule extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'control_id',
         'source_id',
@@ -49,5 +53,13 @@ class ControlValidationRule extends Model
     public function isEnabled(): bool
     {
         return (bool) $this->enabled;
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['enabled', 'severity', 'version', 'control_id'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

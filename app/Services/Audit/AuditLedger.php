@@ -16,6 +16,12 @@ use Spatie\Activitylog\Models\Activity;
  */
 class AuditLedger
 {
+    /**
+     * Version 2 hashes `attribute_changes` and `properties`; version 1 hashed
+     * `properties` only. Entries keep the version they were written with.
+     */
+    public const HASH_VERSION = 2;
+
     public function append(Activity $activity): AuditLedgerEntry
     {
         $previous = AuditLedgerEntry::query()->orderByDesc('id')->value('entry_hash');
@@ -29,7 +35,8 @@ class AuditLedger
             'actor_type' => $activity->causer_type,
             'actor_id' => $activity->causer_id,
             'description' => $activity->description,
-            'properties_sha256' => $this->propertiesHash($activity),
+            'properties_sha256' => $this->digestForVersion($activity, self::HASH_VERSION),
+            'hash_version' => self::HASH_VERSION,
             'occurred_at' => $activity->created_at ?? now(),
         ]);
 
@@ -40,12 +47,16 @@ class AuditLedger
         return $entry;
     }
 
-    public function propertiesHash(Activity $activity): string
+    public function digestForVersion(Activity $activity, int $version): string
     {
-        $properties = $activity->properties?->toArray() ?? [];
-        $this->sort($properties);
+        if ($version < 2) {
+            return $this->hashPayload($activity->properties?->toArray() ?? []);
+        }
 
-        return hash('sha256', json_encode($properties, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '');
+        return $this->hashPayload([
+            'attributes' => $activity->attribute_changes?->toArray() ?? [],
+            'properties' => $activity->properties?->toArray() ?? [],
+        ]);
     }
 
     /**
@@ -78,7 +89,7 @@ class AuditLedger
             }
 
             if ((string) ($activity->description ?? '') !== (string) $entry->description
-                || $this->propertiesHash($activity) !== $entry->properties_sha256) {
+                || $this->digestForVersion($activity, (int) $entry->hash_version) !== $entry->properties_sha256) {
                 $altered++;
             }
         }
@@ -89,6 +100,16 @@ class AuditLedger
             'altered' => $altered,
             'missing' => $missing,
         ];
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     */
+    protected function hashPayload(array $payload): string
+    {
+        $this->sort($payload);
+
+        return hash('sha256', json_encode($payload, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?: '');
     }
 
     /**

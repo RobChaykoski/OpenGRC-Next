@@ -16,7 +16,8 @@ Every time an activity row is created, the application appends a row to
 | `subject_type`, `subject_id` | The record that changed |
 | `actor_type`, `actor_id` | Who changed it |
 | `description` | The activity description, verbatim |
-| `properties_sha256` | A digest of the activity properties, not the properties |
+| `properties_sha256` | A digest of the activity attribute changes and properties, not the values |
+| `hash_version` | Which digest algorithm the entry was written with |
 | `occurred_at` | When the activity was recorded |
 | `previous_hash`, `entry_hash` | The hash chain |
 
@@ -29,7 +30,12 @@ The row is append-only: the model refuses update and delete, and the database ha
 - That no ledger entry was edited, reordered or removed: the next entry's
   `previous_hash` and the entry's own hash stop matching at the break.
 - That the activity row still matches what was mirrored: verification re-hashes
-  the live `description` and properties and compares them.
+  the live `description`, the tracked attribute changes and the properties and
+  compares them.
+
+Entry hashes are versioned. Version 1 hashed `properties` only; version 2 hashes
+`attribute_changes` and `properties`. Old entries verify with the algorithm they
+were written with, so the chain is not rewritten when the digest improves.
 
 ## What it does not prove
 
@@ -70,8 +76,20 @@ keeps the event, the actor and the timestamp.
 Everything that uses `LogsActivity` is covered. When you add a model that carries
 security or compliance meaning, add the trait and choose its logged fields. Do
 not log secrets, tokens, request bodies or personal data beyond what the audit
-question needs: the ledger hashes the properties, but the activity row still
-stores them.
+question needs: the ledger hashes the changes, but the activity row still stores
+them.
+
+The governance registers that did not log changes now do, with an explicit field
+set and a test that locks the list: access grants and reviews, approval requests
+and steps, assets, assistant proposals, control attestations, crosswalks and
+validation rules, DLP policies, findings and suppressions, evidence sources and
+streams, exercises, findings, policies, acknowledgements and exceptions,
+protected resources, remediation tasks and vendor subcontractors.
+
+The field sets deliberately exclude free text and credentials: a suppression's
+justification, an attestation statement, an approval comment, an exception's
+rationale and an evidence source's configuration are not logged. A test proves
+the exclusion for the suppression and the source.
 
 ## Limits
 

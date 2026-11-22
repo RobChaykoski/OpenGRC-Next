@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A governance record for a dataset, table, column set, record scope or API.
@@ -20,7 +22,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class ProtectedResource extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, LogsActivity, SoftDeletes;
 
     protected $fillable = [
         'name',
@@ -116,5 +118,13 @@ class ProtectedResource extends Model
     public function reference(): string
     {
         return 'PR-'.str_pad((string) $this->getKey(), 5, '0', STR_PAD_LEFT);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['name', 'tier', 'is_crown_jewel', 'classified_at'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * Class Asset
@@ -19,7 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Asset extends Model
 {
-    use HasFactory, HasTaxonomy, SoftDeletes;
+    use HasFactory, HasTaxonomy, LogsActivity, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -442,5 +444,13 @@ class Asset extends Model
         return $query->whereHas('status', function ($q) use ($statusName) {
             $q->where('name', $statusName);
         });
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['asset_tag', 'name', 'status_id', 'asset_type_id'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

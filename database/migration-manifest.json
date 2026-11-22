@@ -668,6 +668,10 @@
         {
             "name": "2026_11_22_100000_create_audit_ledger_entries_table",
             "sha256": "3c77447a27ac34badb7b81da22d2f15dc52d18651c1da595c0616cb47f4e3a34"
+        },
+        {
+            "name": "2026_11_22_110000_add_hash_version_to_audit_ledger_entries",
+            "sha256": "2b3ac2826601085c81ca9d37531cf261ac27c0ec4196d2aa24b192e962d7a2b4"
         }
     ]
 }

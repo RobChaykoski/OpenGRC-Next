@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A request for the control owner to confirm an implementation is still true.
@@ -16,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ControlAttestation extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'implementation_id',
@@ -89,5 +91,13 @@ class ControlAttestation extends Model
     {
         return $query->where('status', ControlAttestationStatus::Pending->value)
             ->whereDate('due_at', '<', today());
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['status', 'due_at', 'attested_by', 'attested_at'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

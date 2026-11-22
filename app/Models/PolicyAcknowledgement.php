@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A user's acknowledgement of a specific policy revision.
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class PolicyAcknowledgement extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'policy_id',
@@ -67,5 +69,13 @@ class PolicyAcknowledgement extends Model
     {
         return $this->policy instanceof Policy
             && $this->policy_revision === self::revisionFor($this->policy);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['policy_id', 'policy_revision', 'acknowledged_at', 'method'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

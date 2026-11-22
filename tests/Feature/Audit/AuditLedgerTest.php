@@ -3,6 +3,7 @@
 namespace Tests\Feature\Audit;
 
 use App\Models\AuditLedgerEntry;
+use App\Models\EvidenceSource;
 use App\Models\User;
 use App\Services\Audit\AuditLedger;
 use Illuminate\Database\QueryException;
@@ -10,6 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
 use LogicException;
 use PHPUnit\Framework\Attributes\Test;
+use Spatie\Activitylog\Models\Activity;
 use Tests\TestCase;
 
 class AuditLedgerTest extends TestCase
@@ -160,6 +162,32 @@ class AuditLedgerTest extends TestCase
         $this->artisan('opengrc:audit:verify')
             ->expectsOutputToContain('no longer match')
             ->assertFailed();
+    }
+
+    #[Test]
+    public function editing_the_logged_attribute_changes_is_detected(): void
+    {
+        $source = EvidenceSource::create([
+            'name' => 'Tamper source',
+            'type' => 'other',
+            'enabled' => true,
+        ]);
+
+        $source->update(['enabled' => false]);
+
+        $activity = Activity::query()
+            ->where('subject_type', EvidenceSource::class)
+            ->latest('id')
+            ->firstOrFail();
+
+        DB::table('activity_log')->where('id', $activity->id)->update([
+            'attribute_changes' => json_encode(['attributes' => ['enabled' => true], 'old' => ['enabled' => false]]),
+        ]);
+
+        $report = app(AuditLedger::class)->verify();
+
+        $this->assertNull($report['broken']);
+        $this->assertSame(1, $report['altered']);
     }
 
     protected function appendOne(): AuditLedgerEntry

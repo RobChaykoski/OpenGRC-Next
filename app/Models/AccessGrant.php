@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A just-in-time access grant (ADR 0049).
@@ -19,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class AccessGrant extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'subject_type',
@@ -195,5 +197,13 @@ class AccessGrant extends Model
     public function reference(): string
     {
         return 'AG-'.str_pad((string) $this->getKey(), 5, '0', STR_PAD_LEFT);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['state', 'expires_at', 'approved_by', 'review_outcome'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

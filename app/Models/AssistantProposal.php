@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Enums\AssistantProposalState;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A typed change set the assistant proposed and a human decided on (ADR 0055).
@@ -15,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class AssistantProposal extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'run_id',
         'summary',
@@ -78,5 +82,13 @@ class AssistantProposal extends Model
     public function operationCount(): int
     {
         return count($this->operations ?? []);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['state', 'approved_by', 'applied_at', 'rolled_back_at'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

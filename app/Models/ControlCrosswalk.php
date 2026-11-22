@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A reviewed mapping between two imported controls.
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class ControlCrosswalk extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $fillable = [
         'source_control_id',
@@ -90,5 +92,13 @@ class ControlCrosswalk extends Model
     public function scopeDraft(Builder $query): Builder
     {
         return $query->where('status', CrosswalkStatus::Draft->value);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['status', 'confidence', 'reviewed_by', 'reviewed_at'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }

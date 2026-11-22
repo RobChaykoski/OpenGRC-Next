@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\Activitylog\Models\Concerns\LogsActivity;
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * A gap that needs an owner and a date.
@@ -19,6 +21,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Finding extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'title',
         'description',
@@ -147,5 +151,13 @@ class Finding extends Model
     public function reference(): string
     {
         return 'F-'.str_pad((string) $this->getKey(), 5, '0', STR_PAD_LEFT);
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logOnly(['title', 'severity', 'status', 'owner_id', 'due_at'])
+            ->logOnlyDirty()
+            ->dontLogEmptyChanges();
     }
 }
