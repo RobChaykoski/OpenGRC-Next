@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\DlpDisposition;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
@@ -14,8 +15,13 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
  */
 class DlpFinding extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'source',
+        'dlp_policy_id',
+        'risk_id',
+        'control_id',
         'context_type',
         'context_id',
         'user_id',
@@ -40,6 +46,33 @@ class DlpFinding extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * The policy that owns the finding. Null means the programme has not
+     * assigned one, which is a coverage gap.
+     *
+     * @return BelongsTo<DlpPolicy, $this>
+     */
+    public function policy(): BelongsTo
+    {
+        return $this->belongsTo(DlpPolicy::class, 'dlp_policy_id');
+    }
+
+    /**
+     * @return BelongsTo<Risk, $this>
+     */
+    public function risk(): BelongsTo
+    {
+        return $this->belongsTo(Risk::class);
+    }
+
+    /**
+     * @return BelongsTo<Control, $this>
+     */
+    public function control(): BelongsTo
+    {
+        return $this->belongsTo(Control::class);
     }
 
     /**

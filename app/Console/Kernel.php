@@ -48,6 +48,7 @@ class Kernel extends ConsoleKernel
         // Just-in-time grants are minute-scale. Revocation is event-driven; this
         // is the fail-safe when the event never arrives (ADR 0049).
         $schedule->command('opengrc:access:expire-grants')->everyFiveMinutes();
+        $schedule->command('opengrc:dlp:expire-suppressions')->dailyAt('00:40');
     }
 
     /**

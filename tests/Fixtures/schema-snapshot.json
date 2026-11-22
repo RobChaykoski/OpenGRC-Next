@@ -3374,6 +3374,11 @@
             "nullable": true
         },
         {
+            "name": "control_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
             "name": "created_at",
             "type": "datetime",
             "nullable": true
@@ -3381,6 +3386,11 @@
         {
             "name": "disposition",
             "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "dlp_policy_id",
+            "type": "integer",
             "nullable": true
         },
         {
@@ -3414,6 +3424,11 @@
             "nullable": true
         },
         {
+            "name": "risk_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
             "name": "severity",
             "type": "varchar",
             "nullable": false
@@ -3431,6 +3446,175 @@
         {
             "name": "user_id",
             "type": "integer",
+            "nullable": true
+        }
+    ],
+    "dlp_policies": [
+        {
+            "name": "action",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "channels",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "classifications",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "identifier_types",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "is_active",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "review_due_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "dlp_suppressions": [
+        {
+            "name": "approved_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "approved_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "dlp_policy_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "expires_at",
+            "type": "datetime",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "identifier_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "justification",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "match_type",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "rejected_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "requested_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "review_notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "revoked_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "revoked_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "revoked_reason",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "starts_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "state",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
             "nullable": true
         }
     ],

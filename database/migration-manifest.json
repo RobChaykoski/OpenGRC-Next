@@ -644,6 +644,18 @@
         {
             "name": "2026_11_21_090500_add_access_grant_to_access_decisions_table",
             "sha256": "fdfcdcf7b72870c15bf87389a8f6fcb7d369c737bd70af02d632fe8037faee53"
+        },
+        {
+            "name": "2026_11_21_090600_create_dlp_policies_table",
+            "sha256": "5c1a6965b5d6a293e6a6449b43023afd123603cfc02840e9aa70dcae54bdb70f"
+        },
+        {
+            "name": "2026_11_21_090700_create_dlp_suppressions_table",
+            "sha256": "d2c4f6fdb2f5b1b92cd0aff6cfa7ae41338a862bd8b8df9fa672dad6462fed3e"
+        },
+        {
+            "name": "2026_11_21_090800_add_governance_links_to_dlp_findings",
+            "sha256": "95f77edc37cc9ecdef626a414eb0224a496af704e1b65d5d84eebe16b4bb6b6b"
         }
     ]
 }

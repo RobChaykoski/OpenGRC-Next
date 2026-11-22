@@ -42,6 +42,50 @@ See `docs/security/dlp-quality.md` for the rates, targets, minimum sample and
 review loop. The target is a programme target with a reference; there is no
 universal industry false-positive percentage (ADR 0040).
 
+## Policies
+
+**Admin → System → DLP policies** records the programme's intent: a code, the
+channels it covers (email, endpoint, cloud, web, AI prompt, upload), the data
+classes and identifier types, the action the enforcement technology takes
+(monitor, alert, block, quarantine), an owner and a review date.
+
+A DLP policy here is a governance record, not an executable rule. The scanning
+engine owns detectors and enforcement; OpenGRC records what a human approved and
+when it is due for review. An overdue policy is shown in red and is a finding for
+the programme, not a silent pass.
+
+## Suppressions
+
+**Admin → System → DLP suppressions** is a time-boxed acceptance of a detector's
+output. A suppression names a policy and, optionally, one identifier type and one
+match label. It is:
+
+- **requested** with a written justification;
+- **approved by someone other than the requester** (separation of duties);
+- **in force** from approval until its expiry, which is required and capped at
+  one year;
+- **expired** by `php artisan opengrc:dlp:expire-suppressions` (scheduled daily)
+  when the date passes, or **revoked** early with a reason.
+
+A suppression never deletes or hides a finding. The finding remains in the queue
+with its suppression visible, so a reviewer can see that the acceptance was a
+decision rather than an absence of data. Continuing an acceptance after expiry
+is a new request with a new justification and approver.
+
+## Risk and control linkage
+
+A finding can be linked to the policy that owns it, the risk it evidences and
+the control it tests. Links are nullable on purpose:
+
+- a finding with no policy is a **coverage gap**, shown as "Unassigned";
+- a finding with no risk or control is normal until someone decides it matters;
+- a risk or control that is deleted clears the link and keeps the finding.
+
+The link is a reference, not a claim of causation. A true-positive DLP finding
+usually belongs to a risk (data exfiltration) and to a control (egress filtering,
+DLP monitoring). Linking it is what turns the queue into evidence an auditor can
+follow from finding to control to framework.
+
 ## AI behaviour
 
 - HR, special-category, and credential content is blocked before any HTTP call.
@@ -90,8 +134,8 @@ DLP_MAX_SCAN_BYTES=2097152
 
 `config/dlp.php` holds the blocked types for AI and uploads, and the identifier
 types with their false-positive targets and minimum sample. The quality page is
-under **Discovery → DLP quality**; the review queue is **Admin → System → DLP
-findings**.
+under **Discovery → DLP quality**; the review queue, policies and suppressions are
+under **Admin → System → DLP findings / DLP policies / DLP suppressions**.
 
 ## Verification
 
@@ -100,4 +144,5 @@ php artisan test --filter=Dlp
 ```
 
 The suite covers recognisers, AI blocking before the HTTP call, upload blocking,
-HR/special-category flagging, and the no-content-in-findings invariant.
+HR/special-category flagging, the no-content-in-findings invariant, the
+suppression lifecycle and the policy/finding links.

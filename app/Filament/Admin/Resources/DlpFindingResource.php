@@ -60,7 +60,7 @@ class DlpFindingResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(['user', 'reviewer']))
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['user', 'reviewer', 'policy', 'risk', 'control']))
             ->columns([
                 TextColumn::make('created_at')
                     ->label('When')
@@ -119,6 +119,25 @@ class DlpFindingResource extends Resource
                     ->label('Actor')
                     ->placeholder('System'),
 
+                TextColumn::make('policy.name')
+                    ->label('Policy')
+                    ->placeholder('Unassigned')
+                    ->wrap()
+                    ->limit(30)
+                    ->toggleable(),
+
+                TextColumn::make('risk.name')
+                    ->label('Risk')
+                    ->placeholder('—')
+                    ->wrap()
+                    ->limit(30)
+                    ->toggleable(isToggledHiddenByDefault: true),
+
+                TextColumn::make('control.identifier')
+                    ->label('Control')
+                    ->placeholder('—')
+                    ->toggleable(isToggledHiddenByDefault: true),
+
                 TextColumn::make('context_type')
                     ->label('Context')
                     ->formatStateUsing(fn (?string $state): string => $state ? class_basename($state) : '—')
@@ -173,6 +192,12 @@ class DlpFindingResource extends Resource
                             : $query;
                     }),
 
+                SelectFilter::make('dlp_policy_id')
+                    ->label('Policy')
+                    ->relationship('policy', 'name')
+                    ->searchable()
+                    ->preload(),
+
                 SelectFilter::make('identifier_type')
                     ->label('Identifier type')
                     ->options(fn (): array => app(DlpIdentifierCatalog::class)->options())
@@ -196,6 +221,52 @@ class DlpFindingResource extends Resource
             ])
             ->defaultSort('created_at', 'desc')
             ->recordActions([
+                Action::make('link')
+                    ->label('Link')
+                    ->icon('heroicon-o-link')
+                    ->color('gray')
+                    ->authorize(fn (DlpFinding $record): bool => auth()->user()?->can('update', $record) ?? false)
+                    ->schema([
+                        Select::make('dlp_policy_id')
+                            ->label('Policy')
+                            ->relationship('policy', 'name')
+                            ->searchable()
+                            ->preload(),
+
+                        Select::make('risk_id')
+                            ->label('Risk')
+                            ->relationship('risk', 'name')
+                            ->searchable()
+                            ->preload()
+                            ->helperText('Link the finding to the risk it evidences, if one exists.'),
+
+                        Select::make('control_id')
+                            ->label('Control')
+                            ->relationship('control', 'identifier')
+                            ->searchable()
+                            ->preload()
+                            ->helperText('Link the finding to the control it tests.'),
+                    ])
+                    ->fillForm(fn (DlpFinding $record): array => [
+                        'dlp_policy_id' => $record->dlp_policy_id,
+                        'risk_id' => $record->risk_id,
+                        'control_id' => $record->control_id,
+                    ])
+                    ->action(function (DlpFinding $record, array $data): void {
+                        $record->update([
+                            'dlp_policy_id' => $data['dlp_policy_id'] ?? null,
+                            'risk_id' => $data['risk_id'] ?? null,
+                            'control_id' => $data['control_id'] ?? null,
+                        ]);
+
+                        Notification::make()
+                            ->title('Finding linked')
+                            ->success()
+                            ->send();
+                    })
+                    ->modalHeading('Link the finding')
+                    ->modalDescription('Attach the finding to the policy that owns it, the risk it evidences or the control it tests. The finding still needs a review.'),
+
                 Action::make('review')
                     ->label('Review')
                     ->icon('heroicon-o-check-badge')
