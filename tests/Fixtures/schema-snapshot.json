@@ -4045,6 +4045,73 @@
             "nullable": true
         }
     ],
+    "evidence_streams": [
+        {
+            "name": "accepted_count",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "client_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_active",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "last_cursor",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "last_received_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "last_rejection_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "last_rejection_reason",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "rejected_count",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "secret",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "exercises": [
         {
             "name": "conducted_at",

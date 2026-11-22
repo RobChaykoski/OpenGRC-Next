@@ -11,6 +11,7 @@ use App\Http\Controllers\API\ControlController;
 use App\Http\Controllers\API\DataRequestController;
 use App\Http\Controllers\API\DataRequestResponseController;
 use App\Http\Controllers\API\EvidenceIngestionController;
+use App\Http\Controllers\API\EvidenceStreamController;
 use App\Http\Controllers\API\FileAttachmentController;
 use App\Http\Controllers\API\ImplementationController;
 use App\Http\Controllers\API\PolicyController;
@@ -63,6 +64,12 @@ Route::middleware(['auth:sanctum', 'access.rules'])->group(function () {
     // Discovery evidence from OpenDLP-NG (hash verified, append-only)
     Route::post('/v1/evidence', [EvidenceIngestionController::class, 'store'])
         ->middleware(EnsureEvidenceWriteScope::class);
+
+    // Time-sensitive evidence pushed by a signed producer (ADR 0054). Off by
+    // default; enabling it is a deliberate configuration change.
+    Route::post('/v1/evidence/stream', [EvidenceStreamController::class, 'store'])
+        ->middleware(EnsureEvidenceWriteScope::class)
+        ->name('evidence.stream.store');
 
     // Runtime access decision for an enforcement point (ADR 0051). Scoped,
     // client-bound token; the answer is honoured, and no answer means deny.

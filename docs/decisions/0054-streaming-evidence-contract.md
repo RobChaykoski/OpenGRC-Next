@@ -1,6 +1,6 @@
 # 0054 — Streaming evidence is a push contract, not a broker inside OpenGRC
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-11-21
 
 ## Context
@@ -58,8 +58,21 @@ outage an alerting outage.
    change, requires the same scoped, client-bound token and platform access rules
    as the other machine endpoints, and has its own rate limit.
 
-## Consequences
+### Implementation
 
+`evidence_streams` holds one row per `(client_id, name)` with an encrypted
+secret; `php artisan opengrc:evidence:stream:create --client=... --name=...`
+prints it once. The endpoint is `POST /api/v1/evidence/stream`, uses the existing
+`evidence.write` token, and returns 404 unless `EVIDENCE_STREAM_ENABLED=true`.
+
+The signature header is `X-OpenGRC-Signature: t=<unix>,v1=<hmac_sha256(t.body)>`
+with a 300-second tolerance. The evidence type is `detection-event`; the payload
+is stored as `{source, stream, sha256, event, receivedAt}` so a validation rule
+targets `event.*`. A duplicate cursor returns the original record; a reused cursor
+with a different payload is `409`; every rejection increments the stream's
+counters and never stores the body.
+
+## Consequences
 - Time-sensitive evidence can reach the system of record in seconds without
   OpenGRC becoming a broker.
 - The system still cannot alert. A control that needs paging in under a minute is
