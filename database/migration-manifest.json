@@ -620,6 +620,22 @@
         {
             "name": "2026_11_20_330000_create_access_rules_table",
             "sha256": "ff53279711836f0b8520d45e88fda95da55049390af435bd58a2c1c31c9096f4"
+        },
+        {
+            "name": "2026_11_21_090000_create_protected_resources_table",
+            "sha256": "59ad9913a21efa696f3ebfbe477d917a5298e9904d4ef4a8875a5ce695df7603"
+        },
+        {
+            "name": "2026_11_21_090100_create_access_policies_table",
+            "sha256": "2db03cd1e508c394cae79bf54fc1dc520256ce1bbaf78f8680050be96b8b0f82"
+        },
+        {
+            "name": "2026_11_21_090200_create_access_grants_table",
+            "sha256": "ef6752a365f97cb1ffea76550fe98fc1973fe3ecaa8e0bf074ab8e37824da314"
+        },
+        {
+            "name": "2026_11_21_090300_create_access_decisions_table",
+            "sha256": "0ddc03fc782b1020e6b67c0c46f4420127be609fa410d073fb0adccb9149c357"
         }
     ]
 }

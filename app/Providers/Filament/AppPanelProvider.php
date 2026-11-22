@@ -153,6 +153,7 @@ class AppPanelProvider extends PanelProvider
             ->navigationGroups([
                 'Foundations',
                 'Entities',
+                'Access governance',
             ])
             ->navigationItems([
                 NavigationItem::make('Administration')

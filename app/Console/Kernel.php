@@ -44,6 +44,10 @@ class Kernel extends ConsoleKernel
         // A pending control attestation past its due date is no longer a valid
         // confirmation; mark it expired without changing the owner's statement.
         $schedule->command('opengrc:controls:attestations:expire')->dailyAt('00:35');
+
+        // Just-in-time grants are minute-scale. Revocation is event-driven; this
+        // is the fail-safe when the event never arrives (ADR 0049).
+        $schedule->command('opengrc:access:expire-grants')->everyFiveMinutes();
     }
 
     /**

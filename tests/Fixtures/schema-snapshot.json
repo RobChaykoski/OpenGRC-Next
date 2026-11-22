@@ -1,4 +1,410 @@
 {
+    "access_decisions": [
+        {
+            "name": "action",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "context",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "correlation_id",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "decided_at",
+            "type": "datetime",
+            "nullable": false
+        },
+        {
+            "name": "entry_hash",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "latency_ms",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "matched_policy_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "pep",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "policy_version",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "previous_hash",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "profile",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "protected_resource_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "purpose_code",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "reason",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "resource_ref",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "risk_weight",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "rules_hash",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "subject_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "subject_label",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "subject_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "tier",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "ttl_seconds",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "access_grants": [
+        {
+            "name": "access_policy_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "approved_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "approved_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "clinical_reason",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "correlation_id",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "expires_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_break_glass",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "justification",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "protected_resource_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "purpose_code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "rejected_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "requested_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "requested_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "review_due_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "review_notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "review_outcome",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "review_required",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "reviewed_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "reviewed_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "revoked_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "revoked_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "revoked_reason",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "risk_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "starts_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "state",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "subject_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "subject_label",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "subject_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "access_policies": [
+        {
+            "name": "action",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "code",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "conditions",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "description",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "dry_run",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "effective_from",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_active",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "mask_columns",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "max_duration_minutes",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "priority",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "profiles",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "requires_justification",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "requires_review",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "review_due_at",
+            "type": "date",
+            "nullable": true
+        },
+        {
+            "name": "rules_hash",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "tiers",
+            "type": "text",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "version",
+            "type": "integer",
+            "nullable": false
+        }
+    ],
     "access_request_document": [
         {
             "name": "created_at",
@@ -5510,6 +5916,98 @@
         },
         {
             "name": "scope_status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "protected_resources": [
+        {
+            "name": "asset_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "classification_code",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "classification_source",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "classification_version",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "classified_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "consent_directive",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "external_urn",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "is_crown_jewel",
+            "type": "tinyint",
+            "nullable": false
+        },
+        {
+            "name": "jurisdiction",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "resource_type",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "tier",
             "type": "varchar",
             "nullable": false
         },

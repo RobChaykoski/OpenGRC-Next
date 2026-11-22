@@ -96,6 +96,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/risk-acceptance.md](grc/risk-acceptance.md) | Accepting residual risk: acceptor, rationale, expiry and review |
 | [grc/policy-acknowledgements.md](grc/policy-acknowledgements.md) | Versioned policy acknowledgement and coverage |
 | [grc/access-reviews.md](grc/access-reviews.md) | User access review campaigns, attestation and revocation decisions |
+| [grc/access-governance.md](grc/access-governance.md) | Runtime access policy, just-in-time and break-the-glass grants, append-only decisions |
 | [grc/exercises.md](grc/exercises.md) | Tabletop, simulation and red-team exercise register |
 | [grc/control-testing.md](grc/control-testing.md) | Control test cadence and the due/overdue report |
 | [grc/findings-and-remediation.md](grc/findings-and-remediation.md) | Finding lifecycle, risk links and remediation limits |
