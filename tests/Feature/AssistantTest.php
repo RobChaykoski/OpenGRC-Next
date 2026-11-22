@@ -3,11 +3,13 @@
 namespace Tests\Feature;
 
 use App\Enums\AssistantIntent;
+use App\Enums\AssistantProposalState;
 use App\Enums\AssistantRunStatus;
 use App\Enums\UserRole;
 use App\Filament\Pages\Assistant;
 use App\Http\Middleware\RequireTwoFactorAuthentication;
 use App\Models\AiAssistantRun;
+use App\Models\AssistantProposal;
 use App\Models\CanonicalControl;
 use App\Models\CanonicalFramework;
 use App\Models\Control;
@@ -265,6 +267,62 @@ class AssistantTest extends TestCase
 
         $this->assertDatabaseMissing('ai_assistant_runs', ['id' => $old->id]);
         $this->assertDatabaseHas('ai_assistant_runs', ['id' => $fresh->id]);
+    }
+
+    #[Test]
+    public function an_editor_can_propose_next_test_dates_from_an_overdue_tests_answer(): void
+    {
+        Http::fake();
+        config(['ai.provider' => 'openai', 'ai.keys.openai' => null]);
+
+        $editor = User::factory()->create(['role' => UserRole::Editor]);
+        $overdue = Implementation::factory()->create(['next_test_at' => today()->subDays(5)]);
+        $undated = Implementation::factory()->create(['next_test_at' => null]);
+
+        $this->actingAs($editor);
+
+        $component = Livewire::test(Assistant::class)
+            ->set('question', 'Which tests are overdue?')
+            ->call('ask')
+            ->assertSet('intent', AssistantIntent::OverdueTests->value)
+            ->call('proposeTestDates');
+
+        $proposal = AssistantProposal::query()->sole();
+
+        $this->assertSame(AssistantProposalState::Proposed, $proposal->state);
+        $this->assertSame(2, $proposal->operationCount());
+        $this->assertSame((string) AiAssistantRun::query()->sole()->getKey(), $proposal->run_id);
+
+        $targets = collect($proposal->operations)->pluck('target')->sort()->values()->all();
+        $expected = collect([$overdue->getKey(), $undated->getKey()])->sort()->values()->all();
+
+        $this->assertSame($expected, $targets);
+        $this->assertSame(
+            [today()->addDays(90)->toDateString()],
+            collect($proposal->operations)->pluck('after')->unique()->values()->all(),
+        );
+
+        // Nothing changed: the proposal still needs approval and a separate apply.
+        $this->assertTrue($overdue->refresh()->next_test_at?->isSameDay(today()->subDays(5)) ?? false);
+    }
+
+    #[Test]
+    public function a_viewer_cannot_create_a_proposal(): void
+    {
+        Http::fake();
+        config(['ai.provider' => 'openai', 'ai.keys.openai' => null]);
+
+        $viewer = User::factory()->create(['role' => UserRole::Viewer]);
+        Implementation::factory()->create(['next_test_at' => today()->subDay()]);
+
+        $this->actingAs($viewer);
+
+        Livewire::test(Assistant::class)
+            ->set('question', 'Which tests are overdue?')
+            ->call('ask')
+            ->call('proposeTestDates');
+
+        $this->assertSame(0, AssistantProposal::query()->count());
     }
 
     private function configureProvider(): void

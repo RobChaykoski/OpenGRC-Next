@@ -109,10 +109,11 @@ day it can, and it is deliberately mechanical (ADR 0055):
 - Rollback is a compensating change with its own reason and actor. Append-only
   records are not in the catalogue, so they cannot be proposed at all.
 
-The review queue is **Admin → System → Assistant proposals**. It is empty because
-the assistant's question catalogue does not invoke the proposal service yet:
-connecting a producer is a reviewed use case with its own question and tests, not
-a prompt edit.
+The review queue is **Admin → System → Assistant proposals**. It is filled by an
+explicit action: an overdue-tests answer offers **Propose next test dates**, which
+creates one proposal for up to five implementations that are overdue or have no
+date, setting the next test date 90 days out. Nothing is written until an editor
+approves and applies it.
 
 ## What it does not do
 

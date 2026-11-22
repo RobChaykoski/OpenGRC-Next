@@ -181,6 +181,18 @@ return [
         'view' => 'View',
         'empty' => 'No questions have been asked yet.',
     ],
+    'propose' => [
+        'action' => 'Propose next test dates',
+        'help' => 'The answer found control tests that are overdue or have no date. This creates a typed proposal for the five oldest: it sets the next test date to 90 days from today. Nothing changes until an editor approves and applies it.',
+        'confirm' => 'Create the proposal? It still needs approval and a separate apply.',
+        'summary' => 'Set next test dates for :count control implementation(s)',
+        'rationale' => 'Generated from assistant run #:run, which reported overdue or missing test dates. The 90-day interval is the run default and is a scheduling decision a human should confirm.',
+        'created' => 'Proposal created for :count record(s)',
+        'created_body' => 'Proposal :reference is waiting in System → Assistant proposals. It is not applied until someone approves it.',
+        'empty' => 'No implementation needs a new test date.',
+        'refused' => 'This proposal can only be created from an overdue-tests answer, by an editor or administrator.',
+        'failed' => 'The proposal could not be created',
+    ],
     'catalog' => [
         'heading' => 'What the assistant can answer',
         'description' => 'The catalogue is fixed and reviewed. Adding a question is a code change with a test, not a change to a prompt.',

@@ -60,6 +60,11 @@ The assistant's question catalogue does **not** call the service yet. Wiring a
 producer is a reviewed use case with its own question, facts and tests; the
 catalogue is what makes that safe to add.
 
+Addendum (2026-11-22): the first producer is wired. The overdue-tests answer now
+offers an explicit **Propose next test dates** action, which creates one bounded
+proposal for up to five implementations. The human approval and the separate apply
+are unchanged; see `docs/grc/ai-assistant.md`.
+
 ## Consequences
 - The assistant can reduce toil without becoming an approver.
 - "The AI changed it" is never an explanation an auditor has to accept: a named

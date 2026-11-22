@@ -159,6 +159,24 @@
                     </div>
                 @endif
 
+                @if ($intent === 'overdue_tests' && $activeRunId !== null)
+                    <div class="mt-5 rounded-lg border border-gray-200 bg-gray-50 px-4 py-3 dark:border-white/10 dark:bg-white/5">
+                        <p class="text-sm leading-6 text-gray-700 dark:text-gray-200">
+                            {{ __('assistant.propose.help') }}
+                        </p>
+                        <div class="mt-3">
+                            <x-filament::button
+                                size="sm"
+                                color="warning"
+                                wire:click="proposeTestDates"
+                                wire:confirm="{{ __('assistant.propose.confirm') }}"
+                            >
+                                {{ __('assistant.propose.action') }}
+                            </x-filament::button>
+                        </div>
+                    </div>
+                @endif
+
                 <p class="mt-5 border-t border-gray-100 pt-4 text-xs leading-5 text-gray-500 dark:border-white/10 dark:text-gray-400">
                     {{ __('assistant.result.boundary') }}
                 </p>

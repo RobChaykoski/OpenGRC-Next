@@ -6,10 +6,15 @@ use App\Enums\AssistantIntent;
 use App\Enums\AssistantRunStatus;
 use App\Models\AiAssistantRun;
 use App\Models\CanonicalFramework;
+use App\Models\Implementation;
 use App\Models\User;
 use App\Services\Ai\Assistant\AssistantService;
+use App\Services\Assistant\AssistantOperations;
+use App\Services\Assistant\AssistantProposalService;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
+use Illuminate\Database\Eloquent\Builder;
+use InvalidArgumentException;
 use Livewire\Attributes\Url;
 
 /**
@@ -40,6 +45,8 @@ class Assistant extends Page
     public ?string $notice = null;
 
     public ?string $status = null;
+
+    public ?string $intent = null;
 
     public ?int $activeRunId = null;
 
@@ -99,6 +106,7 @@ class Assistant extends Page
         $this->answer = $answer->answer;
         $this->notice = $answer->notice;
         $this->status = $answer->run->status->value;
+        $this->intent = $answer->run->intent?->value;
         $this->activeRunId = $answer->run->getKey();
         $this->facts = $answer->rows;
         $this->columns = $answer->columns;
@@ -136,12 +144,81 @@ class Assistant extends Page
         $this->answer = $record->answer;
         $this->counts = $record->counts ?? [];
         $this->status = $record->status->value;
+        $this->intent = $record->intent?->value;
         $this->activeRunId = $record->getKey();
         $this->injectionFlags = $record->injection_flags ?? [];
         $this->facts = [];
         $this->columns = [];
         $this->notice = __('assistant.notice.saved_run');
         $this->framework = $record->arguments['framework'] ?? $this->framework;
+    }
+
+    /**
+     * Turn an overdue-tests answer into a typed proposal (ADR 0055).
+     *
+     * The assistant never writes. This action creates a proposal for a human to
+     * approve, bounded to five records and grounded in the run being viewed.
+     */
+    public function proposeTestDates(AssistantProposalService $proposals): void
+    {
+        $user = auth()->user();
+
+        if (! $user instanceof User) {
+            abort(403);
+        }
+
+        $run = AiAssistantRun::query()
+            ->when(! $user->isAdmin(), fn (Builder $query): Builder => $query->where('user_id', $user->getKey()))
+            ->find($this->activeRunId);
+
+        if ($run === null || $run->intent !== AssistantIntent::OverdueTests || ! $user->role->canWrite()) {
+            Notification::make()->title(__('assistant.propose.refused'))->danger()->send();
+
+            return;
+        }
+
+        $implementations = Implementation::query()
+            ->where(function (Builder $query): void {
+                $query->whereNull('next_test_at')->orWhereDate('next_test_at', '<=', today());
+            })
+            ->orderBy('next_test_at')
+            ->limit(AssistantOperations::MAX_OPERATIONS)
+            ->get();
+
+        if ($implementations->isEmpty()) {
+            Notification::make()->title(__('assistant.propose.empty'))->warning()->send();
+
+            return;
+        }
+
+        $operations = $implementations->map(fn (Implementation $implementation): array => [
+            'op' => 'implementation.next_test_at',
+            'target' => $implementation->getKey(),
+            'after' => today()->addDays(90)->toDateString(),
+        ])->all();
+
+        try {
+            $proposal = $proposals->propose(
+                $operations,
+                __('assistant.propose.summary', ['count' => count($operations)]),
+                __('assistant.propose.rationale', ['run' => $run->getKey()]),
+                (string) $run->getKey(),
+            );
+        } catch (InvalidArgumentException $exception) {
+            Notification::make()
+                ->title(__('assistant.propose.failed'))
+                ->body($exception->getMessage())
+                ->danger()
+                ->send();
+
+            return;
+        }
+
+        Notification::make()
+            ->title(__('assistant.propose.created', ['count' => count($operations)]))
+            ->body(__('assistant.propose.created_body', ['reference' => '#'.$proposal->getKey()]))
+            ->success()
+            ->send();
     }
 
     /**
