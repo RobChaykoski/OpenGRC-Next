@@ -3,6 +3,7 @@
 namespace Tests\Feature\Api;
 
 use App\Models\EvidenceRecord;
+use App\Models\EvidenceSource;
 use App\Models\EvidenceStream;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -39,6 +40,11 @@ class EvidenceStreamApiTest extends TestCase
         $this->assertSame('c-1', $stream->last_cursor);
         $this->assertSame(1, $stream->accepted_count);
         $this->assertNotNull($stream->last_received_at);
+
+        // A push source has no schedule; it must not look like a stale pull source.
+        $this->assertFalse(
+            EvidenceSource::query()->where('name', 'Stream: acme/edr-alerts')->sole()->enabled
+        );
     }
 
     #[Test]

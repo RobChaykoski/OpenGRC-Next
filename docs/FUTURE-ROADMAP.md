@@ -7,7 +7,7 @@ dashboards on top of it.
 
 | Pillar | Current state | Next step | Boundary |
 |---|---|---|---|
-| Multi-tenancy | Single tenant; MSSP deployments use separate instances | ADR for tenant key, global scopes, storage isolation, and per-tenant settings | Do not fake isolation with a nullable `tenant_id` |
+| Multi-tenancy | Single tenant; MSSP deployments use separate instances. ADR 0057 is proposed, not implemented | Accept ADR 0057, then build the tenant key, backfill, scopes, storage isolation and per-tenant settings as one change | Do not fake isolation with a nullable `tenant_id` |
 | Strong RBAC/ABAC | Three roles (ADR 0007); per-record policies for six models | ADR to replace or extend the three roles with scoped roles and attribute rules | Keep policies explainable; a matrix nobody maintains is not security |
 | Immutable audit logs | Activity log plus an append-only, hash-chained audit ledger (ADR 0056); editable activity detail | Extend coverage to write paths that bypass activity logging, and add scheduled verification | Do not mix operational logs with the audit trail |
 | Evidence chain of custody | Implemented for audit attachments, survey attachments, vendor documents, policy documents | Extend to the remaining evidence surfaces; add scheduled verification | No delete; withdraw with a reason; supersede with new evidence |

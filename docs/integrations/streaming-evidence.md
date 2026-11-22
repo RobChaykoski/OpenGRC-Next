@@ -117,7 +117,9 @@ request bodies, no file content, no credentials. A rule that needs a specific
 field targets `event.<field>`.
 
 The record is written against a source named `Stream: <client>/<stream>` and has
-status `unknown`; the validation rule decides effective or failed.
+status `unknown`; the validation rule decides effective or failed. The source is
+created **disabled**: a push source has no schedule, and a source that looks like a
+pull connector which never ran would be a false doctor warning.
 
 ## 6. Test matrix
 

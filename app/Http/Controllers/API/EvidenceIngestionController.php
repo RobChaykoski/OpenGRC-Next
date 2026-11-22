@@ -81,7 +81,9 @@ class EvidenceIngestionController extends Controller
 
         $source = EvidenceSource::firstOrCreate(
             ['name' => $this->sourceName($clientId, $evidenceType)],
-            ['type' => EvidenceSourceType::Other, 'enabled' => true],
+            // A push source has no schedule: it must not look like a pull
+            // source that never ran. The records still link to it.
+            ['type' => EvidenceSourceType::Other, 'enabled' => false],
         );
 
         $job = EvidenceJob::create([

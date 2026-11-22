@@ -81,6 +81,10 @@ services:
       SESSION_DRIVER: file
       SESSION_ENCRYPT: "true"
 
+      # Signed streaming evidence is off by default (ADR 0054). Enable it only
+      # for a deployment that has created a stream and a scoped token.
+      EVIDENCE_STREAM_ENABLED: ${EVIDENCE_STREAM_ENABLED:-false}
+
       # The worker runs in its own service below.
       QUEUE_CONNECTION: database
       RUN_QUEUE_WORKER: "false"

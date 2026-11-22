@@ -120,7 +120,7 @@ class EvidenceStreamController extends Controller
 
         $source = EvidenceSource::firstOrCreate(
             ['name' => 'Stream: '.$clientId.'/'.$stream->name],
-            ['type' => EvidenceSourceType::Other, 'enabled' => true],
+            ['type' => EvidenceSourceType::Other, 'enabled' => false],
         );
 
         $job = EvidenceJob::create([

@@ -78,3 +78,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0054](0054-streaming-evidence-contract.md) | Streaming evidence is a push contract, not a broker inside OpenGRC | accepted |
 | [0055](0055-assistant-proposed-writes.md) | The assistant proposes changes; a human applies a typed diff | accepted |
 | [0056](0056-audit-ledger.md) | Audit events are mirrored into an append-only ledger | accepted |
+| [0057](0057-multi-tenancy.md) | Multi-tenancy is a deployment decision, not a nullable column | proposed |

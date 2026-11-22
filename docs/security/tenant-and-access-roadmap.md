@@ -1,5 +1,8 @@
 # Tenant isolation, access control, and security analytics: implementation plan
 
+ADR 0057 records the proposed tenancy decision; nothing in this plan is
+implemented. A nullable `tenant_id` that fails open is explicitly rejected.
+
 Status: proposed. Each numbered workstream needs an ADR before code that changes
 the schema or the authorization model.
 
