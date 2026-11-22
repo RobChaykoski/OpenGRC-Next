@@ -13,6 +13,7 @@ use App\Models\DlpFinding;
 use App\Models\DocumentTemplate;
 use App\Models\EvidenceRecord;
 use App\Models\EvidenceSource;
+use App\Models\EvidenceStream;
 use App\Models\FileAttachment;
 use App\Models\Finding;
 use App\Models\Survey;
@@ -29,6 +30,7 @@ use App\Policies\DlpFindingPolicy;
 use App\Policies\DocumentTemplatePolicy;
 use App\Policies\EvidenceRecordPolicy;
 use App\Policies\EvidenceSourcePolicy;
+use App\Policies\EvidenceStreamPolicy;
 use App\Policies\ExportPolicy;
 use App\Policies\FileAttachmentPolicy;
 use App\Policies\FindingPolicy;
@@ -296,6 +298,7 @@ class AppServiceProvider extends ServiceProvider
                 DocumentTemplate::class => DocumentTemplatePolicy::class,
                 EvidenceRecord::class => EvidenceRecordPolicy::class,
                 EvidenceSource::class => EvidenceSourcePolicy::class,
+                EvidenceStream::class => EvidenceStreamPolicy::class,
                 FileAttachment::class => FileAttachmentPolicy::class,
                 Finding::class => FindingPolicy::class,
                 Survey::class => SurveyPolicy::class,

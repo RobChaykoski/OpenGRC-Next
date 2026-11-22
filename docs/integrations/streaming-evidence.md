@@ -134,6 +134,23 @@ status `unknown`; the validation rule decides effective or failed.
 | Endpoint disabled | 404 |
 | Token without `evidence.write` | 403 |
 
+## 7. Operate it
+
+**Admin → System → Evidence streams** is the operational view. It shows, per
+stream: client, name, active state, last accepted time, last cursor, accepted and
+rejected counts, the last rejection reason and when it happened.
+
+The screen is admin-only because the row carries the signing secret (encrypted;
+the screen never renders it). Creating and rotating a secret stay on the CLI.
+
+- **Disable** stops the producer immediately with `403`. The secret is unchanged.
+- **Enable** resumes it.
+- **Rotate** means disable the old stream, create a new one under a new name, cut
+  the producer over, and keep the old row for its counters and history.
+- A rising rejection count is the first thing to look at: `invalid_signature` is
+  a wrong secret or a clock outside the tolerance, `event_time_skew` is a
+  producer clock, and `cursor_reused` is a producer bug, not a retry.
+
 ## Limits
 
 - One event or a bounded batch per request; the whole body is size-limited by

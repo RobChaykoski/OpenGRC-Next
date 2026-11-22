@@ -41,7 +41,7 @@ class AuthorizationMatrixTest extends TestCase
             $user = User::factory()->create(['role' => $role]);
 
             foreach ($this->resourceUrls() as $name => $url) {
-                if (! $role->canManage() && in_array($name, ['AccessRuleResource', 'UserResource', 'VendorUserResource', 'ControlValidationRuleResource', 'EvidenceSourceResource', 'DlpFindingResource'], true)) {
+                if (! $role->canManage() && in_array($name, ['AccessRuleResource', 'UserResource', 'VendorUserResource', 'ControlValidationRuleResource', 'EvidenceSourceResource', 'EvidenceStreamResource', 'DlpFindingResource'], true)) {
                     continue;
                 }
 
