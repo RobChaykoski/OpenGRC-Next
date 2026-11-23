@@ -217,6 +217,27 @@ return [
             'minimum_sample' => 20,
             'reference' => 'NIST SP 800-122; Presidio entity mapping',
         ],
+        'infrastructure_metadata' => [
+            'label' => 'Infrastructure metadata',
+            'category' => 'Infrastructure',
+            'match_labels' => [
+                'Private IPv4 address',
+                'Public IPv4 address',
+                'Internal hostname',
+                'Cloud metadata endpoint',
+            ],
+            'target_false_positive_rate' => 10.0,
+            'minimum_sample' => 20,
+            'reference' => 'NIST SP 800-53 Rev. 5 CM-12 and SC-7; internal publication gate',
+        ],
+        'assessment_answer_key' => [
+            'label' => 'Assessment answer key',
+            'category' => 'Assessment integrity',
+            'match_labels' => ['Assessment answer key'],
+            'target_false_positive_rate' => 1.0,
+            'minimum_sample' => 10,
+            'reference' => 'Internal assessment-integrity control; NIST SP 800-53 Rev. 5 SI-12',
+        ],
     ],
 
 ];

@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RiskCategoryTaxonomySeeder::class);
         $this->call(VendorSurveyTemplatesSeeder::class);
         $this->call(TrustCenterContentBlockSeeder::class);
+        $this->call(PublicationDlpSeeder::class);
 
     }
 }

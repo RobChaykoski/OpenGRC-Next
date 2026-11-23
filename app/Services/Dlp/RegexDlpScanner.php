@@ -93,6 +93,36 @@ final class RegexDlpScanner implements DlpScanner
             'severity' => 'medium',
             'pattern' => '/(?:\+?1[\s.-]?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}\b/',
         ],
+        [
+            'type' => 'infrastructure',
+            'label' => 'Private IPv4 address',
+            'severity' => 'high',
+            'pattern' => '/\b(?:10\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])|192\.168)\.\d{1,3}\.\d{1,3}\b/',
+        ],
+        [
+            'type' => 'infrastructure',
+            'label' => 'Public IPv4 address',
+            'severity' => 'medium',
+            'pattern' => '/\b(?!10\.|127\.|169\.254\.|172\.(?:1[6-9]|2\d|3[01])\.|192\.168\.|192\.0\.2\.|198\.51\.100\.|203\.0\.113\.)(?:\d{1,3}\.){3}\d{1,3}\b/',
+        ],
+        [
+            'type' => 'infrastructure',
+            'label' => 'Internal hostname',
+            'severity' => 'medium',
+            'pattern' => '/\b(?:[a-z0-9-]+\.)+(?:internal|corp|lan|local)\b/i',
+        ],
+        [
+            'type' => 'infrastructure',
+            'label' => 'Cloud metadata endpoint',
+            'severity' => 'critical',
+            'pattern' => '/\b169\.254\.169\.254\b/',
+        ],
+        [
+            'type' => 'answer_key',
+            'label' => 'Assessment answer key',
+            'severity' => 'high',
+            'pattern' => '/\b(?:OCR|TRAILLINE)\{[A-Za-z0-9_]+\}/',
+        ],
     ];
 
     public function scan(string $text): array

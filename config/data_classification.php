@@ -32,6 +32,9 @@ return [
         ['code' => 'pii', 'label' => 'Personally Identifiable Information (PII)', 'level' => 'confidential', 'description' => 'Identifiers that can single out a person.'],
         ['code' => 'confidential_business', 'label' => 'Confidential Business Information', 'level' => 'confidential', 'description' => 'Commercial terms, plans, or internal analysis.'],
         ['code' => 'intellectual_property', 'label' => 'Intellectual Property', 'level' => 'confidential', 'description' => 'Source code, designs, research, or trade secrets.'],
+        ['code' => 'infrastructure_metadata', 'label' => 'Infrastructure Metadata', 'level' => 'confidential', 'description' => 'IP addresses, internal hostnames, network topology, and deployment identifiers.'],
+        ['code' => 'assessment_answer_key', 'label' => 'Assessment Answer Key', 'level' => 'restricted', 'description' => 'Lab flags and expected answer values that must not be published.'],
+        ['code' => 'secret_material', 'label' => 'Secret Material', 'level' => 'restricted', 'description' => 'Credentials, API tokens, private keys, and connection strings.'],
     ],
 
     /*

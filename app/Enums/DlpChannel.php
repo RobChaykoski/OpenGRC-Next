@@ -18,6 +18,8 @@ enum DlpChannel: string implements HasLabel
     case Web = 'web';
     case Ai = 'ai';
     case Upload = 'upload';
+    case Repository = 'repository';
+    case Documentation = 'documentation';
 
     public function getLabel(): string
     {
@@ -28,6 +30,8 @@ enum DlpChannel: string implements HasLabel
             self::Web => 'Web',
             self::Ai => 'AI prompt',
             self::Upload => 'Upload',
+            self::Repository => 'Source repository',
+            self::Documentation => 'Documentation',
         };
     }
 }
