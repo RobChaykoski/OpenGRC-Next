@@ -32,6 +32,7 @@ class Finding extends Model
         'control_id',
         'risk_id',
         'asset_id',
+        'model_artifact_id',
         'evidence_source_id',
         'rule_id',
         'assessment_report_id',
@@ -88,6 +89,14 @@ class Finding extends Model
     public function asset(): BelongsTo
     {
         return $this->belongsTo(Asset::class, 'asset_id');
+    }
+
+    /**
+     * @return BelongsTo<ModelArtifact, $this>
+     */
+    public function modelArtifact(): BelongsTo
+    {
+        return $this->belongsTo(ModelArtifact::class, 'model_artifact_id');
     }
 
     public function evidenceSource(): BelongsTo

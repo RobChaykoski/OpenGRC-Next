@@ -79,3 +79,5 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0055](0055-assistant-proposed-writes.md) | The assistant proposes changes; a human applies a typed diff | accepted |
 | [0056](0056-audit-ledger.md) | Audit events are mirrored into an append-only ledger | accepted |
 | [0057](0057-multi-tenancy.md) | Multi-tenancy is a deployment decision, not a nullable column | proposed |
+| [0058](0058-network-flow-telemetry-risk-graph.md) | Network-flow telemetry feeds a risk graph; OpenGRC stays the GRC authority | proposed |
+| [0059](0059-ai-model-artifact-register.md) | AI model artifacts are registered by format and provenance, not by weights | proposed |

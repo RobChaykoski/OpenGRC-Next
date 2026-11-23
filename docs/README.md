@@ -50,6 +50,9 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0042-control-crosswalk.md](decisions/0042-control-crosswalk.md) | A control crosswalk is a reviewed mapping, not equivalence |
 | [decisions/0043-approval-workflow.md](decisions/0043-approval-workflow.md) | Approval requests are an ordered chain, not a workflow engine |
 | [decisions/0044-remediation-tasks.md](decisions/0044-remediation-tasks.md) | Remediation tasks are work records, not a project plan |
+| [decisions/0057-multi-tenancy.md](decisions/0057-multi-tenancy.md) | Multi-tenancy is a deployment decision, not a nullable column |
+| [decisions/0058-network-flow-telemetry-risk-graph.md](decisions/0058-network-flow-telemetry-risk-graph.md) | Flow telemetry feeds a risk graph; OpenGRC stays the GRC authority |
+| [decisions/0059-ai-model-artifact-register.md](decisions/0059-ai-model-artifact-register.md) | AI model artifacts are registered by format and provenance, not by weights |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -75,6 +78,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/gophish-awareness.md](integrations/gophish-awareness.md) | Aggregate phishing-simulation evidence for awareness controls |
 | [integrations/digital-forensics-lab.md](integrations/digital-forensics-lab.md) | External forensics curriculum: provenance, licence limits, scenario mapping |
 | [integrations/streaming-evidence.md](integrations/streaming-evidence.md) | Signed push for time-sensitive evidence: stream, cursor, HMAC, responses |
+| [integrations/network-flow-telemetry.md](integrations/network-flow-telemetry.md) | OpenCompliance flow export, OpenMetadata enrichment, and the risk-graph projection |
 
 ## GRC practice
 
@@ -83,6 +87,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/README.md](grc/README.md) | Capability map, maturity levels, stated gaps |
 | [grc/framework-catalog.md](grc/framework-catalog.md) | Shipped frameworks, licensing, provenance |
 | [grc/framework-scoping.md](grc/framework-scoping.md) | Profile → framework/control/evidence scoping |
+| [grc/nis2-readiness.md](grc/nis2-readiness.md) | NIS2 Article 20/21/23 obligations mapped to OpenGRC objects and stated gaps |
 | [grc/control-catalogue-linking.md](grc/control-catalogue-linking.md) | What a control-to-outcome link means, and why unlinked is a valid state |
 | [grc/assurance-matrix.md](grc/assurance-matrix.md) | The framework matrix: statuses, gaps filter, and what the counts exclude |
 | [grc/audit-readiness.md](grc/audit-readiness.md) | Evidence packs, gap reports, and what exports deliberately exclude |

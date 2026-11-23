@@ -4638,6 +4638,11 @@
             "nullable": true
         },
         {
+            "name": "model_artifact_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
             "name": "occurrences",
             "type": "integer",
             "nullable": false
@@ -5252,6 +5257,220 @@
         {
             "name": "strategy",
             "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "model_artifact_files": [
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "kind",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "model_artifact_id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "path",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "sha256",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "size_bytes",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
+    "model_artifacts": [
+        {
+            "name": "application_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "approved_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "approved_by",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "architecture",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "asset_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "chat_template_hash",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "content_hash",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "context_length",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "conversion_recorded_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "conversion_tool",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "conversion_version",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "deleted_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "file_count",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "format",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "last_scanned_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "license",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "metadata",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "name",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "notes",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "owner_id",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "provenance_status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "provenance_verified_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "quantization",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "revision",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "scan_tool",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "scan_tool_version",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "source",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "tensor_count",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "tokenizer_hash",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "total_bytes",
+            "type": "integer",
             "nullable": false
         },
         {

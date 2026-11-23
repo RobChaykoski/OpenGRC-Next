@@ -115,6 +115,11 @@ an audit.
     own queries, read payloads or run free-form SQL, and its narrative can still
     be wrong: the facts are shown beside it for a reason. Adding a question is a
     code change with a test, not a prompt edit.
+13. **There is no incident register.** NIS2 and other regimes impose
+    notification clocks (24 hours, 72 hours, one month). OpenGRC can hold the
+    notification and the final report as evidence, but the timeline belongs in
+    the incident tool. Do not use a remediation due date as the legal clock. See
+    `docs/grc/nis2-readiness.md`.
 
 Each gap has a documented workaround. Say so in your own programme documentation
 rather than pretending the tool covers it.
@@ -169,6 +174,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Findings, risk links and remediation | `docs/grc/findings-and-remediation.md` |
 | Vendor subcontractors (fourth parties) | `docs/grc/vendor-subcontractors.md` |
 | Regulatory and standard changes | `docs/grc/regulatory-changes.md` |
+| NIS2 readiness and evidence mapping | `docs/grc/nis2-readiness.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

@@ -672,6 +672,18 @@
         {
             "name": "2026_11_22_110000_add_hash_version_to_audit_ledger_entries",
             "sha256": "2b3ac2826601085c81ca9d37531cf261ac27c0ec4196d2aa24b192e962d7a2b4"
+        },
+        {
+            "name": "2026_11_23_100000_create_model_artifacts_table",
+            "sha256": "8c2fdd9b62db4dc9a9c4ba511ce1c145efbf8fc5112baefd7b7a8cd2b3969d4c"
+        },
+        {
+            "name": "2026_11_23_100100_create_model_artifact_files_table",
+            "sha256": "e26d8104c03ead235ec610db23a30ac326a7fda496bb8a8c77f2c32a870de170"
+        },
+        {
+            "name": "2026_11_23_100200_add_model_artifact_to_findings",
+            "sha256": "1aff31d5a8ffe7cad0c21a9a4be0a30a205e433ce18409e6cd38ce8192506f02"
         }
     ]
 }
