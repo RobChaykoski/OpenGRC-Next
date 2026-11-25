@@ -4,7 +4,8 @@ Status: **Prismor receipts and attestation bundles, Pipelock action receipts and
 hash-verified sensor summaries implemented**; the wider design is accepted
 ([ADR 0060](../decisions/0060-ai-agent-runtime-evidence.md)). This page defines
 the boundary, the evidence contract, which sources are suitable, and the sources
-wired today. The push endpoint is not implemented.
+wired today. Signed push evidence is a separate path under
+[streaming evidence](streaming-evidence.md) and is off by default.
 
 ## Why this is not another dashboard
 
@@ -353,10 +354,11 @@ with a rationale and a reviewer; do not map by feature name.
   is still tested by a person or a validation rule.
 - Prismor receipts and attestation bundles, Pipelock action receipts with chain
   replay (including pinned signing-key rotation), and hash-verified sensor
-  summaries are implemented. The push endpoint, direct vendor connectors and a
-  first-class agent inventory remain future work. Until they exist, attach
-  another source's export to a control, record the hash and time, and keep raw
-  content out of the record.
+  summaries are implemented. Signed push evidence exists under
+  [streaming evidence](streaming-evidence.md) and is off by default; direct
+  vendor connectors and a first-class agent inventory remain future work. Until
+  a connector exists, attach another source's export to a control, record the
+  hash and time, and keep raw content out of the record.
 - A packet-capture store such as Arkime proves that a session existed, not that a
   control worked. Its value is the aggregate and the link for an investigator.
 

@@ -10,8 +10,9 @@
   against the Go-ordered canonical record and replayed as a per-signer hash chain
   from genesis, including a signing-key rotation when every segment key is
   pinned, with a mid-chain slice refused unless the operator opts in. Aggregate
-  sensor summaries are imported with an optional file hash. The push endpoint
-  remains future work.
+  sensor summaries are imported with an optional file hash. Signed push evidence
+  is implemented separately under ADR 0054 and is off by default. Direct vendor
+  connectors and a first-class agent inventory remain future work.
 
 ## Context
 
