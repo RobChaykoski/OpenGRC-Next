@@ -1,10 +1,10 @@
 # AI agent runtime and sensor evidence
 
-Status: **Prismor receipts and attestation bundles plus hash-verified sensor
-summaries implemented**; the wider design is accepted
+Status: **Prismor receipts and attestation bundles, Pipelock action receipts and
+hash-verified sensor summaries implemented**; the wider design is accepted
 ([ADR 0060](../decisions/0060-ai-agent-runtime-evidence.md)). This page defines
 the boundary, the evidence contract, which sources are suitable, and the sources
-wired today. Pipelock and the push endpoint are not implemented.
+wired today. The push endpoint is not implemented.
 
 ## Why this is not another dashboard
 
@@ -143,6 +143,32 @@ public key, offline. The flight recorder is hash-chained; record the chain
 position and the verification result. Do not import the request URL, body,
 headers or any redacted value. A demo receipt signed with an ephemeral key is
 self-consistent but not tied to an operator identity; label it accordingly.
+
+The receipt import is implemented:
+
+```bash
+php artisan opengrc:evidence:pipelock path/to/receipt.json \
+  --pubkey=<64-hex-ed25519-signer-key> \
+  --control=A.8.16 \
+  --source=Pipelock
+```
+
+- The file may be one receipt, a JSON array, or JSONL.
+- The verifier reproduces Pipelock's Go-ordered canonical JSON for the action
+  record (declaration order, `omitempty`, compact output, HTML-safe escaping)
+  and checks Ed25519 over the SHA-256 digest. Unknown action fields fail closed.
+- The target is stored as its scheme/host/port plus a SHA-256 of the full
+  target. The path and query are not copied.
+- `--allow-unpinned` verifies against the inline signer key and stores low
+  confidence; `--dry-run` verifies without writing.
+- Individual signatures are verified; the flight-recorder **chain is not
+  replayed**. The record carries `chain_prev_hash`, `chain_seq` and
+  `chain_verified: false`. Chain replay is a separate verifier step.
+- Stored fields are the action id/type, timestamp, principal, actor, verdict,
+  transport, method, policy hash, side-effect/reversibility classes, data-class
+  labels, decision phase, layer/pattern/severity, session/request ids, the
+  redacted target and the signature. Prompts, tool arguments, request bodies,
+  target paths/queries and redaction values are not copied.
 
 ### DefenseClaw
 

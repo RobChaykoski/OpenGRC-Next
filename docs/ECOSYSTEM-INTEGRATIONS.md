@@ -74,14 +74,16 @@ stores prompts, completions, tool arguments, request bodies or credentials. The
 boundary is ADR 0060, and the first slice is implemented: an operator can verify
 and import Prismor receipts and signed attestation bundles with
 `opengrc:evidence:prismor` and `opengrc:evidence:prismor-attestation` using a
-pinned Ed25519 key, and import aggregate Suricata, Arkime or Hubble summaries
-with `opengrc:evidence:sensor-summary` and an optional file hash. The bundle
-import carries the agent inventory, discovery summary and coverage claim; audit
-messages, raw MCP URLs and the bundle body are not copied. Pipelock and the
-direct sensor connectors remain designed, not wired. See
-`docs/integrations/ai-agent-runtime.md`. Trylon Gateway (BSL 1.1) and Peplum /
-Peplum::Nmap (inactive since 2023) are not dependencies; they can appear in a lab
-or a comparison only.
+pinned Ed25519 key, verify Pipelock action receipts with
+`opengrc:evidence:pipelock`, and import aggregate Suricata, Arkime or Hubble
+summaries with `opengrc:evidence:sensor-summary` and an optional file hash. The
+bundle import carries the agent inventory, discovery summary and coverage claim;
+audit messages, raw MCP URLs and the bundle body are not copied. The Pipelock
+import redacts the target to host plus digest and does not replay the flight
+recorder chain. The push endpoint and direct sensor connectors remain designed,
+not wired. See `docs/integrations/ai-agent-runtime.md`. Trylon Gateway (BSL 1.1)
+and Peplum / Peplum::Nmap (inactive since 2023) are not dependencies; they can
+appear in a lab or a comparison only.
 
 The digital forensics curriculum at `frankwxu/digital-forensics-lab` is reference
 material, not an integration: it has no API and its evidence images belong to

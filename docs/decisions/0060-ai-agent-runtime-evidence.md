@@ -3,11 +3,12 @@
 - Status: accepted
 - Date: 2026-11-24
 - Implementation note (2026-11-24): the first slice is implemented as
-  `opengrc:evidence:prismor`, `opengrc:evidence:prismor-attestation` and
-  `opengrc:evidence:sensor-summary`. Prismor receipts and attestation bundles
-  are verified with a pinned Ed25519 key; aggregate sensor summaries from
-  Suricata, Arkime or Hubble are imported with an optional file hash. Pipelock
-  and the push endpoint remain future work.
+  `opengrc:evidence:prismor`, `opengrc:evidence:prismor-attestation`,
+  `opengrc:evidence:pipelock` and `opengrc:evidence:sensor-summary`. Prismor
+  receipts and attestations are verified with a pinned Ed25519 key; Pipelock
+  action receipts are verified against the Go-ordered canonical record;
+  aggregate sensor summaries are imported with an optional file hash. The push
+  endpoint remains future work.
 
 ## Context
 

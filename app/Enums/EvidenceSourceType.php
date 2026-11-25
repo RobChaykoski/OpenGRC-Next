@@ -21,6 +21,7 @@ enum EvidenceSourceType: string implements HasLabel
     case Nessus = 'nessus';
     case CrowdStrike = 'crowdstrike';
     case Prismor = 'prismor';
+    case Pipelock = 'pipelock';
     case Sensor = 'sensor';
     case Other = 'other';
 
@@ -36,6 +37,7 @@ enum EvidenceSourceType: string implements HasLabel
             self::Nessus => 'Tenable Nessus',
             self::CrowdStrike => 'CrowdStrike',
             self::Prismor => 'Prismor',
+            self::Pipelock => 'Pipelock',
             self::Sensor => 'Sensor summary',
             self::Other => 'Other',
         };
