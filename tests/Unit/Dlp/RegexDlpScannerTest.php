@@ -64,4 +64,49 @@ class RegexDlpScannerTest extends TestCase
         $this->assertContains('personal', array_map(fn ($match) => $match->type, $valid));
         $this->assertSame([], $invalid);
     }
+
+    #[Test]
+    public function it_detects_infrastructure_metadata(): void
+    {
+        $result = (new RegexDlpScanner)->scan('Host 10.20.30.40, peer 8.8.8.8, database db.corp, metadata 169.254.169.254.');
+
+        $labels = array_map(fn ($match) => $match->label, $result);
+
+        $this->assertContains('Private IPv4 address', $labels);
+        $this->assertContains('Public IPv4 address', $labels);
+        $this->assertContains('Internal hostname', $labels);
+        $this->assertContains('Cloud metadata endpoint', $labels);
+    }
+
+    #[Test]
+    public function documentation_ranges_are_not_reported_as_public_addresses(): void
+    {
+        $result = (new RegexDlpScanner)->scan('Use 192.0.2.10, 198.51.100.10, or 203.0.113.10 in examples.');
+
+        $this->assertNotContains('Public IPv4 address', array_map(fn ($match) => $match->label, $result));
+    }
+
+    #[Test]
+    public function it_detects_configured_answer_key_flags(): void
+    {
+        $result = (new RegexDlpScanner)->scan('Flag OCR{lab_ready} and TRAILLINE{step_two}.');
+
+        $match = collect($result)->firstWhere('label', 'Assessment answer key');
+
+        $this->assertNotNull($match);
+        $this->assertSame('answer_key', $match->type);
+        $this->assertSame(2, $match->count);
+    }
+
+    #[Test]
+    public function answer_key_prefixes_come_from_configuration(): void
+    {
+        config(['dlp.answer_key_prefixes' => ['FLAG']]);
+
+        $custom = (new RegexDlpScanner)->scan('FLAG{custom_prefix}');
+        $legacy = (new RegexDlpScanner)->scan('OCR{legacy_prefix}');
+
+        $this->assertContains('Assessment answer key', array_map(fn ($match) => $match->label, $custom));
+        $this->assertSame([], $legacy);
+    }
 }

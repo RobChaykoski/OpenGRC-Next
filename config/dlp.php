@@ -50,6 +50,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Assessment answer-key flags
+    |--------------------------------------------------------------------------
+    |
+    | Flag prefixes are deployment-specific. The scanner reports
+    | PREFIX{value} as assessment_answer_key; add every prefix the assessment
+    | environment uses, comma-separated. An empty value disables the detector,
+    | which is why the default is explicit rather than a generic wildcard.
+    |
+    */
+
+    'answer_key_prefixes' => env('DLP_ANSWER_KEY_PREFIXES', 'OCR,TRAILLINE'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Identifier types and false-positive targets
     |--------------------------------------------------------------------------
     |

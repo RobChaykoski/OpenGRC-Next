@@ -117,12 +117,6 @@ final class RegexDlpScanner implements DlpScanner
             'severity' => 'critical',
             'pattern' => '/\b169\.254\.169\.254\b/',
         ],
-        [
-            'type' => 'answer_key',
-            'label' => 'Assessment answer key',
-            'severity' => 'high',
-            'pattern' => '/\b(?:OCR|TRAILLINE)\{[A-Za-z0-9_]+\}/',
-        ],
     ];
 
     public function scan(string $text): array
@@ -130,7 +124,7 @@ final class RegexDlpScanner implements DlpScanner
         $text = mb_substr($text, 0, 500_000);
         $matches = [];
 
-        foreach (self::PATTERNS as $pattern) {
+        foreach ($this->patterns() as $pattern) {
             $count = preg_match_all($pattern['pattern'], $text);
 
             if (is_int($count) && $count > 0) {
@@ -155,6 +149,56 @@ final class RegexDlpScanner implements DlpScanner
     public function name(): string
     {
         return 'regex';
+    }
+
+    /**
+     * The fixed patterns plus any answer-key flag prefixes configured for the
+     * deployment. Flag formats are site-specific, so they are configuration
+     * rather than a hardcoded list (ADR on publication-sensitive data).
+     *
+     * @return array<int, array{type: string, label: string, severity: string, pattern: string}>
+     */
+    private function patterns(): array
+    {
+        $patterns = self::PATTERNS;
+        $prefixes = $this->answerKeyPrefixes();
+
+        if ($prefixes !== []) {
+            $alternation = implode('|', array_map(
+                fn (string $prefix): string => preg_quote($prefix, '/'),
+                $prefixes,
+            ));
+
+            $patterns[] = [
+                'type' => 'answer_key',
+                'label' => 'Assessment answer key',
+                'severity' => 'high',
+                'pattern' => '/\b(?:'.$alternation.')\{[A-Za-z0-9_]+\}/',
+            ];
+        }
+
+        return $patterns;
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function answerKeyPrefixes(): array
+    {
+        $configured = config('dlp.answer_key_prefixes', []);
+
+        if (is_string($configured)) {
+            $configured = explode(',', $configured);
+        }
+
+        if (! is_array($configured)) {
+            return [];
+        }
+
+        return array_values(array_filter(array_map(
+            fn (mixed $prefix): string => is_string($prefix) ? trim($prefix) : '',
+            $configured,
+        )));
     }
 
     private function paymentCardCount(string $text): int

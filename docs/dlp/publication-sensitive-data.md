@@ -44,6 +44,13 @@ OpenDiscoveryEngine publishes these detector keys:
 OpenGRC's native scanner uses the same labels, so a finding can be measured by
 identifier type even when the producer changes.
 
+Flag prefixes are deployment-specific. The native scanner reports
+`PREFIX{value}` as `assessment_answer_key` for each prefix in
+`DLP_ANSWER_KEY_PREFIXES` (default `OCR,TRAILLINE`). Add every prefix the
+assessment environment uses, comma-separated; an empty value disables the
+detector, so it is explicit rather than a generic wildcard. Detection is a
+control, not a guarantee: a flag with no configured prefix passes the scanner.
+
 ## Operating procedure
 
 1. **Scan before publish.** Run the repository or document scan; a clean scan is
