@@ -234,6 +234,145 @@ class ModelArtifactRegistrationTest extends TestCase
         );
     }
 
+    #[Test]
+    public function a_supported_runtime_raises_no_runtime_finding(): void
+    {
+        config(['ai_models.runtime_baseline' => ['vllm' => ['min' => '0.6.0']]]);
+
+        $path = $this->artifactDirectory(['model.safetensors' => $this->safetensorsBytes(2)]);
+
+        $result = app(ModelArtifactRegistrar::class)->register($path, [
+            'name' => 'Served Model',
+            'source' => 'https://example.test/model',
+            'revision' => 'abc123',
+            'license' => 'apache-2.0',
+            'runtime' => 'vllm',
+            'runtime_version' => '0.7.0',
+        ]);
+
+        $this->assertSame('vllm', $result['artifact']->runtime);
+        $this->assertSame('0.7.0', $result['artifact']->runtime_version);
+        $this->assertNotContains('runtime', $result['findings']);
+    }
+
+    #[Test]
+    public function a_runtime_outside_the_baseline_raises_the_runtime_finding(): void
+    {
+        config(['ai_models.runtime_baseline' => ['vllm' => ['min' => '0.6.0']]]);
+
+        $path = $this->artifactDirectory(['model.safetensors' => $this->safetensorsBytes(2)]);
+
+        $result = app(ModelArtifactRegistrar::class)->register($path, [
+            'name' => 'Old Runtime Model',
+            'source' => 'https://example.test/model',
+            'revision' => 'abc123',
+            'license' => 'apache-2.0',
+            'runtime' => 'vllm',
+            'runtime_version' => '0.5.0',
+        ]);
+
+        $this->assertContains('runtime', $result['findings']);
+        $this->assertDatabaseHas('findings', [
+            'model_artifact_id' => $result['artifact']->getKey(),
+            'dedupe_key' => 'model-artifact:'.$result['artifact']->getKey().':runtime',
+            'severity' => 'medium',
+            'status' => FindingStatus::Open->value,
+        ]);
+    }
+
+    #[Test]
+    public function recording_a_supported_runtime_later_resolves_the_finding(): void
+    {
+        config(['ai_models.runtime_baseline' => ['vllm' => ['min' => '0.6.0']]]);
+
+        $path = $this->artifactDirectory(['model.safetensors' => $this->safetensorsBytes(2)]);
+        $registrar = app(ModelArtifactRegistrar::class);
+
+        $result = $registrar->register($path, [
+            'name' => 'Upgraded Model',
+            'source' => 'https://example.test/model',
+            'revision' => 'abc123',
+            'license' => 'apache-2.0',
+            'runtime' => 'vllm',
+            'runtime_version' => '0.5.0',
+        ]);
+
+        $registrar->recordRuntime($result['artifact'], 'vllm', '0.7.0');
+
+        $this->assertDatabaseHas('findings', [
+            'model_artifact_id' => $result['artifact']->getKey(),
+            'dedupe_key' => 'model-artifact:'.$result['artifact']->getKey().':runtime',
+            'status' => FindingStatus::Resolved->value,
+        ]);
+        $this->assertSame('0.7.0', $result['artifact']->refresh()->runtime_version);
+    }
+
+    #[Test]
+    public function the_runtime_command_records_a_version_without_rehashing(): void
+    {
+        config(['ai_models.runtime_baseline' => ['vllm' => ['min' => '0.6.0']]]);
+
+        $path = $this->artifactDirectory(['model.safetensors' => $this->safetensorsBytes(2)]);
+        $artifact = app(ModelArtifactRegistrar::class)->register($path, [
+            'name' => 'Bumped Model',
+            'source' => 'https://example.test/model',
+            'revision' => 'abc123',
+            'license' => 'apache-2.0',
+            'runtime' => 'vllm',
+            'runtime_version' => '0.5.0',
+        ])['artifact'];
+
+        $hash = $artifact->content_hash;
+
+        $this->artisan('opengrc:model-artifact:runtime', [
+            'artifact' => $artifact->getKey(),
+            '--runtime' => 'vllm',
+            '--runtime-version' => '0.7.0',
+        ])->assertSuccessful();
+
+        $artifact->refresh();
+
+        $this->assertSame('0.7.0', $artifact->runtime_version);
+        $this->assertSame($hash, $artifact->content_hash);
+        $this->assertDatabaseHas('findings', [
+            'model_artifact_id' => $artifact->getKey(),
+            'dedupe_key' => 'model-artifact:'.$artifact->getKey().':runtime',
+            'status' => FindingStatus::Resolved->value,
+        ]);
+    }
+
+    #[Test]
+    public function the_runtime_command_requires_a_runtime(): void
+    {
+        $path = $this->artifactDirectory(['model.safetensors' => $this->safetensorsBytes(2)]);
+        $artifact = app(ModelArtifactRegistrar::class)->register($path, [
+            'name' => 'No Runtime Model',
+            'source' => 'https://example.test/model',
+            'revision' => 'abc123',
+            'license' => 'apache-2.0',
+        ])['artifact'];
+
+        $this->artisan('opengrc:model-artifact:runtime', [
+            'artifact' => $artifact->getKey(),
+            '--runtime-version' => '0.7.0',
+        ])->assertFailed();
+
+        $this->assertNull($artifact->refresh()->runtime);
+    }
+
+    #[Test]
+    public function the_register_command_requires_runtime_and_version_together(): void
+    {
+        $path = $this->artifactDirectory(['model.safetensors' => $this->safetensorsBytes(2)]);
+
+        $this->artisan('opengrc:model-artifact:register', [
+            'path' => $path,
+            '--runtime' => 'vllm',
+        ])->assertFailed();
+
+        $this->assertSame(0, ModelArtifact::query()->count());
+    }
+
     /**
      * @param  array<string, string>  $files
      */

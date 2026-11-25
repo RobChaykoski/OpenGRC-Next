@@ -9,6 +9,7 @@ use App\Models\ModelArtifact;
 use App\Models\User;
 use App\Services\Ai\ModelArtifactRegistrar;
 use Illuminate\Console\Command;
+use RuntimeException;
 use Throwable;
 
 class RegisterModelArtifact extends Command
@@ -22,6 +23,8 @@ class RegisterModelArtifact extends Command
                             {--owner= : User ID for the artifact owner}
                             {--asset= : Asset ID that serves the artifact}
                             {--application= : Application ID that uses the artifact}
+                            {--runtime= : Inference runtime that serves the artifact (for example vllm)}
+                            {--runtime-version= : Runtime version (for example 0.6.1 or b3600)}
                             {--conversion-tool= : Tool that produced a GGUF or ONNX artifact}
                             {--conversion-version= : Version of the conversion tool}
                             {--scan-tool= : Tool that inspected the artifact}
@@ -43,6 +46,13 @@ class RegisterModelArtifact extends Command
             $owner = $this->user('owner');
             $approver = $this->user('approver') ?? $owner;
 
+            $runtime = filled($this->option('runtime')) ? trim((string) $this->option('runtime')) : null;
+            $runtimeVersion = filled($this->option('runtime-version')) ? trim((string) $this->option('runtime-version')) : null;
+
+            if (($runtime === null) !== ($runtimeVersion === null)) {
+                throw new RuntimeException('Use --runtime and --runtime-version together, so the version can be compared with the supported baseline.');
+            }
+
             if ($this->option('approve') && $approver === null) {
                 $this->error('Approval needs --approver or --owner so the decision has a person.');
 
@@ -50,7 +60,10 @@ class RegisterModelArtifact extends Command
             }
 
             if ($this->option('dry-run')) {
-                $preview = $registrar->preview($path, $hashFiles);
+                $preview = $registrar->preview($path, $hashFiles, [
+                    'runtime' => $runtime,
+                    'runtime_version' => $runtimeVersion,
+                ]);
 
                 return $this->reportPreview($preview);
             }
@@ -65,6 +78,8 @@ class RegisterModelArtifact extends Command
                     'owner_id' => $owner?->getKey(),
                     'asset_id' => $this->model('asset', Asset::class)?->getKey(),
                     'application_id' => $this->model('application', Application::class)?->getKey(),
+                    'runtime' => $runtime,
+                    'runtime_version' => $runtimeVersion,
                     'conversion_tool' => $this->option('conversion-tool'),
                     'conversion_version' => $this->option('conversion-version'),
                     'scan_tool' => $this->option('scan-tool'),
@@ -92,6 +107,8 @@ class RegisterModelArtifact extends Command
                 'provenance_status' => $artifact->provenance_status,
                 'content_hash' => $artifact->content_hash,
                 'file_count' => $artifact->file_count,
+                'runtime' => $artifact->runtime,
+                'runtime_version' => $artifact->runtime_version,
                 'created' => $result['created'],
                 'findings' => $result['findings'],
             ], JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
@@ -108,6 +125,7 @@ class RegisterModelArtifact extends Command
                 ['Provenance', $artifact->provenance_status],
                 ['Files', $artifact->file_count],
                 ['Content hash', $artifact->content_hash ?? 'not calculated'],
+                ['Runtime', filled($artifact->runtime) ? $artifact->runtime.' '.$artifact->runtime_version : 'not recorded'],
                 ['Result', $result['created'] ? 'created' : 'updated'],
             ]
         );
@@ -141,6 +159,9 @@ class RegisterModelArtifact extends Command
                 ['Total bytes', $preview['total_bytes']],
                 ['Content hash', $preview['content_hash'] ?? 'not calculated'],
                 ['License', $preview['license'] ?? 'not declared'],
+                ['Runtime', filled($preview['runtime'] ?? null)
+                    ? $preview['runtime'].' '.($preview['runtime_version'] ?? '')
+                    : 'not recorded'],
             ]
         );
 
@@ -175,7 +196,7 @@ class RegisterModelArtifact extends Command
         $user = User::query()->find((int) $id);
 
         if ($user === null) {
-            throw new \RuntimeException("No user found for --{$option}={$id}.");
+            throw new RuntimeException("No user found for --{$option}={$id}.");
         }
 
         return $user;
@@ -198,7 +219,7 @@ class RegisterModelArtifact extends Command
         $model = $class::query()->find((int) $id);
 
         if ($model === null) {
-            throw new \RuntimeException("No record found for --{$option}={$id}.");
+            throw new RuntimeException("No record found for --{$option}={$id}.");
         }
 
         return $model;

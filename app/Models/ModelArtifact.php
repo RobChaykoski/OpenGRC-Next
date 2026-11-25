@@ -47,6 +47,8 @@ class ModelArtifact extends Model
         'owner_id',
         'asset_id',
         'application_id',
+        'runtime',
+        'runtime_version',
         'approved_by',
         'approved_at',
         'scan_tool',
@@ -179,6 +181,8 @@ class ModelArtifact extends Model
                 'owner_id',
                 'asset_id',
                 'application_id',
+                'runtime',
+                'runtime_version',
                 'approved_by',
                 'approved_at',
             ])

@@ -135,6 +135,42 @@ class ModelArtifactUiTest extends TestCase
             ->assertSee('apache-2.0');
     }
 
+    #[Test]
+    public function the_view_page_shows_the_serving_runtime_and_its_state(): void
+    {
+        config(['ai_models.runtime_baseline' => ['vllm' => ['min' => '0.6.0']]]);
+
+        $editor = User::factory()->create(['role' => UserRole::Editor]);
+        $artifact = $this->artifact([
+            'runtime' => 'vllm',
+            'runtime_version' => '0.7.0',
+        ]);
+
+        $this->actingAs($editor)
+            ->get(ModelArtifactResource::getUrl('view', ['record' => $artifact]))
+            ->assertOk()
+            ->assertSee('Serving runtime')
+            ->assertSee('vllm')
+            ->assertSee('Within baseline');
+    }
+
+    #[Test]
+    public function a_runtime_outside_the_baseline_is_shown_as_outside(): void
+    {
+        config(['ai_models.runtime_baseline' => ['vllm' => ['min' => '0.6.0']]]);
+
+        $editor = User::factory()->create(['role' => UserRole::Editor]);
+        $artifact = $this->artifact([
+            'runtime' => 'vllm',
+            'runtime_version' => '0.4.0',
+        ]);
+
+        $this->actingAs($editor)
+            ->get(ModelArtifactResource::getUrl('view', ['record' => $artifact]))
+            ->assertOk()
+            ->assertSee('Outside baseline');
+    }
+
     /**
      * @param  array<string, mixed>  $overrides
      */

@@ -688,6 +688,10 @@
         {
             "name": "2026_11_25_100000_create_integrity_checks_table",
             "sha256": "87e658f8945fd883ea1ae7167a691fefc3ec82002a3d09ca3aabb02742ae9fe5"
+        },
+        {
+            "name": "2026_11_25_110000_add_runtime_to_model_artifacts_table",
+            "sha256": "9c5bb99fae9aed2c451f03e64e8f4981684bb190fd110f11b028d8765c07a7e0"
         }
     ]
 }

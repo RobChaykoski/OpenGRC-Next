@@ -32,7 +32,7 @@ important controls and 2 for the rest.
 | Privacy requests | Yes: GDPR/CCPA/PIPEDA/FERPA register, regime clock, verification, extension, overdue enforcement | 4 | `docs/grc/privacy-requests.md` |
 | Non-human identities | Yes: service accounts/tokens/certificates, owner, scope, rotation, expiry, review; optional OpenBao metadata sync | 4 | `docs/grc/non-human-identities.md` |
 | Software supply chain | Yes: CycloneDX SBOM import, OSV vulnerability findings, optional deps.dev/Scorecard enrichment | 3 | `docs/integrations/sbom-osv.md`, `docs/integrations/deps-dev.md` |
-| AI model inventory | Yes: format-aware metadata reads, per-file SHA-256, provenance status, format findings and dated approval; no runtime inventory, registration is CLI-only | 3 | `docs/grc/ai-model-artifacts.md` |
+| AI model inventory | Yes: format-aware metadata reads, per-file SHA-256, provenance status, format findings, serving runtime with a baseline finding, and dated approval; registration is CLI-only | 3 | `docs/grc/ai-model-artifacts.md` |
 | AI agent runtime evidence | Partial: Prismor receipts/attestations, Pipelock action receipts with chain replay and pinned rotation, and hash-verified sensor summaries; signed streaming push exists but is off by default; no direct vendor connectors or first-class agent inventory | 2 | `docs/integrations/ai-agent-runtime.md` |
 | Guidance and advisories | Yes: publisher/reference/version, adoption status, owner, review and control mapping | 4 | `docs/grc/guidance-register.md` |
 | Evidence management | Yes: human evidence on implementations, audits and data requests; hashed, append-only machine evidence per control; daily chain verification with a persisted result | 3 | `docs/grc/evidence-standard.md` |
@@ -126,9 +126,10 @@ an audit.
     the incident tool. Do not use a remediation due date as the legal clock. See
     `docs/grc/nis2-readiness.md`.
 14. **AI model artifacts are registered from the server CLI.** The register
-    records format, per-file hashes, provenance, conversion and a dated approval,
-    but there is no upload screen by design and no inference-runtime inventory.
-    Record the runtime and version on the serving asset or in the notes. See
+    records format, per-file hashes, provenance, conversion, the serving runtime
+    and a dated approval, but there is no upload screen by design. The runtime is
+    one value per row, compared with the operator's baseline in
+    `config/ai_models.php`; it is not discovered by probing the deployment. See
     `docs/grc/ai-model-artifacts.md`.
 15. **AI agent runtime evidence is partially ingested.** Prismor signed receipts
     and attestation bundles can be verified with a pinned key, Pipelock action

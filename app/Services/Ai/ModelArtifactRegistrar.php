@@ -22,14 +22,20 @@ use RuntimeException;
  */
 class ModelArtifactRegistrar
 {
-    public function __construct(protected ModelArtifactInspector $inspector) {}
+    public function __construct(
+        protected ModelArtifactInspector $inspector,
+        protected ModelRuntimeBaseline $runtimeBaseline,
+    ) {}
 
     /**
+     * @param  array<string, mixed>  $attributes
      * @return array<string, mixed>
      */
-    public function preview(string $path, bool $hashFiles = true): array
+    public function preview(string $path, bool $hashFiles = true, array $attributes = []): array
     {
         $inspection = $this->inspector->inspect($path, $hashFiles);
+        $inspection['runtime'] = $attributes['runtime'] ?? null;
+        $inspection['runtime_version'] = $attributes['runtime_version'] ?? null;
         $inspection['findings'] = $this->pendingFindings($inspection);
 
         return $inspection;
@@ -102,6 +108,8 @@ class ModelArtifactRegistrar
         $inspection['content_hash'] = $artifact->content_hash;
         $inspection['conversion_tool'] = $artifact->conversion_tool;
         $inspection['license'] = $artifact->license;
+        $inspection['runtime'] = $artifact->runtime;
+        $inspection['runtime_version'] = $artifact->runtime_version;
 
         $current = [];
 
@@ -182,6 +190,12 @@ class ModelArtifactRegistrar
             'owner_id' => $attributes['owner_id'] ?? $artifact->owner_id,
             'asset_id' => $attributes['asset_id'] ?? $artifact->asset_id,
             'application_id' => $attributes['application_id'] ?? $artifact->application_id,
+            'runtime' => filled($attributes['runtime'] ?? null)
+                ? strtolower(trim((string) $attributes['runtime']))
+                : $artifact->runtime,
+            'runtime_version' => filled($attributes['runtime_version'] ?? null)
+                ? trim((string) $attributes['runtime_version'])
+                : $artifact->runtime_version,
             'scan_tool' => $attributes['scan_tool'] ?? $artifact->scan_tool,
             'scan_tool_version' => $attributes['scan_tool_version'] ?? $artifact->scan_tool_version,
             // Registration is not a scan. Only a named scan tool moves the
@@ -277,7 +291,50 @@ class ModelArtifactRegistrar
             ];
         }
 
+        $runtimeFinding = $this->runtimeBaseline->finding(
+            (string) $name,
+            is_string($inspection['runtime'] ?? null) ? $inspection['runtime'] : null,
+            is_string($inspection['runtime_version'] ?? null) ? $inspection['runtime_version'] : null,
+        );
+
+        if ($runtimeFinding !== null) {
+            $findings['runtime'] = $runtimeFinding;
+        }
+
         return $findings;
+    }
+
+    /**
+     * Record or change the serving runtime without re-reading the artifact.
+     *
+     * A runtime upgrade changes deployment context, not the bytes, so this is
+     * separate from registration: re-hashing a large model to record a version
+     * bump would discourage the record being kept current.
+     *
+     * @return string|null the finding code raised, or null when inside baseline
+     */
+    public function recordRuntime(ModelArtifact $artifact, string $runtime, ?string $version): ?string
+    {
+        $artifact->forceFill([
+            'runtime' => strtolower(trim($runtime)),
+            'runtime_version' => filled($version) ? trim((string) $version) : null,
+        ])->save();
+
+        $finding = $this->runtimeBaseline->finding(
+            (string) $artifact->name,
+            is_string($artifact->runtime) ? $artifact->runtime : null,
+            is_string($artifact->runtime_version) ? $artifact->runtime_version : null,
+        );
+
+        if ($finding === null) {
+            $this->resolveCode($artifact, 'runtime');
+
+            return null;
+        }
+
+        $this->raise($artifact, 'runtime', $finding);
+
+        return 'runtime';
     }
 
     /**
@@ -334,6 +391,26 @@ class ModelArtifactRegistrar
                     'status' => FindingStatus::Resolved,
                     'resolved_at' => now(),
                     'resolution_notes' => 'The condition is no longer present on the latest registration.',
+                ])->save();
+            });
+    }
+
+    /**
+     * Resolve one automated finding by code when its condition has cleared.
+     */
+    private function resolveCode(ModelArtifact $artifact, string $code): void
+    {
+        Finding::query()
+            ->where('model_artifact_id', $artifact->getKey())
+            ->where('source', FindingSource::Automated->value)
+            ->where('dedupe_key', "model-artifact:{$artifact->getKey()}:{$code}")
+            ->whereIn('status', [FindingStatus::Open->value, FindingStatus::InProgress->value])
+            ->get()
+            ->each(function (Finding $finding): void {
+                $finding->fill([
+                    'status' => FindingStatus::Resolved,
+                    'resolved_at' => now(),
+                    'resolution_notes' => 'The condition is no longer present on the current record.',
                 ])->save();
             });
     }

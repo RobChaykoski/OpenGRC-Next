@@ -5486,6 +5486,16 @@
             "nullable": true
         },
         {
+            "name": "runtime",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
+            "name": "runtime_version",
+            "type": "varchar",
+            "nullable": true
+        },
+        {
             "name": "scan_tool",
             "type": "varchar",
             "nullable": true

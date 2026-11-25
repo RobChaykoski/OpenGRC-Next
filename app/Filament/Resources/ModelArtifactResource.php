@@ -9,6 +9,7 @@ use App\Filament\Resources\ModelArtifactResource\Pages\ViewModelArtifact;
 use App\Filament\Resources\ModelArtifactResource\RelationManagers\FilesRelationManager;
 use App\Filament\Resources\ModelArtifactResource\RelationManagers\FindingsRelationManager;
 use App\Models\ModelArtifact;
+use App\Services\Ai\ModelRuntimeBaseline;
 use BackedEnum;
 use Filament\Actions\Action;
 use Filament\Actions\ViewAction;
@@ -129,6 +130,11 @@ class ModelArtifactResource extends Resource
 
                 TextColumn::make('quantization')
                     ->label(__('model_artifact.table.quantization'))
+                    ->placeholder('—')
+                    ->toggleable(),
+
+                TextColumn::make('runtime')
+                    ->label(__('model_artifact.table.runtime'))
                     ->placeholder('—')
                     ->toggleable(),
 
@@ -355,6 +361,29 @@ class ModelArtifactResource extends Resource
                             ->placeholder(__('model_artifact.never_scanned')),
                     ]),
 
+                Section::make(__('model_artifact.sections.runtime'))
+                    ->columns(3)
+                    ->description(__('model_artifact.sections.runtime_help'))
+                    ->schema([
+                        TextEntry::make('runtime')
+                            ->label(__('model_artifact.fields.runtime'))
+                            ->placeholder(__('model_artifact.not_recorded')),
+
+                        TextEntry::make('runtime_version')
+                            ->label(__('model_artifact.fields.runtime_version'))
+                            ->placeholder('—'),
+
+                        TextEntry::make('runtime_state')
+                            ->label(__('model_artifact.fields.runtime_state'))
+                            ->badge()
+                            ->state(fn (ModelArtifact $record): string => __('model_artifact.runtime_states.'.self::runtimeState($record)))
+                            ->color(fn (ModelArtifact $record): string => match (self::runtimeState($record)) {
+                                'within' => 'success',
+                                'outside' => 'danger',
+                                default => 'gray',
+                            }),
+                    ]),
+
                 Section::make(__('model_artifact.sections.ownership'))
                     ->columns(3)
                     ->schema([
@@ -505,5 +534,23 @@ class ModelArtifactResource extends Resource
     public static function getGloballySearchableAttributes(): array
     {
         return ['name', 'source', 'revision'];
+    }
+
+    /**
+     * @return 'within'|'outside'|'not_recorded'
+     */
+    private static function runtimeState(ModelArtifact $record): string
+    {
+        if (blank($record->runtime)) {
+            return 'not_recorded';
+        }
+
+        $finding = app(ModelRuntimeBaseline::class)->finding(
+            (string) $record->name,
+            is_string($record->runtime) ? $record->runtime : null,
+            is_string($record->runtime_version) ? $record->runtime_version : null,
+        );
+
+        return $finding === null ? 'within' : 'outside';
     }
 }

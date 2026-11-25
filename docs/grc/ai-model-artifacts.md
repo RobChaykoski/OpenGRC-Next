@@ -1,10 +1,11 @@
 # AI model artifacts
 
-Status: **implemented register, CLI registration, and an approval screen**. This
-page covers the model artifact inventory described in
-[ADR 0059](../decisions/0059-ai-model-artifact-register.md). It records what a
-model file claims to be and which bytes were approved; it does not store weights,
-run inference, or act as a model registry.
+Status: **implemented register, CLI registration, an approval screen, and the
+serving-runtime baseline check**. This page covers the model artifact inventory
+described in [ADR 0059](../decisions/0059-ai-model-artifact-register.md). It
+records what a model file claims to be, the runtime that serves it, and which
+bytes were approved; it does not store weights, run inference, or act as a model
+registry.
 
 ## Why a register is not an asset copy
 
@@ -27,6 +28,7 @@ The register therefore records:
 | Architecture, quantization, context length, tensor count | Capacity and compatibility |
 | Conversion tool and version | A derived artifact has a supply chain of its own |
 | Scan tool and timestamp | A named scan is evidence; registration is not |
+| Serving runtime and version | Deployment context; compared with the supported baseline |
 | Owner, serving asset, application | Accountability and where it runs |
 | Approval | A dated decision by a named person |
 
@@ -45,6 +47,8 @@ php artisan opengrc:model-artifact:register \
   --license=llama3.1 \
   --owner=12 \
   --asset=4 \
+  --runtime=vllm \
+  --runtime-version=0.7.1 \
   --conversion-tool=llama.cpp \
   --conversion-version=b3600 \
   --scan-tool=grype \
@@ -71,6 +75,46 @@ that does not identify the bytes means nothing.
 A pickle-format artifact can be registered so that it is visible, but it cannot
 be approved from the command or the screen. Convert it to safetensors, or record
 an isolated scan and the conversion first.
+
+## Serving runtime
+
+The runtime is deployment context, not a property of the bytes: the same artifact
+can be served by a different runtime after an upgrade. Record it at registration
+with `--runtime` and `--runtime-version` (both are required together), or later
+without re-reading the model:
+
+```bash
+php artisan opengrc:model-artifact:runtime 12 \
+  --runtime=vllm \
+  --runtime-version=0.7.1
+```
+
+The supported baseline is deployment configuration in `config/ai_models.php`:
+
+```php
+'runtime_baseline' => [
+    'vllm' => ['min' => '0.6.0'],
+    'llama.cpp' => ['min' => '3600'],
+    'onnxruntime' => ['min' => '1.18.0', 'max' => '1.22.0'],
+],
+```
+
+- A runtime not listed in the baseline, a version below `min`, or a version above
+  `max` raises **Medium: unsupported inference runtime**. The finding has a stable
+  dedupe key, so re-recording the runtime updates it, and a supported value
+  resolves it.
+- A version that cannot be compared (a word such as `nightly`, or a missing
+  version) is treated as unverified, not as supported. Record a numeric version
+  or a llama.cpp build such as `b3600`.
+- An empty baseline is fail-closed: no runtime is approved, and any recorded
+  runtime becomes a finding until `config/ai_models.php` is set.
+- The screen shows the runtime, its version, and a **Within baseline** or
+  **Outside baseline** state. The finding remains the record of the decision.
+- The register does not probe the deployment. The value is what the operator
+  recorded, not what a running process reports.
+
+A baseline change is a policy decision: review it like any other control
+threshold, and record why a version was added or removed.
 
 ## Review and approve
 
@@ -102,6 +146,7 @@ that is no longer present is resolved with a note.
 | No license recorded | Medium: model license gap |
 | Derived format with no conversion tool | Medium: unrecorded model conversion |
 | Chat template changed | Medium: model behaviour drift |
+| Runtime outside the supported baseline, or not comparable | Medium: unsupported inference runtime |
 
 A changed artifact loses its approval until a person reviews the new bytes.
 
@@ -127,10 +172,15 @@ A changed artifact loses its approval until a person reviews the new bytes.
 - **Registration is CLI-only.** There is no upload endpoint, by design: walking
   and hashing a path is a server-side operation, and a browser upload would make
   the web container a model store.
-- **The runtime is not inventoried.** ADR 0059 names an "unsupported inference
-  runtime" finding; the register does not yet store a runtime or compare its
-  version to a baseline. Record the runtime and version on the serving asset or
-  in the notes.
+- **The runtime is recorded, not discovered.** The register stores one runtime
+  and version per row and compares them with `config/ai_models.php`. It does not
+  query the serving deployment, so a runtime upgrade must be recorded with
+  `opengrc:model-artifact:runtime`. If several runtimes serve the same bytes,
+  register the artifact against the primary deployment and record the others on
+  the serving asset; the content hash still identifies the bytes.
+- **The baseline is a config file, not a screen.** Changing which runtime versions
+  are supported is an operator change to `config/ai_models.php`, reviewed and
+  deployed like any other policy threshold.
 - **One serving link.** A row links to one asset and one application. If several
   assets serve the same bytes, register the artifact against the asset that owns
   the deployment and record the others in the asset inventory; the content hash

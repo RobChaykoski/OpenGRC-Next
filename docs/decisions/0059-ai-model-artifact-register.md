@@ -2,10 +2,12 @@
 
 - Status: accepted
 - Date: 2026-11-23
-- Implementation note (2026-11-24): the register, GGUF and safetensors metadata
-  readers, the findings and the approval screen are implemented. The
-  runtime-version finding in section 5 is not; the runtime is recorded on the
-  serving asset or in the artifact notes for now.
+- Implementation note (2026-11-24, amended 2026-11-25): the register, GGUF and
+  safetensors metadata readers, the findings, the approval screen and the
+  runtime-version finding are implemented. The serving runtime and version are
+  stored on the artifact and compared with the baseline in
+  `config/ai_models.php`; `opengrc:model-artifact:runtime` records a runtime
+  change without re-reading the model.
 
 ## Context
 
