@@ -33,6 +33,7 @@ important controls and 2 for the rest.
 | Non-human identities | Yes: service accounts/tokens/certificates, owner, scope, rotation, expiry, review; optional OpenBao metadata sync | 4 | `docs/grc/non-human-identities.md` |
 | Software supply chain | Yes: CycloneDX SBOM import, OSV vulnerability findings, optional deps.dev/Scorecard enrichment | 3 | `docs/integrations/sbom-osv.md`, `docs/integrations/deps-dev.md` |
 | AI model inventory | Yes: format-aware metadata reads, per-file SHA-256, provenance status, format findings and dated approval; no runtime inventory, registration is CLI-only | 3 | `docs/grc/ai-model-artifacts.md` |
+| AI agent runtime evidence | Partial: Prismor signed receipt verification and CLI import; no push endpoint, other gateways or agent inventory | 2 | `docs/integrations/ai-agent-runtime.md` |
 | Guidance and advisories | Yes: publisher/reference/version, adoption status, owner, review and control mapping | 4 | `docs/grc/guidance-register.md` |
 | Evidence management | Yes: human evidence on implementations, audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
@@ -126,11 +127,11 @@ an audit.
     but there is no upload screen by design and no inference-runtime inventory.
     Record the runtime and version on the serving asset or in the notes. See
     `docs/grc/ai-model-artifacts.md`.
-15. **AI agent runtime evidence is not ingested.** OpenGRC can hold an agent's
-    model artifact and the policy that governs it, but it does not inventory
-    agents, tool calls or egress decisions. ADR 0060 proposes a signed-receipt
-    import; until it is implemented, attach the gateway's export to the relevant
-    control and keep raw prompts and tool arguments out of the record. See
+15. **AI agent runtime evidence is partially ingested.** Prismor signed receipts
+    can be verified and imported by CLI with a pinned key, but there is no push
+    endpoint, no agent inventory, and no connector for the other gateways.
+    Until those exist, attach another source's export to the relevant control and
+    keep raw prompts and tool arguments out of the record. See
     `docs/integrations/ai-agent-runtime.md`.
 
 Each gap has a documented workaround. Say so in your own programme documentation

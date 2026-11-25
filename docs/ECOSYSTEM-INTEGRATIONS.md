@@ -69,9 +69,12 @@ Agent runtime controls follow the same split. Prismor, Pipelock, DefenseClaw and
 agentgateway own enforcement and raw telemetry; OpenGRC consumes a signed receipt
 or hash-verified export of the decision, its policy, scope and time. It never
 stores prompts, completions, tool arguments, request bodies or credentials. The
-design is proposed in ADR 0060 and `docs/integrations/ai-agent-runtime.md`.
-Trylon Gateway (BSL 1.1) and Peplum / Peplum::Nmap (inactive since 2023) are not
-dependencies; they can appear in a lab or a comparison only.
+boundary is ADR 0060, and the first slice is implemented: an operator can verify
+and import Prismor receipts with `opengrc:evidence:prismor` and a pinned Ed25519
+key. Pipelock and the sensor sources remain designed, not wired. See
+`docs/integrations/ai-agent-runtime.md`. Trylon Gateway (BSL 1.1) and Peplum /
+Peplum::Nmap (inactive since 2023) are not dependencies; they can appear in a lab
+or a comparison only.
 
 The digital forensics curriculum at `frankwxu/digital-forensics-lab` is reference
 material, not an integration: it has no API and its evidence images belong to

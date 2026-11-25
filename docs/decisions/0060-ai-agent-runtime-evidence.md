@@ -1,7 +1,11 @@
 # 0060 - Agent runtime and sensor evidence is imported, not mediated
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-11-24
+- Implementation note (2026-11-24): the first slice is implemented as
+  `opengrc:evidence:prismor`, which verifies Prismor receipts with a pinned
+  Ed25519 key and imports the decision metadata as control evidence. Pipelock,
+  the push endpoint, sensor summaries and agent inventory remain future work.
 
 ## Context
 

@@ -1,8 +1,10 @@
 # AI agent runtime and sensor evidence
 
-Status: **proposed design** ([ADR 0060](../decisions/0060-ai-agent-runtime-evidence.md)).
-There is no connector in this release. This page defines the boundary, the
-evidence contract, and which sources are suitable before code is written.
+Status: **Prismor receipt import implemented**; the wider design is accepted
+([ADR 0060](../decisions/0060-ai-agent-runtime-evidence.md)). This page defines
+the boundary, the evidence contract, which sources are suitable, and the one
+source that is wired today. Pipelock, the push endpoint, sensor summaries and
+agent inventory are not implemented.
 
 ## Why this is not another dashboard
 
@@ -73,6 +75,34 @@ signature against a pinned key before the record is accepted. The attestation
 bundle's framework coverage (OWASP LLM/Agentic, NIST AI RMF, EU AI Act) is stored
 as a claim with its date and source, and linked to a reviewed crosswalk; it does
 not become control coverage by itself.
+
+The receipt import is implemented:
+
+```bash
+php artisan opengrc:evidence:prismor path/to/receipt.json \
+  --pubkey=<base64-ed25519-public-key> \
+  --control=A.5.15 \
+  --source=Prismor
+```
+
+- The file may be one receipt, a JSON array, or JSONL.
+- The command recomputes the chain hash, verifies the Ed25519 signature against
+  the pinned key, and checks `signing_key_id` against that key.
+- It refuses the batch if any receipt fails or a chain link is broken. A sequence
+  gap is reported, not rejected.
+- Re-importing the same `device_id` + `event_id` is a duplicate, not a new record.
+- A re-signed receipt with the same identity but different bytes is a conflict,
+  not a duplicate.
+- `--allow-unpinned` verifies against the inline key and stores the evidence with
+  `pinned: false` and low confidence. Use it for a demo, not an audit.
+- `--dry-run` verifies and reports without writing. The stored payload contains
+  the decision metadata, hashes and signature; it does not contain the tool
+  input, prompt, output or a command line.
+
+The import stores an immutable `EvidenceRecord` with type
+`agent-action-receipt` under an `EvidenceSource` of type Prismor. The record
+status is `Unknown`: a blocked action is evidence that the boundary operated, not
+an automatic control verdict. A validation rule or reviewer decides.
 
 ### Pipelock
 
@@ -179,8 +209,10 @@ with a rationale and a reviewer; do not map by feature name.
   identifier and does not merge it with an OpenGRC user.
 - These sources produce decision evidence, not control effectiveness. A control
   is still tested by a person or a validation rule.
-- The connector is not implemented. Until it is, attach the source's export to a
-  control, record the hash and time, and keep raw content out of the record.
+- Only the Prismor receipt import is implemented. Pipelock, the push endpoint,
+  sensor summaries and an agent inventory remain future work. Until they exist,
+  attach another source's export to a control, record the hash and time, and keep
+  raw content out of the record.
 
 ## Related
 
