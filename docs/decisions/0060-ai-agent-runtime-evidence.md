@@ -8,9 +8,10 @@
   `opengrc:evidence:sensor-summary`. Prismor receipts and attestations are
   verified with a pinned Ed25519 key; Pipelock action receipts are verified
   against the Go-ordered canonical record and replayed as a per-signer hash chain
-  from genesis, with a mid-chain slice refused unless the operator opts in.
-  Aggregate sensor summaries are imported with an optional file hash. The push
-  endpoint remains future work, as does replay across a signing-key rotation.
+  from genesis, including a signing-key rotation when every segment key is
+  pinned, with a mid-chain slice refused unless the operator opts in. Aggregate
+  sensor summaries are imported with an optional file hash. The push endpoint
+  remains future work.
 
 ## Context
 

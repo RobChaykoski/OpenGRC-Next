@@ -20,6 +20,7 @@ class PipelockChainVerifierTest extends TestCase
         $this->assertTrue($result['complete']);
         $this->assertSame('genesis', $result['scope']);
         $this->assertSame(4, $result['links']);
+        $this->assertSame(1, $result['segments']);
         $this->assertSame(4, $result['final_seq']);
         $this->assertSame([], $result['errors']);
         $this->assertSame([], $result['warnings']);
@@ -145,26 +146,6 @@ class PipelockChainVerifierTest extends TestCase
 
         $this->assertFalse($result['verified']);
         $this->assertStringContainsString('changes signer_key at chain_seq 1', $result['errors'][0]);
-    }
-
-    #[Test]
-    public function a_signing_key_rotation_is_rejected_rather_than_guessed(): void
-    {
-        $envelopes = $this->chain();
-        $total = $this->verifier()->verify([$envelopes[0]]);
-        $rotated = $envelopes[1];
-        $rotated['action_record']['chain_seq'] = 0;
-        $rotated['action_record']['chain_prev_hash'] = $total['head_hash'];
-        $rotated['action_record']['key_transition'] = [
-            'prior_signer_key' => $envelopes[0]['signer_key'],
-            'prior_chain_seq' => 0,
-            'prior_chain_hash' => $total['head_hash'],
-        ];
-
-        $result = $this->verifier()->verify([$envelopes[0], $rotated]);
-
-        $this->assertFalse($result['verified']);
-        $this->assertStringContainsString('rotates its signing key', $result['errors'][0]);
     }
 
     #[Test]

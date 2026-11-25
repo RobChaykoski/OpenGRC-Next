@@ -50,6 +50,7 @@ final class PipelockReceiptImporter
      *     chain_verified: bool,
      *     chain_scope: 'genesis'|'partial'|'none',
      *     chain_links: int,
+     *     chain_segments: int,
      *     chain_final_seq: int|null,
      *     chain_head: string|null,
      *     verdicts: array<string, int>,
@@ -63,7 +64,7 @@ final class PipelockReceiptImporter
         string $sourceName,
         ?string $controlCode = null,
         ?string $assetIdentifier = null,
-        ?string $pinnedSignerKey = null,
+        array $pinnedSignerKeys = [],
         bool $allowUnpinned = false,
         bool $dryRun = false,
         bool $allowPartialChain = false,
@@ -75,11 +76,12 @@ final class PipelockReceiptImporter
             'created' => 0,
             'duplicate' => 0,
             'failed' => 0,
-            'pinned' => $pinnedSignerKey !== null,
+            'pinned' => $pinnedSignerKeys !== [],
             'dry_run' => $dryRun,
             'chain_verified' => false,
             'chain_scope' => 'none',
             'chain_links' => 0,
+            'chain_segments' => 0,
             'chain_final_seq' => null,
             'chain_head' => null,
             'verdicts' => [],
@@ -101,9 +103,9 @@ final class PipelockReceiptImporter
             return $report;
         }
 
-        if ($pinnedSignerKey === null && ! $allowUnpinned) {
+        if ($pinnedSignerKeys === [] && ! $allowUnpinned) {
             $report['failed'] = count($receipts);
-            $report['errors'][] = 'A pinned signer key is required. Pass the 64-hex Ed25519 key, or use --allow-unpinned to accept the inline key with low confidence.';
+            $report['errors'][] = 'At least one pinned signer key is required. Pass the 64-hex Ed25519 key (comma-separated for a rotated chain), or use --allow-unpinned to accept the inline key with low confidence.';
 
             return $report;
         }
@@ -116,7 +118,7 @@ final class PipelockReceiptImporter
 
         foreach ($receipts as $index => $receipt) {
             $json = json_encode($receipt, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
-            $verification = $this->verifier->verify($json, $pinnedSignerKey);
+            $verification = $this->verifier->verify($json, $pinnedSignerKeys);
 
             $report['warnings'] = array_merge($report['warnings'], $verification['warnings']);
 
@@ -164,6 +166,7 @@ final class PipelockReceiptImporter
         $report['chain_verified'] = $chain['complete'];
         $report['chain_scope'] = $chain['scope'];
         $report['chain_links'] = $chain['links'];
+        $report['chain_segments'] = $chain['segments'];
         $report['chain_final_seq'] = $chain['final_seq'];
         $report['chain_head'] = $chain['head_hash'];
 

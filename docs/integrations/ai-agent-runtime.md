@@ -166,21 +166,30 @@ php artisan opengrc:evidence:pipelock path/to/receipt.json \
   envelope (`version`, `action_record`, `signature`, `signer_key`), or `genesis`
   for the first receipt. The canonical envelope is recomputed, so the chain binds
   the signature and the signer key, not only the action record.
+- A signing-key rotation is replayed when every segment key is pinned. Pass the
+  keys comma-separated (`--pubkey=A,B`) or one per line in `--pubkey-file`. A
+  rotated segment starts at `chain_seq` 0 with a `key_transition` marker that
+  names the prior signer, its final `chain_seq` and the prior tail hash, and the
+  segment's `chain_prev_hash` must equal that tail. The marker is signed by the
+  new key, so it is continuity metadata, not trust delegation: a segment is
+  accepted only because its key is in the pinned set. A batch that starts at a
+  rotation boundary is refused, because the prior tail is not present.
 - A chain that links from genesis is imported with `chain_verified: true`, and
   each record stores its own `chain_hash` next to `chain_prev_hash`, so the next
-  import can be correlated without trusting a filename. One chain has one signer;
-  a receipt signed by another key is rejected rather than spliced in.
+  import can be correlated without trusting a filename. Within a segment one
+  signer is used; a signer change without a rotation marker is rejected rather
+  than spliced in.
 - A broken link, a sequence gap or an out-of-order batch rejects the whole batch.
   A mid-chain slice is refused unless `--allow-partial-chain` is passed; those
   records are stored with `chain_verified: false` and `chain_scope: partial`,
   because ancestry back to genesis cannot be shown. Records are append-only, so a
   later import of the whole run does not upgrade an earlier partial record; it
   adds the missing receipts and leaves the earlier verdict as it was.
-- Chain replay proves the receipts present were written by the signer, in order,
-  from genesis. It does not prove the last receipt is the run's last: a truncated
-  export looks like a shorter run. It also does not cross a signing-key rotation;
-  export each segment and pin its key. A rotated batch is rejected rather than
-  guessed.
+- Chain replay proves the receipts present were written by the key that signed
+  them, in order, from genesis; only the pinned key set says who that is. It does
+  not prove the last receipt is the run's last: a truncated export looks like a
+  shorter run, and a rotation boundary whose prior segment is absent is refused
+  rather than assumed.
 - Stored fields are the action id/type, timestamp, principal, actor, verdict,
   transport, method, policy hash, side-effect/reversibility classes, data-class
   labels, decision phase, layer/pattern/severity, session/request ids, the
@@ -343,10 +352,11 @@ with a rationale and a reviewer; do not map by feature name.
 - These sources produce decision evidence, not control effectiveness. A control
   is still tested by a person or a validation rule.
 - Prismor receipts and attestation bundles, Pipelock action receipts with chain
-  replay, and hash-verified sensor summaries are implemented. The push endpoint,
-  direct vendor connectors, signing-key rotation replay and a first-class agent
-  inventory remain future work. Until they exist, attach another source's export
-  to a control, record the hash and time, and keep raw content out of the record.
+  replay (including pinned signing-key rotation), and hash-verified sensor
+  summaries are implemented. The push endpoint, direct vendor connectors and a
+  first-class agent inventory remain future work. Until they exist, attach
+  another source's export to a control, record the hash and time, and keep raw
+  content out of the record.
 - A packet-capture store such as Arkime proves that a session existed, not that a
   control worked. Its value is the aggregate and the link for an investigator.
 

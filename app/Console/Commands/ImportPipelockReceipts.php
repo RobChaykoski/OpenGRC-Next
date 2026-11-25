@@ -21,8 +21,8 @@ class ImportPipelockReceipts extends Command
                             {--source=Pipelock : Evidence source name}
                             {--control= : Control code to link}
                             {--asset= : Asset name, hostname or asset tag}
-                            {--pubkey= : 64-hex Ed25519 signer key to pin}
-                            {--pubkey-file= : File containing the 64-hex signer key}
+                            {--pubkey= : 64-hex Ed25519 signer key; comma-separated for a rotated chain}
+                            {--pubkey-file= : File containing one or more 64-hex signer keys}
                             {--allow-unpinned : Verify with the receipt inline key and mark the evidence low confidence}
                             {--allow-partial-chain : Accept a mid-chain slice; its links are checked but it cannot be chain-verified}
                             {--dry-run : Verify and report without writing}
@@ -38,7 +38,7 @@ class ImportPipelockReceipts extends Command
         $source = trim((string) $this->option('source'));
 
         try {
-            $pinnedKey = $this->pinnedKey();
+            $pinnedKeys = $this->pinnedKeys();
         } catch (RuntimeException $exception) {
             $this->error($exception->getMessage());
 
@@ -80,7 +80,7 @@ class ImportPipelockReceipts extends Command
             $source,
             filled($control) ? (string) $control : null,
             filled($asset) ? (string) $asset : null,
-            $pinnedKey,
+            $pinnedKeys,
             (bool) $this->option('allow-unpinned'),
             (bool) $this->option('dry-run'),
             (bool) $this->option('allow-partial-chain'),
@@ -138,10 +138,13 @@ class ImportPipelockReceipts extends Command
     private function chainLabel(array $result): string
     {
         $links = (int) ($result['chain_links'] ?? 0);
+        $segments = (int) ($result['chain_segments'] ?? 0);
         $scope = is_string($result['chain_scope'] ?? null) ? $result['chain_scope'] : 'none';
 
         if (($result['chain_verified'] ?? false) === true) {
-            return 'verified from genesis ('.$links.' link'.($links === 1 ? '' : 's').')';
+            $segmentLabel = $segments > 1 ? ', '.$segments.' key segments' : '';
+
+            return 'verified from genesis ('.$links.' link'.($links === 1 ? '' : 's').$segmentLabel.')';
         }
 
         if ($scope === 'partial') {
@@ -169,7 +172,10 @@ class ImportPipelockReceipts extends Command
         return implode(', ', $parts);
     }
 
-    private function pinnedKey(): ?string
+    /**
+     * @return array<int, string>
+     */
+    private function pinnedKeys(): array
     {
         $key = $this->option('pubkey');
         $file = $this->option('pubkey-file');
@@ -193,20 +199,30 @@ class ImportPipelockReceipts extends Command
                 throw new RuntimeException('The public key file could not be read.');
             }
 
-            $key = trim($contents);
+            $key = $contents;
         }
 
         if (! filled($key)) {
-            return null;
+            return [];
         }
 
-        $key = strtolower(trim((string) $key));
+        $keys = [];
 
-        if (strlen($key) !== 64 || ctype_xdigit($key) !== true) {
-            throw new RuntimeException('The pinned signer key must be 64 hex characters.');
+        foreach (preg_split('/[\s,]+/', (string) $key) ?: [] as $part) {
+            $part = strtolower(trim($part));
+
+            if ($part === '') {
+                continue;
+            }
+
+            if (strlen($part) !== 64 || ctype_xdigit($part) !== true) {
+                throw new RuntimeException('Every pinned signer key must be 64 hex characters.');
+            }
+
+            $keys[$part] = true;
         }
 
-        return $key;
+        return array_keys($keys);
     }
 
     /**

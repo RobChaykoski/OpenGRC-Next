@@ -10,8 +10,15 @@ use InvalidArgumentException;
  * Pipelock links the receipts a writer emits into a hash chain: `chain_seq`
  * starts at 0 and increments by one, and `chain_prev_hash` is the hex SHA-256
  * of the previous receipt's canonical envelope, or the literal `genesis` for
- * the first receipt. The batch must arrive in chain order and share one signer,
- * and this walks it recomputing every link.
+ * the first receipt. A rotated signing key opens a new segment at `chain_seq` 0
+ * with a `key_transition` marker naming the prior key, sequence and tail hash.
+ * The batch must arrive in chain order, and this walks it recomputing every
+ * link.
+ *
+ * The marker is continuity metadata, not trust delegation: it is signed by the
+ * new key, so an attacker who can write the file could mint a consistent one.
+ * Trust comes only from the importer's pinned key set, which verifies every
+ * receipt against a key the operator supplied.
  *
  * What a verified chain proves: the receipts present are the ones the signer
  * wrote, in order, from genesis, and none was inserted, reordered or edited.
@@ -37,6 +44,7 @@ final class PipelockChainVerifier
      *     complete: bool,
      *     scope: 'genesis'|'partial'|'none',
      *     links: int,
+     *     segments: int,
      *     final_seq: int|null,
      *     head_hash: string|null,
      *     hashes: array<int, string>,
@@ -47,13 +55,14 @@ final class PipelockChainVerifier
     public function verify(array $envelopes, bool $allowPartial = false): array
     {
         if ($envelopes === []) {
-            return $this->result(false, false, 'none', 0, null, null, [], ['No receipts were supplied to the chain verifier.'], []);
+            return $this->result(false, false, 'none', 0, 0, null, null, [], ['No receipts were supplied to the chain verifier.'], []);
         }
 
         $errors = [];
         $warnings = [];
         $hashes = [];
         $links = 0;
+        $segments = 0;
         $complete = false;
         $finalSeq = null;
         $head = null;
@@ -87,25 +96,16 @@ final class PipelockChainVerifier
                 break;
             }
 
-            if (isset($action['key_transition'])) {
-                $errors[] = $index === 0
-                    ? 'The chain starts at a signing-key rotation, so its ancestry is not in the batch.'
-                    : "The chain rotates its signing key at chain_seq {$seq}. Export each key segment and pin its key; rotation replay is not supported.";
-
-                break;
-            }
-
             $signerKey = is_string($envelope['signer_key'] ?? null) ? strtolower($envelope['signer_key']) : '';
+            $marker = $action['key_transition'] ?? null;
 
             if ($index === 0) {
-                $headSigner = $signerKey;
-            } elseif ($signerKey !== $headSigner) {
-                $errors[] = "The receipt chain changes signer_key at chain_seq {$seq} without a rotation marker. Receipts from another signer are not spliced into a chain.";
+                if ($marker !== null) {
+                    $errors[] = 'The chain starts at a signing-key rotation, so its ancestry is not in the batch.';
 
-                break;
-            }
+                    break;
+                }
 
-            if ($index === 0) {
                 if ($seq === 0 && $prev === self::GENESIS) {
                     $complete = true;
                 } elseif ($seq !== 0) {
@@ -125,6 +125,30 @@ final class PipelockChainVerifier
 
                     break;
                 }
+
+                $segments = 1;
+                $headSigner = $signerKey;
+            } elseif ($marker !== null) {
+                $rotation = $this->rotationError($action, $seq, $prev, $signerKey, $head, $headSigner, $previousSeq);
+
+                if ($rotation !== null) {
+                    $errors[] = $rotation;
+
+                    break;
+                }
+
+                $segments++;
+                $headSigner = $signerKey;
+                $previousSeq = 0;
+                $hashes[$index] = $hash;
+                $finalSeq = 0;
+                $head = $hash;
+
+                continue;
+            } elseif ($signerKey !== $headSigner) {
+                $errors[] = "The receipt chain changes signer_key at chain_seq {$seq} without a rotation marker. Receipts from another signer are not spliced into a chain.";
+
+                break;
             } elseif ($seq !== $previousSeq + 1) {
                 $errors[] = "The receipt chain breaks at chain_seq {$seq}: expected chain_seq ".($previousSeq + 1).'.';
 
@@ -144,7 +168,7 @@ final class PipelockChainVerifier
         }
 
         if ($errors !== []) {
-            return $this->result(false, false, 'none', $links, null, null, $hashes, $errors, $warnings);
+            return $this->result(false, false, 'none', $links, $segments, null, null, $hashes, $errors, $warnings);
         }
 
         return $this->result(
@@ -152,12 +176,59 @@ final class PipelockChainVerifier
             $complete,
             $complete ? 'genesis' : 'partial',
             $links,
+            $segments,
             $finalSeq,
             $head,
             $hashes,
             [],
             $warnings,
         );
+    }
+
+    /**
+     * Validate a signing-key rotation marker against the segment it closes.
+     *
+     * @param  array<string, mixed>  $action
+     */
+    private function rotationError(
+        array $action,
+        int $seq,
+        string $prev,
+        string $signerKey,
+        ?string $head,
+        string $headSigner,
+        ?int $previousSeq,
+    ): ?string {
+        $marker = $action['key_transition'] ?? null;
+
+        if (! is_array($marker) || array_is_list($marker)) {
+            return 'The signing-key rotation marker is not an object.';
+        }
+
+        if ($seq !== 0) {
+            return "The signing-key rotation marker is on chain_seq {$seq}; a rotated segment must start at chain_seq 0.";
+        }
+
+        $priorHash = is_string($marker['prior_chain_hash'] ?? null) ? strtolower($marker['prior_chain_hash']) : '';
+        $priorSigner = is_string($marker['prior_signer_key'] ?? null) ? strtolower($marker['prior_signer_key']) : '';
+
+        if ($priorHash !== $head || $prev !== $head) {
+            return 'The signing-key rotation does not reference the prior tail. The batch is spliced or edited.';
+        }
+
+        if ($priorSigner !== $headSigner) {
+            return 'The signing-key rotation does not name the prior segment signer.';
+        }
+
+        if ($signerKey === $headSigner) {
+            return 'The signing-key rotation does not change the signer key.';
+        }
+
+        if (($marker['prior_chain_seq'] ?? null) !== $previousSeq) {
+            return 'The signing-key rotation prior_chain_seq does not match the prior segment tail.';
+        }
+
+        return null;
     }
 
     /**
@@ -170,6 +241,7 @@ final class PipelockChainVerifier
      *     complete: bool,
      *     scope: 'genesis'|'partial'|'none',
      *     links: int,
+     *     segments: int,
      *     final_seq: int|null,
      *     head_hash: string|null,
      *     hashes: array<int, string>,
@@ -182,6 +254,7 @@ final class PipelockChainVerifier
         bool $complete,
         string $scope,
         int $links,
+        int $segments,
         ?int $finalSeq,
         ?string $headHash,
         array $hashes,
@@ -193,6 +266,7 @@ final class PipelockChainVerifier
             'complete' => $complete,
             'scope' => $scope,
             'links' => $links,
+            'segments' => $segments,
             'final_seq' => $finalSeq,
             'head_hash' => $headHash,
             'hashes' => $hashes,

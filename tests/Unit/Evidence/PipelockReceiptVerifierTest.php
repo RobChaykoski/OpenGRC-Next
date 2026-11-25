@@ -69,7 +69,30 @@ class PipelockReceiptVerifierTest extends TestCase
             ->verify($this->fixtureJson(), str_repeat('a', 64));
 
         $this->assertFalse($result['valid']);
-        $this->assertContains('The receipt was not signed by the pinned key.', $result['errors']);
+        $this->assertContains('The receipt was not signed by a pinned key.', $result['errors']);
+    }
+
+    #[Test]
+    public function a_receipt_signed_by_one_of_the_pinned_keys_is_accepted(): void
+    {
+        $envelope = $this->envelope();
+        $result = (new PipelockReceiptVerifier(new PipelockActionCanonicalizer))
+            ->verify($this->fixtureJson(), [str_repeat('a', 64), $envelope['signer_key']]);
+
+        $this->assertTrue($result['valid']);
+        $this->assertTrue($result['pinned']);
+        $this->assertSame($envelope['signer_key'], $result['signer_key']);
+    }
+
+    #[Test]
+    public function a_comma_separated_pin_set_is_accepted(): void
+    {
+        $envelope = $this->envelope();
+        $result = (new PipelockReceiptVerifier(new PipelockActionCanonicalizer))
+            ->verify($this->fixtureJson(), str_repeat('a', 64).','.$envelope['signer_key']);
+
+        $this->assertTrue($result['valid']);
+        $this->assertTrue($result['pinned']);
     }
 
     #[Test]

@@ -13,6 +13,7 @@ use App\Services\Evidence\Pipelock\PipelockReceiptImporter;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use JsonException;
 use PHPUnit\Framework\Attributes\Test;
+use Tests\Support\PipelockChain;
 use Tests\TestCase;
 
 class PipelockReceiptImportTest extends TestCase
@@ -256,6 +257,73 @@ class PipelockReceiptImportTest extends TestCase
         ])->assertFailed();
 
         $this->assertSame(0, EvidenceRecord::query()->count());
+    }
+
+    #[Test]
+    public function a_rotated_chain_is_imported_when_every_segment_key_is_pinned(): void
+    {
+        $chain = PipelockChain::rotated();
+        $path = $this->temporaryJsonLines($chain['envelopes']);
+
+        $this->artisan('opengrc:evidence:pipelock', [
+            'path' => $path,
+            '--pubkey' => $chain['keys']['a'].','.$chain['keys']['b'],
+        ])->assertSuccessful();
+
+        $records = EvidenceRecord::query()->orderBy('id')->get();
+
+        $this->assertCount(5, $records);
+
+        foreach ($records as $record) {
+            $this->assertTrue($record->payload['verification']['chain_verified']);
+            $this->assertSame('genesis', $record->payload['verification']['chain_scope']);
+        }
+
+        $this->assertSame(
+            [0, 1, 2, 0, 1],
+            $records->map(fn (EvidenceRecord $record): int => $record->payload['receipt']['chain_seq'])->all(),
+        );
+        $this->assertSame($chain['keys']['b'], $records[3]->payload['receipt']['signer_key']);
+        $this->assertSame(
+            $records[3]->payload['receipt']['chain_prev_hash'],
+            $records[2]->payload['receipt']['chain_hash'],
+        );
+    }
+
+    #[Test]
+    public function a_rotated_chain_without_the_second_key_pinned_is_refused(): void
+    {
+        $chain = PipelockChain::rotated();
+        $path = $this->temporaryJsonLines($chain['envelopes']);
+
+        $this->artisan('opengrc:evidence:pipelock', [
+            'path' => $path,
+            '--pubkey' => $chain['keys']['a'],
+        ])->assertFailed();
+
+        $this->assertSame(0, EvidenceRecord::query()->count());
+    }
+
+    #[Test]
+    public function a_pubkey_file_may_pin_every_segment_key(): void
+    {
+        $chain = PipelockChain::rotated();
+        $path = $this->temporaryJsonLines($chain['envelopes']);
+        $keyFile = tempnam(sys_get_temp_dir(), 'pipelock-keys-');
+
+        if ($keyFile === false) {
+            $this->fail('Could not create a temporary key file.');
+        }
+
+        file_put_contents($keyFile, $chain['keys']['a']."\n".$chain['keys']['b']."\n");
+        $this->temporaryFiles[] = $keyFile;
+
+        $this->artisan('opengrc:evidence:pipelock', [
+            'path' => $path,
+            '--pubkey-file' => $keyFile,
+        ])->assertSuccessful();
+
+        $this->assertSame(5, EvidenceRecord::query()->count());
     }
 
     /**
