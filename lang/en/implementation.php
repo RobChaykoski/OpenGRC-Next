@@ -27,4 +27,11 @@ return [
     'actions' => [
         'create' => 'Create Implementation',
     ],
+    'reminder' => [
+        'due_title' => 'Control test due',
+        'due_body' => ':label is due on :date.',
+        'overdue_title' => 'Control test overdue',
+        'overdue_body' => ':label was due on :date, :days day ago.|:label was due on :date, :days days ago.',
+        'action' => 'Open implementation',
+    ],
 ];

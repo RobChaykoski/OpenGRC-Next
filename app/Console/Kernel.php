@@ -45,6 +45,11 @@ class Kernel extends ConsoleKernel
         // confirmation; mark it expired without changing the owner's statement.
         $schedule->command('opengrc:controls:attestations:expire')->dailyAt('00:35');
 
+        // A recorded test date nobody acts on is a report, not a control. Nudge
+        // each owner when a test enters the window and when it lapses; the
+        // reminder dedupes per stage and test date, so a daily run stays quiet.
+        $schedule->command('opengrc:controls:testing:notify')->dailyAt('07:00')->withoutOverlapping();
+
         // Just-in-time grants are minute-scale. Revocation is event-driven; this
         // is the fail-safe when the event never arrives (ADR 0049).
         $schedule->command('opengrc:access:expire-grants')->everyFiveMinutes();
