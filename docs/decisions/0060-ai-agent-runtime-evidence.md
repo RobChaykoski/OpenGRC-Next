@@ -3,9 +3,10 @@
 - Status: accepted
 - Date: 2026-11-24
 - Implementation note (2026-11-24): the first slice is implemented as
-  `opengrc:evidence:prismor`, which verifies Prismor receipts with a pinned
-  Ed25519 key and imports the decision metadata as control evidence. Pipelock,
-  the push endpoint, sensor summaries and agent inventory remain future work.
+  `opengrc:evidence:prismor` and `opengrc:evidence:prismor-attestation`, which
+  verify Prismor receipts and signed attestation bundles with a pinned Ed25519
+  key and import decision, inventory and coverage metadata as control evidence.
+  Pipelock, the push endpoint and sensor summaries remain future work.
 
 ## Context
 

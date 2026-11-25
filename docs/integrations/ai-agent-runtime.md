@@ -1,10 +1,10 @@
 # AI agent runtime and sensor evidence
 
-Status: **Prismor receipt import implemented**; the wider design is accepted
-([ADR 0060](../decisions/0060-ai-agent-runtime-evidence.md)). This page defines
-the boundary, the evidence contract, which sources are suitable, and the one
-source that is wired today. Pipelock, the push endpoint, sensor summaries and
-agent inventory are not implemented.
+Status: **Prismor receipt and attestation import implemented**; the wider design
+is accepted ([ADR 0060](../decisions/0060-ai-agent-runtime-evidence.md)). This
+page defines the boundary, the evidence contract, which sources are suitable,
+and the sources wired today. Pipelock, the push endpoint and sensor summaries
+are not implemented.
 
 ## Why this is not another dashboard
 
@@ -104,6 +104,35 @@ The import stores an immutable `EvidenceRecord` with type
 `agent-action-receipt` under an `EvidenceSource` of type Prismor. The record
 status is `Unknown`: a blocked action is evidence that the boundary operated, not
 an automatic control verdict. A validation rule or reviewer decides.
+
+The signed attestation bundle import is also implemented:
+
+```bash
+php artisan opengrc:evidence:prismor-attestation path/to/attestation.json \
+  --pubkey=<base64-ed25519-public-key> \
+  --control=A.5.15 \
+  --source=Prismor
+```
+
+- The command recomputes the SHA-256 of the JCS-canonical bundle body, verifies
+  the Ed25519 signature over `{hash, ts, identity}`, and checks the key id.
+- `--allow-unpinned`, `--dry-run`, `--control`, `--asset` and `--json` work as
+  they do for receipts.
+- The stored payload keeps the agent inventory (name, framework, mode, enabled,
+  last seen), the discovery summary, framework/control IDs and their covered
+  flag, audit-finding counts by severity and category, the trail checkpoint and
+  the signature. It does **not** keep audit messages, raw MCP URLs, provider-key
+  locations or the bundle body.
+- The evidence type is `agent-runtime-attestation`. Framework coverage is a
+  vendor claim with a date and signer; it is not control coverage until a
+  reviewed crosswalk maps it.
+- A bundle body edit breaks the content hash; a device-id edit breaks the
+  signature as well. A re-signed bundle with the same content hash but a
+  different signature is a conflict, not a duplicate.
+
+There is still no first-class agent inventory object: the attestation's
+inventory is evidence metadata, not an asset record. That is the remaining
+design work after the import.
 
 ### Pipelock
 
@@ -223,10 +252,10 @@ with a rationale and a reviewer; do not map by feature name.
   identifier and does not merge it with an OpenGRC user.
 - These sources produce decision evidence, not control effectiveness. A control
   is still tested by a person or a validation rule.
-- Only the Prismor receipt import is implemented. Pipelock, the push endpoint,
-  sensor summaries and an agent inventory remain future work. Until they exist,
-  attach another source's export to a control, record the hash and time, and keep
-  raw content out of the record.
+- Only Prismor receipts and attestation bundles are implemented. Pipelock, the
+  push endpoint, sensor summaries and a first-class agent inventory remain
+  future work. Until they exist, attach another source's export to a control,
+  record the hash and time, and keep raw content out of the record.
 - A packet-capture store such as Arkime proves that a session existed, not that a
   control worked. Its value is the aggregate and the link for an investigator.
 

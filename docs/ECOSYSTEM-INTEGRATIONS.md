@@ -71,8 +71,11 @@ agentgateway own enforcement and raw telemetry; OpenGRC consumes a signed receip
 or hash-verified export of the decision, its policy, scope and time. It never
 stores prompts, completions, tool arguments, request bodies or credentials. The
 boundary is ADR 0060, and the first slice is implemented: an operator can verify
-and import Prismor receipts with `opengrc:evidence:prismor` and a pinned Ed25519
-key. Pipelock and the sensor sources remain designed, not wired. See
+and import Prismor receipts and signed attestation bundles with
+`opengrc:evidence:prismor` and `opengrc:evidence:prismor-attestation` using a
+pinned Ed25519 key. The bundle import carries the agent inventory, discovery
+summary and coverage claim; audit messages, raw MCP URLs and the bundle body are
+not copied. Pipelock and the sensor sources remain designed, not wired. See
 `docs/integrations/ai-agent-runtime.md`. Trylon Gateway (BSL 1.1) and Peplum /
 Peplum::Nmap (inactive since 2023) are not dependencies; they can appear in a lab
 or a comparison only.

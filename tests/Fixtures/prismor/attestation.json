@@ -1,0 +1,102 @@
+{
+  "schema": "prismor.attestation.v1",
+  "generated_at": "2026-11-25T03:30:00+00:00",
+  "device_id": "dev-arkime-lab",
+  "prismor_version": "1.2.3",
+  "agents": [
+    {
+      "name": "release-bot",
+      "framework": "claude-code",
+      "enabled": true,
+      "mode": "enforce",
+      "last_seen": "2026-11-25T03:29:00+00:00"
+    },
+    {
+      "name": "review-bot",
+      "framework": "codex",
+      "enabled": true,
+      "mode": "observe",
+      "last_seen": null
+    }
+  ],
+  "discovery": {
+    "agents": [
+      {
+        "name": "release-bot",
+        "framework": "claude-code",
+        "governed": true
+      },
+      {
+        "name": "Gemini CLI",
+        "framework": "gemini-cli",
+        "governed": false
+      }
+    ],
+    "mcp": [
+      {
+        "name": "context7",
+        "url": "https://mcp.example.test/mcp?key=SYNTHETIC_SECRET_VALUE",
+        "governed": false
+      }
+    ],
+    "keys": [
+      {
+        "provider": "anthropic",
+        "location": "env"
+      }
+    ],
+    "summary": {
+      "governed": 2,
+      "shadow": 0,
+      "coverage_percent": 100
+    }
+  },
+  "audit_findings": [
+    {
+      "severity": "PASS",
+      "category": "hooks",
+      "message": "hook installed at /home/synthetic/.config/prismor"
+    },
+    {
+      "severity": "HIGH",
+      "category": "egress",
+      "message": "synthetic secret path /home/synthetic/.env"
+    }
+  ],
+  "framework_coverage": {
+    "frameworks": [
+      {
+        "id": "owasp-llm",
+        "name": "OWASP Top 10 for LLM Applications",
+        "covered": 6,
+        "total": 6,
+        "controls": [
+          {
+            "id": "LLM01",
+            "title": "Prompt Injection",
+            "covered": true
+          },
+          {
+            "id": "LLM02",
+            "title": "Sensitive Information Disclosure",
+            "covered": true
+          }
+        ]
+      }
+    ],
+    "summary": {
+      "frameworks": 1,
+      "covered": 6,
+      "total": 6
+    }
+  },
+  "trail_checkpoint": {
+    "seq": 42,
+    "hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "content_hash": "17fd44965eb73c622b18104cb5180d0c20ef97a238d4a4762d978d594175cd70",
+  "signature": "TZRhUuwgnWqrP0a0KCvp4/Ngk3hb8P1W5tMYIfrLFGsZhQj6cB5VhKp9l9GcUTHwZeiOxtKqS94XO5KisRvVAg==",
+  "signing_alg": "ed25519",
+  "signing_pubkey": "qDrngBkRHHZGI1z9GJxXAlXIXyhqS3dJtkfmJpsqWAg=",
+  "signing_key_id": "d2543d4e8cf52d8a"
+}
