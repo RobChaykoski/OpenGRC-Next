@@ -126,6 +126,12 @@ an audit.
     but there is no upload screen by design and no inference-runtime inventory.
     Record the runtime and version on the serving asset or in the notes. See
     `docs/grc/ai-model-artifacts.md`.
+15. **AI agent runtime evidence is not ingested.** OpenGRC can hold an agent's
+    model artifact and the policy that governs it, but it does not inventory
+    agents, tool calls or egress decisions. ADR 0060 proposes a signed-receipt
+    import; until it is implemented, attach the gateway's export to the relevant
+    control and keep raw prompts and tool arguments out of the record. See
+    `docs/integrations/ai-agent-runtime.md`.
 
 Each gap has a documented workaround. Say so in your own programme documentation
 rather than pretending the tool covers it.
@@ -162,6 +168,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | OpenBao secret metadata | `docs/integrations/openbao.md` |
 | SBOM and OSV supply-chain evidence | `docs/integrations/sbom-osv.md` |
 | AI model artifacts and approval | `docs/grc/ai-model-artifacts.md` |
+| AI agent runtime evidence and its limits | `docs/integrations/ai-agent-runtime.md` |
 | SARIF scanner import | `docs/integrations/assessment-sarif.md` |
 | deps.dev and Scorecard enrichment | `docs/integrations/deps-dev.md` |
 | Observable enrichment boundary | `docs/integrations/observable-enrichment.md` |

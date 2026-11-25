@@ -53,6 +53,7 @@ architecture, integrations, and the decisions behind them.
 | [decisions/0057-multi-tenancy.md](decisions/0057-multi-tenancy.md) | Multi-tenancy is a deployment decision, not a nullable column |
 | [decisions/0058-network-flow-telemetry-risk-graph.md](decisions/0058-network-flow-telemetry-risk-graph.md) | Flow telemetry feeds a risk graph; OpenGRC stays the GRC authority |
 | [decisions/0059-ai-model-artifact-register.md](decisions/0059-ai-model-artifact-register.md) | AI model artifacts are registered by format and provenance, not by weights |
+| [decisions/0060-ai-agent-runtime-evidence.md](decisions/0060-ai-agent-runtime-evidence.md) | Agent runtime and sensor evidence is imported, not mediated |
 | [FUTURE-ROADMAP.md](FUTURE-ROADMAP.md) | Sequencing for the nine platform pillars |
 
 ## Integrations
@@ -79,6 +80,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/digital-forensics-lab.md](integrations/digital-forensics-lab.md) | External forensics curriculum: provenance, licence limits, scenario mapping |
 | [integrations/streaming-evidence.md](integrations/streaming-evidence.md) | Signed push for time-sensitive evidence: stream, cursor, HMAC, responses |
 | [integrations/network-flow-telemetry.md](integrations/network-flow-telemetry.md) | OpenCompliance flow export, OpenMetadata enrichment, and the risk-graph projection |
+| [integrations/ai-agent-runtime.md](integrations/ai-agent-runtime.md) | Agent gateway and sensor evidence: signed receipts, scope, verification, and excluded sources |
 
 ## GRC practice
 

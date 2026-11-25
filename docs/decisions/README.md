@@ -81,3 +81,4 @@ What gets easier, what gets harder, and what we accept as debt.
 | [0057](0057-multi-tenancy.md) | Multi-tenancy is a deployment decision, not a nullable column | proposed |
 | [0058](0058-network-flow-telemetry-risk-graph.md) | Network-flow telemetry feeds a risk graph; OpenGRC stays the GRC authority | proposed |
 | [0059](0059-ai-model-artifact-register.md) | AI model artifacts are registered by format and provenance, not by weights | accepted |
+| [0060](0060-ai-agent-runtime-evidence.md) | Agent runtime and sensor evidence is imported, not mediated | proposed |

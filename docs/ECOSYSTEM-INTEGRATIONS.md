@@ -17,6 +17,7 @@ operational data.
 | Fleet | Endpoint posture and compliance | Device counts, OS/package state, policy status |
 | OpenVAS / Nessus / Nikto / ZAP | Vulnerability and remediation evidence | Finding counts, severities, exception state, patch evidence |
 | Wazuh / Suricata / Zeek / Sysmon / Security Onion | Detection and monitoring evidence | Control-linked alert and coverage summaries |
+| Prismor / Pipelock / DefenseClaw / agentgateway | AI agent runtime: tool-call and egress decisions, agent inventory, signed receipts | Signed receipt or hash-verified export; no prompts, tool arguments, bodies or secrets |
 | Gophish | Phishing simulation: campaign aggregate counts, rates and dates against an awareness control | Read-only summary API; aggregate only, never target rows, event timelines or submitted data |
 | OpenDetectionEngine / SIEM / endpoint engine | Detection rule coverage: YARA/Sigma counts, failing rules, ATT&CK coverage, validation age | Hash-verified `detection-coverage` snapshots; no rule bodies, samples or log lines |
 | OpenCyberRange / Apache Caldera / Atomic Red Team | Adversary emulation: techniques attempted, detected, prevented and missed; test counts and IDs | Completed-operation summary over the hash-verified evidence API; no commands, payloads or raw logs |
@@ -63,6 +64,14 @@ aggregate measurement per campaign from the summary endpoint and never stores a
 target row, an event timeline or a submitted value; whether a click rate passes is
 a validation rule against the programme's own target. See
 `docs/integrations/gophish-awareness.md` and ADR 0050.
+
+Agent runtime controls follow the same split. Prismor, Pipelock, DefenseClaw and
+agentgateway own enforcement and raw telemetry; OpenGRC consumes a signed receipt
+or hash-verified export of the decision, its policy, scope and time. It never
+stores prompts, completions, tool arguments, request bodies or credentials. The
+design is proposed in ADR 0060 and `docs/integrations/ai-agent-runtime.md`.
+Trylon Gateway (BSL 1.1) and Peplum / Peplum::Nmap (inactive since 2023) are not
+dependencies; they can appear in a lab or a comparison only.
 
 The digital forensics curriculum at `frankwxu/digital-forensics-lab` is reference
 material, not an integration: it has no API and its evidence images belong to

@@ -29,6 +29,7 @@ different jobs.
 | Virtual switching | Open vSwitch, Mininet | NENG08 lab | Lab/reference topology only | Test topology only | Test topology only |
 | Endpoint detection | Wazuh, Sysmon, Fail2Ban, Lynis | SOC01/SOC04/SOC07 labs | Endpoint control evidence | Collector host hardening | Clinical endpoint compliance |
 | Network detection | Suricata, Zeek, Security Onion | SOC02/SOC03/SOC08 labs | Detection-control evidence | Sensor detection evidence | Clinical network monitoring evidence |
+| AI agent runtime | Prismor, Pipelock, DefenseClaw, agentgateway | Agentic-security labs: egress, tool calls, approvals | Imported signed receipt or hash-verified export; no prompts or tool arguments (ADR 0060) | Agent runtime decision evidence | Agent workflow policy evidence |
 | Web/VM scanning | OpenVAS, Nessus, Nikto, OWASP ZAP, OWASP WSTG, ASVS | VM02/VM03/VM05 labs | Vulnerability-management and application-security control evidence | Web service exposure evidence | Clinical web app vulnerability evidence |
 | Adversary emulation | Apache Caldera, Atomic Red Team | SOC/VM purple-team labs | Control-testing evidence from completed range operations | Detection-validation lab engine | Clinical control-testing evidence |
 | Asset ownership | Ralph, NetBox | Asset ownership report | Asset/control scope | Data-source ownership | Clinical asset ownership |
@@ -38,6 +39,11 @@ different jobs.
 | Data classification/DLP | OpenDLP, OpenMetadata | Privacy labels, export classification and catalog ownership/classification coverage | Privacy/control evidence, the discovery console and catalog governance | Core classification and DLP | PHI classification and DLP evidence |
 | Security awareness | Gophish | Awareness programme and lab-linked exercises | Aggregate campaign evidence against awareness controls (ADR 0050) | Not owned here | Clinical awareness evidence |
 | Privacy and reporting | Shared role model | Privacy office and auditor dashboards | Evidence requests and audit packs | Classification and discovery reports | PHI access and retention evidence |
+
+Peplum and Peplum::Nmap are distributed nmap runners last released in 2023; they
+are lab reference only and not product dependencies. ruby-nmap is the maintained
+Ruby interface used by that tooling. Scanner output is imported as an aggregate
+summary, never as a target list, banner or credential.
 
 ## Identity architecture
 
