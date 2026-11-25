@@ -5107,6 +5107,53 @@
             "nullable": false
         }
     ],
+    "integrity_checks": [
+        {
+            "name": "check",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "checked_at",
+            "type": "datetime",
+            "nullable": false
+        },
+        {
+            "name": "created_at",
+            "type": "datetime",
+            "nullable": true
+        },
+        {
+            "name": "detail",
+            "type": "text",
+            "nullable": true
+        },
+        {
+            "name": "duration_ms",
+            "type": "integer",
+            "nullable": true
+        },
+        {
+            "name": "id",
+            "type": "integer",
+            "nullable": false
+        },
+        {
+            "name": "status",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "summary",
+            "type": "varchar",
+            "nullable": false
+        },
+        {
+            "name": "updated_at",
+            "type": "datetime",
+            "nullable": true
+        }
+    ],
     "job_batches": [
         {
             "name": "cancelled_at",

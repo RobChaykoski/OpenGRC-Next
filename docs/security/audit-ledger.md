@@ -63,6 +63,13 @@ php artisan opengrc:audit:verify
 `php artisan opengrc:doctor` runs the same check: "Audit ledger" passes on an
 intact chain and fails on a broken or altered one.
 
+The scheduled path is `php artisan opengrc:integrity:verify`. It runs the audit and
+evidence checks, persists one row per chain in `integrity_checks`, and exits
+non-zero on a break. The dashboard shows the newest result as **Record integrity**;
+a run older than `integrity.stale_after_hours` is surfaced as attention, so a
+stopped scheduler does not look like a healthy chain. Run history is pruned after
+`integrity.retention_days`; the ledger itself is untouched.
+
 ## Pruning
 
 `php artisan activitylog:clean` prunes old activity rows on the schedule. The
@@ -93,9 +100,13 @@ the exclusion for the suppression and the source.
 
 ## Limits
 
+- There is no ledger viewer. The dashboard shows the newest verification status;
+  the detail stays in `opengrc:audit:verify` and the doctor.
+- Database triggers are installed on SQLite and MySQL/MariaDB. On PostgreSQL the
+  append-only guard is the model layer only; verification still detects an edit,
+  but a direct database writer is not blocked. This is a known gap.
 - The chain depends on serialised writers; concurrent inserts can interleave
   hashes if two processes race. The database serialises the writes in practice,
   and verification reports an ordering break rather than hiding it.
-- There is no UI for the ledger. It is a table plus a verifier, by design.
 - The ledger is a mirror of activity, not an event-sourced system. Rebuilding
   state from it is not supported.

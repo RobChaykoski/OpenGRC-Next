@@ -34,18 +34,29 @@ consultant to operate, and still nickel-and-dimed on every module.
   controls and your actual implementations rather than maintaining three spreadsheets.
 - **Risk management** — a risk register that links to the controls and assets it actually
   concerns, with scoring and treatment tracking.
-- **Audit management** — run internal and external audits end to end: requests, evidence,
-  findings and remediation, with reports you can hand to an auditor.
+- **Audits and evidence** — run internal and external audits end to end: requests, evidence,
+  findings and remediation, with reports you can hand to an auditor. Evidence is private,
+  hashed and hash-chained, and a daily check verifies the chain.
+- **Continuous control monitoring** — connectors turn system measurements into validation
+  results and findings instead of screenshots and spreadsheets.
 - **Vendor risk (TPRM)** — vendor inventory, security questionnaires and document tracking.
-- **Incident response** — incidents, playbooks, tasks and timelines.
-- **Policy management** — author, review and publish policies with approval workflows.
+- **Access governance and privacy requests** — access reviews, just-in-time grants,
+  break-glass records, and regime-aware privacy request clocks.
+- **Data protection and supply chain** — DLP and DSPM governance, SBOM and vulnerability
+  evidence, and an AI model artifact register.
+- **Policy management** — author, review and publish policies with approval workflows and
+  versioned acknowledgements.
 - **Asset and application inventory** — know what you have before you try to secure it.
 - **Dashboards and reporting** — progress you can show a board without building a deck.
+
+Record integrity is part of the design, not an add-on: the evidence ledger and the audit
+ledger are append-only hash chains, and `php artisan opengrc:integrity:verify` records a
+dated verification run so a broken chain or a stopped schedule is visible.
 
 ## Requirements
 
 - PHP 8.4+
-- MySQL / MariaDB (or PostgreSQL)
+- SQLite 3.35+ for a small install, or MySQL 8+ / MariaDB 10.6+ / PostgreSQL 14+
 - Composer and Node.js 20.19+ (20.x) or 22.12+
 
 Built on [Laravel 13](https://laravel.com) and [Filament](https://filamentphp.com).
@@ -77,6 +88,10 @@ For contributors, the repository also includes:
 - `AGENTS.md` — conventions, commands, and the definition of done
 - `docs/SUPPORTED-VERSIONS.md` — supported baseline and upgrade tiers
 - `docs/UPGRADING.md` — upgrade and rollback runbook
+- `docs/security/` — container hardening, audit ledger, DLP, forensics, and the
+  boundaries that are not hardened yet
+- `docs/grc/` — how the product is meant to be operated as a GRC programme, with
+  the capability gaps stated plainly
 - `docs/decisions/` — accepted architecture decisions
 - `.opencode/skills/` — reusable workflows for GRC, framework mapping, training
   scenario authoring, OpenCyberRange integration, upgrades, security, privacy,
@@ -86,7 +101,8 @@ For contributors, the repository also includes:
 
 The **Community Edition** in this repository is the complete self-hosted platform. No seat
 limits, no data caps, no crippled trial. It covers the core program: risk, controls and
-implementations, vendor management, project management and incident response.
+implementations, vendor management, audits and evidence, continuous monitoring, access
+governance, privacy requests, and reporting.
 
 **[Enterprise](https://opengrc.com/enterprise)** is the hosted, supported edition. It adds
 the AI and premium modules - AI risk assessments, AI gap assessments, automated vendor

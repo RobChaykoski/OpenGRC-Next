@@ -270,7 +270,9 @@ definition is JSON; the editor validates that it is an object before saving.
 Evidence is append-only once the instance is in production mode. Every upload
 records a SHA-256 hash and a ledger entry; the entries form a hash chain per
 evidence record. Editing the file is detectable, and a database edit of the
-ledger is blocked by a trigger.
+ledger is blocked by a trigger on SQLite and MySQL/MariaDB. On PostgreSQL the
+append-only guard is application-level; verification still detects a direct
+database edit, but does not prevent it.
 
 - Correct a mistake by **withdrawing** the evidence with a reason, then submitting
   the corrected file.
@@ -278,6 +280,20 @@ ledger is blocked by a trigger.
 - Never delete an evidence record or point it at a different file in production.
 - Run `php artisan opengrc:evidence:verify` as part of the audit readiness check.
   A failure is an audit finding, not a housekeeping task.
+
+### Scheduled verification
+
+`php artisan opengrc:integrity:verify` runs the evidence and audit chain checks,
+writes one `integrity_checks` row per chain, and exits non-zero on a failure. The
+scheduler runs it daily at 01:00, so the dashboard can distinguish "verified" from
+"nobody looked": a run older than `integrity.stale_after_hours` (26 by default) is
+shown as attention, not as a pass. Use `--check=evidence` or `--check=audit` to
+run one chain, and `--strict` to treat warnings as a failure.
+
+Run history is pruned after `integrity.retention_days` (400 by default); the
+chains themselves are never pruned by this command. A failed run is evidence of a
+problem, not a reason to re-run until it passes. Preserve the state before
+repairing it and raise a finding with an owner and a date.
 
 ## Quality checklist
 

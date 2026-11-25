@@ -85,3 +85,10 @@ a separate integration schema. That is a different ADR.
 - Existing evidence is backfilled with a `backfilled` marker and the uploader as
   actor where known.
 - Operators must set `APP_VERSION` so ledger entries identify the release.
+
+Addendum (2026-11-25): the scheduled part is implemented as
+`opengrc:integrity:verify`. It runs the evidence and audit chain checks daily,
+writes one `integrity_checks` row per chain, logs a critical event and exits
+non-zero on a failure. The dashboard shows the newest run and treats a run older
+than `integrity.stale_after_hours` as attention. The check stays read-only;
+nothing is repaired automatically.

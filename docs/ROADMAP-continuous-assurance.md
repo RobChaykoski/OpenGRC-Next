@@ -11,7 +11,7 @@ in. It is a plan, not a promise. Decisions with trade-offs belong in
 
 | Capability | Status | Where |
 |---|---|---|
-| Evidence ledger (append-only, hashed, chained) | Built | `evidence_records`, `EvidenceIngestor`, `opengrc:evidence:verify` |
+| Evidence ledger (append-only, hashed, chained) | Built | `evidence_records`, `EvidenceIngestor`, `opengrc:evidence:verify`, daily `opengrc:integrity:verify` |
 | Evidence sources and collection jobs | Built | `evidence_sources`, `evidence_jobs`, `CollectEvidence` |
 | Discovery evidence ingestion API | Built | `POST /api/v1/evidence`, scoped client-bound token |
 | Continuous control validation | Built | `control_validation_rules`, `control_validations` |

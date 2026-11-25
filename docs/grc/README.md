@@ -35,7 +35,7 @@ important controls and 2 for the rest.
 | AI model inventory | Yes: format-aware metadata reads, per-file SHA-256, provenance status, format findings and dated approval; no runtime inventory, registration is CLI-only | 3 | `docs/grc/ai-model-artifacts.md` |
 | AI agent runtime evidence | Partial: Prismor receipts/attestations, Pipelock action receipts and hash-verified sensor summaries; no push endpoint, Pipelock chain replay or first-class agent inventory | 2 | `docs/integrations/ai-agent-runtime.md` |
 | Guidance and advisories | Yes: publisher/reference/version, adoption status, owner, review and control mapping | 4 | `docs/grc/guidance-register.md` |
-| Evidence management | Yes: human evidence on implementations, audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
+| Evidence management | Yes: human evidence on implementations, audits and data requests; hashed, append-only machine evidence per control; daily chain verification with a persisted result | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Document templates | Yes: private originals, encrypted extracted text, classification access | 2 | `docs/grc/document-templates.md` |
 | Policy readiness | Yes: readiness register with separate design/operating/evidence status | 3 | `docs/grc/policy-readiness.md` |

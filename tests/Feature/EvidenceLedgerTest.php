@@ -93,6 +93,21 @@ class EvidenceLedgerTest extends TestCase
     }
 
     #[Test]
+    public function verify_all_covers_subjects_without_soft_deletes(): void
+    {
+        [$attachment] = $this->attachment();
+
+        // FileAttachment has no SoftDeletes. Verifying the whole ledger used to
+        // throw BadMethodCallException from the orphan scan on any real install.
+        $report = app(EvidenceLedger::class)->verifyAll();
+
+        $this->assertSame(1, $report['checked']);
+        $this->assertSame([], $report['errors']);
+        $this->assertSame([], $report['warnings']);
+        $this->assertTrue(FileAttachment::query()->whereKey($attachment->getKey())->exists());
+    }
+
+    #[Test]
     public function ledger_entries_cannot_be_updated_or_deleted(): void
     {
         [$attachment] = $this->attachment();

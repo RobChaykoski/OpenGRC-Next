@@ -286,7 +286,16 @@ class EvidenceLedger
                 continue;
             }
 
-            $model = $row->subject_type::withTrashed()->find($row->subject_id);
+            $query = $row->subject_type::query();
+
+            // Only soft-deleting subjects can still be found after a hide. A
+            // direct `withTrashed()` call on the others is a BadMethodCallException
+            // and would make `verifyAll()` unusable on a normal install.
+            if (method_exists($row->subject_type, 'bootSoftDeletes')) {
+                $query->withTrashed();
+            }
+
+            $model = $query->find($row->subject_id);
 
             if (! $model) {
                 $errors[] = "Ledger references missing evidence {$row->subject_type}#{$row->subject_id}";

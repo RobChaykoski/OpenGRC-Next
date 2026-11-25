@@ -71,6 +71,7 @@ Keep the previous image tagged. It is the rollback path.
 ```bash
 php artisan opengrc:migrations:verify --strict
 php artisan opengrc:evidence:verify
+php artisan opengrc:integrity:verify
 php artisan opengrc:framework-audit --strict
 php artisan opengrc:doctor --strict
 ```
@@ -91,13 +92,13 @@ Smoke, with a real account:
 | Private file URL tampering | 403/404, no file |
 | `GET /audit-portal/invalid` | 404 |
 | Queue | a queued job runs; `failed_jobs` stays empty |
-| Scheduler | `php artisan schedule:list` shows the expiry and snapshot commands |
+| Scheduler | `php artisan schedule:list` shows the expiry, snapshot and integrity commands |
 
 ## 5. After the window
 
 - Watch `failed_jobs`, the queue backlog and `storage/logs` for the first hour.
 - Confirm the scheduler runs (grant expiry, DLP suppression expiry, assurance
-  snapshot, privacy deadlines).
+  snapshot, privacy deadlines, integrity verification).
 - Record the promoted tag, the doctor output, the smoke results and the backup
   location in the change record.
 - If the change is user-visible, note the screens opened by hand and at which

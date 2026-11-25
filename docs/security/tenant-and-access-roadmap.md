@@ -100,19 +100,30 @@ Implemented in the evidence ledger (ADR 0008):
 - withdrawal with a reason, supersede with a new file
 - production latch and verification command
 
-Next: explicit `version` on evidence, a visible chain-of-custody panel, retention
-rules per classification, and scheduled verification with alerting.
+Scheduled verification is implemented: `opengrc:integrity:verify` runs daily,
+persists a result per chain and surfaces a broken chain or a stale schedule on the
+dashboard. Remaining: explicit `version` on evidence, a visible chain-of-custody
+panel, retention rules per classification, and external alert delivery (the
+command logs a critical event and returns a non-zero exit code; it does not page
+anyone by itself).
 
 ## 4. Immutable audit subsystem
 
-`activity_log` is useful but mutable. Add `audit_events`:
+`activity_log` is mutable; `audit_ledger_entries` is the append-only mirror
+(ADR 0056). It holds:
 
-- id, tenant_id, occurred_at, actor_type/id, ip, user_agent, action, subject
-- old_values/new_values (redacted), request_id, app_version
-- previous_hash, entry_hash
-- append-only trigger; no update/delete path
-- coverage: login, logout, failed login, role change, user change, risk/control/
-  policy/evidence/audit changes, exports, settings changes
+- id, occurred_at, actor, subject, event, log name and description
+- a SHA-256 of the activity's attribute changes and properties, not a second copy
+- hash_version, previous_hash, entry_hash
+- append-only at the model layer and, on SQLite and MySQL/MariaDB, in the database
+- coverage from every activity event, including models using `LogsActivity`, the
+  auth listeners (login, logout, failed login), role and user changes, and the
+  governance registers
+
+Still missing for this roadmap: tenant_id (blocked on ADR 0057), first-class
+ip/user_agent/request_id columns (those values are in activity properties and
+hashed into the ledger, not queryable as ledger columns), and a PostgreSQL
+trigger (the model guard and verifier still apply).
 
 Keep operational logs separate. The audit trail is evidence; logs are telemetry.
 
@@ -135,8 +146,8 @@ viewer cannot drill into is a leak.
 |---|---|---|
 | A | Tenant schema, default tenant, global scope, isolation tests | Two tenants cannot see each other by id or export |
 | B | Membership roles + ABAC attributes, policy matrix tests | Every resource and export obeys the matrix |
-| C | Audit event ledger with hash chain and append-only trigger | Tamper test fails verification; login/role changes covered |
-| D | Evidence version UI, retention, scheduled verification | Chain-of-custody visible and alerts fire |
+| C | Audit event ledger with hash chain and append-only trigger | Tamper test fails verification; login, role and record changes covered; PostgreSQL trigger still missing |
+| D | Evidence version UI, retention, visible chain-of-custody panel | Scheduled verification and a dashboard signal exist; version, retention and external alert delivery remain |
 | E | Security dashboard | Every metric drills into permitted records |
 
 Labs and course content remain in OpenCyberRange (ADR 0002). OpenGRC provides the

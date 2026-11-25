@@ -73,6 +73,17 @@ ADR and a license review before it merged.
 dependency that is not on the list fails the build rather than being discovered
 during an acquisition review.
 
+The same gate locally:
+
+```bash
+php scripts/check-licenses.php
+composer validate --strict --no-check-publish
+```
+
+Front-end assets are not exempt: run `npm ci && npm run build` when they change,
+and treat a new `package-lock.json` entry as a dependency change that needs the
+same review.
+
 ## Content licensing
 
 Framework control text is not code. Its license is tracked per framework in

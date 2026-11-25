@@ -49,6 +49,13 @@ class Kernel extends ConsoleKernel
         // is the fail-safe when the event never arrives (ADR 0049).
         $schedule->command('opengrc:access:expire-grants')->everyFiveMinutes();
         $schedule->command('opengrc:dlp:expire-suppressions')->dailyAt('00:40');
+
+        // A hash chain nobody checks is a claim, not a control. Persist a run per
+        // chain so a broken chain alerts and a stopped schedule is visible on the
+        // dashboard instead of staying silently green.
+        $schedule->command('opengrc:integrity:verify')
+            ->dailyAt('01:00')
+            ->withoutOverlapping();
     }
 
     /**

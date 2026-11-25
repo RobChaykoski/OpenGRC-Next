@@ -88,3 +88,10 @@ Addendum (2026-11-22): activity changes are stored in `attribute_changes`, not
 (`hash_version`): old entries verify with the old payload, new entries hash the
 attribute changes as well. The governance registers listed in the operating doc
 now log an explicit field set.
+
+Addendum (2026-11-25): verification is no longer only manual.
+`opengrc:integrity:verify` runs the audit and evidence checks on the daily
+schedule, stores the outcome in `integrity_checks`, logs a critical event and
+exits non-zero on a break. The dashboard shows the newest run as **Record
+integrity**, and a stale run is treated as attention rather than a pass. Run
+history is pruned after the retention window; the ledger rows are untouched.
