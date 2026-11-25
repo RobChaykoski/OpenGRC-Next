@@ -87,7 +87,6 @@ class ModelArtifactInspector
     }
 
     /**
-     * @param  array<int, array<string, mixed>>  $files
      * @return array<int, array<string, mixed>>
      */
     private function files(string $path, bool $hashFiles): array

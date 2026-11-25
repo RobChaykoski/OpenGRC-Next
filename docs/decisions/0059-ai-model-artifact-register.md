@@ -1,7 +1,11 @@
 # 0059 - AI model artifacts are registered by format and provenance, not by weights
 
-- Status: proposed
+- Status: accepted
 - Date: 2026-11-23
+- Implementation note (2026-11-24): the register, GGUF and safetensors metadata
+  readers, the findings and the approval screen are implemented. The
+  runtime-version finding in section 5 is not; the runtime is recorded on the
+  serving asset or in the artifact notes for now.
 
 ## Context
 

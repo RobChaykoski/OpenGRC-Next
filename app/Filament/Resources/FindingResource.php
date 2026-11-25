@@ -143,7 +143,7 @@ class FindingResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-            ->modifyQueryUsing(fn (Builder $query) => $query->with(['control', 'risk', 'asset', 'owner']))
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(['control', 'risk', 'asset', 'modelArtifact', 'owner']))
             ->columns([
                 TextColumn::make('id')
                     ->label(__('finding.entries.reference'))
@@ -194,6 +194,12 @@ class FindingResource extends Resource
                     ->placeholder('—')
                     ->searchable()
                     ->toggleable(),
+
+                TextColumn::make('modelArtifact.name')
+                    ->label(__('finding.table.model_artifact'))
+                    ->placeholder('—')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('owner.name')
                     ->label(__('finding.table.owner'))
@@ -252,6 +258,12 @@ class FindingResource extends Resource
                 SelectFilter::make('owner_id')
                     ->label(__('finding.filters.owner'))
                     ->relationship('owner', 'name')
+                    ->searchable()
+                    ->preload(),
+
+                SelectFilter::make('model_artifact_id')
+                    ->label(__('finding.table.model_artifact'))
+                    ->relationship('modelArtifact', 'name')
                     ->searchable()
                     ->preload(),
 
@@ -358,6 +370,13 @@ class FindingResource extends Resource
                         TextEntry::make('asset.name')
                             ->label(__('finding.form.asset'))
                             ->placeholder('—'),
+
+                        TextEntry::make('modelArtifact.name')
+                            ->label(__('finding.form.model_artifact'))
+                            ->placeholder('—')
+                            ->url(fn (Finding $record): ?string => $record->modelArtifact
+                                ? ModelArtifactResource::getUrl('view', ['record' => $record->modelArtifact])
+                                : null),
 
                         TextEntry::make('owner.name')
                             ->label(__('finding.form.owner'))

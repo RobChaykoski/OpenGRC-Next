@@ -63,6 +63,10 @@ class ModelArtifactRegistrar
             throw new RuntimeException('A pickle-format model cannot be approved. Convert it to safetensors or record a sandboxed scan first.');
         }
 
+        if ($approve && blank($inspection['content_hash'])) {
+            throw new RuntimeException('A model artifact cannot be approved without a content hash. Re-run without --skip-hash so the approved bytes are identified.');
+        }
+
         $artifact = $existing ?? new ModelArtifact;
         $created = ! $artifact->exists;
 
@@ -180,7 +184,12 @@ class ModelArtifactRegistrar
             'application_id' => $attributes['application_id'] ?? $artifact->application_id,
             'scan_tool' => $attributes['scan_tool'] ?? $artifact->scan_tool,
             'scan_tool_version' => $attributes['scan_tool_version'] ?? $artifact->scan_tool_version,
-            'last_scanned_at' => now(),
+            // Registration is not a scan. Only a named scan tool moves the
+            // timestamp; otherwise a later inspection would look like evidence
+            // that the artifact was scanned.
+            'last_scanned_at' => filled($attributes['scan_tool'] ?? null)
+                ? now()
+                : $artifact->last_scanned_at,
             'metadata' => $inspection['metadata'],
             'notes' => $attributes['notes'] ?? $artifact->notes,
         ];

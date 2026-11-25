@@ -88,6 +88,7 @@ architecture, integrations, and the decisions behind them.
 | [grc/framework-catalog.md](grc/framework-catalog.md) | Shipped frameworks, licensing, provenance |
 | [grc/framework-scoping.md](grc/framework-scoping.md) | Profile → framework/control/evidence scoping |
 | [grc/nis2-readiness.md](grc/nis2-readiness.md) | NIS2 Article 20/21/23 obligations mapped to OpenGRC objects and stated gaps |
+| [grc/ai-model-artifacts.md](grc/ai-model-artifacts.md) | Model format, per-file hashes, provenance, findings and dated approval |
 | [grc/control-catalogue-linking.md](grc/control-catalogue-linking.md) | What a control-to-outcome link means, and why unlinked is a valid state |
 | [grc/assurance-matrix.md](grc/assurance-matrix.md) | The framework matrix: statuses, gaps filter, and what the counts exclude |
 | [grc/audit-readiness.md](grc/audit-readiness.md) | Evidence packs, gap reports, and what exports deliberately exclude |

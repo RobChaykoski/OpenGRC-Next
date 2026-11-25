@@ -142,6 +142,15 @@ class ModelArtifact extends Model
     }
 
     /**
+     * Approval must identify the bytes it applies to, and pickle-format files
+     * cannot be approved at all (ADR 0059).
+     */
+    public function canBeApproved(): bool
+    {
+        return ! $this->isPickle() && filled($this->content_hash);
+    }
+
+    /**
      * @param  Builder<ModelArtifact>  $query
      * @return Builder<ModelArtifact>
      */

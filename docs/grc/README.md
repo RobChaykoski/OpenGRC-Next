@@ -32,6 +32,7 @@ important controls and 2 for the rest.
 | Privacy requests | Yes: GDPR/CCPA/PIPEDA/FERPA register, regime clock, verification, extension, overdue enforcement | 4 | `docs/grc/privacy-requests.md` |
 | Non-human identities | Yes: service accounts/tokens/certificates, owner, scope, rotation, expiry, review; optional OpenBao metadata sync | 4 | `docs/grc/non-human-identities.md` |
 | Software supply chain | Yes: CycloneDX SBOM import, OSV vulnerability findings, optional deps.dev/Scorecard enrichment | 3 | `docs/integrations/sbom-osv.md`, `docs/integrations/deps-dev.md` |
+| AI model inventory | Yes: format-aware metadata reads, per-file SHA-256, provenance status, format findings and dated approval; no runtime inventory, registration is CLI-only | 3 | `docs/grc/ai-model-artifacts.md` |
 | Guidance and advisories | Yes: publisher/reference/version, adoption status, owner, review and control mapping | 4 | `docs/grc/guidance-register.md` |
 | Evidence management | Yes: human evidence on implementations, audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
@@ -120,6 +121,11 @@ an audit.
     notification and the final report as evidence, but the timeline belongs in
     the incident tool. Do not use a remediation due date as the legal clock. See
     `docs/grc/nis2-readiness.md`.
+14. **AI model artifacts are registered from the server CLI.** The register
+    records format, per-file hashes, provenance, conversion and a dated approval,
+    but there is no upload screen by design and no inference-runtime inventory.
+    Record the runtime and version on the serving asset or in the notes. See
+    `docs/grc/ai-model-artifacts.md`.
 
 Each gap has a documented workaround. Say so in your own programme documentation
 rather than pretending the tool covers it.
@@ -155,6 +161,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Non-human identities | `docs/grc/non-human-identities.md` |
 | OpenBao secret metadata | `docs/integrations/openbao.md` |
 | SBOM and OSV supply-chain evidence | `docs/integrations/sbom-osv.md` |
+| AI model artifacts and approval | `docs/grc/ai-model-artifacts.md` |
 | SARIF scanner import | `docs/integrations/assessment-sarif.md` |
 | deps.dev and Scorecard enrichment | `docs/integrations/deps-dev.md` |
 | Observable enrichment boundary | `docs/integrations/observable-enrichment.md` |

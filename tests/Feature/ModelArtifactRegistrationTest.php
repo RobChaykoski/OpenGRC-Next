@@ -195,6 +195,45 @@ class ModelArtifactRegistrationTest extends TestCase
         $this->assertSame(0, Finding::query()->count());
     }
 
+    #[Test]
+    public function registration_without_a_scan_tool_does_not_claim_a_scan(): void
+    {
+        $path = $this->artifactDirectory(['model.safetensors' => $this->safetensorsBytes(2)]);
+        $attributes = ['name' => 'Unscanned Model', 'source' => 'https://example.test/model', 'revision' => 'abc123', 'license' => 'apache-2.0'];
+
+        $registrar = app(ModelArtifactRegistrar::class);
+        $first = $registrar->register($path, $attributes);
+
+        $this->assertNull($first['artifact']->last_scanned_at);
+
+        $scanned = $registrar->register($path, $attributes + ['scan_tool' => 'grype', 'scan_tool_version' => '0.1.0']);
+
+        $this->assertNotNull($scanned['artifact']->last_scanned_at);
+        $this->assertSame('grype', $scanned['artifact']->scan_tool);
+
+        $again = $registrar->register($path, $attributes);
+
+        $this->assertSame('grype', $again['artifact']->scan_tool);
+        $this->assertEquals($scanned['artifact']->last_scanned_at, $again['artifact']->last_scanned_at);
+    }
+
+    #[Test]
+    public function an_artifact_without_a_content_hash_cannot_be_approved(): void
+    {
+        $path = $this->artifactDirectory(['model.safetensors' => $this->safetensorsBytes(2)]);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('content hash');
+
+        app(ModelArtifactRegistrar::class)->register(
+            $path,
+            ['name' => 'Unhashed Model', 'source' => 'https://example.test/model', 'revision' => 'abc123'],
+            false,
+            true,
+            User::factory()->create()->getKey(),
+        );
+    }
+
     /**
      * @param  array<string, string>  $files
      */
