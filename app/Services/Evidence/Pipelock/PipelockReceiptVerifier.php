@@ -14,8 +14,9 @@ use Throwable;
  * json.Marshal of the frozen action-record struct, reproduced by
  * PipelockActionCanonicalizer.
  *
- * This verifies individual signatures and records the chain position. It does
- * not walk the receipt chain; chain replay remains a separate verifier step.
+ * This verifies one signature and the record's shape. Chain linkage is replayed
+ * separately by PipelockChainVerifier, because a chain is an ordered batch and
+ * not a property of one receipt.
  */
 final class PipelockReceiptVerifier
 {
@@ -37,7 +38,6 @@ final class PipelockReceiptVerifier
      *     pinned: bool,
      *     signer_key: string|null,
      *     canonical_sha256: string|null,
-     *     chain_verified: bool,
      *     errors: array<int, string>,
      *     warnings: array<int, string>,
      *     receipt: array<string, mixed>|null
@@ -182,7 +182,6 @@ final class PipelockReceiptVerifier
      *     pinned: bool,
      *     signer_key: string|null,
      *     canonical_sha256: string|null,
-     *     chain_verified: bool,
      *     errors: array<int, string>,
      *     warnings: array<int, string>,
      *     receipt: array<string, mixed>|null
@@ -204,7 +203,6 @@ final class PipelockReceiptVerifier
             'pinned' => $pinned,
             'signer_key' => $signerKey,
             'canonical_sha256' => $canonicalSha256,
-            'chain_verified' => false,
             'errors' => $errors,
             'warnings' => $warnings,
             'receipt' => $action,

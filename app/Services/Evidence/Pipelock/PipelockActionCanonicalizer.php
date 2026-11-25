@@ -27,6 +27,55 @@ final class PipelockActionCanonicalizer
     }
 
     /**
+     * Re-serialize a whole receipt envelope for chain linkage.
+     *
+     * Pipelock's chain hash covers the canonical envelope, not only the action
+     * record: it includes the signature and the signer key, so the chain is
+     * bound to one signer. Field order is the Go Receipt struct's declaration
+     * order: version, action_record, signature, signer_key.
+     *
+     * @param  array<string, mixed>  $envelope
+     */
+    public function canonicalEnvelope(array $envelope): string
+    {
+        $unknown = array_diff(array_keys($envelope), ['version', 'action_record', 'signature', 'signer_key']);
+
+        if ($unknown !== []) {
+            throw new InvalidArgumentException('Unknown Pipelock receipt fields: '.implode(', ', $unknown));
+        }
+
+        $version = $envelope['version'] ?? null;
+        $action = $envelope['action_record'] ?? null;
+        $signature = $envelope['signature'] ?? null;
+        $signerKey = $envelope['signer_key'] ?? null;
+
+        if (! is_int($version) || $version < 0) {
+            throw new InvalidArgumentException('Expected a non-negative integer receipt version.');
+        }
+
+        if (! is_array($action) || array_is_list($action)) {
+            throw new InvalidArgumentException('action_record must be an object.');
+        }
+
+        if (! is_string($signature) || ! is_string($signerKey)) {
+            throw new InvalidArgumentException('Expected a string signature and signer_key.');
+        }
+
+        return '{"version":'.$version
+            .',"action_record":'.$this->canonical($action)
+            .',"signature":'.$this->encodeString($signature)
+            .',"signer_key":'.$this->encodeString($signerKey).'}';
+    }
+
+    /**
+     * @param  array<string, mixed>  $envelope
+     */
+    public function envelopeHash(array $envelope): string
+    {
+        return hash('sha256', $this->canonicalEnvelope($envelope));
+    }
+
+    /**
      * @return array<string, array<string, mixed>>
      */
     private function fields(): array

@@ -24,6 +24,7 @@ class ImportPipelockReceipts extends Command
                             {--pubkey= : 64-hex Ed25519 signer key to pin}
                             {--pubkey-file= : File containing the 64-hex signer key}
                             {--allow-unpinned : Verify with the receipt inline key and mark the evidence low confidence}
+                            {--allow-partial-chain : Accept a mid-chain slice; its links are checked but it cannot be chain-verified}
                             {--dry-run : Verify and report without writing}
                             {--json : Emit the report as JSON}';
 
@@ -82,6 +83,7 @@ class ImportPipelockReceipts extends Command
             $pinnedKey,
             (bool) $this->option('allow-unpinned'),
             (bool) $this->option('dry-run'),
+            (bool) $this->option('allow-partial-chain'),
         );
 
         if ($this->option('json')) {
@@ -110,6 +112,7 @@ class ImportPipelockReceipts extends Command
                 ['Duplicates', $result['duplicate']],
                 ['Failed', $result['failed']],
                 ['Pinned key', $result['pinned'] ? 'yes' : 'no'],
+                ['Chain', $this->chainLabel($result)],
                 ['Verdicts', $this->counts($result['verdicts'])],
                 ['Action types', $this->counts($result['action_types'])],
                 ['Dry run', $result['dry_run'] ? 'yes' : 'no'],
@@ -127,6 +130,25 @@ class ImportPipelockReceipts extends Command
         if ($result['errors'] === [] && $result['failed'] === 0) {
             $this->info($result['dry_run'] ? 'Verification completed; nothing was written.' : 'Pipelock receipts imported.');
         }
+    }
+
+    /**
+     * @param  array<string, mixed>  $result
+     */
+    private function chainLabel(array $result): string
+    {
+        $links = (int) ($result['chain_links'] ?? 0);
+        $scope = is_string($result['chain_scope'] ?? null) ? $result['chain_scope'] : 'none';
+
+        if (($result['chain_verified'] ?? false) === true) {
+            return 'verified from genesis ('.$links.' link'.($links === 1 ? '' : 's').')';
+        }
+
+        if ($scope === 'partial') {
+            return 'partial: '.$links.' link'.($links === 1 ? '' : 's').' verified, ancestry unproven';
+        }
+
+        return $links > 0 ? 'broken after '.$links.' verified link'.($links === 1 ? '' : 's') : 'not verified';
     }
 
     /**

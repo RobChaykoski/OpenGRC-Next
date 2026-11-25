@@ -17,11 +17,14 @@ use Throwable;
 /**
  * Verify and import Pipelock ActionReceipt v1 records (ADR 0060).
  *
- * Individual signatures are verified; chain replay is not performed, so the
- * record carries the chain position with `chain_verified: false`. The target is
- * stored as a host plus a SHA-256 of the full target, never the raw URL with its
- * path or query values. Prompts, tool arguments, request bodies and payloads are
- * never copied.
+ * Signatures are verified per receipt, then the batch is replayed as a chain:
+ * chain_seq must increment by one and chain_prev_hash must match the previous
+ * receipt's canonical envelope hash. A batch that starts at genesis and links
+ * completely is recorded with `chain_verified: true`; a mid-chain slice is
+ * refused unless the operator opts in, and is then recorded as unverified
+ * because its ancestry cannot be shown. The target is stored as a host plus a
+ * SHA-256 of the full target, never the raw URL with its path or query values.
+ * Prompts, tool arguments, request bodies and payloads are never copied.
  */
 final class PipelockReceiptImporter
 {
@@ -29,6 +32,7 @@ final class PipelockReceiptImporter
 
     public function __construct(
         protected PipelockReceiptVerifier $verifier,
+        protected PipelockChainVerifier $chain,
         protected EvidenceIngestor $ingestor,
     ) {}
 
@@ -43,6 +47,11 @@ final class PipelockReceiptImporter
      *     failed: int,
      *     pinned: bool,
      *     dry_run: bool,
+     *     chain_verified: bool,
+     *     chain_scope: 'genesis'|'partial'|'none',
+     *     chain_links: int,
+     *     chain_final_seq: int|null,
+     *     chain_head: string|null,
      *     verdicts: array<string, int>,
      *     action_types: array<string, int>,
      *     warnings: array<int, string>,
@@ -57,6 +66,7 @@ final class PipelockReceiptImporter
         ?string $pinnedSignerKey = null,
         bool $allowUnpinned = false,
         bool $dryRun = false,
+        bool $allowPartialChain = false,
     ): array {
         $report = [
             'source' => $sourceName,
@@ -67,6 +77,11 @@ final class PipelockReceiptImporter
             'failed' => 0,
             'pinned' => $pinnedSignerKey !== null,
             'dry_run' => $dryRun,
+            'chain_verified' => false,
+            'chain_scope' => 'none',
+            'chain_links' => 0,
+            'chain_final_seq' => null,
+            'chain_head' => null,
             'verdicts' => [],
             'action_types' => [],
             'warnings' => [],
@@ -95,6 +110,8 @@ final class PipelockReceiptImporter
 
         /** @var array<int, array<string, mixed>> $verified */
         $verified = [];
+        /** @var array<int, array<string, mixed>> $envelopes */
+        $envelopes = [];
         $identities = [];
 
         foreach ($receipts as $index => $receipt) {
@@ -131,12 +148,36 @@ final class PipelockReceiptImporter
             $action['_verification'] = $verification;
             $action['_envelope_signature'] = $receipt['signature'] ?? null;
             $verified[] = $action;
+            $envelopes[] = $receipt;
         }
 
         if ($report['failed'] > 0) {
             $report['warnings'][] = 'The batch was not imported. Correct the receipt errors and run it again.';
 
             return $report;
+        }
+
+        $chain = $this->chain->verify($envelopes, $allowPartialChain);
+
+        $report['warnings'] = array_merge($report['warnings'], $chain['warnings']);
+        $report['errors'] = array_merge($report['errors'], $chain['errors']);
+        $report['chain_verified'] = $chain['complete'];
+        $report['chain_scope'] = $chain['scope'];
+        $report['chain_links'] = $chain['links'];
+        $report['chain_final_seq'] = $chain['final_seq'];
+        $report['chain_head'] = $chain['head_hash'];
+
+        if ($chain['errors'] !== []) {
+            $report['failed'] = count($receipts);
+            $report['warnings'][] = 'The batch was not imported. Correct the receipt errors and run it again.';
+
+            return $report;
+        }
+
+        foreach ($verified as $index => $action) {
+            $verified[$index]['_chain_verified'] = $chain['complete'];
+            $verified[$index]['_chain_scope'] = $chain['scope'];
+            $verified[$index]['_chain_hash'] = $chain['hashes'][$index] ?? null;
         }
 
         if ($dryRun) {
@@ -256,6 +297,7 @@ final class PipelockReceiptImporter
                 'target_sha256' => hash('sha256', $target),
                 'chain_prev_hash' => $this->string($action['chain_prev_hash'] ?? null, 128),
                 'chain_seq' => is_int($action['chain_seq'] ?? null) ? $action['chain_seq'] : null,
+                'chain_hash' => is_string($action['_chain_hash'] ?? null) ? $action['_chain_hash'] : null,
                 'signature' => is_string($action['_envelope_signature'] ?? null) ? $action['_envelope_signature'] : null,
                 'signer_key' => $verification['signer_key'],
             ],
@@ -264,7 +306,8 @@ final class PipelockReceiptImporter
                 'pinned' => $verification['pinned'],
                 'confidence' => $verification['pinned'] ? 'high' : 'low',
                 'canonical_sha256' => $verification['canonical_sha256'],
-                'chain_verified' => false,
+                'chain_verified' => (bool) ($action['_chain_verified'] ?? false),
+                'chain_scope' => is_string($action['_chain_scope'] ?? null) ? $action['_chain_scope'] : 'none',
             ],
             'received_at' => CarbonImmutable::now()->utc()->toIso8601ZuluString(),
         ];

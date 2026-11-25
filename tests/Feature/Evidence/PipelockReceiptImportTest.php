@@ -57,7 +57,10 @@ class PipelockReceiptImportTest extends TestCase
         $this->assertTrue($record->payload['verification']['signature']);
         $this->assertTrue($record->payload['verification']['pinned']);
         $this->assertSame('high', $record->payload['verification']['confidence']);
-        $this->assertFalse($record->payload['verification']['chain_verified']);
+        $this->assertTrue($record->payload['verification']['chain_verified']);
+        $this->assertSame('genesis', $record->payload['verification']['chain_scope']);
+        $this->assertSame('genesis', $record->payload['receipt']['chain_prev_hash']);
+        $this->assertSame('9994a67b9cb324bae8d648b5baccd5d5403600b2bc5047a40d0355a610f2dc44', $record->payload['receipt']['chain_hash']);
 
         $encoded = (string) json_encode($record->payload);
         $this->assertStringNotContainsString('/conformance', $encoded);
@@ -169,6 +172,92 @@ class PipelockReceiptImportTest extends TestCase
         $this->assertSame(1, EvidenceRecord::query()->count());
     }
 
+    #[Test]
+    public function the_published_chain_is_imported_and_marked_chain_verified(): void
+    {
+        $envelopes = $this->chainEnvelopes();
+
+        $this->artisan('opengrc:evidence:pipelock', [
+            'path' => $this->chainPath(),
+            '--pubkey' => $envelopes[0]['signer_key'],
+        ])->assertSuccessful();
+
+        $records = EvidenceRecord::query()->orderBy('id')->get();
+
+        $this->assertCount(5, $records);
+
+        foreach ($records as $index => $record) {
+            $this->assertSame($index, $record->payload['receipt']['chain_seq']);
+            $this->assertTrue($record->payload['verification']['chain_verified']);
+            $this->assertSame('genesis', $record->payload['verification']['chain_scope']);
+        }
+
+        $this->assertSame(
+            $records[1]->payload['receipt']['chain_prev_hash'],
+            $records[0]->payload['receipt']['chain_hash'],
+        );
+    }
+
+    #[Test]
+    public function a_broken_chain_is_rejected_without_writing_anything(): void
+    {
+        $envelopes = $this->chainEnvelopes('broken-chain');
+
+        $this->artisan('opengrc:evidence:pipelock', [
+            'path' => $this->chainPath('broken-chain'),
+            '--pubkey' => $envelopes[0]['signer_key'],
+        ])->assertFailed();
+
+        $this->assertSame(0, EvidenceRecord::query()->count());
+        $this->assertSame(0, EvidenceJob::query()->count());
+    }
+
+    #[Test]
+    public function a_mid_chain_slice_needs_the_opt_in_and_stays_unverified(): void
+    {
+        $envelopes = array_slice($this->chainEnvelopes(), 3);
+        $path = $this->temporaryJsonLines([$envelopes[0], $envelopes[1]]);
+        $key = $envelopes[0]['signer_key'];
+
+        $this->artisan('opengrc:evidence:pipelock', [
+            'path' => $path,
+            '--pubkey' => $key,
+        ])->assertFailed();
+
+        $this->assertSame(0, EvidenceRecord::query()->count());
+
+        $this->artisan('opengrc:evidence:pipelock', [
+            'path' => $path,
+            '--pubkey' => $key,
+            '--allow-partial-chain' => true,
+        ])->assertSuccessful();
+
+        $records = EvidenceRecord::query()->orderBy('id')->get();
+
+        $this->assertCount(2, $records);
+
+        foreach ($records as $record) {
+            $this->assertFalse($record->payload['verification']['chain_verified']);
+            $this->assertSame('partial', $record->payload['verification']['chain_scope']);
+        }
+
+        $this->assertSame(EvidenceJobStatus::Completed, EvidenceJob::query()->sole()->status);
+    }
+
+    #[Test]
+    public function an_out_of_order_chain_is_rejected(): void
+    {
+        $envelopes = $this->chainEnvelopes();
+        $path = $this->temporaryJsonLines([$envelopes[0], $envelopes[2], $envelopes[1]]);
+
+        $this->artisan('opengrc:evidence:pipelock', [
+            'path' => $path,
+            '--pubkey' => $envelopes[0]['signer_key'],
+        ])->assertFailed();
+
+        $this->assertSame(0, EvidenceRecord::query()->count());
+    }
+
     /**
      * @return array<string, mixed>
      */
@@ -186,6 +275,40 @@ class PipelockReceiptImportTest extends TestCase
     private function fixturePath(): string
     {
         return base_path('tests/Fixtures/pipelock/valid-single.json');
+    }
+
+    private function chainPath(string $name = 'valid-chain'): string
+    {
+        return base_path("tests/Fixtures/pipelock/{$name}.jsonl");
+    }
+
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    private function chainEnvelopes(string $name = 'valid-chain'): array
+    {
+        $contents = (string) file_get_contents($this->chainPath($name));
+        $envelopes = [];
+
+        foreach (preg_split('/\R/', $contents) ?: [] as $line) {
+            $line = trim($line);
+
+            if ($line === '') {
+                continue;
+            }
+
+            try {
+                $decoded = json_decode($line, true, 512, JSON_THROW_ON_ERROR);
+            } catch (JsonException $exception) {
+                $this->fail('The Pipelock chain fixture is not valid JSONL: '.$exception->getMessage());
+            }
+
+            if (is_array($decoded)) {
+                $envelopes[] = $decoded;
+            }
+        }
+
+        return $envelopes;
     }
 
     /**

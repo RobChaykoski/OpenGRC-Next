@@ -161,9 +161,26 @@ php artisan opengrc:evidence:pipelock path/to/receipt.json \
   target. The path and query are not copied.
 - `--allow-unpinned` verifies against the inline signer key and stores low
   confidence; `--dry-run` verifies without writing.
-- Individual signatures are verified; the flight-recorder **chain is not
-  replayed**. The record carries `chain_prev_hash`, `chain_seq` and
-  `chain_verified: false`. Chain replay is a separate verifier step.
+- The batch is replayed as a chain. `chain_seq` starts at 0 and increments by one,
+  and `chain_prev_hash` is the hex SHA-256 of the previous receipt's canonical
+  envelope (`version`, `action_record`, `signature`, `signer_key`), or `genesis`
+  for the first receipt. The canonical envelope is recomputed, so the chain binds
+  the signature and the signer key, not only the action record.
+- A chain that links from genesis is imported with `chain_verified: true`, and
+  each record stores its own `chain_hash` next to `chain_prev_hash`, so the next
+  import can be correlated without trusting a filename. One chain has one signer;
+  a receipt signed by another key is rejected rather than spliced in.
+- A broken link, a sequence gap or an out-of-order batch rejects the whole batch.
+  A mid-chain slice is refused unless `--allow-partial-chain` is passed; those
+  records are stored with `chain_verified: false` and `chain_scope: partial`,
+  because ancestry back to genesis cannot be shown. Records are append-only, so a
+  later import of the whole run does not upgrade an earlier partial record; it
+  adds the missing receipts and leaves the earlier verdict as it was.
+- Chain replay proves the receipts present were written by the signer, in order,
+  from genesis. It does not prove the last receipt is the run's last: a truncated
+  export looks like a shorter run. It also does not cross a signing-key rotation;
+  export each segment and pin its key. A rotated batch is rejected rather than
+  guessed.
 - Stored fields are the action id/type, timestamp, principal, actor, verdict,
   transport, method, policy hash, side-effect/reversibility classes, data-class
   labels, decision phase, layer/pattern/severity, session/request ids, the
@@ -325,11 +342,11 @@ with a rationale and a reviewer; do not map by feature name.
   identifier and does not merge it with an OpenGRC user.
 - These sources produce decision evidence, not control effectiveness. A control
   is still tested by a person or a validation rule.
-- Prismor receipts and attestation bundles plus hash-verified sensor summaries
-  are implemented. Pipelock, the push endpoint, direct vendor connectors and a
-  first-class agent inventory remain future work. Until they exist, attach
-  another source's export to a control, record the hash and time, and keep raw
-  content out of the record.
+- Prismor receipts and attestation bundles, Pipelock action receipts with chain
+  replay, and hash-verified sensor summaries are implemented. The push endpoint,
+  direct vendor connectors, signing-key rotation replay and a first-class agent
+  inventory remain future work. Until they exist, attach another source's export
+  to a control, record the hash and time, and keep raw content out of the record.
 - A packet-capture store such as Arkime proves that a session existed, not that a
   control worked. Its value is the aggregate and the link for an investigator.
 

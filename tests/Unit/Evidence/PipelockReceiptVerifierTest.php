@@ -23,7 +23,6 @@ class PipelockReceiptVerifierTest extends TestCase
         $this->assertTrue($result['pinned']);
         $this->assertSame($envelope['signer_key'], $result['signer_key']);
         $this->assertNotNull($result['canonical_sha256']);
-        $this->assertFalse($result['chain_verified']);
         $this->assertSame([], $result['errors']);
     }
 
