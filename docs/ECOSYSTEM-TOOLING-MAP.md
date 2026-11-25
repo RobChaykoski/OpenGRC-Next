@@ -30,6 +30,7 @@ different jobs.
 | Endpoint detection | Wazuh, Sysmon, Fail2Ban, Lynis | SOC01/SOC04/SOC07 labs | Endpoint control evidence | Collector host hardening | Clinical endpoint compliance |
 | Network detection | Suricata, Zeek, Security Onion | SOC02/SOC03/SOC08 labs | Detection-control evidence | Sensor detection evidence | Clinical network monitoring evidence |
 | Packet capture / NSM | Arkime | SOC/NSM lab | Aggregate session and retention evidence only; no PCAPs or payloads (ADR 0060) | Sensor context | Clinical network investigation reference |
+| Kubernetes network observability | Cilium Hubble | K8s service-map labs | Aggregate flow and service-edge evidence only; no raw flows (ADR 0058) | Cluster and data-source context | Clinical platform flow evidence |
 | AI agent runtime | Prismor, Pipelock, DefenseClaw, agentgateway | Agentic-security labs: egress, tool calls, approvals | Prismor receipt import with a pinned key; other sources designed, not wired (ADR 0060) | Agent runtime decision evidence | Agent workflow policy evidence |
 | Web/VM scanning | OpenVAS, Nessus, Nikto, OWASP ZAP, OWASP WSTG, ASVS | VM02/VM03/VM05 labs | Vulnerability-management and application-security control evidence | Web service exposure evidence | Clinical web app vulnerability evidence |
 | Adversary emulation | Apache Caldera, Atomic Red Team | SOC/VM purple-team labs | Control-testing evidence from completed range operations | Detection-validation lab engine | Clinical control-testing evidence |

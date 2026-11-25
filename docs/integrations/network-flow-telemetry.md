@@ -27,6 +27,7 @@ Show the live network paths that matter to a control owner:
 | Layer | Owner | Responsibility |
 |---|---|---|
 | Collection and selection | OpenCompliance endpoint | Enable NetFlow/sFlow/IPFIX, observe eBPF or cloud flows, apply selectors, export metadata |
+| Kubernetes observation | Cilium Hubble | L3/L4/L7 service map and flow view for Kubernetes workloads; read-only investigation surface |
 | Transport | Broker | Durable, replayable flow and change events |
 | Enrichment | Stream processor | Join flows to OpenMetadata assets and OpenGRC control/risk state; compute windows |
 | Projection | Graph store | Current node/edge view and traversal queries |
@@ -191,6 +192,15 @@ Arkime is a full-packet store, not a flow source. Keep the PCAP in Arkime and
 import only session counts plus retention and sensor health into OpenGRC; a
 bounded capture is an investigation artifact under ADR 0019, not a GRC record.
 The same rule applies to any other PCAP store the deployment uses.
+
+Cilium Hubble is a Kubernetes L3/L4/L7 service map and flow view, not a flow
+collector or the GRC console. Where the deployment runs Cilium, import aggregate
+flow counts by namespace, service, verdict and protocol, plus service-map edges
+and sensor health over a stated window. Do not import raw flows, DNS query names,
+HTTP URLs, payloads or process data. Hubble UI is a read-only investigation
+surface; OpenGRC remains the authoritative console for controls, risks and
+evidence. Use Hubble's metrics or a read-only API snapshot, not the UI, as the
+connector source.
 
 ## Privacy and security
 

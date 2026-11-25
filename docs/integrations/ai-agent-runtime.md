@@ -35,6 +35,7 @@ agent / MCP client
 | agentgateway | Apache-2.0 | Active | OpenTelemetry metrics, logs and traces; policy decisions in logs | Aggregate telemetry, low confidence |
 | Suricata | GPL-2.0 | Active | EVE JSON alerts, flows, protocol events and sensor stats | Aggregate detector and sensor health |
 | Arkime | Apache-2.0 | Active | Full PCAP capture, indexed session metadata, viewer and API | Aggregate session and retention evidence; no PCAP |
+| Cilium Hubble | Apache-2.0 | Active | Kubernetes L3/L4/L7 flow visibility, service map and verdicts | Aggregate flow and service-edge counts; no raw flows or payloads |
 | ruby-nmap | MIT | Active | nmap XML parser and command wrapper | Lab tool; summary only |
 | Peplum / Peplum::Nmap | MIT-style | Inactive since 2023 | Distributed nmap output | Lab reference only; not a dependency |
 | Trylon Gateway | BSL 1.1 | Active | Policy decisions and redaction | Not a dependency; reference only |
@@ -179,6 +180,15 @@ the forensic evidence rules in ADR 0019 and keep the PCAP in Arkime; the GRC
 record holds the summary and the link. Do not make the application database a
 packet store.
 
+### Cilium Hubble
+
+Import aggregate flow counts by namespace, service, verdict and protocol, plus
+service-map edges and sensor health for a stated window. Do not import raw flows,
+DNS query names, HTTP URLs, process data or payloads. Hubble UI is a read-only
+investigation surface, not the GRC console; use Hubble metrics or a read-only API
+snapshot as the connector source. See the network-flow boundary in
+`network-flow-telemetry.md` and ADR 0058.
+
 ### nmap, ruby-nmap and Peplum
 
 These are scanning tools for a lab or an authorised assessment. OpenGRC accepts a
@@ -253,9 +263,10 @@ with a rationale and a reviewer; do not map by feature name.
 - These sources produce decision evidence, not control effectiveness. A control
   is still tested by a person or a validation rule.
 - Only Prismor receipts and attestation bundles are implemented. Pipelock, the
-  push endpoint, sensor summaries and a first-class agent inventory remain
-  future work. Until they exist, attach another source's export to a control,
-  record the hash and time, and keep raw content out of the record.
+  push endpoint, sensor summaries (Suricata, Arkime, Cilium Hubble) and a
+  first-class agent inventory remain future work. Until they exist, attach
+  another source's export to a control, record the hash and time, and keep raw
+  content out of the record.
 - A packet-capture store such as Arkime proves that a session existed, not that a
   control worked. Its value is the aggregate and the link for an investigator.
 

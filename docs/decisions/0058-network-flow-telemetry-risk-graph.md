@@ -33,6 +33,9 @@ The OpenCompliance endpoint is the collection and selection point:
   interface or sensor.
 - It supports **real-time monitoring** and **traffic selection**. A selector can
   export a flow, request a bounded packet capture, or suppress a noisy flow.
+- Where Kubernetes is in scope, it can read aggregate **Cilium Hubble** flow and
+  service-map data. Hubble UI is a read-only investigation view, not the GRC
+  console or a system of record.
 - It does **not** become the system of record for controls, risks, or assets.
 
 ### 2. The pipeline is decoupled
@@ -57,6 +60,7 @@ migration must not stop telemetry.
 | OpenGRC | Controls, frameworks, risks, exceptions, findings, evidence state, approvals | Packet capture, flow retention, graph queries |
 | OpenMetadata | Asset identity, ownership, lineage, classification, service metadata | Control status or risk acceptance |
 | OpenCompliance endpoint | Flow observation, export selection, sensor health | Compliance decisions |
+| Cilium Hubble | Kubernetes L3/L4/L7 flow visibility and service map | Compliance decisions, raw flow retention, graph queries |
 | Graph store | The current node/edge projection and traversal queries | The authoritative record of any control or asset |
 
 The graph is a **read-only projection**. Deleting or rebuilding it must not lose

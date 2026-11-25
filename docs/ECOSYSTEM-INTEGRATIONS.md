@@ -18,6 +18,7 @@ operational data.
 | OpenVAS / Nessus / Nikto / ZAP | Vulnerability and remediation evidence | Finding counts, severities, exception state, patch evidence |
 | Wazuh / Suricata / Zeek / Sysmon / Security Onion | Detection and monitoring evidence | Control-linked alert and coverage summaries |
 | Arkime | Full-packet capture: session counts, retention and sensor health | Read-only aggregate API; no PCAP, payload or raw session export |
+| Cilium Hubble | Kubernetes L3/L4/L7 flow visibility and service map | Read-only aggregate flow and service-edge metrics; no raw flows, DNS names, URLs or payloads |
 | Prismor / Pipelock / DefenseClaw / agentgateway | AI agent runtime: tool-call and egress decisions, agent inventory, signed receipts | Signed receipt or hash-verified export; no prompts, tool arguments, bodies or secrets |
 | Gophish | Phishing simulation: campaign aggregate counts, rates and dates against an awareness control | Read-only summary API; aggregate only, never target rows, event timelines or submitted data |
 | OpenDetectionEngine / SIEM / endpoint engine | Detection rule coverage: YARA/Sigma counts, failing rules, ATT&CK coverage, validation age | Hash-verified `detection-coverage` snapshots; no rule bodies, samples or log lines |
