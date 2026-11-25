@@ -34,6 +34,7 @@ agent / MCP client
 | DefenseClaw | Apache-2.0 | Active | Capability scan and runtime inspection; durable audit-evidence export | Hash-verified export |
 | agentgateway | Apache-2.0 | Active | OpenTelemetry metrics, logs and traces; policy decisions in logs | Aggregate telemetry, low confidence |
 | Suricata | GPL-2.0 | Active | EVE JSON alerts, flows, protocol events and sensor stats | Aggregate detector and sensor health |
+| Arkime | Apache-2.0 | Active | Full PCAP capture, indexed session metadata, viewer and API | Aggregate session and retention evidence; no PCAP |
 | ruby-nmap | MIT | Active | nmap XML parser and command wrapper | Lab tool; summary only |
 | Peplum / Peplum::Nmap | MIT-style | Inactive since 2023 | Distributed nmap output | Lab reference only; not a dependency |
 | Trylon Gateway | BSL 1.1 | Active | Policy decisions and redaction | Not a dependency; reference only |
@@ -136,6 +137,19 @@ Do not import payloads, packet data, raw URLs or full flow records. A signature 
 a detector, not a verdict: a validation rule or reviewer decides what a count
 means for the control. See ADR 0058 for the flow-telemetry boundary.
 
+### Arkime
+
+Import aggregate session counts by protocol, service and direction, sensor and
+retention health, and a reference to the Arkime query or session. Do not import
+PCAPs, payloads, raw session JSON (which contains URLs, queries and headers),
+credentials or user identities beyond the source's own pseudonymous id. Arkime
+is not an IDS: a session is a record that traffic occurred, not a verdict.
+
+A bounded capture is an investigation artifact. If it must be attached, follow
+the forensic evidence rules in ADR 0019 and keep the PCAP in Arkime; the GRC
+record holds the summary and the link. Do not make the application database a
+packet store.
+
 ### nmap, ruby-nmap and Peplum
 
 These are scanning tools for a lab or an authorised assessment. OpenGRC accepts a
@@ -213,10 +227,13 @@ with a rationale and a reviewer; do not map by feature name.
   sensor summaries and an agent inventory remain future work. Until they exist,
   attach another source's export to a control, record the hash and time, and keep
   raw content out of the record.
+- A packet-capture store such as Arkime proves that a session existed, not that a
+  control worked. Its value is the aggregate and the link for an investigator.
 
 ## Related
 
 - [ADR 0060: agent runtime and sensor evidence is imported, not mediated](../decisions/0060-ai-agent-runtime-evidence.md)
+- [ADR 0019: forensic evidence handling](../decisions/0019-forensic-evidence-handling.md)
 - [ADR 0054: streaming evidence is a push contract](../decisions/0054-streaming-evidence-contract.md)
 - [ADR 0058: network-flow telemetry feeds a risk graph](../decisions/0058-network-flow-telemetry-risk-graph.md)
 - [ADR 0059: AI model artifacts](../decisions/0059-ai-model-artifact-register.md)

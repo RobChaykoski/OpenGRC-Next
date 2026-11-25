@@ -187,6 +187,11 @@ the console calls.
 
 Set per-tenant caps. A noisy lab network must not starve production.
 
+Arkime is a full-packet store, not a flow source. Keep the PCAP in Arkime and
+import only session counts plus retention and sensor health into OpenGRC; a
+bounded capture is an investigation artifact under ADR 0019, not a GRC record.
+The same rule applies to any other PCAP store the deployment uses.
+
 ## Privacy and security
 
 - Metadata only by default; no payload, credentials, or query text.

@@ -30,6 +30,7 @@ The candidates differ in evidence quality, not only features:
 | agentgateway | Apache-2.0 | OpenTelemetry metrics, logs and traces; policy decisions in logs |
 | Trylon Gateway | BSL 1.1 | Policy decisions and redaction; source-available, not OSI-approved |
 | Suricata | GPL-2.0 | EVE JSON alerts, flows, protocol events and sensor stats |
+| Arkime | Apache-2.0 | Full PCAP capture, indexed session metadata, viewer and API |
 | Peplum / Peplum::Nmap | MIT-style; inactive since 2023 | Distributed nmap output; no governance evidence surface |
 | ruby-nmap | MIT | nmap XML parsing; a lab tool, not a service |
 
@@ -81,6 +82,10 @@ tool saw every path. That limit is recorded with the evidence.
   or through a read-only API with a hash-verified snapshot, following ADR 0009.
 - OpenGRC does not host an MCP server, an agent gateway, or a scanner. ADR 0006
   removed MCP from the community edition and this decision does not reverse it.
+- A packet-capture store such as Arkime is not an evidence store for OpenGRC.
+  The GRC record holds the session summary, retention state and a reference; the
+  PCAP stays in Arkime. A bounded capture attached to an investigation follows
+  the forensic evidence rules in ADR 0019, not this import.
 - A source that cannot sign or hash is still usable as a lead, not as evidence.
 
 ### 5. Tool selection gates
@@ -157,6 +162,7 @@ mapping.
 
 - ADR 0006: MCP removed from the community edition
 - ADR 0009: continuous control monitoring
+- ADR 0019: forensic evidence handling
 - ADR 0028: SBOM and OSV are supply-chain evidence, not a scanner
 - ADR 0054: streaming evidence is a push contract
 - ADR 0056: the audit ledger
