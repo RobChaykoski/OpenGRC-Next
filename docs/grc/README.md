@@ -194,6 +194,7 @@ The playbook for the full operating rhythm is in `docs/grc/program-playbook.md`.
 | Vendor subcontractors (fourth parties) | `docs/grc/vendor-subcontractors.md` |
 | Regulatory and standard changes | `docs/grc/regulatory-changes.md` |
 | NIS2 readiness and evidence mapping | `docs/grc/nis2-readiness.md` |
+| OSFI B-13, E-23 and I-CRT readiness | `docs/grc/osfi-readiness.md` |
 | Document templates | `docs/grc/document-templates.md` |
 | Continuous monitoring | `docs/decisions/0009-continuous-control-monitoring.md` |
 | Data loss prevention and AI limits | `docs/security/data-loss-prevention.md` |

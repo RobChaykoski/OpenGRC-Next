@@ -79,6 +79,9 @@ licence allows, and link to the rest.
 | GO-ITS 25.0 General Security Requirements | Government of Ontario | Publicly posted, but no open licence statement; site carries © King's Printer for Ontario. It also derives from ISO/IEC 27002, which is commercial | Do not bundle. Import only with written permission, or map your own controls to it |
 | GO-ITS 36 (ESACM), GO-ITS 44 (ITSM terminology) | Government of Ontario | Same position as GO-ITS 25.0 | Link and map; do not redistribute the text |
 | Cyber Security Maturity Assessment (CMA) tool | Cyber Security Ontario | Assessment tool behind a login; © King's Printer for Ontario | Not redistributable. Use it as an external assessment and record the result as evidence |
+| OSFI B-13 Technology and Cyber Risk Management | Office of the Superintendent of Financial Institutions | Government of Canada guidance; OSFI reproduction terms apply | Link and map the principles to your controls. Do not bundle the guideline text |
+| OSFI E-23 Model Risk Management (2027) | Office of the Superintendent of Financial Institutions | Government of Canada guidance; effective 1 May 2027 | Link and map. OpenGRC does not provide a general model inventory; see `docs/grc/osfi-readiness.md` |
+| OSFI Intelligence-led Cyber Resilience Testing (I-CRT) Framework | Office of the Superintendent of Financial Institutions | Advisory and supervisory methodology, not a control catalogue | Keep the restricted I-CRT evidence in a controlled audit or exercise; do not bundle the framework |
 
 "Open Government Licence – Canada" requires attribution and does not grant
 trademark rights or cover personal information. It is a real permission, not a

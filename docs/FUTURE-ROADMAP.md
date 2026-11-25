@@ -55,7 +55,8 @@ authored content and needs review.
 - **PHIPA (Ontario) and provincial health statutes** — circle of care, lockbox,
   access/correction, breach reporting, retention.
 - **PCMLTFA** — AML/KYC program, records retention, beneficial ownership.
-- **OSFI** — governance, cyber-resilience, third-party risk.
+- **OSFI** - B-13 technology and cyber risk, E-23 model risk (effective 1 May
+  2027), and I-CRT. See `docs/grc/osfi-readiness.md`.
 - **HIPAA** — applies only when handling US PHI as a covered entity or business
   associate; do not assume it applies to Canadian patients.
 
