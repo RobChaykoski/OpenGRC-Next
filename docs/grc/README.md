@@ -33,7 +33,7 @@ important controls and 2 for the rest.
 | Non-human identities | Yes: service accounts/tokens/certificates, owner, scope, rotation, expiry, review; optional OpenBao metadata sync | 4 | `docs/grc/non-human-identities.md` |
 | Software supply chain | Yes: CycloneDX SBOM import, OSV vulnerability findings, optional deps.dev/Scorecard enrichment | 3 | `docs/integrations/sbom-osv.md`, `docs/integrations/deps-dev.md` |
 | AI model inventory | Yes: format-aware metadata reads, per-file SHA-256, provenance status, format findings and dated approval; no runtime inventory, registration is CLI-only | 3 | `docs/grc/ai-model-artifacts.md` |
-| AI agent runtime evidence | Partial: Prismor signed receipts and attestation bundles, including agent inventory and coverage claims; no push endpoint, other gateways or first-class agent inventory | 2 | `docs/integrations/ai-agent-runtime.md` |
+| AI agent runtime evidence | Partial: Prismor signed receipts and attestation bundles, plus hash-verified sensor summaries; no push endpoint, direct vendor connectors or first-class agent inventory | 2 | `docs/integrations/ai-agent-runtime.md` |
 | Guidance and advisories | Yes: publisher/reference/version, adoption status, owner, review and control mapping | 4 | `docs/grc/guidance-register.md` |
 | Evidence management | Yes: human evidence on implementations, audits and data requests; hashed, append-only machine evidence per control | 3 | `docs/grc/evidence-standard.md` |
 | Continuous control monitoring | Yes: sources, jobs, rules, validations, automatic findings | 4 | `docs/decisions/0009-continuous-control-monitoring.md` |
@@ -129,11 +129,13 @@ an audit.
     `docs/grc/ai-model-artifacts.md`.
 15. **AI agent runtime evidence is partially ingested.** Prismor signed receipts
     and attestation bundles can be verified and imported by CLI with a pinned
-    key. There is no push endpoint, no first-class agent inventory, and no
-    connector for the other gateways. The attestation's inventory is evidence
-    metadata, not an asset record. Until a connector exists, attach another
-    source's export to the relevant control and keep raw prompts and tool
-    arguments out of the record. See `docs/integrations/ai-agent-runtime.md`.
+    key, and aggregate Suricata, Arkime or Hubble summaries can be imported with
+    a file hash. There is no push endpoint, no direct vendor connector, no
+    first-class agent inventory, and no connector for the other gateways. The
+    attestation's inventory is evidence metadata, not an asset record. Until a
+    connector exists, attach another source's export to the relevant control and
+    keep raw prompts and tool arguments out of the record. See
+    `docs/integrations/ai-agent-runtime.md`.
 
 Each gap has a documented workaround. Say so in your own programme documentation
 rather than pretending the tool covers it.

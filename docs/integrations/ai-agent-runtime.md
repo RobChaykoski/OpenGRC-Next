@@ -1,10 +1,10 @@
 # AI agent runtime and sensor evidence
 
-Status: **Prismor receipt and attestation import implemented**; the wider design
-is accepted ([ADR 0060](../decisions/0060-ai-agent-runtime-evidence.md)). This
-page defines the boundary, the evidence contract, which sources are suitable,
-and the sources wired today. Pipelock, the push endpoint and sensor summaries
-are not implemented.
+Status: **Prismor receipts and attestation bundles plus hash-verified sensor
+summaries implemented**; the wider design is accepted
+([ADR 0060](../decisions/0060-ai-agent-runtime-evidence.md)). This page defines
+the boundary, the evidence contract, which sources are suitable, and the sources
+wired today. Pipelock and the push endpoint are not implemented.
 
 ## Why this is not another dashboard
 
@@ -204,6 +204,43 @@ BSL 1.1 is source-available and outside the dependency allowlist. It can be name
 in a comparison or a lab. An operator who uses it attaches the vendor's export to
 the relevant control by hand; OpenGRC does not ship a connector.
 
+## Sensor summary contract
+
+Suricata, Arkime and Cilium Hubble share one import command for aggregate
+summaries:
+
+```bash
+php artisan opengrc:evidence:sensor-summary path/to/summary.json \
+  --sha256=<sha256-of-the-exact-file> \
+  --control=A.8.16 \
+  --source=Suricata
+```
+
+The input is a normalised object:
+
+```json
+{
+  "schema": "opengrc.sensor-summary.v1",
+  "source": "suricata",
+  "sensor": "edge-01",
+  "window": {"from": "2026-11-24T00:00:00Z", "to": "2026-11-24T23:59:59Z"},
+  "counts": {"events": 1200, "alerts": 14, "blocked": 3},
+  "by_verdict": {"allowed": 1183, "blocked": 3, "warned": 14},
+  "by_protocol": {"tcp": 1000, "udp": 200},
+  "by_service": [{"name": "https", "count": 800}],
+  "edges": [{"from": "dmz", "to": "internet", "count": 700}],
+  "health": {"last_event_at": "2026-11-24T23:59:57Z", "capture_drops": 0, "uptime_seconds": 86400}
+}
+```
+
+Only those keys are stored. Extra fields (raw events, URLs, payloads) are
+ignored by the importer, not copied. `--sha256` must match the exact file bytes;
+without it, `--allow-unhashed` stores the summary with low confidence. A
+hash-verified file is medium confidence: it proves the bytes matched the hash the
+operator supplied, not who produced them. The evidence type is
+`sensor-summary`, the record status is `Unknown`, and a validation rule or
+reviewer decides what the counts mean for the control.
+
 ## Control mapping
 
 | Outcome | Control area | Evidence |
@@ -262,8 +299,8 @@ with a rationale and a reviewer; do not map by feature name.
   identifier and does not merge it with an OpenGRC user.
 - These sources produce decision evidence, not control effectiveness. A control
   is still tested by a person or a validation rule.
-- Only Prismor receipts and attestation bundles are implemented. Pipelock, the
-  push endpoint, sensor summaries (Suricata, Arkime, Cilium Hubble) and a
+- Prismor receipts and attestation bundles plus hash-verified sensor summaries
+  are implemented. Pipelock, the push endpoint, direct vendor connectors and a
   first-class agent inventory remain future work. Until they exist, attach
   another source's export to a control, record the hash and time, and keep raw
   content out of the record.

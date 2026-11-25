@@ -1,0 +1,41 @@
+{
+  "schema": "opengrc.sensor-summary.v1",
+  "source": "suricata",
+  "sensor": "edge-01",
+  "window": {
+    "from": "2026-11-24T00:00:00Z",
+    "to": "2026-11-24T23:59:59Z"
+  },
+  "counts": {
+    "events": 1200,
+    "alerts": 14,
+    "blocked": 3
+  },
+  "by_verdict": {
+    "allowed": 1183,
+    "blocked": 3,
+    "warned": 14
+  },
+  "by_protocol": {
+    "tcp": 1000,
+    "udp": 200
+  },
+  "by_service": [
+    { "name": "https", "count": 800 },
+    { "name": "dns", "count": 200 }
+  ],
+  "edges": [
+    { "from": "dmz", "to": "internet", "count": 700 },
+    { "from": "lan", "to": "dmz", "count": 500 }
+  ],
+  "health": {
+    "last_event_at": "2026-11-24T23:59:57Z",
+    "capture_drops": 0,
+    "uptime_seconds": 86400,
+    "healthy": true
+  },
+  "raw": {
+    "payload": "must not be stored",
+    "url": "https://must-not-be-stored.example.test/secret"
+  }
+}

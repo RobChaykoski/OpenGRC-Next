@@ -80,7 +80,7 @@ architecture, integrations, and the decisions behind them.
 | [integrations/digital-forensics-lab.md](integrations/digital-forensics-lab.md) | External forensics curriculum: provenance, licence limits, scenario mapping |
 | [integrations/streaming-evidence.md](integrations/streaming-evidence.md) | Signed push for time-sensitive evidence: stream, cursor, HMAC, responses |
 | [integrations/network-flow-telemetry.md](integrations/network-flow-telemetry.md) | OpenCompliance flow export, OpenMetadata enrichment, and the risk-graph projection |
-| [integrations/ai-agent-runtime.md](integrations/ai-agent-runtime.md) | Agent gateway and sensor evidence: Prismor receipts and attestation bundles, verification, scope, and excluded sources |
+| [integrations/ai-agent-runtime.md](integrations/ai-agent-runtime.md) | Agent gateway and sensor evidence: Prismor receipts and attestations, hash-verified sensor summaries, verification, scope, and excluded sources |
 
 ## GRC practice
 
