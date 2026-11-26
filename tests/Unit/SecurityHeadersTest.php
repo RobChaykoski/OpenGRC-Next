@@ -101,6 +101,32 @@ class SecurityHeadersTest extends TestCase
         $this->assertSame('no-referrer', $result->headers->get('Referrer-Policy'));
     }
 
+    #[Test]
+    public function it_does_not_upgrade_insecure_requests_on_a_plain_http_production_host(): void
+    {
+        $this->app->detectEnvironment(fn () => 'production');
+        config(['app.url' => 'http://172.16.16.88:8080']);
+
+        $response = $this->handle('http://172.16.16.88:8080/app/login');
+        $csp = (string) $response->headers->get('Content-Security-Policy');
+
+        // A browser would rewrite every asset to https:// on port 8080, fail
+        // the TLS handshake, and render the login page unstyled.
+        $this->assertStringNotContainsString('upgrade-insecure-requests', $csp);
+    }
+
+    #[Test]
+    public function it_upgrades_insecure_requests_on_https_production(): void
+    {
+        $this->app->detectEnvironment(fn () => 'production');
+        config(['app.url' => 'https://grc.example.com']);
+
+        $response = $this->handle('https://grc.example.com/app/login');
+        $csp = (string) $response->headers->get('Content-Security-Policy');
+
+        $this->assertStringContainsString('upgrade-insecure-requests', $csp);
+    }
+
     protected function handle(string $url, string $contentType = 'text/html'): Response
     {
         $middleware = new SecurityHeaders;

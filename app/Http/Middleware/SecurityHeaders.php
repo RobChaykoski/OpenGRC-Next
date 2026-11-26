@@ -132,8 +132,12 @@ class SecurityHeaders
             // Object/embed restrictions
             "object-src 'none'",
 
-            // Upgrade insecure requests in production
-            ...$this->productionDirectives(),
+            // Upgrade insecure requests in production, but only when the
+            // deployment is actually served over HTTPS. On a plain-HTTP pilot
+            // a browser would otherwise rewrite every CSS, JS, font, and image
+            // URL to https:// on the same port, fail the TLS handshake, and
+            // render the login page as unstyled HTML.
+            ...$this->productionDirectives($request),
         ];
 
         return implode('; ', array_filter($directives));
@@ -193,12 +197,18 @@ class SecurityHeaders
     /**
      * Get additional directives for production environment.
      */
-    protected function productionDirectives(): array
+    protected function productionDirectives(Request $request): array
     {
-        if (app()->environment('production')) {
-            return ['upgrade-insecure-requests'];
+        if (! app()->environment('production')) {
+            return [];
         }
 
-        return [];
+        // HSTS and upgrade-insecure-requests both assume HTTPS. Sending either
+        // from a plain-HTTP deployment breaks asset loading in the browser.
+        if (! $request->isSecure() && ! str_starts_with((string) config('app.url'), 'https://')) {
+            return [];
+        }
+
+        return ['upgrade-insecure-requests'];
     }
 }
