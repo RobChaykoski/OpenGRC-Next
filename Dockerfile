@@ -189,12 +189,15 @@ RUN echo "* * * * * www-data cd /var/www/html && php artisan schedule:run >> /de
 EXPOSE 80
 
 # Health check: the login page returns 200 only when the app, database, and
-# compiled assets are all working. `/` returns a redirect either way.
+# compiled assets are all working. `/` returns a redirect either way. The probe
+# script sends the APP_URL host header so TrustHosts accepts the loopback
+# request on deployments that are not served from localhost.
 HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=5 \
-    CMD curl -fsS http://localhost/app/login >/dev/null || exit 1
+    CMD ["/usr/local/bin/opengrc-healthcheck"]
 
 # Copy and set up entrypoint script
+COPY docker/healthcheck.sh /usr/local/bin/opengrc-healthcheck
 COPY docker-entrypoint.sh /var/www/html/docker-entrypoint.sh
-RUN chmod +x /var/www/html/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/opengrc-healthcheck /var/www/html/docker-entrypoint.sh
 
 ENTRYPOINT ["/var/www/html/docker-entrypoint.sh"]
