@@ -15,7 +15,7 @@ use Illuminate\Console\Command;
 class NotifyControlTesting extends Command
 {
     protected $signature = 'opengrc:controls:testing:notify
-                            {--days=7 : Include tests due within this many days}
+                            {--days= : Include tests due within this many days; defaults to config}
                             {--dry-run : Report what would be sent without writing}
                             {--json : Output machine-readable JSON}';
 
@@ -23,7 +23,11 @@ class NotifyControlTesting extends Command
 
     public function handle(ControlTestingReminder $reminder): int
     {
-        $days = max(0, (int) $this->option('days'));
+        $days = $this->option('days');
+        $days = ($days === null || $days === '')
+            ? max(0, (int) config('control_testing.reminder_window_days', 7))
+            : max(0, (int) $days);
+
         $dryRun = (bool) $this->option('dry-run');
         $report = $reminder->send($days, $dryRun);
 
@@ -36,6 +40,10 @@ class NotifyControlTesting extends Command
             return self::SUCCESS;
         }
 
+        $escalation = $report['escalation_after_days'] === 0
+            ? 'off'
+            : 'after '.$report['escalation_after_days'].' overdue day(s)';
+
         $this->table(
             ['Field', 'Value'],
             [
@@ -43,17 +51,26 @@ class NotifyControlTesting extends Command
                 ['Due', $report['due']],
                 ['Overdue', $report['overdue']],
                 ['Notified', $report['notified']],
+                ['Would notify (dry run)', $report['would_notify']],
                 ['Skipped (already reminded)', $report['skipped']],
                 ['Unassigned (not routed)', $report['unassigned']],
+                ['Escalation', $escalation],
+                ['Escalated', $report['escalated']],
+                ['Would escalate (dry run)', $report['would_escalate']],
+                ['Escalation skipped', $report['escalation_skipped']],
                 ['Dry run', $dryRun ? 'yes' : 'no'],
             ]
         );
 
         if ($report['unassigned'] > 0) {
-            $this->warn("{$report['unassigned']} due or overdue test(s) have no implementation owner and were not routed.");
+            $this->warn("{$report['unassigned']} due or overdue test(s) have no implementation owner and were not routed to an owner.");
         }
 
-        if ($report['notified'] === 0 && $report['skipped'] === 0 && $report['unassigned'] === 0) {
+        if ($report['escalation_after_days'] > 0 && $report['escalation_admins'] === 0) {
+            $this->warn('Escalation is enabled but no administrator account exists to receive it.');
+        }
+
+        if ($report['notified'] === 0 && $report['escalated'] === 0 && $report['would_notify'] === 0 && $report['would_escalate'] === 0 && $report['skipped'] === 0 && $report['unassigned'] === 0) {
             $this->info('Nothing to remind.');
         } elseif ($dryRun) {
             $this->info('Dry run: nothing was written.');

@@ -32,6 +32,12 @@ return [
         'due_body' => ':label is due on :date.',
         'overdue_title' => 'Control test overdue',
         'overdue_body' => ':label was due on :date, :days day ago.|:label was due on :date, :days days ago.',
+        'escalation_title' => 'Control test escalation',
+        'escalation_body' => ':label is :days day overdue and :owner has not recorded a test.|:label is :days days overdue and :owner has not recorded a test.',
+        'unowned_title' => 'Control tests overdue without an owner',
+        'unowned_body' => ':count overdue control test has no owner: :items.|:count overdue control tests have no owner: :items.',
+        'unowned_action' => 'Open implementations',
+        'more' => 'and :count more',
         'action' => 'Open implementation',
     ],
 ];

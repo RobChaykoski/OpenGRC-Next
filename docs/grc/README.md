@@ -44,7 +44,7 @@ important controls and 2 for the rest.
 | Findings and remediation | Yes: triage queue, severity, owner, due date, status, risk link and linked remediation tasks; automated from validation | 3 | `docs/grc/findings-and-remediation.md`, `docs/grc/remediation-tasks.md` |
 | Scanner assessment import | Yes: SARIF 2.1, report hash, deduplicated findings, application/asset link | 3 | `docs/integrations/assessment-sarif.md` |
 | CSET assessment import | Yes: PCII-scrubbed JSON, counts, observations as findings; no CSET score or question bank | 3 | `docs/integrations/cset.md` |
-| Control testing cadence | Yes: last/next test dates, overdue filter, `opengrc:controls:testing` report and daily in-app owner reminders | 3 | `docs/grc/control-testing.md` |
+| Control testing cadence | Yes: last/next test dates, overdue filter, `opengrc:controls:testing` report, daily in-app owner reminders and opt-in admin escalation | 3 | `docs/grc/control-testing.md` |
 | Control owner attestations | Yes: per-implementation request, owner statement, decline and expiry; no campaign engine | 3 | `docs/grc/control-attestations.md` |
 | Metrics and reporting | Partial: widgets, exports, AI summaries and a risk heat map; no scorecard builder | 2 | `docs/grc/risk-methodology.md` |
 | Assisted querying | Yes: fixed read-only catalogue, deterministic routing, facts shown beside a labelled AI narrative, per-run audit trail; no writes or free-form tools | 3 | `docs/grc/ai-assistant.md` |
@@ -63,11 +63,13 @@ an audit.
    `last_tested_at` and `next_test_at`, and the list can filter overdue controls.
    `php artisan opengrc:controls:testing` reports due and overdue tests, and
    `opengrc:controls:testing:notify` puts the same items in each owner's in-app
-   bell once per stage and next-test date. Nothing verifies that the test
-   happened, nothing escalates an unowned or persistently overdue control, and
-   completing an audit item does not stamp the dates; someone must update them.
-   Recommended next step: agree an escalation path for controls that stay
-   unowned or overdue.
+   bell once per stage and next-test date. An opt-in escalation
+   (`CONTROL_TEST_ESCALATION_AFTER_DAYS`) raises a persistently overdue or
+   unowned control to administrators, but it is off until the institution sets
+   the threshold. Nothing verifies that the test happened, and completing an
+   audit item does not stamp the dates; someone must update them. Recommended
+   next step: agree and set the escalation threshold, and decide who owns each
+   unowned control.
 2. **Findings link to a risk and to remediation tasks.** A finding has severity,
    owner, due date, status and resolution notes, with a triage screen and automated
    raising from validation. It can link to the risk it contributes to and to one

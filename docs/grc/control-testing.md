@@ -69,12 +69,19 @@ php artisan opengrc:controls:testing:notify --dry-run
   scheduled run therefore stays quiet instead of repeating itself, and a retest
   with a new date can notify again. The dedupe marker is in the cache, so a cache
   flush can repeat a reminder but never drops one.
-- Only the implementation owner is notified. An implementation with no owner is
-  counted as **not routed**; assigning an owner is the fix. Nobody else is
-  escalated to automatically.
+- Only the implementation owner is routed the due and overdue reminders. An
+  implementation with no owner is counted as **not routed**; assigning an owner
+  is the fix.
+- **Escalation is opt-in.** Set `CONTROL_TEST_ESCALATION_AFTER_DAYS` (default
+  `0`, off). When enabled, an assigned test that stays overdue past that many days
+  is raised to every administrator once per test date, and unowned tests past the
+  threshold become one weekly digest per administrator. The escalation names the
+  owner and the days overdue; it does not close anything or open a finding.
+  Without an administrator account, nothing is escalated and the command says so.
 - The scheduler runs the command daily at 07:00 (`app/Console/Kernel.php`).
 - Reminders are in-app only. There is no email, chat message or ticket; the
-  message carries the code, title and date, never the notes or test procedure.
+  message carries the code, title, date and owner, never the notes or test
+  procedure.
 
 ## Running the report
 
@@ -113,10 +120,14 @@ The report is a queue, not evidence that a test happened. For an audit, keep:
 
 ## Limits
 
-- Reminders are in-app only: no email, chat message or ticket creation.
-- Reminder dedupe is a cache marker, not a stored record; a cache flush can
-  repeat a reminder, and a reminder is not evidence that anyone read it.
-- An implementation with no owner is counted and skipped, not escalated.
+- Reminders and escalation are in-app only: no email, chat message or ticket
+  creation.
+- Reminder and escalation dedupe is a cache marker, not a stored record; a cache
+  flush can repeat a notification, and a notification is not evidence that anyone
+  read it.
+- An implementation with no owner is counted and skipped for reminders; it reaches
+  administrators only through the weekly escalation digest once that is enabled.
+- Escalation does not open a finding, change the dates or reassign the control.
 - No automatic next-date calculation from a cadence field.
 - No separate test log; the implementation carries the last and next date, and
   audit items carry the detail.
