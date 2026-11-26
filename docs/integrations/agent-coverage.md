@@ -101,6 +101,9 @@ php artisan opengrc:evidence:collect --source=<patchmon-id>
 php artisan opengrc:discovery:sync
 ```
 
+Every enabled source is also collected daily at 05:15 by the scheduler, before
+the 06:15 assurance snapshot. A deployment with no enabled sources is a no-op.
+
 Then open **Discovery → Missed assets**. The report updates from the latest
 evidence; there is no separate job.
 

@@ -55,6 +55,14 @@ class Kernel extends ConsoleKernel
         $schedule->command('opengrc:access:expire-grants')->everyFiveMinutes();
         $schedule->command('opengrc:dlp:expire-suppressions')->dailyAt('00:40');
 
+        // Machine evidence is only useful if it is current. Collect every
+        // enabled read-only source once a day, before the assurance snapshot
+        // reads the latest measurements. A deployment with no sources is a
+        // no-op, so the schedule can ship ahead of the first connector.
+        $schedule->command('opengrc:evidence:collect')
+            ->dailyAt('05:15')
+            ->withoutOverlapping();
+
         // A hash chain nobody checks is a claim, not a control. Persist a run per
         // chain so a broken chain alerts and a stopped schedule is visible on the
         // dashboard instead of staying silently green.
