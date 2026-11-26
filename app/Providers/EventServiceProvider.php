@@ -17,6 +17,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\Event;
 use Kirschbaum\Commentions\Events\UserWasMentionedEvent;
 use SocialiteProviders\Auth0\Auth0ExtendSocialite;
+use SocialiteProviders\Authentik\AuthentikExtendSocialite;
 use SocialiteProviders\Azure\AzureExtendSocialite;
 use SocialiteProviders\Google\GoogleExtendSocialite;
 use SocialiteProviders\Manager\SocialiteWasCalled;
@@ -38,6 +39,7 @@ class EventServiceProvider extends ServiceProvider
             AzureExtendSocialite::class.'@handle',
             GoogleExtendSocialite::class.'@handle',
             Auth0ExtendSocialite::class.'@handle',
+            AuthentikExtendSocialite::class.'@handle',
         ],
         Login::class => [
             LogSuccessfulLogin::class,

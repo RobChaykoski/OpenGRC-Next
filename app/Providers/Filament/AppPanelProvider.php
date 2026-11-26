@@ -5,6 +5,7 @@ namespace App\Providers\Filament;
 use App\Filament\Pages\Auth\Login;
 use App\Http\Middleware\EnforceAccessRules;
 use App\Http\Middleware\RequireTwoFactorAuthentication;
+use App\Models\User;
 use DB;
 use DutchCodingCompany\FilamentSocialite\FilamentSocialitePlugin;
 use DutchCodingCompany\FilamentSocialite\Provider;
@@ -17,6 +18,7 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\View\PanelsRenderHook;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\PreventRequestForgery;
@@ -27,6 +29,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Laravel\Socialite\Contracts\User as SocialiteUserContract;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 
 class AppPanelProvider extends PanelProvider
@@ -90,6 +93,16 @@ class AppPanelProvider extends PanelProvider
                         ->color(Color::Slate);
                 }
 
+                // Authentik is configured from the environment, not a database
+                // toggle: the client secret belongs in the container secret,
+                // and an unset client id keeps the button hidden.
+                if (config('services.authentik.client_id')) {
+                    $socialProviders[] = Provider::make('authentik')
+                        ->label('Authentik')
+                        ->icon('heroicon-o-shield-check')
+                        ->color(Color::Slate);
+                }
+
             } catch (Exception $e) {
                 // Log the error to help debug SSO issues
                 logger()->warning('SSO providers could not be loaded: '.$e->getMessage());
@@ -136,7 +149,16 @@ class AppPanelProvider extends PanelProvider
                     )
                     ->enableSanctumTokens(),
                 FilamentSocialitePlugin::make()
-                    ->providers($socialProviders),
+                    ->providers($socialProviders)
+                    // Link an IdP identity to an existing OpenGRC account by
+                    // email. Unknown identities are refused rather than
+                    // auto-provisioned: the panel grants real GRC access.
+                    ->resolveUserUsing(fn (string $provider, SocialiteUserContract $oauthUser) => User::query()
+                        ->where('email', $oauthUser->getEmail())
+                        ->whereNull('deleted_at')
+                        ->first())
+                    ->registration(fn (string $provider, SocialiteUserContract $oauthUser, ?Authenticatable $user) => $user !== null)
+                    ->rememberLogin(true),
             ])
             ->renderHook(
                 PanelsRenderHook::BODY_END,

@@ -227,3 +227,138 @@ a.fi-logo {
 .fi-main-ctn {
     transition-duration: 0s !important;
 }
+
+/* ---------------------------------------------------------------------------
+   Authentication screen
+   Dark cyber-range shell around a light, high-contrast card. The simple layout
+   is used by login and password reset, so this intentionally does not touch
+   any panel chrome.
+--------------------------------------------------------------------------- */
+.fi-simple-layout {
+    position: relative;
+    min-height: 100dvh;
+    background:
+        radial-gradient(1100px 560px at 50% -10%, rgba(37, 99, 235, 0.30), transparent 62%),
+        radial-gradient(760px 420px at 100% 100%, rgba(34, 211, 238, 0.12), transparent 60%),
+        #0b1220;
+}
+
+.fi-simple-layout::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(148, 163, 184, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.07) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: radial-gradient(circle at 50% 28%, black, transparent 72%);
+    mask-image: radial-gradient(circle at 50% 28%, black, transparent 72%);
+    pointer-events: none;
+}
+
+.fi-simple-main-ctn {
+    position: relative;
+    z-index: 1;
+    padding: 2rem 1rem;
+}
+
+.fi-simple-main {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow:
+        0 30px 80px rgba(2, 6, 23, 0.62),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    padding: 2.25rem;
+}
+
+.fi-simple-main::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(90deg, #2563eb, #22d3ee, #2563eb);
+}
+
+.fi-simple-header {
+    gap: 1.25rem;
+}
+
+.fi-simple-header .fi-logo {
+    color: #0f172a;
+}
+
+.fi-simple-header-heading {
+    color: #0f172a;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.fi-simple-page-content {
+    color: #334155;
+}
+
+/* Form controls */
+.fi-simple-main .fi-input-wrp {
+    border-color: #cbd5e1;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.fi-simple-main .fi-input-wrp:focus-within {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.18);
+}
+
+.fi-simple-main .fi-fo-field-wrp-label {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Primary action */
+.fi-simple-main .fi-btn-primary {
+    background-image: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-color: #1d4ed8;
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.28);
+}
+
+.fi-simple-main .fi-btn-primary:hover {
+    background-image: linear-gradient(135deg, #3b82f6, #2563eb);
+}
+
+/* Social providers sit under the form as one clear secondary action. */
+.fi-simple-main .fi-ac {
+    gap: 0.75rem;
+}
+
+.fi-simple-main .fi-socialite-btn,
+.fi-simple-main .fi-btn:not(.fi-btn-primary) {
+    border-color: #cbd5e1;
+    color: #1e293b;
+    font-weight: 600;
+}
+
+.fi-simple-main .fi-socialite-btn:hover,
+.fi-simple-main .fi-btn:not(.fi-btn-primary):hover {
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.dark .fi-simple-main {
+    background: #0f172a;
+    border-color: rgba(148, 163, 184, 0.28);
+}
+
+.dark .fi-simple-header .fi-logo,
+.dark .fi-simple-header-heading,
+.dark .fi-simple-main .fi-fo-field-wrp-label {
+    color: #f8fafc;
+}
+
+.dark .fi-simple-page-content {
+    color: #cbd5e1;
+}

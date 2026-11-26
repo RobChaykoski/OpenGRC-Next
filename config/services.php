@@ -54,4 +54,16 @@ return [
         'timeout' => (int) env('OPENBAO_TIMEOUT', 15),
     ],
 
+    /*
+    | Authentik OIDC. The base URL is the IdP root; the provider package appends
+    | /application/o/authorize, /token, and /userinfo. Leave any value blank to
+    | keep the button off the login screen.
+    */
+    'authentik' => [
+        'base_url' => env('AUTHENTIK_BASE_URL'),
+        'client_id' => env('AUTHENTIK_CLIENT_ID'),
+        'client_secret' => env('AUTHENTIK_CLIENT_SECRET'),
+        'redirect' => env('AUTHENTIK_REDIRECT_URI'),
+    ],
+
 ];

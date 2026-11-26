@@ -47,6 +47,7 @@
         "openspout/openspout": "^4.32",
         "pxlrbt/filament-activity-log": "^2.2.0",
         "socialiteproviders/auth0": "^4.2",
+        "socialiteproviders/authentik": "5.3",
         "socialiteproviders/google": "^4.1",
         "socialiteproviders/microsoft-azure": "^5.2",
         "socialiteproviders/okta": "^4.5",
