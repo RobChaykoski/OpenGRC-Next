@@ -83,6 +83,13 @@ php artisan opengrc:controls:testing:notify --dry-run
   message carries the code, title, date and owner, never the notes or test
   procedure.
 
+![OpenGRC notification panel with a due control test and an overdue control test, each linking to its implementation](../assets/screenshots/control-test-reminders.png)
+
+*The owner's notification panel after the daily run: due is a warning, overdue is
+a danger, and escalation uses the same channel. Each item carries the
+implementation code, title, date and a link; the notes and test procedure stay on
+the implementation.*
+
 ## Running the report
 
 The report remains the right input for an external check, for example:
