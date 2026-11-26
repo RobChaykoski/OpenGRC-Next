@@ -77,6 +77,12 @@ services:
       ADMIN_EMAIL: ${OPENGRC_ADMIN_EMAIL:-admin@opengrc.local}
       ADMIN_PASSWORD: ${OPENGRC_ADMIN_PASSWORD:-admin123}
 
+      # Authentik OIDC. Empty values keep the SSO button off the login page.
+      AUTHENTIK_BASE_URL: ${AUTHENTIK_BASE_URL:-}
+      AUTHENTIK_CLIENT_ID: ${AUTHENTIK_CLIENT_ID:-}
+      AUTHENTIK_CLIENT_SECRET: ${AUTHENTIK_CLIENT_SECRET:-}
+      AUTHENTIK_REDIRECT_URI: ${AUTHENTIK_REDIRECT_URI:-}
+
       CACHE_DRIVER: file
       SESSION_DRIVER: file
       SESSION_ENCRYPT: "true"
