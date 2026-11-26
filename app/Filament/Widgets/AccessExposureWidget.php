@@ -39,6 +39,10 @@ class AccessExposureWidget extends BaseWidget
             )
             ->heading(__('access_governance.exposure.heading'))
             ->description(__('access_governance.exposure.description'))
+            // The aggregate selects min(id) as a synthetic key, so Filament's
+            // implicit primary-key ORDER BY would reference access_decisions.id
+            // and MySQL's ONLY_FULL_GROUP_BY rejects it.
+            ->defaultKeySort(false)
             ->columns([
                 TextColumn::make('subject_label')
                     ->label(__('access_governance.exposure.subject'))

@@ -37,6 +37,9 @@ class DspmExposedAssetsWidget extends BaseWidget
             )
             ->heading(__('dspm.exposure.heading'))
             ->description(__('dspm.exposure.description'))
+            // Aggregated rows have no real primary key; skip the implicit
+            // ORDER BY discovery_findings.id that ONLY_FULL_GROUP_BY rejects.
+            ->defaultKeySort(false)
             ->columns([
                 TextColumn::make('asset_name')
                     ->label(__('dspm.exposure.asset'))
